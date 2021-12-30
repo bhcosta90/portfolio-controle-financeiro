@@ -25,7 +25,7 @@ class CreateChargesTable extends Migration
             $table->date('last_date')->nullable();
             $table->unsignedInteger('parcel_actual')->nullable();
             $table->unsignedInteger('parcel_total')->nullable();
-            $table->date('type')->nullable();
+            $table->enum('type', array_keys(Charge::$typeOptions))->nullable();
             $table->enum('status', array_keys(Charge::$statusOptions));
             $table->timestamps();
             $table->softDeletes();
