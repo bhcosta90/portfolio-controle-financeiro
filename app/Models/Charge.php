@@ -24,7 +24,7 @@ class Charge extends Model
         'week' => 'Week',
         'fifth_business_day' => 'Fifth business day',
         'every_20th' => 'Every 20th',
-        'every_fifth_business_day' => 'Every fifth business day',
+        'every_last_day' => 'Every last day',
     ];
 
     protected $fillable = [
