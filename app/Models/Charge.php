@@ -26,4 +26,17 @@ class Charge extends Model
         'every_20th' => 'Every 20th',
         'every_fifth_business_day' => 'Every fifth business day',
     ];
+
+    protected $fillable = [
+        'user_id',
+        'chargeable',
+        'value',
+        'customer_name',
+        'due_date',
+        'last_date',
+        'parcel_actual',
+        'parcel_total',
+        'type',
+        'status',
+    ];
 }
