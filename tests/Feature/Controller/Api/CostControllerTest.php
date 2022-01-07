@@ -74,7 +74,7 @@ class CostControllerTest extends TestCase
         $response = $this->assertStore($this->sendData, [], $this->sendData);
         $datas = $response->json('data');
         $this->assertCount(1, $datas);
-        foreach($datas as $data){
+        foreach ($datas as $data) {
             $resource = CostResource::collection([$this->getModelPassedUuidCharge($data['id'])]);
             $this->assertResource($response, $resource);
         }
@@ -90,7 +90,7 @@ class CostControllerTest extends TestCase
             ['customer_name' => 'costa'] + $this->sendData,
         ];
 
-        foreach($datas as $data){
+        foreach ($datas as $data) {
             $response = $this->assertUpdate($data, [], $data);
             $resource = new CostResource($this->getModelPassedUuidCharge($this->getIdFromResponse($response)));
             $this->assertResource($response, $resource);

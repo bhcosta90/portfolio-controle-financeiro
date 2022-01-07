@@ -15,7 +15,8 @@ class InvalidationCostControllerTest extends TestCase
 
     private $endpoint = '/api/cost';
 
-    public function testFieldsRequired() {
+    public function testFieldsRequired()
+    {
         $data = [
             "value" => '',
             "customer_name" => '',

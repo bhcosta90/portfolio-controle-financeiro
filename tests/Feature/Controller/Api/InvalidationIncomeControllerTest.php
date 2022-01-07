@@ -15,7 +15,8 @@ class InvalidationIncomeControllerTest extends TestCase
 
     private $endpoint = '/api/income';
 
-    public function testFieldsRequired() {
+    public function testFieldsRequired()
+    {
         $data = [
             "value" => '',
             "customer_name" => '',
