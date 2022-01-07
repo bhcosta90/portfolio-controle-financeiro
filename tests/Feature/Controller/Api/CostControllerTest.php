@@ -18,7 +18,7 @@ class CostControllerTest extends TestCase
 
     private array $sendData = [];
 
-    private $model;
+    private Cost $model;
 
     protected function setUp(): void
     {
@@ -30,41 +30,43 @@ class CostControllerTest extends TestCase
             'due_date' => (new Carbon())->format('d/m/Y'),
             'type' => null,
         ];
+
+        $this->model = Cost::factory()->create();
+        Charge::factory()->create([
+            'chargeable_id' => $this->model->id,
+            'chargeable_type' => get_class($this->model),
+            'type' => null,
+        ]);
     }
 
     public function testIndex()
     {
-        $obj = $this->createNewModel();
-
         $response = $this->getJson($this->endpoint);
         $response->assertStatus(200);
-        $resource = CostResource::collection([$obj]);
+        $resource = CostResource::collection([$this->model]);
         $this->assertResource($response, $resource);
     }
 
     public function testShow()
     {
-        $obj = $this->createNewModel();
-        $response = $this->getJson($this->endpoint . '/' . $obj->charge->uuid);
+        $response = $this->getJson($this->endpoint . '/' . $this->model->charge->uuid);
         $response->assertStatus(200);
-        $resource = new CostResource($obj);
+        $resource = new CostResource($this->model);
         $this->assertResource($response, $resource);
     }
 
     public function testDelete()
     {
-        $obj = $this->createNewModel();
-
-        $response = $this->deleteJson($this->endpoint . '/' . $obj->charge->uuid);
+        $response = $this->deleteJson($this->endpoint . '/' . $this->model->charge->uuid);
         $response->assertStatus(204);
 
         $this->assertDatabaseMissing('costs', [
-            'id' => $obj->id,
+            'id' => $this->model->id,
         ]);
 
         $this->assertDatabaseMissing('charges', [
-            'chargeable_id' => $obj->id,
-            'chargeable_type' => get_class($obj),
+            'chargeable_id' => $this->model->id,
+            'chargeable_type' => get_class($this->model),
             'deleted_at' => null
         ]);
     }
@@ -82,8 +84,6 @@ class CostControllerTest extends TestCase
 
     public function testUpdate()
     {
-        $this->createNewModel();
-
         $datas = [
             ['customer_name' => 'bruno'] + $this->sendData,
             $this->sendData,
@@ -110,17 +110,6 @@ class CostControllerTest extends TestCase
     protected function model()
     {
         return new Cost;
-    }
-
-    protected function createNewModel()
-    {
-        $obj = $this->model()->factory()->create();
-        Charge::factory()->create([
-            'chargeable_id' => $obj->id,
-            'chargeable_type' => get_class($obj),
-            'type' => null,
-        ]);
-        return $this->model = $obj;
     }
 
     private function getModelPassedUuidCharge(string $uuid)

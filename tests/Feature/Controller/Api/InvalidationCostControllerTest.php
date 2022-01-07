@@ -15,6 +15,17 @@ class InvalidationCostControllerTest extends TestCase
 
     private $endpoint = '/api/cost';
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->model = Model::factory()->create();
+        Charge::factory()->create([
+            'chargeable_id' => $this->model->id,
+            'chargeable_type' => get_class($this->model),
+            'type' => null,
+        ]);
+    }
+
     public function testFieldsRequired()
     {
         $data = [
@@ -91,12 +102,6 @@ class InvalidationCostControllerTest extends TestCase
 
     private function routePut()
     {
-        $this->model = Model::factory()->create();
-        Charge::factory()->create([
-            'chargeable_id' => $this->model->id,
-            'chargeable_type' => get_class($this->model),
-            'type' => null,
-        ]);
         return $this->endpoint . '/' . $this->model->charge->uuid;
     }
 }
