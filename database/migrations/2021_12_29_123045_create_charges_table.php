@@ -27,6 +27,7 @@ class CreateChargesTable extends Migration
             $table->unsignedInteger('parcel_total')->nullable();
             $table->enum('type', array_keys(Charge::$typeOptions))->nullable();
             $table->enum('status', array_keys(Charge::$statusOptions))->default('PE');
+            $table->boolean('future')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });
