@@ -10,11 +10,17 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication, RefreshDatabase;
 
+    protected static \Illuminate\Foundation\Auth\User $user;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        self::$user = User::factory()->create();
+    }
+
     public function call($method, $uri, $parameters = [], $cookies = [], $files = [], $server = [], $content = null)
     {
-        /** @var \Illuminate\Foundation\Auth\User $user */
-        $user = User::factory()->create();
-        $this->be($user);
+        $this->be(self::$user);
         return parent::call($method, $uri, $parameters, $cookies, $files, $server, $content);
     }
 }
