@@ -58,7 +58,7 @@ class IncomeControllerTest extends TestCase
         $response = $this->deleteJson($this->endpoint . '/' . $obj->charge->uuid);
         $response->assertStatus(204);
 
-        $this->assertDatabaseMissing('costs', [
+        $this->assertDatabaseMissing('incomes', [
             'id' => $obj->id,
         ]);
 
