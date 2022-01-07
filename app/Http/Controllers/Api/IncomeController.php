@@ -33,7 +33,7 @@ class IncomeController extends Controller
             'value' => 'required|numeric|min:0|max:999999999',
             'customer_name' => 'required|min:3|max:150',
             'due_date' => 'required|date_format:d/m/Y',
-            'type' => 'nullable|in' . implode(',', array_keys(Charge::$typeOptions)),
+            'type' => 'nullable|in:' . implode(',', array_keys(Charge::$typeOptions)),
         ];
     }
 }

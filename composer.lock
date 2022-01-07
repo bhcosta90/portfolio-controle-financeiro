@@ -117,12 +117,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/bhcosta90/laravel-tests.git",
-                "reference": "247b98c37c1508168145462dd453799cd723a86b"
+                "reference": "645dcf50bea155a412da545cba43aac92e5968f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bhcosta90/laravel-tests/zipball/247b98c37c1508168145462dd453799cd723a86b",
-                "reference": "247b98c37c1508168145462dd453799cd723a86b",
+                "url": "https://api.github.com/repos/bhcosta90/laravel-tests/zipball/645dcf50bea155a412da545cba43aac92e5968f7",
+                "reference": "645dcf50bea155a412da545cba43aac92e5968f7",
                 "shasum": ""
             },
             "require": {
@@ -148,7 +148,7 @@
                 "issues": "https://github.com/bhcosta90/laravel-tests/issues",
                 "source": "https://github.com/bhcosta90/laravel-tests/tree/master"
             },
-            "time": "2022-01-07T15:10:25+00:00"
+            "time": "2022-01-07T17:44:29+00:00"
         },
         {
             "name": "brick/math",

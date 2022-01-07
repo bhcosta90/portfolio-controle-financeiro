@@ -80,9 +80,11 @@ trait BaseControllerTrait
         $this->setUserInData($data);
 
         $service = $this->getService();
+
         if (!method_exists($service, 'actionUpdate')) {
             throw new Exception('method `actionUpdate` do not implemented in service', Response::HTTP_BAD_REQUEST);
         }
+
         $serviceData = $service->actionUpdate($id, $data);
         $resource = $this->resource();
         return new $resource($serviceData);
@@ -91,9 +93,11 @@ trait BaseControllerTrait
     public function destroy(Request $request, $id)
     {
         $service = $this->getService();
+
         if (!method_exists($service, 'deleteBy')) {
             throw new Exception('method `deleteBy` do not implemented in service', Response::HTTP_BAD_REQUEST);
         }
+
         $service->deleteBy($id, $request->all());
         return response()->noContent();
     }
