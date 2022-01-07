@@ -4,16 +4,16 @@ namespace Tests\Feature\Controller\Api;
 
 use App\Models\Charge;
 use Costa\LaravelTests\Api\TestValidation;
-use App\Models\Income as Model;
+use App\Models\Cost as Model;
 use Tests\TestCase;
 
-class IncomeInvalidationControllerTest extends TestCase
+class InvalidationCostControllerTest extends TestCase
 {
     use TestValidation;
 
     private Model $model;
 
-    private $endpoint = '/api/income';
+    private $endpoint = '/api/cost';
 
     public function testFieldsRequired() {
         $data = [
