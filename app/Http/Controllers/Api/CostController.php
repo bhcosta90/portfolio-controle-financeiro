@@ -25,16 +25,18 @@ class CostController extends Controller
 
     protected function ruleUpdate(): array
     {
-        return $this->ruleStore();
-    }
-
-    protected function ruleStore(): array
-    {
         return [
             'value' => 'required|numeric|min:0|max:999999999',
             'customer_name' => 'required|min:3|max:150',
             'due_date' => 'required|date_format:d/m/Y',
             'type' => 'nullable|in:' . implode(',', array_keys(Charge::$typeOptions)),
+        ];
+    }
+
+    protected function ruleStore(): array
+    {
+        return $this->ruleUpdate() + [
+            'parcel_total' => 'nullable|numeric|max:360|min:1',
         ];
     }
 }

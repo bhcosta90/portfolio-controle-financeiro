@@ -25,8 +25,13 @@ abstract class BaseCostIncomeService
 
     public function actionStore($data)
     {
-        $obj = $this->repository->createWithCharge($data);
-        return collect([$obj]);
+        if (!empty($data['parcel_total'])) {
+
+        } else {
+            $obj[] = $this->repository->createWithCharge($data);
+        }
+
+        return collect($obj);
     }
 
     public function actionUpdate($id, $data)

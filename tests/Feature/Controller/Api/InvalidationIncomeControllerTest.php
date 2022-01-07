@@ -42,7 +42,7 @@ class InvalidationIncomeControllerTest extends TestCase
         $data = [
             "value" => 'a',
         ];
-        $this->assertInvalidationStore($data, "numeric");
+        $this->assertInvalidationStore($data + ['parcel_total' => 'a'], "numeric");
         $this->assertInvalidationUpdate($data, "numeric");
     }
 
@@ -59,6 +59,11 @@ class InvalidationIncomeControllerTest extends TestCase
         ];
         $this->assertInvalidationStore($data, "min.string", ['min' => 3]);
         $this->assertInvalidationUpdate($data, "min.string", ['min' => 3]);
+
+        $data = [
+            "parcel_total" => -1,
+        ];
+        $this->assertInvalidationStore($data, "min.numeric", ['min' => 1]);
     }
 
     public function testFieldsMax()
@@ -74,6 +79,11 @@ class InvalidationIncomeControllerTest extends TestCase
         ];
         $this->assertInvalidationStore($data, "max.string", ['max' => 150]);
         $this->assertInvalidationUpdate($data, "max.string", ['max' => 150]);
+
+        $data = [
+            'parcel_total' => 500,
+        ];
+        $this->assertInvalidationStore($data, "max.numeric", ['max' => 360]);
     }
 
     public function testFieldsDateFormat()
