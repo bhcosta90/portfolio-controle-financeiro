@@ -23,6 +23,11 @@ class CostController extends Controller
         return CostResource::class;
     }
 
+    protected function ruleUpdate(): array
+    {
+        return $this->ruleStore();
+    }
+
     protected function ruleStore(): array
     {
         return [
@@ -31,10 +36,5 @@ class CostController extends Controller
             'due_date' => 'required|date_format:d/m/Y',
             'type' => 'nullable|in' . implode(',', array_keys(Charge::$typeOptions)),
         ];
-    }
-
-    protected function ruleUpdate(): array
-    {
-        return $this->ruleStore();
     }
 }

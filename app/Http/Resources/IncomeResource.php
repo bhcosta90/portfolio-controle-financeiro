@@ -14,6 +14,6 @@ class IncomeResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return new ChargeResource($this->charge);
     }
 }

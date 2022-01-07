@@ -31,10 +31,10 @@ class IncomeRepositoryEloquent extends BaseRepository implements IncomeRepositor
     {
         $obj = $this->create([]);
 
-        \App\Models\Charge::create($data + [
-            'chargeable_id' => $obj->id,
-            'chargeable_type' => get_class($obj),
-        ]);
+        $objCharge = (new \App\Models\Charge)->fill($data);
+        $objCharge->chargeable_id = $obj->id;
+        $objCharge->chargeable_type = get_class($obj);
+        $objCharge->save();
 
         return $obj;
     }
