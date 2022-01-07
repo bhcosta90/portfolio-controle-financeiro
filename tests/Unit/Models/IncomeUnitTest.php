@@ -31,4 +31,13 @@ class IncomeUnitTest extends TestCase
         $modelTraits = array_keys(class_uses(Model::class));
         $this->assertEqualsCanonicalizing($array, $modelTraits);
     }
+
+    public function testCasts()
+    {
+        $array = [
+            'id' => 'int',
+        ];
+
+        $this->assertEqualsCanonicalizing($array, $this->model->getCasts());
+    }
 }

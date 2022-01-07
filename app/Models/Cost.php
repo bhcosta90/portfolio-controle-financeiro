@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Cost extends Model
 {
     use HasFactory;
+
+    public function charge()
+    {
+        return $this->morphOne(Charge::class, 'chargeable');
+    }
 }

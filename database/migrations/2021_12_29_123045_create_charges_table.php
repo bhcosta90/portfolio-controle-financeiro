@@ -17,7 +17,7 @@ class CreateChargesTable extends Migration
         Schema::create('charges', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique();
-            $table->foreignId('user_id')->constrained('user_id');
+            $table->foreignId('user_id')->constrained('users');
             $table->morphs('chargeable');
             $table->unsignedDouble('value');
             $table->string('customer_name');
@@ -26,7 +26,7 @@ class CreateChargesTable extends Migration
             $table->unsignedInteger('parcel_actual')->nullable();
             $table->unsignedInteger('parcel_total')->nullable();
             $table->enum('type', array_keys(Charge::$typeOptions))->nullable();
-            $table->enum('status', array_keys(Charge::$statusOptions));
+            $table->enum('status', array_keys(Charge::$statusOptions))->default('PE');
             $table->timestamps();
             $table->softDeletes();
         });

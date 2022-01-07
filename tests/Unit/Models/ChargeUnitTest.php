@@ -44,4 +44,17 @@ class ChargeUnitTest extends TestCase
         $modelTraits = array_keys(class_uses(Model::class));
         $this->assertEqualsCanonicalizing($array, $modelTraits);
     }
+
+    public function testCasts()
+    {
+        $array = [
+            'id' => 'string',
+            'value' => 'float',
+            'parcel_actual' => 'integer',
+            'parcel_total' => 'integer',
+            'deleted_at' => 'datetime',
+        ];
+
+        $this->assertEqualsCanonicalizing($array, $this->model->getCasts());
+    }
 }

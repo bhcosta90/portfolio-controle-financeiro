@@ -39,4 +39,15 @@ class Charge extends Model
         'type',
         'status',
     ];
+
+    protected $casts = [
+        'value' => 'float',
+        'parcel_actual' => 'integer',
+        'parcel_total' => 'integer',
+    ];
+
+    public function chargeable()
+    {
+        return $this->morphTo();
+    }
 }
