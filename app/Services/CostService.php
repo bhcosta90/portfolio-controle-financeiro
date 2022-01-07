@@ -18,7 +18,7 @@ class CostService
 
     public function getDataIndex()
     {
-        return $this->repository;
+        return $this->repository->whereHas('charge', fn ($obj) => $obj->where('user_id', $this->getUser()->id));
     }
 
     public function deleteBy($id)
@@ -44,5 +44,10 @@ class CostService
         $obj = $this->getBy($id);
         $obj->charge->update($data);
         return $obj;
+    }
+
+    private function getUser()
+    {
+        return auth()->user();
     }
 }

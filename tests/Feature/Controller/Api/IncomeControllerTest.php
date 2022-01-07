@@ -5,6 +5,7 @@ namespace Tests\Feature\Controller\Api;
 use App\Http\Resources\IncomeResource;
 use App\Models\Charge;
 use App\Models\Income;
+use App\Models\User;
 use Carbon\Carbon;
 use Tests\TestCase;
 use Costa\LaravelTests\Api\TestSave;
@@ -36,6 +37,7 @@ class IncomeControllerTest extends TestCase
             'chargeable_id' => $this->model->id,
             'chargeable_type' => get_class($this->model),
             'type' => null,
+            'user_id' => self::$user->id,
         ]);
     }
 
@@ -45,6 +47,16 @@ class IncomeControllerTest extends TestCase
         $response->assertStatus(200);
         $resource = IncomeResource::collection([$this->model]);
         $this->assertResource($response, $resource);
+    }
+
+    public function testIndexOtherUser()
+    {
+        /** @var \Illuminate\Foundation\Auth\User */
+        $user = User::factory()->create();
+        $this->be($user);
+
+        $response = $this->getJson($this->endpoint);
+        $this->assertCount(0, $response->json('data'));
     }
 
     public function testShow()

@@ -24,6 +24,11 @@ trait BaseControllerTrait
         $service = $this->getService();
         $serviceData = $service->getDataIndex($request->all());
 
+        if ($request->has('debug')) {
+            $serviceData->toRawSql();
+            die;
+        }
+
         $data = !$this->paginateSize ? $serviceData->all() : $serviceData->paginate($this->paginateSize);
 
         $resourceCollection = $this->resourceCollection();

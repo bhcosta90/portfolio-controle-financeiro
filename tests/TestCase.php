@@ -16,11 +16,6 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
         self::$user = User::factory()->create();
-    }
-
-    public function call($method, $uri, $parameters = [], $cookies = [], $files = [], $server = [], $content = null)
-    {
         $this->be(self::$user);
-        return parent::call($method, $uri, $parameters, $cookies, $files, $server, $content);
     }
 }
