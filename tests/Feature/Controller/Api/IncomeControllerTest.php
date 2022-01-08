@@ -94,12 +94,12 @@ class IncomeControllerTest extends TestCase
         }
     }
 
-    // public function testStoreWithParcel()
-    // {
-    //     $response = $this->postJson($this->endpoint, $this->sendData + [
-    //         'parcel_total' => 10,
-    //     ]);
-    // }
+    public function testStoreWithParcel()
+    {
+        $this->postJson($this->endpoint, $this->sendData + [
+            'parcel_total' => 10,
+        ]);
+    }
 
     public function testUpdate()
     {

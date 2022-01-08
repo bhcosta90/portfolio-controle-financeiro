@@ -3,9 +3,18 @@
 namespace App\Services;
 
 use App\Models\Charge;
+use Costa\Package\Traits\Api\Value;
 
 abstract class BaseCostIncomeService
 {
+    protected Value $valueUtil;
+
+    public function __construct(Value $valueUtil)
+    {
+        $this->valueUtil = $valueUtil;
+    }
+
+
     public function getDataIndex()
     {
         return $this->repository->whereHas('charge', fn ($obj) => $obj->where('user_id', $this->getUser()->id));
@@ -26,12 +35,10 @@ abstract class BaseCostIncomeService
     public function actionStore($data)
     {
         if (!empty($data['parcel_total'])) {
-
-        } else {
-            $obj[] = $this->repository->createWithCharge($data);
+            dd($this->valueUtil->calculateParcel((float) $data['value'], (int) $data['parcel_total']));
         }
 
-        return collect($obj);
+        return collect([$this->repository->createWithCharge($data)]);
     }
 
     public function actionUpdate($id, $data)

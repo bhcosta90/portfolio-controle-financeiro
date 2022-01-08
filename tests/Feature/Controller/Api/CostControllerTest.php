@@ -94,6 +94,13 @@ class CostControllerTest extends TestCase
         }
     }
 
+    public function testStoreWithParcel()
+    {
+        $this->postJson($this->endpoint, $this->sendData + [
+            'parcel_total' => 10,
+        ]);
+    }
+
     public function testUpdate()
     {
         $datas = [
