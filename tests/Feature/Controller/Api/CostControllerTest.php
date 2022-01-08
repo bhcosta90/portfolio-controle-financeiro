@@ -28,7 +28,7 @@ class CostControllerTest extends TestCase
         $this->sendData = [
             'value' => 100,
             'customer_name' => 'teste',
-            'due_date' => (new Carbon())->format('d/m/Y'),
+            'due_date' => (new Carbon())->setDay(10)->format('d/m/Y'),
             'type' => null,
         ];
 
@@ -96,9 +96,19 @@ class CostControllerTest extends TestCase
 
     public function testStoreWithParcel()
     {
-        $this->postJson($this->endpoint, $this->sendData + [
+        $response = $this->postJson($this->endpoint, $this->sendData + [
             'parcel_total' => 10,
         ]);
+
+        $datas = [];
+        foreach($response->json('data') as $result){
+            $objModel = $this->getModelPassedUuidCharge($result['id']);
+            $datas[] = $objModel;
+        }
+
+        $this->assertCount(count($datas), $response->json('data'));
+        $resource = CostResource::collection($datas);
+        $this->assertResource($response, $resource);
     }
 
     public function testUpdate()

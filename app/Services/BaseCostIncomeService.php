@@ -3,18 +3,11 @@
 namespace App\Services;
 
 use App\Models\Charge;
-use Costa\Package\Traits\Api\Value;
+use Carbon\Carbon;
+use Costa\Package\Utils\Value;
 
 abstract class BaseCostIncomeService
 {
-    protected Value $valueUtil;
-
-    public function __construct(Value $valueUtil)
-    {
-        $this->valueUtil = $valueUtil;
-    }
-
-
     public function getDataIndex()
     {
         return $this->repository->whereHas('charge', fn ($obj) => $obj->where('user_id', $this->getUser()->id));
@@ -34,8 +27,26 @@ abstract class BaseCostIncomeService
 
     public function actionStore($data)
     {
+        if (!empty($data['type'])) {
+
+        }
+
         if (!empty($data['parcel_total'])) {
-            dd($this->valueUtil->calculateParcel((float) $data['value'], (int) $data['parcel_total']));
+            $obj = [];
+            $parcels = $this->getValue()->parcel(
+                Carbon::createFromFormat('d/m/Y', $data['due_date']),
+                (float) $data['value'],
+                (int) $data['parcel_total']
+            );
+
+            foreach ($parcels as $k => $valueParcel) {
+                $obj[] = $this->repository->createWithCharge($valueParcel + $data + [
+                    'parcel_actual' => $k + 1,
+                    'parcel_total' => (int) $data['parcel_total'],
+                ]);
+            }
+
+            return collect($obj);
         }
 
         return collect([$this->repository->createWithCharge($data)]);
@@ -51,5 +62,10 @@ abstract class BaseCostIncomeService
     private function getUser()
     {
         return auth()->user();
+    }
+
+    private function getValue()
+    {
+        return new Value;
     }
 }
