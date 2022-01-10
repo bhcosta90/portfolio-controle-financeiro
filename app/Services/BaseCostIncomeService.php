@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Models\Charge;
 use Carbon\Carbon;
-use Costa\Package\Utils\Value;
+use Costa\LaravelPackage\Utils\Value;
 
 abstract class BaseCostIncomeService
 {
