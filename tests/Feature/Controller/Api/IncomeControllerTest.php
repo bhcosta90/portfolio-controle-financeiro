@@ -96,9 +96,39 @@ class IncomeControllerTest extends TestCase
 
     public function testStoreWithParcel()
     {
-        $this->postJson($this->endpoint, $this->sendData + [
+        $response = $this->postJson($this->endpoint, $this->sendData + [
             'parcel_total' => 10,
         ]);
+
+        $datas = [];
+        foreach ($response->json('data') as $result) {
+            $objModel = $this->getModelPassedUuidCharge($result['id']);
+            $datas[] = $objModel;
+        }
+
+        $this->assertEquals(1, $response->json('data.0.parcel_actual'));
+        $this->assertEquals(10, $response->json('data.0.parcel_total'));
+        $this->assertEquals(10, $response->json('data.0.value'));
+
+        $this->assertCount(count($datas), $response->json('data'));
+        $resource = IncomeResource::collection($datas);
+        $this->assertResource($response, $resource);
+
+        $response = $this->postJson($this->endpoint, ['value' => 98.97] + $this->sendData + [
+            'parcel_total' => 10,
+        ]);
+        $this->assertEquals(1, $response->json('data.0.parcel_actual'));
+        $this->assertEquals(10, $response->json('data.0.parcel_total'));
+        $this->assertEquals(9.89, $response->json('data.0.value'));
+        $this->assertEquals(9.89, $response->json('data.1.value'));
+        $this->assertEquals(9.96, $response->json('data.9.value'));
+
+        $totalValue = 0;
+        foreach ($response->json('data') as $data) {
+            $totalValue += $data['value'];
+        }
+
+        $this->assertEquals(98.97, $totalValue);
     }
 
     public function testUpdate()

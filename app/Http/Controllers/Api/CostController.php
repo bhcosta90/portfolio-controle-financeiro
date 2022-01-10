@@ -6,8 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\CostResource;
 use App\Models\Charge;
 use App\Services\CostService;
-use Costa\Package\Traits\Api\BaseControllerTrait;
-use Illuminate\Http\Request;
+use Costa\LaravelPackage\Traits\Api\BaseControllerTrait;
 
 class CostController extends Controller
 {

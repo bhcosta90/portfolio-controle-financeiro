@@ -6,7 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
-        "bhcosta90/laravel-package": "^2.0",
+        "bhcosta90/laravel-package": "master",
         "bhcosta90/laravel-tests": "master",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
@@ -26,7 +26,6 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/",
-            "Costa\\Package\\": "src/Package/src/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
         }

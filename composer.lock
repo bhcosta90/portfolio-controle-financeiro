@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b0c6b012edcf452476074bc2061d5b53",
+    "content-hash": "5ff28364b29a37bd9c34d84f40eb1956",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -64,52 +64,45 @@
         },
         {
             "name": "bhcosta90/laravel-package",
-            "version": "2.0.16",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bhcosta90/laravel-package.git",
-                "reference": "df13eb135d5d39ddc13faabbc8cc89b3e43bac07"
+                "reference": "2c7731ca5b8c7f258eca14862a8aa3f640918959"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bhcosta90/laravel-package/zipball/df13eb135d5d39ddc13faabbc8cc89b3e43bac07",
-                "reference": "df13eb135d5d39ddc13faabbc8cc89b3e43bac07",
+                "url": "https://api.github.com/repos/bhcosta90/laravel-package/zipball/2c7731ca5b8c7f258eca14862a8aa3f640918959",
+                "reference": "2c7731ca5b8c7f258eca14862a8aa3f640918959",
                 "shasum": ""
             },
-            "require": {
-                "illuminate/support": "^8.54",
-                "kris/laravel-form-builder": "^1.40",
-                "php": "^7.4|^8.0",
-                "prettus/l5-repository": "^2.7"
-            },
             "require-dev": {
-                "behat/behat": "^3.8"
+                "orchestra/testbench": "^6.23",
+                "phpunit/phpunit": "^9.5"
             },
+            "default-branch": true,
             "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Costa\\LaravelPackage\\Providers\\LaravelPackageServiceProvider"
-                    ]
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Costa\\LaravelPackage\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
             "authors": [
                 {
                     "name": "Bruno Costa",
-                    "email": "bhcosta90@gmail.com"
+                    "email": "bruno.costa@superlogica.com"
                 }
             ],
+            "description": "package to facilitate the laravel",
             "support": {
                 "issues": "https://github.com/bhcosta90/laravel-package/issues",
-                "source": "https://github.com/bhcosta90/laravel-package/tree/2.0.16"
+                "source": "https://github.com/bhcosta90/laravel-package/tree/master"
             },
-            "time": "2022-01-07T12:57:57+00:00"
+            "time": "2022-01-10T11:35:17+00:00"
         },
         {
             "name": "bhcosta90/laravel-tests",
@@ -1052,85 +1045,6 @@
             "time": "2021-10-06T17:43:30+00:00"
         },
         {
-            "name": "kris/laravel-form-builder",
-            "version": "1.40.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/kristijanhusak/laravel-form-builder.git",
-                "reference": "06b6773318c52208c72f65756884964fe3171934"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/kristijanhusak/laravel-form-builder/zipball/06b6773318c52208c72f65756884964fe3171934",
-                "reference": "06b6773318c52208c72f65756884964fe3171934",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/database": "^5.6@dev|^6|^7|^8",
-                "illuminate/validation": "^5.6@dev|^6|^7|^8",
-                "laravelcollective/html": "^5.6|^6|^7|^8",
-                "php": ">=7.1"
-            },
-            "require-dev": {
-                "orchestra/testbench": "~3.6"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.16.x-dev"
-                },
-                "laravel": {
-                    "providers": [
-                        "Kris\\LaravelFormBuilder\\FormBuilderServiceProvider"
-                    ],
-                    "aliases": {
-                        "FormBuilder": "Kris\\LaravelFormBuilder\\Facades\\FormBuilder"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Kris\\LaravelFormBuilder": "src/"
-                },
-                "classmap": [
-                    "tests/FormBuilderTestCase.php"
-                ],
-                "files": [
-                    "src/helpers.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Kristijan Husak",
-                    "email": "husakkristijan@gmail.com"
-                },
-                {
-                    "name": "Mike Erickson",
-                    "email": "codedungeon@gmail.com"
-                },
-                {
-                    "name": "Mike Erickson",
-                    "email": "mike.erickson@codedungeon.io"
-                }
-            ],
-            "description": "Laravel form builder - symfony like",
-            "keywords": [
-                "builder",
-                "form",
-                "laravel",
-                "symfony"
-            ],
-            "support": {
-                "issues": "https://github.com/kristijanhusak/laravel-form-builder/issues",
-                "source": "https://github.com/kristijanhusak/laravel-form-builder/tree/1.40.0"
-            },
-            "time": "2020-09-28T20:54:27+00:00"
-        },
-        {
             "name": "laravel/framework",
             "version": "v8.78.1",
             "source": {
@@ -1553,78 +1467,6 @@
                 "source": "https://github.com/laravel/ui/tree/v3.4.1"
             },
             "time": "2021-12-22T10:40:50+00:00"
-        },
-        {
-            "name": "laravelcollective/html",
-            "version": "v6.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/LaravelCollective/html.git",
-                "reference": "ae15b9c4bf918ec3a78f092b8555551dd693fde3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/LaravelCollective/html/zipball/ae15b9c4bf918ec3a78f092b8555551dd693fde3",
-                "reference": "ae15b9c4bf918ec3a78f092b8555551dd693fde3",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/http": "^6.0|^7.0|^8.0",
-                "illuminate/routing": "^6.0|^7.0|^8.0",
-                "illuminate/session": "^6.0|^7.0|^8.0",
-                "illuminate/support": "^6.0|^7.0|^8.0",
-                "illuminate/view": "^6.0|^7.0|^8.0",
-                "php": ">=7.2.5"
-            },
-            "require-dev": {
-                "illuminate/database": "^6.0|^7.0|^8.0",
-                "mockery/mockery": "~1.0",
-                "phpunit/phpunit": "~8.5"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "6.x-dev"
-                },
-                "laravel": {
-                    "providers": [
-                        "Collective\\Html\\HtmlServiceProvider"
-                    ],
-                    "aliases": {
-                        "Form": "Collective\\Html\\FormFacade",
-                        "Html": "Collective\\Html\\HtmlFacade"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Collective\\Html\\": "src/"
-                },
-                "files": [
-                    "src/helpers.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Adam Engebretson",
-                    "email": "adam@laravelcollective.com"
-                },
-                {
-                    "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com"
-                }
-            ],
-            "description": "HTML and Form Builders for the Laravel Framework",
-            "homepage": "https://laravelcollective.com",
-            "support": {
-                "issues": "https://github.com/LaravelCollective/html/issues",
-                "source": "https://github.com/LaravelCollective/html"
-            },
-            "time": "2020-12-15T20:20:05+00:00"
         },
         {
             "name": "league/commonmark",
@@ -2494,129 +2336,6 @@
                 }
             ],
             "time": "2021-12-04T23:24:31+00:00"
-        },
-        {
-            "name": "prettus/l5-repository",
-            "version": "2.7.9",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/andersao/l5-repository.git",
-                "reference": "834d61f0d5d9b6ef5786980e0bf4900fffbccd76"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/andersao/l5-repository/zipball/834d61f0d5d9b6ef5786980e0bf4900fffbccd76",
-                "reference": "834d61f0d5d9b6ef5786980e0bf4900fffbccd76",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/config": "~5.0|~6.0|~7.0|^8.0",
-                "illuminate/console": "~5.0|~6.0|~7.0|^8.0",
-                "illuminate/database": "~5.0|~6.0|~7.0|^8.0",
-                "illuminate/filesystem": "~5.0|~6.0|~7.0|^8.0",
-                "illuminate/http": "~5.0|~6.0|~7.0|^8.0",
-                "illuminate/pagination": "~5.0|~6.0|~7.0|^8.0",
-                "illuminate/support": "~5.0|~6.0|~7.0|^8.0",
-                "illuminate/validation": "~5.0|~6.0|~7.0|^8.0",
-                "prettus/laravel-validation": "~1.1|~1.2"
-            },
-            "suggest": {
-                "league/fractal": "Required to use the Fractal Presenter (0.12.*).",
-                "prettus/laravel-validation": "Required to provide easy validation with the repository (1.1.*)",
-                "robclancy/presenter": "Required to use the Presenter Model (1.3.*)"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Prettus\\Repository\\Providers\\RepositoryServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Prettus\\Repository\\": "src/Prettus/Repository/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Anderson Andrade",
-                    "email": "contato@andersonandra.de",
-                    "homepage": "http://andersonandra.de",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Laravel 5|6|7|8 - Repositories to  the database layer",
-            "homepage": "http://andersao.github.io/l5-repository",
-            "keywords": [
-                "cache",
-                "eloquent",
-                "laravel",
-                "model",
-                "repository"
-            ],
-            "support": {
-                "docs": "http://andersao.github.io/l5-repository",
-                "email": "contato@andersonandra.de",
-                "issues": "https://github.com/andersao/l5-repository/issues",
-                "source": "https://github.com/andersao/l5-repository",
-                "wiki": "https://github.com/andersao/l5-repository"
-            },
-            "time": "2021-10-14T23:03:30+00:00"
-        },
-        {
-            "name": "prettus/laravel-validation",
-            "version": "1.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/andersao/laravel-validator.git",
-                "reference": "cce3c273c9d44f77de031dc4dedd261ab936c497"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/andersao/laravel-validator/zipball/cce3c273c9d44f77de031dc4dedd261ab936c497",
-                "reference": "cce3c273c9d44f77de031dc4dedd261ab936c497",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "~5.4|^6.0|^7.0|^8.0",
-                "illuminate/validation": "~5.4|^6.0|^7.0|^8.0",
-                "php": ">=5.4.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Prettus\\Validator\\": "src/Prettus/Validator/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "authors": [
-                {
-                    "name": "Anderson Andrade",
-                    "email": "contato@andersonandra.de",
-                    "homepage": "http://andersonandra.de",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Laravel Validation Service",
-            "homepage": "http://andersao.github.io/laravel-validation",
-            "keywords": [
-                "laravel",
-                "service",
-                "validation"
-            ],
-            "support": {
-                "docs": "http://andersao.github.io/laravel-validation",
-                "email": "contato@andersonandra.de",
-                "issues": "https://github.com/andersao/laravel-validation/issues",
-                "source": "https://github.com/andersao/laravel-validation",
-                "wiki": "https://github.com/andersao/laravel-validation"
-            },
-            "time": "2020-09-21T20:20:45+00:00"
         },
         {
             "name": "psr/container",

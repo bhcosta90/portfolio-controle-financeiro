@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\IncomeResource;
 use App\Models\Charge;
 use App\Services\IncomeService;
-use Costa\Package\Traits\Api\BaseControllerTrait;
+use Costa\LaravelPackage\Traits\Api\BaseControllerTrait;
 
 class IncomeController extends Controller
 {
