@@ -28,42 +28,42 @@ abstract class BaseCostIncomeService
         return Charge::where('uuid', $id)->firstOrFail()->chargeable;
     }
 
-    public function actionStore($data)
+    public function actionStore($data, $otherDates)
     {
         if (!empty($data['type'])) {
             $obj = [];
 
+            $dateFinish = $otherDates['_date_finish']
+                ? Carbon::createFromFormat('d/m/Y', $otherDates['_date_finish'])
+                : new Carbon();
+
             $dataTypes = $this->calculate(
                 $data['type'],
                 Carbon::createFromFormat('d/m/Y', $data['due_date']),
-                new Carbon
+                $dateFinish
             );
 
-            $dateLast = null;
-            foreach ($dataTypes['date_week'] as $type) {
-                $obj[] = $this->repository->createWithCharge([
-                    'due_date' => $type,
-                    'type' => $data['type'],
-                ] + $data);
-
-                $dateLast = $type;
-            }
-
-            $dataTypes = $this->calculate(
+            $dateLast = $dataTypes[count($dataTypes) - 1];
+            $dataTypesFuture = $this->calculate(
                 $data['type'],
-                new Carbon($dateLast),
-                (new Carbon($dateLast))->addMonth(),
+                new Carbon($dateLast['date_week']),
+                $dateFinish,
                 ['first_date' => false]
             );
 
-            foreach ($dataTypes['date_week'] as $type) {
+            foreach ($dataTypes as $date) {
                 $obj[] = $this->repository->createWithCharge([
-                    'future' => true,
-                    'due_date' => $type,
+                    'due_date' => $date['date_week'],
                     'type' => $data['type'],
                 ] + $data);
+            }
 
-                $dateLast = $type;
+            foreach ($dataTypesFuture as $date) {
+                $obj[] = $this->repository->createWithCharge([
+                    'future' => true,
+                    'due_date' => $date['date_week'],
+                    'type' => $data['type'],
+                ] + $data);
             }
 
             return collect($obj);

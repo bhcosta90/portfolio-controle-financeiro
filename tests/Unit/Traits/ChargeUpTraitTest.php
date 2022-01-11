@@ -40,22 +40,15 @@ class ChargeUpTraitTest extends TestCase
     {
         $dates = $this->obj->calculate('month', $this->dateStart, $this->dateFinish);
         $this->assertEquals([
-            'date_original' => [
-                '2020-08-20',
-                '2020-09-20',
-            ],
-            'date_week' => [
-                '2020-08-20',
-                '2020-09-18',
-            ]
+            ["date_week" => "2020-08-20", "date_original" => "2020-08-20"],
+            ["date_week" => "2020-09-18", "date_original" => "2020-09-20"],
         ], $dates);
 
         $dates = $this->obj->calculate('month', new Carbon("2020-09-20"), (new Carbon("2020-09-20"))->addMonth(), [
             'first_date' => false
         ]);
         $this->assertEquals([
-            'date_original' => ['2020-10-20'],
-            'date_week' => ['2020-10-20'],
+            ["date_week" => "2020-10-20", "date_original" => "2020-10-20"],
         ], $dates);
     }
 
@@ -63,16 +56,9 @@ class ChargeUpTraitTest extends TestCase
     {
         $dates = $this->obj->calculate('month', $this->dateStart, $this->dateFinish2);
         $this->assertEquals([
-            'date_original' => [
-                "2020-08-20",
-                "2020-09-20",
-                "2020-10-20"
-            ],
-            'date_week' => [
-                "2020-08-20",
-                "2020-09-18",
-                "2020-10-20"
-            ],
+            ["date_week" => "2020-08-20", "date_original" => "2020-08-20"],
+            ["date_week" => "2020-09-18", "date_original" => "2020-09-20"],
+            ["date_week" => "2020-10-20", "date_original" => "2020-10-20"],
         ], $dates);
     }
 
@@ -80,22 +66,12 @@ class ChargeUpTraitTest extends TestCase
     {
         $dates = $this->obj->calculate('week', $this->dateStart, $this->dateFinish);
         $this->assertEquals([
-            'date_original' => [
-                "2020-08-20",
-                "2020-08-27",
-                "2020-09-03",
-                "2020-09-10",
-                "2020-09-17",
-                "2020-09-24",
-            ],
-            'date_week' => [
-                "2020-08-20",
-                "2020-08-27",
-                "2020-09-03",
-                "2020-09-10",
-                "2020-09-17",
-                "2020-09-24",
-            ],
+            ["date_week" => "2020-08-20", "date_original" => "2020-08-20"],
+            ["date_week" => "2020-08-27", "date_original" => "2020-08-27"],
+            ["date_week" => "2020-09-03", "date_original" => "2020-09-03"],
+            ["date_week" => "2020-09-10", "date_original" => "2020-09-10"],
+            ["date_week" => "2020-09-17", "date_original" => "2020-09-17"],
+            ["date_week" => "2020-09-24", "date_original" => "2020-09-24"],
         ], $dates);
 
         $dates = $this->obj->calculate('week', new Carbon("2020-09-24"), (new Carbon("2020-09-24"))->addMonth(), [
@@ -103,53 +79,29 @@ class ChargeUpTraitTest extends TestCase
         ]);
 
         $this->assertEquals([
-            'date_original' => [
-                "2020-10-01",
-                "2020-10-08",
-                "2020-10-15",
-                "2020-10-22",
-                "2020-10-29",
-            ],
-            'date_week' => [
-                "2020-10-01",
-                "2020-10-08",
-                "2020-10-15",
-                "2020-10-22",
-                "2020-10-29",
-            ]
+            ["date_week" => "2020-10-01", "date_original" => "2020-10-01"],
+            ["date_week" => "2020-10-08", "date_original" => "2020-10-08"],
+            ["date_week" => "2020-10-15", "date_original" => "2020-10-15"],
+            ["date_week" => "2020-10-22", "date_original" => "2020-10-22"],
+            ["date_week" => "2020-10-29", "date_original" => "2020-10-29"],
         ], $dates);
     }
 
     public function testWeekDayBeforeTwo()
     {
         $dates = $this->obj->calculate('week', $this->dateStart, $this->dateFinish2);
-        $this->assertEqualsCanonicalizing([
-            'date_original' => [
-                "2020-08-20",
-                "2020-08-27",
-                "2020-09-03",
-                "2020-09-10",
-                "2020-09-17",
-                "2020-09-24",
-                "2020-10-01",
-                "2020-10-08",
-                "2020-10-15",
-                "2020-10-22",
-                "2020-10-29",
-            ],
-            'date_week' => [
-                "2020-08-20",
-                "2020-08-27",
-                "2020-09-03",
-                "2020-09-10",
-                "2020-09-17",
-                "2020-09-24",
-                "2020-10-01",
-                "2020-10-08",
-                "2020-10-15",
-                "2020-10-22",
-                "2020-10-29",
-            ]
+        $this->assertEquals([
+            ["date_week" => "2020-08-20", "date_original" => "2020-08-20"],
+            ["date_week" => "2020-08-27", "date_original" => "2020-08-27"],
+            ["date_week" => "2020-09-03", "date_original" => "2020-09-03"],
+            ["date_week" => "2020-09-10", "date_original" => "2020-09-10"],
+            ["date_week" => "2020-09-17", "date_original" => "2020-09-17"],
+            ["date_week" => "2020-09-24", "date_original" => "2020-09-24"],
+            ["date_week" => "2020-10-01", "date_original" => "2020-10-01"],
+            ["date_week" => "2020-10-08", "date_original" => "2020-10-08"],
+            ["date_week" => "2020-10-15", "date_original" => "2020-10-15"],
+            ["date_week" => "2020-10-22", "date_original" => "2020-10-22"],
+            ["date_week" => "2020-10-29", "date_original" => "2020-10-29"],
         ], $dates);
     }
 
@@ -157,16 +109,9 @@ class ChargeUpTraitTest extends TestCase
     {
         $dates = $this->obj->calculate('twoweek', $this->dateStart, $this->dateFinish);
         $this->assertEquals([
-            'date_original' => [
-                "2020-08-20",
-                "2020-09-03",
-                "2020-09-17",
-            ],
-            'date_week' => [
-                "2020-08-20",
-                "2020-09-03",
-                "2020-09-17",
-            ],
+            ["date_week" => "2020-08-20", "date_original" => "2020-08-20"],
+            ["date_week" => "2020-09-03", "date_original" => "2020-09-03"],
+            ["date_week" => "2020-09-17", "date_original" => "2020-09-17"],
         ], $dates);
 
         $dates = $this->obj->calculate('twoweek', new Carbon("2020-09-17"), (new Carbon("2020-09-17"))->addMonth(), [
@@ -174,39 +119,23 @@ class ChargeUpTraitTest extends TestCase
         ]);
 
         $this->assertEquals([
-            'date_original' => [
-                "2020-10-01",
-                "2020-10-15",
-                "2020-10-29",
-            ],
-            'date_week' => [
-                "2020-10-01",
-                "2020-10-15",
-                "2020-10-29",
-            ],
+            ["date_week" => "2020-10-01", "date_original" => "2020-10-01"],
+            ["date_week" => "2020-10-15", "date_original" => "2020-10-15"],
+            ["date_week" => "2020-10-29", "date_original" => "2020-10-29"],
         ], $dates);
     }
 
     public function testTwoWeekDayBeforeTwo()
     {
         $dates = $this->obj->calculate('twoweek', $this->dateStart, $this->dateFinish2);
-        $this->assertEqualsCanonicalizing([
-            'date_original' => [
-                "2020-08-20",
-                "2020-09-03",
-                "2020-09-17",
-                "2020-10-01",
-                "2020-10-15",
-                "2020-10-29",
-            ],
-            'date_week' => [
-                "2020-08-20",
-                "2020-09-03",
-                "2020-09-17",
-                "2020-10-01",
-                "2020-10-15",
-                "2020-10-29",
-            ]
+
+        $this->assertEquals([
+            ["date_week" => "2020-08-20", "date_original" => "2020-08-20"],
+            ["date_week" => "2020-09-03", "date_original" => "2020-09-03"],
+            ["date_week" => "2020-09-17", "date_original" => "2020-09-17"],
+            ["date_week" => "2020-10-01", "date_original" => "2020-10-01"],
+            ["date_week" => "2020-10-15", "date_original" => "2020-10-15"],
+            ["date_week" => "2020-10-29", "date_original" => "2020-10-29"],
         ], $dates);
     }
 
@@ -214,24 +143,17 @@ class ChargeUpTraitTest extends TestCase
     {
         $dates = $this->obj->calculate('fifth_business_day', $this->dateStart, $this->dateFinish);
 
-        $this->assertEqualsCanonicalizing([
-            'date_original' => [
-                "2020-08-07",
-                "2020-09-07",
-            ],
-            'date_week' => [
-                "2020-08-07",
-                "2020-09-07",
-            ]
+        $this->assertEquals([
+            ["date_week" => "2020-08-07", "date_original" => "2020-08-07"],
+            ["date_week" => "2020-09-07", "date_original" => "2020-09-07"],
         ], $dates);
 
         $dates = $this->obj->calculate('fifth_business_day', new Carbon("2020-09-07"), (new Carbon("2020-09-07"))->addMonth(), [
             'first_date' => false
         ]);
 
-        $this->assertEqualsCanonicalizing([
-            'date_original' => ["2020-10-07"],
-            'date_week' => ["2020-10-07"],
+        $this->assertEquals([
+            ["date_week" => "2020-10-07", "date_original" => "2020-10-07"],
         ], $dates);
     }
 
@@ -239,17 +161,10 @@ class ChargeUpTraitTest extends TestCase
     {
         $dates = $this->obj->calculate('fifth_business_day', $this->dateStart, $this->dateFinish2);
 
-        $this->assertEqualsCanonicalizing([
-            'date_original' => [
-                "2020-08-07",
-                "2020-09-07",
-                "2020-10-07",
-            ],
-            'date_week' => [
-                "2020-08-07",
-                "2020-09-07",
-                "2020-10-07",
-            ]
+        $this->assertEquals([
+            ['date_week' => "2020-08-07", 'date_original' => "2020-08-07"],
+            ['date_week' => "2020-09-07", 'date_original' => "2020-09-07"],
+            ['date_week' => "2020-10-07", 'date_original' => "2020-10-07"],
         ], $dates);
     }
 
@@ -257,24 +172,17 @@ class ChargeUpTraitTest extends TestCase
     {
         $dates = $this->obj->calculate('every_20th', $this->dateStart, $this->dateFinish);
 
-        $this->assertEqualsCanonicalizing([
-            'date_original' => [
-                "2020-08-20",
-                "2020-09-20",
-            ],
-            'date_week' => [
-                "2020-08-20",
-                "2020-09-18",
-            ]
+        $this->assertEquals([
+            ["date_original" => "2020-08-20", "date_week" => "2020-08-20"],
+            ["date_original" => "2020-09-20", "date_week" => "2020-09-18"],
         ], $dates);
 
         $dates = $this->obj->calculate('every_20th', new Carbon("2020-09-20"), (new Carbon("2020-09-20"))->addMonth(), [
             'first_date' => false
         ]);
 
-        $this->assertEqualsCanonicalizing([
-            'date_original' => ["2020-10-20"],
-            'date_week' => ["2020-10-20"],
+        $this->assertEquals([
+            ["date_original" => "2020-10-20", "date_week" => "2020-10-20"],
         ], $dates);
     }
 
@@ -282,17 +190,10 @@ class ChargeUpTraitTest extends TestCase
     {
         $dates = $this->obj->calculate('every_20th', $this->dateStart, $this->dateFinish2);
 
-        $this->assertEqualsCanonicalizing([
-            'date_original' => [
-                "2020-08-20",
-                "2020-09-20",
-                "2020-10-20",
-            ],
-            'date_week' => [
-                "2020-08-20",
-                "2020-09-18",
-                "2020-10-20",
-            ]
+        $this->assertEquals([
+            ["date_original" => "2020-08-20", "date_week" => "2020-08-20"],
+            ["date_original" => "2020-09-20", "date_week" => "2020-09-18"],
+            ["date_original" => "2020-10-20", "date_week" => "2020-10-20"],
         ], $dates);
     }
 
@@ -300,24 +201,26 @@ class ChargeUpTraitTest extends TestCase
     {
         $dates = $this->obj->calculate('every_last_day', $this->dateStart, $this->dateFinish);
 
-        $this->assertEqualsCanonicalizing([
-            'date_original' => [
-                "2020-08-31",
-                "2020-09-30",
+        $this->assertEquals([
+            [
+                "date_original" => "2020-08-31",
+                "date_week" => "2020-08-31",
             ],
-            'date_week' => [
-                "2020-08-31",
-                "2020-09-30",
-            ],
+            [
+                "date_original" => "2020-09-30",
+                "date_week" => "2020-09-30",
+            ]
         ], $dates);
 
         $dates = $this->obj->calculate('every_last_day', new Carbon("2020-09-30"), (new Carbon("2020-09-20"))->addMonth(), [
             'first_date' => false
         ]);
 
-        $this->assertEqualsCanonicalizing([
-            'date_original' => ["2020-10-31"],
-            'date_week' => ["2020-10-30"],
+        $this->assertEquals([
+            [
+                "date_original" => "2020-10-31",
+                "date_week" => "2020-10-30",
+            ],
         ], $dates);
     }
 
@@ -325,16 +228,18 @@ class ChargeUpTraitTest extends TestCase
     {
         $dates = $this->obj->calculate('every_last_day', $this->dateStart, $this->dateFinish2);
 
-        $this->assertEqualsCanonicalizing([
-            'date_original' => [
-                "2020-08-31",
-                "2020-09-30",
-                "2020-10-31",
+        $this->assertEquals([
+            [
+                "date_original" => "2020-08-31",
+                "date_week" => "2020-08-31",
             ],
-            'date_week' => [
-                "2020-08-31",
-                "2020-09-30",
-                "2020-10-30",
+            [
+                "date_original" => "2020-09-30",
+                "date_week" => "2020-09-30",
+            ],
+            [
+                "date_original" => "2020-10-31",
+                "date_week" => "2020-10-30",
             ]
         ], $dates);
     }

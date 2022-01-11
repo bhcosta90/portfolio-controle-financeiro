@@ -32,11 +32,14 @@ trait ChargeTrait
                 throw new Exception("type `${type}` do not implemented");
         }
 
-        $weekDay = array_map(fn ($date) => $this->onlyDayWeek(new Carbon($date), 0, false)->format('Y-m-d'), $ret);
-        return [
-            'date_original' => $ret,
-            'date_week' => $weekDay,
-        ];
+        $newRet = [];
+        foreach (array_unique($ret) as $value) {
+            $newRet[] = [
+                'date_original' => $value,
+                'date_week' => $this->onlyDayWeek(new Carbon($value), 0, false)->format('Y-m-d'),
+            ];
+        }
+        return $newRet;
     }
     protected function calculateMonth(Carbon $date, Carbon $dateActual = null, $params = []): array
     {
