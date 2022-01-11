@@ -28,7 +28,8 @@ class IncomeControllerTest extends TestCase
         $this->sendData = [
             'value' => 100,
             'customer_name' => 'teste',
-            'due_date' => (new Carbon())->format('d/m/Y'),
+            'due_date' => (new Carbon('2022-01-10'))->format('d/m/Y'),
+            '_date_finish' => (new Carbon('2022-01-11'))->format('d/m/Y'),
             'type' => null,
         ];
 
@@ -129,6 +130,66 @@ class IncomeControllerTest extends TestCase
         }
 
         $this->assertEquals(98.97, $totalValue);
+    }
+
+    public function testFieldTypeFifthBusinessDay()
+    {
+        $response = $this->postJson($this->endpoint, ['type' => 'fifth_business_day'] + $this->sendData);
+        $this->assertCount(2, $response->json('data'));
+        $this->assertEquals('fifth_business_day', $response->json('data.0.type'));
+        $this->assertEquals('fifth_business_day', $response->json('data.1.type'));
+        $this->assertEquals(false, $response->json('data.0.future'));
+        $this->assertEquals(true, $response->json('data.1.future'));
+    }
+
+    public function testFieldEvery_20th()
+    {
+        $response = $this->postJson($this->endpoint, ['type' => 'every_20th'] + $this->sendData);
+        $this->assertCount(2, $response->json('data'));
+        $this->assertEquals('every_20th', $response->json('data.0.type'));
+        $this->assertEquals('every_20th', $response->json('data.1.type'));
+        $this->assertEquals(false, $response->json('data.0.future'));
+        $this->assertEquals(true, $response->json('data.1.future'));
+    }
+
+    public function testFieldEveryLastDay()
+    {
+        $response = $this->postJson($this->endpoint, ['type' => 'every_last_day'] + $this->sendData);
+        $this->assertCount(2, $response->json('data'));
+        $this->assertEquals('every_last_day', $response->json('data.0.type'));
+        $this->assertEquals('every_last_day', $response->json('data.1.type'));
+        $this->assertEquals(false, $response->json('data.0.future'));
+        $this->assertEquals(true, $response->json('data.1.future'));
+    }
+
+    public function testFieldMonth()
+    {
+        $response = $this->postJson($this->endpoint, ['type' => 'month'] + $this->sendData);
+        $this->assertCount(2, $response->json('data'));
+        $this->assertEquals('month', $response->json('data.0.type'));
+        $this->assertEquals('month', $response->json('data.1.type'));
+        $this->assertEquals(false, $response->json('data.0.future'));
+        $this->assertEquals(true, $response->json('data.1.future'));
+    }
+
+    public function testFieldWeek()
+    {
+        $response = $this->postJson($this->endpoint, ['type' => 'week'] + $this->sendData);
+        $this->assertCount(7, $response->json('data'));
+        $this->assertEquals('week', $response->json('data.0.type'));
+        $this->assertEquals('week', $response->json('data.1.type'));
+        $this->assertEquals(false, $response->json('data.0.future'));
+        $this->assertEquals(true, $response->json('data.3.future'));
+    }
+
+    public function testFieldTwoWeek()
+    {
+        $response = $this->postJson($this->endpoint, ['type' => 'twoweek'] + $this->sendData);
+        $this->assertCount(4, $response->json('data'));
+        $this->assertEquals('twoweek', $response->json('data.0.type'));
+        $this->assertEquals('twoweek', $response->json('data.1.type'));
+        $this->assertEquals(false, $response->json('data.0.future'));
+        $this->assertEquals(true, $response->json('data.3.future'));
     }
 
     public function testUpdate()
