@@ -21,9 +21,9 @@ class ChargeUpTraitTest extends TestCase
         parent::setUp();
         $this->obj = new ChargeTraitStub;
 
-        $this->dateStart = (new Carbon())->setDay(20)->setMonth(8)->setYear(2020);
-        $this->dateFinish = (new Carbon())->setDay(25)->setMonth(9)->setYear(2020);
-        $this->dateFinish2 = (new Carbon())->setDay(25)->setMonth(10)->setYear(2020);
+        $this->dateStart = new Carbon('2020-08-20');
+        $this->dateFinish = new Carbon('2020-09-25');
+        $this->dateFinish2 = new Carbon('2020-10-25');
     }
 
     public function testIfUseTraits()
