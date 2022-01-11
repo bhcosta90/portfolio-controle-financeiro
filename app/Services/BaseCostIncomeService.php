@@ -43,6 +43,35 @@ abstract class BaseCostIncomeService
                 $dateFinish
             );
 
+            $dataTypesFuture = $this->calculate(
+                $data['type'],
+                Carbon::createFromFormat('d/m/Y', $data['due_date']),
+                $data['type'] == 'every_last_day'
+                    ? $dateFinish->firstOfMonth()
+                    : $dateFinish->firstOfMonth()->addMonth(),
+                ['first_date' => false]
+            );
+
+            $dates = array_merge($dataTypes, array_map(fn ($x) => $x += ['future' => true], $dataTypesFuture));
+            $nDates = [];
+            foreach ($dates as $date) {
+                $nDates[$date['date_original'] . $date['date_week']] = $date;
+            }
+            $dates = array_values($nDates);
+
+            foreach($dates as $rsDate) {
+                $obj[] = $this->repository->createWithCharge([
+                    'future' => $rsDate['future'] ?? false,
+                    'due_date' => $rsDate['date_week'],
+                    'type' => $data['type'],
+                ] + $data);
+            }
+            /*$dataTypes = $this->calculate(
+                $data['type'],
+                Carbon::createFromFormat('d/m/Y', $data['due_date']),
+                $dateFinish
+            );
+
             $dateLast = $dataTypes[count($dataTypes) - 1];
             $dataTypesFuture = $this->calculate(
                 $data['type'],
@@ -64,7 +93,7 @@ abstract class BaseCostIncomeService
                     'due_date' => $date['date_week'],
                     'type' => $data['type'],
                 ] + $data);
-            }
+            }*/
 
             return collect($obj);
         }
