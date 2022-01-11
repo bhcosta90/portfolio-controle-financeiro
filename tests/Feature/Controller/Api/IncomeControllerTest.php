@@ -86,7 +86,10 @@ class IncomeControllerTest extends TestCase
 
     public function testStore()
     {
-        $response = $this->assertStore($this->sendData, [], $this->sendData);
+        $dataSendValidated = $this->sendData;
+        unset($dataSendValidated['_date_finish']);
+
+        $response = $this->assertStore($this->sendData, [], $dataSendValidated);
         $datas = $response->json('data');
         $this->assertCount(1, $datas);
         foreach ($datas as $data) {
@@ -194,10 +197,13 @@ class IncomeControllerTest extends TestCase
 
     public function testUpdate()
     {
+        $dataValidated = $this->sendData;
+        unset($dataValidated['_date_finish']);
+
         $datas = [
-            ['customer_name' => 'bruno'] + $this->sendData,
-            $this->sendData,
-            ['customer_name' => 'costa'] + $this->sendData,
+            ['customer_name' => 'bruno'] + $dataValidated,
+            $dataValidated,
+            ['customer_name' => 'costa'] + $dataValidated,
         ];
 
         foreach ($datas as $data) {
