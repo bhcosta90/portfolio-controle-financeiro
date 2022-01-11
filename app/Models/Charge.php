@@ -38,10 +38,12 @@ class Charge extends Model
         'parcel_total',
         'type',
         'status',
+        'future',
     ];
 
     protected $casts = [
         'value' => 'float',
+        'future' => 'boolean',
         'parcel_actual' => 'integer',
         'parcel_total' => 'integer',
     ];

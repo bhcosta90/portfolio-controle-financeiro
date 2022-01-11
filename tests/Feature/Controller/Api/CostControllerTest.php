@@ -131,6 +131,36 @@ class CostControllerTest extends TestCase
         $this->assertEquals(98.97, $totalValue);
     }
 
+    public function testFifthBusinessDay()
+    {
+        $response = $this->postJson($this->endpoint, ['type' => 'fifth_business_day'] + $this->sendData);
+        $this->assertCount(2, $response->json('data'));
+        $this->assertEquals('fifth_business_day', $response->json('data.0.type'));
+        $this->assertEquals('fifth_business_day', $response->json('data.1.type'));
+        $this->assertEquals(false, $response->json('data.0.future'));
+        $this->assertEquals(true, $response->json('data.1.future'));
+    }
+
+    public function testEvery_20th()
+    {
+        $response = $this->postJson($this->endpoint, ['type' => 'every_20th'] + $this->sendData)->dump();
+        $this->assertCount(2, $response->json('data'));
+        $this->assertEquals('every_20th', $response->json('data.0.type'));
+        $this->assertEquals('every_20th', $response->json('data.1.type'));
+        $this->assertEquals(false, $response->json('data.0.future'));
+        $this->assertEquals(true, $response->json('data.1.future'));
+    }
+
+    public function testEveryLastDay()
+    {
+        $response = $this->postJson($this->endpoint, ['type' => 'every_last_day'] + $this->sendData);
+        $this->assertCount(2, $response->json('data'));
+        $this->assertEquals('every_last_day', $response->json('data.0.type'));
+        $this->assertEquals('every_last_day', $response->json('data.1.type'));
+        $this->assertEquals(false, $response->json('data.0.future'));
+        $this->assertEquals(true, $response->json('data.1.future'));
+    }
+
     public function testUpdate()
     {
         $datas = [

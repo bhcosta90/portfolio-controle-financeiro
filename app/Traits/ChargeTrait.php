@@ -188,11 +188,12 @@ trait ChargeTrait
     {
         $myDate = $date->format('Y-m-d');
         $dateActual = $this->getDateActual($dateActual)
+            ->firstOfMonth()
             ->lastOfMonth()
             ->addDay()
             ->format('Y-m-d');
 
-        $firstRegister = $params['first_date'] ?? true;
+        $firstRegister = $firstDate = $params['first_date'] ?? true;
 
         $i = 0;
 

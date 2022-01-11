@@ -28,6 +28,7 @@ class ChargeUnitTest extends TestCase
             'parcel_total',
             'type',
             'status',
+            'future',
         ];
 
         $this->assertEqualsCanonicalizing($array, $this->model->getFillable());
@@ -53,6 +54,7 @@ class ChargeUnitTest extends TestCase
             'parcel_actual' => 'integer',
             'parcel_total' => 'integer',
             'deleted_at' => 'datetime',
+            'future' => 'boolean',
         ];
 
         $this->assertEqualsCanonicalizing($array, $this->model->getCasts());

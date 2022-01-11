@@ -3,11 +3,14 @@
 namespace App\Services;
 
 use App\Models\Charge;
+use App\Traits\ChargeTrait;
 use Carbon\Carbon;
 use Costa\LaravelPackage\Utils\Value;
 
 abstract class BaseCostIncomeService
 {
+    use ChargeTrait;
+
     public function getDataIndex()
     {
         return $this->repository->whereHas('charge', fn ($obj) => $obj->where('user_id', $this->getUser()->id));
@@ -28,7 +31,42 @@ abstract class BaseCostIncomeService
     public function actionStore($data)
     {
         if (!empty($data['type'])) {
+            $obj = [];
 
+            $dataTypes = $this->calculate(
+                $data['type'],
+                Carbon::createFromFormat('d/m/Y', $data['due_date']),
+                new Carbon
+            );
+
+            $dateLast = null;
+            foreach ($dataTypes['date_week'] as $type) {
+                $obj[] = $this->repository->createWithCharge([
+                    'due_date' => $type,
+                    'type' => $data['type'],
+                ] + $data);
+
+                $dateLast = $type;
+            }
+
+            $dataTypes = $this->calculate(
+                $data['type'],
+                new Carbon($dateLast),
+                (new Carbon($dateLast))->addMonth(),
+                ['first_date' => false]
+            );
+
+            foreach ($dataTypes['date_week'] as $type) {
+                $obj[] = $this->repository->createWithCharge([
+                    'future' => true,
+                    'due_date' => $type,
+                    'type' => $data['type'],
+                ] + $data);
+
+                $dateLast = $type;
+            }
+
+            return collect($obj);
         }
 
         if (!empty($data['parcel_total'])) {
