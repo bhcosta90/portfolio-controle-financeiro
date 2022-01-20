@@ -13,7 +13,7 @@ abstract class BaseCostIncomeService
 
     public function getDataIndex()
     {
-        return $this->repository->whereHas('charge', fn ($obj) => $obj->where('user_id', $this->getUser()->id));
+        return $this->repository->whereHas('charge', fn ($obj) => $obj->where('user_id', $this->getUser()));
     }
 
     public function deleteBy($id)
@@ -98,12 +98,12 @@ abstract class BaseCostIncomeService
         return $obj;
     }
 
-    private function getUser()
+    protected function getUser(): int
     {
-        return auth()->user();
+        return auth()->user()->id;
     }
 
-    private function getValue()
+    protected function getValue()
     {
         return new Value;
     }
