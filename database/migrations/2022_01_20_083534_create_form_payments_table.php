@@ -19,6 +19,7 @@ class CreateFormPaymentsTable extends Migration
     {
         Schema::create('form_payments', function (Blueprint $table) {
             $table->id('id');
+            $table->foreignId('user_id')->constrained('users');
             $table->enum('type', FormPayment::TYPES_FORM_PAYMENT);
             $table->json('sync_data');
             $table->timestamps();
