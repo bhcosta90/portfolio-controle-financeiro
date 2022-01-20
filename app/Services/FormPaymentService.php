@@ -17,6 +17,27 @@ class FormPaymentService
 
     public function getDataIndex()
     {
-        return $this->repository;
+        return $this->repository->where('user_id', $this->getUser());
+    }
+
+    protected function getUser(): int
+    {
+        return auth()->user()->id;
+    }
+
+    public function actionStore(array $data)
+    {
+        if ($data['active'] == true) {
+            $this->tranformAllInInactive();
+        }
+
+        return $this->repository->create($data + ['active' => false]);
+    }
+
+    private function tranformAllInInactive($id = null)
+    {
+        return $this->getDataIndex()->where('active', true)
+            ->where(fn ($q) => $id ? $q->where('id', '!=', $id) : null)
+            ->update(['active' => false]);
     }
 }

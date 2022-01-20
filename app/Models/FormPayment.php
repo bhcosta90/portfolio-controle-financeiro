@@ -25,12 +25,18 @@ class FormPayment extends Model implements Transformable
      * @var array
      */
     protected $fillable = [
+        'name',
         'user_id',
         'type',
         'sync_data',
+        'active',
     ];
 
     const TYPES_FORM_PAYMENT = [
         SimpleFormPayment::class,
+    ];
+
+    protected $casts = [
+        'active' => 'boolean',
     ];
 }

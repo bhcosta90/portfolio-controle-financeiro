@@ -19,10 +19,14 @@ class CreateFormPaymentsTable extends Migration
     {
         Schema::create('form_payments', function (Blueprint $table) {
             $table->id('id');
+            $table->uuid('uuid')->unique();
             $table->foreignId('user_id')->constrained('users');
+            $table->string('name');
             $table->enum('type', FormPayment::TYPES_FORM_PAYMENT);
-            $table->json('sync_data');
+            $table->json('sync_data')->nullable();
+            $table->boolean('active');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

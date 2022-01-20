@@ -18,9 +18,11 @@ class FormPaymentUnitTest extends TestCase
     public function testFillable()
     {
         $array = [
+            'name',
             'user_id',
             'type',
             'sync_data',
+            'active',
         ];
 
         $this->assertEqualsCanonicalizing($array, $this->model->getFillable());
@@ -42,6 +44,7 @@ class FormPaymentUnitTest extends TestCase
     public function testCasts()
     {
         $array = [
+            'active' => 'boolean',
             'deleted_at' => 'datetime',
         ];
 

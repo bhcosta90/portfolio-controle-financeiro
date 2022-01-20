@@ -45,6 +45,14 @@ class InvalidationFormPaymentTest extends TestCase
         $this->assertInvalidationStore($data, "max.string", ['max' => 70]);
     }
 
+    public function testFieldsBoolean()
+    {
+        $data = [
+            'active' => 'a',
+        ];
+        $this->assertInvalidationStore($data, "boolean");
+    }
+
     public function testFieldsIn()
     {
         $data = [

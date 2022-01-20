@@ -27,6 +27,7 @@ class FormPaymentController extends Controller
         return [
             'name' => ['required', 'min:3', 'max:70'],
             'type' => ['required', 'in:' . implode(',', FormPayment::TYPES_FORM_PAYMENT)],
+            'active' => ['nullable', 'boolean']
         ];
     }
 
