@@ -68,12 +68,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/bhcosta90/laravel-package.git",
-                "reference": "b348a911dc9a836f0b69699f446f2a6eb6c08d52"
+                "reference": "20595484f7d5fb4b54873e865ccbd035c51366e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bhcosta90/laravel-package/zipball/b348a911dc9a836f0b69699f446f2a6eb6c08d52",
-                "reference": "b348a911dc9a836f0b69699f446f2a6eb6c08d52",
+                "url": "https://api.github.com/repos/bhcosta90/laravel-package/zipball/20595484f7d5fb4b54873e865ccbd035c51366e3",
+                "reference": "20595484f7d5fb4b54873e865ccbd035c51366e3",
                 "shasum": ""
             },
             "require": {
@@ -112,7 +112,7 @@
                 "issues": "https://github.com/bhcosta90/laravel-package/issues",
                 "source": "https://github.com/bhcosta90/laravel-package/tree/master"
             },
-            "time": "2022-01-19T20:28:32+00:00"
+            "time": "2022-01-20T11:36:36+00:00"
         },
         {
             "name": "bhcosta90/laravel-tests",
