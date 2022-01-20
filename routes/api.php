@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\{
     CostController,
+    FormPaymentController,
     IncomeController
 };
 use Illuminate\Support\Facades\Route;
@@ -19,4 +20,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::resource('cost', CostController::class);
 Route::resource('income', IncomeController::class);
-Route::resource('payment', IncomeController::class)->only(['index', 'create', 'store']);
+Route::resource('payment', FormPaymentController::class)->only(['index', 'create', 'store']);

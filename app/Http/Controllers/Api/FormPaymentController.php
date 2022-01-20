@@ -25,6 +25,7 @@ class FormPaymentController extends Controller
     protected function ruleUpdate(): array
     {
         return [
+            'name' => ['required', 'min:3', 'max:70'],
             'type' => ['required', 'in:' . implode(',', FormPayment::TYPES_FORM_PAYMENT)],
         ];
     }
