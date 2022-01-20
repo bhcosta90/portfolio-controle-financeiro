@@ -6,11 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\CostResource;
 use App\Models\Charge;
 use App\Services\CostService;
-use Costa\LaravelPackage\Traits\Api\BaseControllerTrait;
+use Costa\LaravelPackage\Traits\Api\ApiBaseControllerTrait;
 
 class CostController extends Controller
 {
-    use BaseControllerTrait;
+    use ApiBaseControllerTrait;
 
     protected function service(): string
     {

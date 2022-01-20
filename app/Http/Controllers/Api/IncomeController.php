@@ -6,11 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\IncomeResource;
 use App\Models\Charge;
 use App\Services\IncomeService;
-use Costa\LaravelPackage\Traits\Api\BaseControllerTrait;
+use Costa\LaravelPackage\Traits\Api\ApiBaseControllerTrait;
 
 class IncomeController extends Controller
 {
-    use BaseControllerTrait;
+    use ApiBaseControllerTrait;
 
     protected function service(): string
     {

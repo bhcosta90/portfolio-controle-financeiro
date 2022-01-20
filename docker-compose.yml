@@ -36,7 +36,7 @@ services:
             MYSQL_PASSWORD: '${DB_PASSWORD}'
             MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
         volumes:
-            - './vendor/data/mariadb:/var/lib/mysql'
+            - './vendor/_data/mariadb:/var/lib/mysql'
         networks:
             - sail
         healthcheck:
@@ -48,7 +48,7 @@ services:
         ports:
             - '${FORWARD_REDIS_PORT:-6379}:6379'
         volumes:
-            - './vendor/data/redis:/data'
+            - './vendor/_data/redis:/data'
         networks:
             - sail
         healthcheck:
@@ -58,7 +58,7 @@ services:
     memcached:
         image: 'memcached:alpine'
         ports:
-            - '11212:11211'
+            - '11211:11211'
         networks:
             - sail
     minio:
@@ -70,7 +70,7 @@ services:
             MINIO_ROOT_USER: 'sail'
             MINIO_ROOT_PASSWORD: 'password'
         volumes:
-            - './vendor/data/minio:/data/minio'
+            - './vendor/_data/minio:/data/minio'
         networks:
             - sail
         command: minio server /data/minio --console-address ":8900"
