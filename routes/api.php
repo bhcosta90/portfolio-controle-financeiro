@@ -19,3 +19,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::resource('cost', CostController::class);
 Route::resource('income', IncomeController::class);
+Route::resource('payment', IncomeController::class)->only(['index', 'create', 'store']);
