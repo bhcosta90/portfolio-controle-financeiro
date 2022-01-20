@@ -31,6 +31,6 @@ class FormPaymentController extends Controller
 
     protected function resource(): string
     {
-        return FormPaymentResource::class
+        return FormPaymentResource::class;
     }
 }
