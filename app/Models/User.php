@@ -12,7 +12,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    public static function booted(): void {
+    public static function booted(): void
+    {
         static::creating(function ($obj) {
             $obj->credential = $obj->credential ? $obj->credential : sha1(password_hash(time(), PASSWORD_DEFAULT));
             $obj->secret = sha1(password_hash($obj->secret ?: time(), PASSWORD_DEFAULT));
