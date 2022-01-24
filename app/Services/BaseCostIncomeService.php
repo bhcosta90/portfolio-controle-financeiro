@@ -17,7 +17,7 @@ abstract class BaseCostIncomeService
 
     public function getDataIndex(array $filters = null)
     {
-        $filters['get_due_date'] = empty($filter['date_start']) || empty($filter['date_finish']);
+        $filters['get_due_date'] = empty($filters['date_start']) || empty($filters['date_finish']);
 
         if (empty($filters['date_start'])) {
             $filters['date_start'] = (new Carbon())->firstOfMonth()->format('Y-m-d');
@@ -30,7 +30,7 @@ abstract class BaseCostIncomeService
         return $this->repository
             ->whereHas('charge', function ($obj) use ($filters) {
                 $obj->where('user_id', $this->getUser());
-                $obj->where(function($obj) use($filters){
+                $obj->where(function ($obj) use ($filters) {
                     $obj->whereBetween('due_date', [$filters['date_start'], $filters['date_finish']]);
                     if ($filters['get_due_date']) {
                         $obj->orWhere('due_date', '<=', $filters['date_start']);
