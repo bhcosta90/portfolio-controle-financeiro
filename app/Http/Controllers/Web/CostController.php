@@ -11,6 +11,11 @@ class CostController extends Controller
 {
     use WebBaseControllerTrait, Traits\CostIncomeTrait;
 
+    protected function getPaginateSize()
+    {
+        return 30;
+    }
+
     protected function getDefaultView()
     {
         return 'cost';

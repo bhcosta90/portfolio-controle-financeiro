@@ -6,11 +6,15 @@ use App\Forms\Income\{ParcelForm, RecursiveForm, SimpleForm};
 use App\Http\Controllers\Controller;
 use App\Services\IncomeService;
 use Costa\LaravelPackage\Traits\Web\WebBaseControllerTrait;
-use Costa\LaravelTable\TableSimple;
 
 class IncomeController extends Controller
 {
     use WebBaseControllerTrait, Traits\CostIncomeTrait;
+
+    protected function getPaginateSize()
+    {
+        return 30;
+    }
 
     protected function getDefaultView()
     {

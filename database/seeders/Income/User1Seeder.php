@@ -16,14 +16,21 @@ class User1Seeder extends Seeder
         return [
             [
                 'customer_name' => 'Jair da Costa',
-                'resume' => 'Celular e seguro',
+                'resume' => 'Mensalidade do celular',
                 'parcel_total' => 10,
-                'value' => 1000,
+                'value' => 799,
+                'due_date' => '2021-08-05'
+            ],
+            [
+                'customer_name' => 'Jair da Costa',
+                'resume' => 'Mensalidade do Seguro para o celular',
+                'parcel_total' => 12,
+                'value' => 235.92,
                 'due_date' => '2021-08-05'
             ],
             [
                 'customer_name' => 'José Maria da Costa',
-                'resume' => 'Empréstimo do Cartão de Crédito',
+                'resume' => 'Empréstimo do cartão de crédito',
                 'value' => 573.62,
                 'due_date' => '2021-02-05',
                 'description' => 'Com desconto das duas parcelas do armário de quarto (Valor do Cartão = 1065 | Valor da Faculdade = 308.62 | Parcela do armário = -800)',

@@ -109,12 +109,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/bhcosta90/laravel-package.git",
-                "reference": "e92d53a77bf856cc8bb04a25a4cad8ec55bd94b8"
+                "reference": "fb8cd6f93bbd2735919af498c83a71c4b5c57c97"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bhcosta90/laravel-package/zipball/e92d53a77bf856cc8bb04a25a4cad8ec55bd94b8",
-                "reference": "e92d53a77bf856cc8bb04a25a4cad8ec55bd94b8",
+                "url": "https://api.github.com/repos/bhcosta90/laravel-package/zipball/fb8cd6f93bbd2735919af498c83a71c4b5c57c97",
+                "reference": "fb8cd6f93bbd2735919af498c83a71c4b5c57c97",
                 "shasum": ""
             },
             "require": {
@@ -153,7 +153,7 @@
                 "issues": "https://github.com/bhcosta90/laravel-package/issues",
                 "source": "https://github.com/bhcosta90/laravel-package/tree/master"
             },
-            "time": "2022-01-24T18:12:19+00:00"
+            "time": "2022-01-24T20:09:00+00:00"
         },
         {
             "name": "bhcosta90/laravel-table",
@@ -5782,16 +5782,16 @@
         },
         {
             "name": "voku/portable-ascii",
-            "version": "1.6.0",
+            "version": "1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/voku/portable-ascii.git",
-                "reference": "1f8b372a927ab2d17dbdab443aefbfe6a5354284"
+                "reference": "87337c91b9dfacee02452244ee14ab3c43bc485a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/voku/portable-ascii/zipball/1f8b372a927ab2d17dbdab443aefbfe6a5354284",
-                "reference": "1f8b372a927ab2d17dbdab443aefbfe6a5354284",
+                "url": "https://api.github.com/repos/voku/portable-ascii/zipball/87337c91b9dfacee02452244ee14ab3c43bc485a",
+                "reference": "87337c91b9dfacee02452244ee14ab3c43bc485a",
                 "shasum": ""
             },
             "require": {
@@ -5828,7 +5828,7 @@
             ],
             "support": {
                 "issues": "https://github.com/voku/portable-ascii/issues",
-                "source": "https://github.com/voku/portable-ascii/tree/1.6.0"
+                "source": "https://github.com/voku/portable-ascii/tree/1.6.1"
             },
             "funding": [
                 {
@@ -5852,7 +5852,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-01-24T09:37:53+00:00"
+            "time": "2022-01-24T18:55:24+00:00"
         },
         {
             "name": "webmozart/assert",
