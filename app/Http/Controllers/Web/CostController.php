@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Forms\CostForm;
+use App\Forms\Cost\SimpleForm;
 use App\Http\Controllers\Controller;
 use App\Services\CostService;
 use Costa\LaravelPackage\Traits\Web\WebBaseControllerTrait;
@@ -42,6 +42,6 @@ class CostController extends Controller
 
     protected function getForm()
     {
-        return CostForm::class;
+        return SimpleForm::class;
     }
 }
