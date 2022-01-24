@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\{CostController, IncomeController};
 use Illuminate\Support\Facades\{Route, Auth};
 
 /*
@@ -18,3 +19,6 @@ Route::view('/', 'welcome');
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::resource('cost', CostController::class);
+Route::resource('income', IncomeController::class);
