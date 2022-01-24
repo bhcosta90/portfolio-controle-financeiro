@@ -39,6 +39,8 @@ class Charge extends Model
         'type',
         'status',
         'future',
+        'resume',
+        'description',
     ];
 
     protected $casts = [

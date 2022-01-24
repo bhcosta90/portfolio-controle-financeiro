@@ -25,6 +25,8 @@ class IncomeController extends Controller
     protected function ruleUpdate(): array
     {
         return [
+            'resume' => 'required|min:3|max:150',
+            'description' => 'nullable|min:3|max:1000',
             'value' => 'required|numeric|min:0|max:999999999',
             'customer_name' => 'required|min:3|max:150',
             'due_date' => 'required|date_format:d/m/Y',

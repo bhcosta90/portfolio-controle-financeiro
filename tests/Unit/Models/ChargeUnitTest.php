@@ -29,6 +29,8 @@ class ChargeUnitTest extends TestCase
             'type',
             'status',
             'future',
+            'description',
+            'resume',
         ];
 
         $this->assertEqualsCanonicalizing($array, $this->model->getFillable());
