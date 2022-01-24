@@ -26,6 +26,8 @@ class IncomeControllerTest extends TestCase
         parent::setUp();
 
         $this->sendData = [
+            'resume' => 'oi tudo bem',
+            'description' => 'oi tudo bem',
             'value' => 100,
             'customer_name' => 'teste',
             'due_date' => (new Carbon('2022-01-10'))->format('d/m/Y'),

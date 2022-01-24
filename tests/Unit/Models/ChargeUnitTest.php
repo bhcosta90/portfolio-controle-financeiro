@@ -21,6 +21,7 @@ class ChargeUnitTest extends TestCase
             'user_id',
             'chargeable',
             'value',
+            'value_recursive',
             'customer_name',
             'due_date',
             'last_date',
@@ -29,6 +30,8 @@ class ChargeUnitTest extends TestCase
             'type',
             'status',
             'future',
+            'description',
+            'resume',
         ];
 
         $this->assertEqualsCanonicalizing($array, $this->model->getFillable());
@@ -50,6 +53,7 @@ class ChargeUnitTest extends TestCase
     {
         $array = [
             'value' => 'float',
+            'value_recursive' => 'float',
             'parcel_actual' => 'integer',
             'parcel_total' => 'integer',
             'deleted_at' => 'datetime',

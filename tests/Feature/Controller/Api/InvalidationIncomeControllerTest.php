@@ -29,6 +29,7 @@ class InvalidationIncomeControllerTest extends TestCase
     public function testFieldsRequired()
     {
         $data = [
+            "resume" => '',
             "value" => '',
             "customer_name" => '',
             "due_date" => '',
@@ -56,6 +57,7 @@ class InvalidationIncomeControllerTest extends TestCase
 
         $data = [
             'customer_name' => 'a',
+            'resume' => 'a',
         ];
         $this->assertInvalidationStore($data, "min.string", ['min' => 3]);
         $this->assertInvalidationUpdate($data, "min.string", ['min' => 3]);
@@ -79,6 +81,12 @@ class InvalidationIncomeControllerTest extends TestCase
         ];
         $this->assertInvalidationStore($data, "max.string", ['max' => 150]);
         $this->assertInvalidationUpdate($data, "max.string", ['max' => 150]);
+
+        $data = [
+            'description' => str_repeat('a', 1200),
+        ];
+        $this->assertInvalidationStore($data, "max.string", ['max' => 1000]);
+        $this->assertInvalidationUpdate($data, "max.string", ['max' => 1000]);
 
         $data = [
             'parcel_total' => 500,
