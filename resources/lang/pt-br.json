@@ -100,5 +100,7 @@
     "Recurrency: every_20th": "Todo dia 20",
     "Recurrency: fifth_business_day": "Todo quinto dia útil do mês",
     "Recurrency: month": "Todo mês",
-    "New": "Nova"
+    "New income": "Nova receita",
+    "New cost": "Nova despesa",
+    "Simple": "Simples"
 }
