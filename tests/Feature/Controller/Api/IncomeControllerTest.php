@@ -41,13 +41,14 @@ class IncomeControllerTest extends TestCase
             'chargeable_type' => get_class($this->model),
             'type' => null,
             'user_id' => self::$user->id,
-            'due_date' => '2022-01-10'
+            'due_date' => '2022-01-10',
+            'status' => Charge::STATUS_PENDING
         ]);
     }
 
     public function testIndex()
     {
-        $response = $this->getJson($this->endpoint . '?date_start=2022-01-10&date_finish=2022-01-12');
+        $response = $this->getJson($this->endpoint . '?date_start=2021-01-10&date_finish=2023-01-12');
         $response->assertStatus(200);
         $resource = IncomeResource::collection([$this->model]);
         $this->assertResource($response, $resource);

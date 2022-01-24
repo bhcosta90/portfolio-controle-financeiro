@@ -41,13 +41,12 @@ abstract class BaseCostIncomeService
                         $query->where('customer_name', 'like', "%{$f}%");
                     }
                 });
-                $obj->where('status', Charge::TYPE_PENDING);
+                $obj->where('status', Charge::STATUS_PENDING);
             })->join('charges', function ($q) {
                 $q->on('charges.chargeable_id', '=', $this->tableName() . '.id')
                     ->where('charges.chargeable_type', $this->modelName());
             })->select($this->tableName() . '.*')
-            ->orderBy('charges.due_date')
-            ->orderBy('charges.customer_name');
+            ->orderBy('charges.due_date');
     }
 
     public function deleteBy($id)

@@ -41,7 +41,8 @@ class CostControllerTest extends TestCase
             'chargeable_type' => get_class($this->model),
             'type' => null,
             'user_id' => self::$user->id,
-            'due_date' => '2022-01-10'
+            'due_date' => '2022-01-10',
+            'status' => Charge::STATUS_PENDING,
         ]);
     }
 
