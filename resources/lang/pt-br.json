@@ -82,5 +82,9 @@
     "Resume": "Resumo",
     "Value": "Valor",
     "Description": "Descrição",
-    "Total of parcel": "Total de parcela"
+    "Total of parcel": "Total de parcela",
+    "Cost": "Despesa",
+    "Recursive": "Recorrente",
+    "Parcel": "Parcelar",
+    "Report of cost": "Relatório de despesa"
 }
