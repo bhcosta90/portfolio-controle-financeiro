@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 use App\Http\Controllers\Web\CostController;
 use Illuminate\Support\Facades\Route;
