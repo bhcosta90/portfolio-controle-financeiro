@@ -30,6 +30,8 @@ abstract class BaseCostIncomeService
 
     public function actionStore($data, $otherDates)
     {
+        $data['value_recursive'] = $data['value'];
+
         if (!empty($data['type'])) {
             $obj = [];
 

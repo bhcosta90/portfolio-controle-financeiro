@@ -22,6 +22,8 @@ class ChargeFactory extends Factory
             'value' => rand(100, 200),
             'customer_name' => $this->faker->lastName(),
             'due_date' => $this->faker->date(),
+            'resume' => $this->faker->sentence(1),
+            'description' => $this->faker->sentence(6),
             'last_date' => null,
             'parcel_actual' => 0,
             'parcel_total' => 0,

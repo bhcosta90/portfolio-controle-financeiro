@@ -18,8 +18,11 @@ class CreateChargesTable extends Migration
             $table->id();
             $table->uuid('uuid')->unique();
             $table->foreignId('user_id')->constrained('users');
+            $table->string('resume');
+            $table->text('description')->nullable();
             $table->morphs('chargeable');
             $table->unsignedDouble('value');
+            $table->unsignedDouble('value_recursive')->nullable();
             $table->string('customer_name');
             $table->date('due_date');
             $table->date('last_date')->nullable();

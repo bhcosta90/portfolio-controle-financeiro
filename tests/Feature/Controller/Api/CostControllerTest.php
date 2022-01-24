@@ -26,6 +26,8 @@ class CostControllerTest extends TestCase
         parent::setUp();
 
         $this->sendData = [
+            'resume' => 'oi tudo bem',
+            'description' => 'oi tudo bem',
             'value' => 100,
             'customer_name' => 'teste',
             'due_date' => (new Carbon('2022-01-10'))->format('d/m/Y'),
@@ -90,6 +92,7 @@ class CostControllerTest extends TestCase
         unset($newData['_date_finish']);
 
         $response = $this->assertStore($this->sendData, [], $newData);
+        $this->debugSql('charges', true);
         $datas = $response->json('data');
         $this->assertCount(1, $datas);
         foreach ($datas as $data) {
