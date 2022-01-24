@@ -18,6 +18,8 @@ class Charge extends Model
         'SY' => 'In syncronyzed',
     ];
 
+    const TYPE_PENDING = 'PE';
+
     public static $typeOptions = [
         'month' => 'Month',
         'twoweek' => 'Two week',

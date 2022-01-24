@@ -70,6 +70,24 @@ trait CostIncomeTrait
 
                 return $ret;
             },
+            '_liquidar' => [
+                'action' => function ($model) {
+                    // return btnLinkIcon(route('admin.receita.pagar.index', $model->uuid), 'fas fa-check', '', 'btn-sm btn-outline-success');
+                },
+                'class' => 'min',
+            ],
+            'edit' => [
+                'action' => function ($model) {
+                    return btnLinkEditIcon(route('charge.edit', $model->charge->uuid));
+                },
+                'class' => 'min',
+            ],
+            'delete' => [
+                'action' => function ($model) {
+                    return btnLinkDelIcon(route('charge.destroy', $model->charge->uuid));
+                },
+                'class' => 'min',
+            ]
         ]);
         return $table->run();
     }

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Web\{CostController, IncomeController};
+use App\Http\Controllers\Web\{ChargeController, CostController, IncomeController};
 use Illuminate\Support\Facades\{Route, Auth};
 
 /*
@@ -22,6 +22,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 include __DIR__ . '/charge/cost.php';
 include __DIR__ . '/charge/income.php';
+Route::resource('charge', ChargeController::class)->except(['index']);
 
 Route::group(['prefix' => 'test'], function () {
     Route::get('ofx', function () {
