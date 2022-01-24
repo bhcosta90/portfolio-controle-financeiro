@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1e707ef3b7dd3288e99243f6faa22096",
+    "content-hash": "85a884f26482ded8f7f73af16c77a268",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -61,6 +61,47 @@
                 "source": "https://github.com/asm89/stack-cors/tree/v2.1.1"
             },
             "time": "2022-01-18T09:12:03+00:00"
+        },
+        {
+            "name": "asmpkg/ofx",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/alexsmonte/Ofx.git",
+                "reference": "f44e0e744f57ff5abfad2a022347d656c9f85ca9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/alexsmonte/Ofx/zipball/f44e0e744f57ff5abfad2a022347d656c9f85ca9",
+                "reference": "f44e0e744f57ff5abfad2a022347d656c9f85ca9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Asmpkg\\Ofx\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alex Monte",
+                    "email": "alexsmonte@gmail.com"
+                }
+            ],
+            "description": "Transforma em objetos dados de um arquivo de extrato bancario OFX.",
+            "support": {
+                "issues": "https://github.com/alexsmonte/Ofx/issues",
+                "source": "https://github.com/alexsmonte/Ofx/tree/master"
+            },
+            "time": "2018-02-07T21:01:16+00:00"
         },
         {
             "name": "bhcosta90/laravel-package",
@@ -8442,7 +8483,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "asmpkg/ofx": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

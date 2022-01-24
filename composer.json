@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "asmpkg/ofx": "dev-master",
         "bhcosta90/laravel-package": "master",
         "bhcosta90/laravel-table": "^1.0",
         "bhcosta90/laravel-tests": "master",
