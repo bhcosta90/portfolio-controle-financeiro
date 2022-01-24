@@ -10,6 +10,7 @@
             <a href="{{ route('cost.create.parcel') }}" class='btn btn-outline-warning btn-sm'>{{ __('Parcel') }}</a>
         </div>
     </div>
+    @include('includes.charge.filter')
     {!! $data->render() !!}
 </div>
 @endsection

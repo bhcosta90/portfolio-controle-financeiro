@@ -13,11 +13,11 @@ abstract class BaseCostIncomeService
 
     public function getDataIndex(array $filters = null)
     {
-        if(empty($filters['date_start'])){
+        if (empty($filters['date_start'])) {
             $filters['date_start'] = (new Carbon())->firstOfMonth()->format('Y-m-d');
         }
 
-        if(empty($filters['date_finish'])){
+        if (empty($filters['date_finish'])) {
             $filters['date_finish'] = (new Carbon())->firstOfMonth()->addMonth()->lastOfMonth()->format('Y-m-d');
         }
 
@@ -25,6 +25,11 @@ abstract class BaseCostIncomeService
             ->whereHas('charge', function ($obj) use ($filters) {
                 $obj->where('user_id', $this->getUser());
                 $obj->whereBetween('due_date', [$filters['date_start'], $filters['date_finish']]);
+                $obj->where(function ($query) use ($filters) {
+                    if (!empty($f = $filters['customer_name'])) {
+                        $query->where('customer_name', 'like', "%{$f}%");
+                    }
+                });
             });
     }
 
@@ -83,7 +88,7 @@ abstract class BaseCostIncomeService
             }
             $dates = array_values($nDates);
 
-            foreach($dates as $rsDate) {
+            foreach ($dates as $rsDate) {
                 $obj[] = $this->repository->createWithCharge([
                     'future' => $rsDate['future'] ?? false,
                     'due_date' => $rsDate['date_week'],

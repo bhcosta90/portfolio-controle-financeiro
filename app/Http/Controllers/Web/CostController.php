@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Forms\Cost\{ParcelForm, RecursiveForm, SimpleForm};
 use App\Http\Controllers\Controller;
 use App\Services\CostService;
+use Carbon\Carbon;
 use Costa\LaravelPackage\Traits\Web\WebBaseControllerTrait;
 use Costa\LaravelTable\TableSimple;
 use Illuminate\Support\Str;
@@ -49,6 +50,7 @@ class CostController extends Controller
         $table->setAddColumns([
             __('Customer name') => fn ($obj) => $obj->charge->customer_name,
             __('Value') => fn ($obj) => Str::numberEnToBr($obj->charge->value),
+            __('Due date') => fn ($obj) => (new Carbon($obj->charge->due_date))->format('d/m/Y'),
         ]);
         return $table->run();
     }
