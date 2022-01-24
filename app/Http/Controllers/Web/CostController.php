@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Forms\Cost\SimpleForm;
+use App\Forms\Cost\{ParcelForm, RecursiveForm, SimpleForm};
 use App\Http\Controllers\Controller;
 use App\Services\CostService;
 use Costa\LaravelPackage\Traits\Web\WebBaseControllerTrait;
@@ -42,6 +42,13 @@ class CostController extends Controller
 
     protected function getForm()
     {
-        return SimpleForm::class;
+        switch(request()->segment(3)){
+            case 'recursive':
+                return RecursiveForm::class;
+            case 'parcel':
+                return ParcelForm::class;
+            case 'normal':
+                return SimpleForm::class;
+        }
     }
 }

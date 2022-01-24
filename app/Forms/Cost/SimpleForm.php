@@ -11,12 +11,8 @@ class SimpleForm extends Form
 
     public function buildForm()
     {
-        $this->fieldValue();
         $this->fieldResume();
-        $this->add('parcel', 'text', [
-            'label' => __('Parcel'),
-            'rules' => ['numeric|max:360|min:1'],
-        ]);
+        $this->fieldValue();
         $this->fieldDescription();
     }
 }

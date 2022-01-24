@@ -20,5 +20,9 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::resource('cost', CostController::class);
-Route::resource('income', IncomeController::class);
+Route::get('cost/create/normal', [CostController::class, 'create'])->name('cost.create.normal');
+Route::get('cost/create/parcel', [CostController::class, 'create'])->name('cost.create.parcel');
+Route::get('cost/create/recursive', [CostController::class, 'create'])->name('cost.create.recursive');
+Route::resource('cost', CostController::class)->only(['index']);
+
+Route::resource('income', IncomeController::class)->only(['index']);
