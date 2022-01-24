@@ -26,7 +26,7 @@ abstract class BaseCostIncomeService
                 $obj->where('user_id', $this->getUser());
                 $obj->whereBetween('due_date', [$filters['date_start'], $filters['date_finish']]);
                 $obj->where(function ($query) use ($filters) {
-                    if (!empty($f = $filters['customer_name'])) {
+                    if (!empty($f = $filters['customer_name'] ?? null)) {
                         $query->where('customer_name', 'like', "%{$f}%");
                     }
                 });
