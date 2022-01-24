@@ -109,12 +109,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/bhcosta90/laravel-package.git",
-                "reference": "1e1d7c560e288744a6a04e7976908f35822eaa80"
+                "reference": "f176401c1d2df4717ee673719c31f03802b9d81b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bhcosta90/laravel-package/zipball/1e1d7c560e288744a6a04e7976908f35822eaa80",
-                "reference": "1e1d7c560e288744a6a04e7976908f35822eaa80",
+                "url": "https://api.github.com/repos/bhcosta90/laravel-package/zipball/f176401c1d2df4717ee673719c31f03802b9d81b",
+                "reference": "f176401c1d2df4717ee673719c31f03802b9d81b",
                 "shasum": ""
             },
             "require": {
@@ -153,7 +153,7 @@
                 "issues": "https://github.com/bhcosta90/laravel-package/issues",
                 "source": "https://github.com/bhcosta90/laravel-package/tree/master"
             },
-            "time": "2022-01-24T12:46:00+00:00"
+            "time": "2022-01-24T16:40:59+00:00"
         },
         {
             "name": "bhcosta90/laravel-table",
@@ -8492,5 +8492,5 @@
         "php": "^7.3|^8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }

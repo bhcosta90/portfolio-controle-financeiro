@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Services\CostService;
 use Costa\LaravelPackage\Traits\Web\WebBaseControllerTrait;
 use Costa\LaravelTable\TableSimple;
+use Illuminate\Support\Str;
 
 class CostController extends Controller
 {
@@ -44,6 +45,11 @@ class CostController extends Controller
         /** @var TableSimple $table */
         $table = app(TableSimple::class);
         $table->setData($this->transformData($serviceData));
+        $table->setColumns(false);
+        $table->setAddColumns([
+            __('Customer name') => fn ($obj) => $obj->charge->customer_name,
+            __('Value') => fn ($obj) => Str::numberEnToBr($obj->charge->value),
+        ]);
         return $table->run();
     }
 
