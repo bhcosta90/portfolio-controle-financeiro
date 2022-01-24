@@ -31,6 +31,7 @@ class Charge extends Model
         'user_id',
         'chargeable',
         'value',
+        'value_recursive',
         'customer_name',
         'due_date',
         'last_date',
@@ -45,6 +46,7 @@ class Charge extends Model
 
     protected $casts = [
         'value' => 'float',
+        'value_recursive' => 'float',
         'future' => 'boolean',
         'parcel_actual' => 'integer',
         'parcel_total' => 'integer',

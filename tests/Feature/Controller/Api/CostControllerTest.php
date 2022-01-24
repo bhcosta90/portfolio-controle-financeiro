@@ -92,6 +92,7 @@ class CostControllerTest extends TestCase
         unset($newData['_date_finish']);
 
         $response = $this->assertStore($this->sendData, [], $newData);
+        $this->debugSql('charges', true);
         $datas = $response->json('data');
         $this->assertCount(1, $datas);
         foreach ($datas as $data) {
