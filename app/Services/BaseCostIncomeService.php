@@ -11,9 +11,21 @@ abstract class BaseCostIncomeService
 {
     use ChargeTrait;
 
-    public function getDataIndex()
+    public function getDataIndex(array $filters = null)
     {
-        return $this->repository->whereHas('charge', fn ($obj) => $obj->where('user_id', $this->getUser()));
+        if(empty($filters['date_start'])){
+            $filters['date_start'] = (new Carbon())->firstOfMonth()->format('Y-m-d');
+        }
+
+        if(empty($filters['date_finish'])){
+            $filters['date_finish'] = (new Carbon())->firstOfMonth()->addMonth()->lastOfMonth()->format('Y-m-d');
+        }
+
+        return $this->repository
+            ->whereHas('charge', function ($obj) use ($filters) {
+                $obj->where('user_id', $this->getUser());
+                $obj->whereBetween('due_date', [$filters['date_start'], $filters['date_finish']]);
+            });
     }
 
     public function deleteBy($id)

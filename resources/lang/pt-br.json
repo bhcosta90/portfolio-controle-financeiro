@@ -89,5 +89,10 @@
     "Report of cost": "Relatório de despesa",
     "Report of income": "Relatório de receita",
     "Income": "Receita",
-    "Name of customer": "Nome do cliente"
+    "Customer name": "Nome do cliente",
+    "Income register": "Cadastro de receita",
+    "Cost register": "Cadastro de despesa",
+    "Due date": "Data de vencimento",
+    "Date of first parcel": "Data da primeira parcela",
+    "Start date": "Data inicial"
 }

@@ -14,7 +14,7 @@ class ParcelForm extends Form
         $this->fieldCustomerName();
         $this->fieldResume();
         $this->fieldValue();
-        $this->fieldDueDate();
+        $this->fieldDueDate('Date of first parcel');
 
         $this->add('parcel_total', 'text', [
             'label' => __('Total of parcel'),

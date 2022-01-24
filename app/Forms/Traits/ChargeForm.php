@@ -2,6 +2,8 @@
 
 namespace App\Forms\Traits;
 
+use Carbon\Carbon;
+
 trait ChargeForm
 {
     public function fieldValue()
@@ -29,18 +31,19 @@ trait ChargeForm
         ]);
     }
 
-    public function fieldDueDate()
+    public function fieldDueDate($title = 'Due date')
     {
         $this->add('due_date', 'date', [
-            'label' => __('Description'),
+            'label' => __($title),
             'rules' => 'required|date_format:Y-m-d',
+            'value' => (new Carbon)->format('Y-m-d')
         ]);
     }
 
     public function fieldCustomerName()
     {
         $this->add('customer_name', 'text', [
-            'label' => __('Name of customer'),
+            'label' => __('Customer name'),
             'rules' => 'required|min:3|max:150',
         ]);
     }
