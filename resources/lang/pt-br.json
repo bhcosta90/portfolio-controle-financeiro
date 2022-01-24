@@ -99,5 +99,6 @@
     "vencimento": "{0} Hoje|{1} Amanhã|{-1} 1 dia atrasado|[*, -2] :total dias em atraso|[2,*] :total dias para pagar",
     "Recurrency: every_20th": "Todo dia 20",
     "Recurrency: fifth_business_day": "Todo quinto dia útil do mês",
-    "Recurrency: month": "Todo mês"
+    "Recurrency: month": "Todo mês",
+    "New": "Nova"
 }
