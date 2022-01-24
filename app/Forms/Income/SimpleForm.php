@@ -11,8 +11,10 @@ class SimpleForm extends Form
 
     public function buildForm()
     {
+        $this->fieldCustomerName();
         $this->fieldResume();
         $this->fieldValue();
+        $this->fieldDueDate();
         $this->fieldDescription();
     }
 }

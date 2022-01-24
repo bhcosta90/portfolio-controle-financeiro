@@ -19,7 +19,14 @@ class IncomeController extends Controller
 
     protected function getActionStore()
     {
-        return route('income.store');
+        switch (request()->segment(3)) {
+            case 'recursive':
+                return route('income.store.recursive');
+            case 'parcel':
+                return route('income.store.parcel');
+            case 'normal':
+                return route('income.store.normal');
+        }
     }
 
     protected function getActionIndex()

@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::resource('cost', CostController::class);
-Route::resource('income', IncomeController::class);
-Route::resource('payment', FormPaymentController::class)->only(['index', 'create', 'store']);
+Route::group(['as' => 'api.'], function(){
+    Route::resource('cost', CostController::class);
+    Route::resource('income', IncomeController::class);
+    Route::resource('payment', FormPaymentController::class)->only(['index', 'create', 'store']);
+});

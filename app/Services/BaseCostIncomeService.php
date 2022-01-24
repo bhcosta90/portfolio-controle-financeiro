@@ -28,14 +28,24 @@ abstract class BaseCostIncomeService
         return Charge::where('uuid', $id)->firstOrFail()->chargeable;
     }
 
-    public function actionStore($data, $otherDates)
+    public function webStore($data)
+    {
+        if (empty($data['parcel_total']) && empty($data['parcel_total'])) {
+            $data['parcel_total'] = 1;
+        }
+        $data['user_id'] = $this->getUser();
+        $data['due_date'] = (new Carbon($data['due_date']))->format('d/m/Y');
+        return $this->actionStore($data);
+    }
+
+    public function actionStore($data, $otherDates = null)
     {
         $data['value_recursive'] = $data['value'];
 
         if (!empty($data['type'])) {
             $obj = [];
 
-            $dateFinish = $otherDates['_date_finish']
+            $dateFinish = !empty($otherDates['_date_finish'])
                 ? Carbon::createFromFormat('d/m/Y', $otherDates['_date_finish'])
                 : new Carbon();
 

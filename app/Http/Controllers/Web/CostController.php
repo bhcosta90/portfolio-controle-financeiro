@@ -19,7 +19,14 @@ class CostController extends Controller
 
     protected function getActionStore()
     {
-        return route('cost.store');
+        switch (request()->segment(3)) {
+            case 'recursive':
+                return route('cost.store.recursive');
+            case 'parcel':
+                return route('cost.store.parcel');
+            case 'normal':
+                return route('cost.store.normal');
+        }
     }
 
     protected function getActionIndex()
