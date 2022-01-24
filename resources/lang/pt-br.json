@@ -86,5 +86,7 @@
     "Cost": "Despesa",
     "Recursive": "Recorrente",
     "Parcel": "Parcelar",
-    "Report of cost": "Relatório de despesa"
+    "Report of cost": "Relatório de despesa",
+    "Report of income": "Relatório de receita",
+    "Income": "Receita"
 }

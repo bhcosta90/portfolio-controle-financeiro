@@ -25,4 +25,7 @@ Route::get('cost/create/parcel', [CostController::class, 'create'])->name('cost.
 Route::get('cost/create/recursive', [CostController::class, 'create'])->name('cost.create.recursive');
 Route::resource('cost', CostController::class)->only(['index']);
 
+Route::get('income/create/normal', [IncomeController::class, 'create'])->name('income.create.normal');
+Route::get('income/create/parcel', [IncomeController::class, 'create'])->name('income.create.parcel');
+Route::get('income/create/recursive', [IncomeController::class, 'create'])->name('income.create.recursive');
 Route::resource('income', IncomeController::class)->only(['index']);
