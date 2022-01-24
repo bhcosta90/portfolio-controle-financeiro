@@ -11,6 +11,10 @@ abstract class BaseCostIncomeService
 {
     use ChargeTrait;
 
+    abstract protected function tableName(): string;
+
+    abstract protected function modelName(): string;
+
     public function getDataIndex(array $filters = null)
     {
         if (empty($filters['date_start'])) {
@@ -30,7 +34,11 @@ abstract class BaseCostIncomeService
                         $query->where('customer_name', 'like', "%{$f}%");
                     }
                 });
-            });
+            })->join('charges', function ($q) {
+                $q->on('charges.chargeable_id', '=', $this->tableName() . '.id')
+                    ->where('charges.chargeable_type', $this->modelName());
+            })->select($this->tableName() . '.*')
+            ->orderBy('charges.due_date');
     }
 
     public function deleteBy($id)
@@ -50,7 +58,7 @@ abstract class BaseCostIncomeService
         if (empty($data['parcel_total']) && empty($data['parcel_total'])) {
             $data['parcel_total'] = 1;
         }
-        $data['user_id'] = $this->getUser();
+        $data['user_id'] = $data['user_id'] ?? $this->getUser();
         $data['due_date'] = (new Carbon($data['due_date']))->format('d/m/Y');
         return $this->actionStore($data);
     }

@@ -10,7 +10,7 @@ use Costa\LaravelTable\TableSimple;
 
 class IncomeController extends Controller
 {
-    use WebBaseControllerTrait;
+    use WebBaseControllerTrait, Traits\CostIncomeTrait;
 
     protected function getDefaultView()
     {
@@ -41,10 +41,7 @@ class IncomeController extends Controller
 
     protected function getData($serviceData)
     {
-        /** @var TableSimple $table */
-        $table = app(TableSimple::class);
-        $table->setData($this->transformData($serviceData));
-        return $table->run();
+        return $this->costIncomeTraitGetData($serviceData);
     }
 
     protected function getForm()

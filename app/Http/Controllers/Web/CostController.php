@@ -5,14 +5,11 @@ namespace App\Http\Controllers\Web;
 use App\Forms\Cost\{ParcelForm, RecursiveForm, SimpleForm};
 use App\Http\Controllers\Controller;
 use App\Services\CostService;
-use Carbon\Carbon;
 use Costa\LaravelPackage\Traits\Web\WebBaseControllerTrait;
-use Costa\LaravelTable\TableSimple;
-use Illuminate\Support\Str;
 
 class CostController extends Controller
 {
-    use WebBaseControllerTrait;
+    use WebBaseControllerTrait, Traits\CostIncomeTrait;
 
     protected function getDefaultView()
     {
@@ -36,23 +33,14 @@ class CostController extends Controller
         return route('cost.index');
     }
 
+    protected function getData($serviceData)
+    {
+        return $this->costIncomeTraitGetData($serviceData);
+    }
+
     protected function service()
     {
         return CostService::class;
-    }
-
-    protected function getData($serviceData)
-    {
-        /** @var TableSimple $table */
-        $table = app(TableSimple::class);
-        $table->setData($this->transformData($serviceData));
-        $table->setColumns(false);
-        $table->setAddColumns([
-            __('Customer name') => fn ($obj) => $obj->charge->customer_name,
-            __('Value') => fn ($obj) => Str::numberEnToBr($obj->charge->value),
-            __('Due date') => fn ($obj) => (new Carbon($obj->charge->due_date))->format('d/m/Y'),
-        ]);
-        return $table->run();
     }
 
     protected function getForm()

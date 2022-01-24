@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Income;
 use App\Repositories\Contracts\IncomeRepository as Contract;
 use App\Repositories\IncomeRepositoryEloquent as Eloquent;
 use Exception;
@@ -15,4 +16,15 @@ class IncomeService extends BaseCostIncomeService
         /** @var Eloquent */
         $this->repository = $repository;
     }
+
+    protected function tableName(): string
+    {
+        return 'incomes';
+    }
+
+    protected function modelName(): string
+    {
+        return Income::class;
+    }
+
 }
