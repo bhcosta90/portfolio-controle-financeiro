@@ -1,4 +1,4 @@
-﻿<form class='card-body pb-0'>
+﻿<form class='card-body'>
     <div class='row'>
         <div class='col-4'>
             <div class='form-group'>

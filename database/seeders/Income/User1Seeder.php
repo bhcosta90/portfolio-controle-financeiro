@@ -48,6 +48,27 @@ class User1Seeder extends Seeder
                 'due_date' => (new Carbon())->setDay('01')->format('Y-m-d'),
                 'type' => 'fifth_business_day',
             ],
+            [
+                "customer_name" => "Victória Costa",
+                'resume' => 'Hopi Hari',
+                "value" => 109.90,
+                "due_date" => "2021-09-03",
+            ],
+            [
+                'customer_name' => 'Paulo Afonso',
+                'resume' => 'Televisão',
+                'value' => 35,
+                'tipo' => 'fifth_business_day',
+                'due_date' => '2021-10-01',
+            ],
+            [
+                'customer_name' => 'José Costa',
+                'resume' => 'Internet descontando o netflix',
+                'value' => 97.05,
+                'tipo' => 'fifth_business_day',
+                'due_date' => (new Carbon())->setDay('01')->format('Y-m-d'),
+            ]
+
         ];
     }
 
