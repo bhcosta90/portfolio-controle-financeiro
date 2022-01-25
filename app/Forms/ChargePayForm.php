@@ -11,7 +11,7 @@ class ChargePayForm extends Form
     {
         $this->add('account_id', 'select', [
             'label' => __('Account'),
-            'choices' => $ids = $this->getAccountService()->pluck(),
+            'choices' => $ids = $this->getAccountService()->pluck(auth()->user()->id),
             'empty_value' => __('Select'),
             'rules' => ['required', 'in:' . implode(',', array_keys($ids))]
         ]);

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
+use Venturecraft\Revisionable\RevisionableTrait;
 
 /**
  * Class Account.
@@ -16,7 +17,11 @@ use Prettus\Repository\Traits\TransformableTrait;
  */
 class Account extends Model implements Transformable
 {
-    use TransformableTrait, UuidGenerate, HasFactory, SoftDeletes;
+    use TransformableTrait, UuidGenerate, HasFactory, SoftDeletes, RevisionableTrait;
+
+    protected $revisionEnabled = true;
+    protected $revisionCleanup = true;
+    protected $historyLimit = 500;
 
     /**
      * The attributes that are mass assignable.
