@@ -36,7 +36,7 @@ class CostController extends Controller
 
     protected function getActionUpdate()
     {
-        throw new Exception('method getActionUpdate do not implemented');
+        throw new Exception('method `getActionUpdate` do not implemented');
     }
 
     protected function getActionIndex()

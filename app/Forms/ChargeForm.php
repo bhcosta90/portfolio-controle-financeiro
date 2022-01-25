@@ -6,7 +6,7 @@ use Kris\LaravelFormBuilder\Form;
 
 class ChargeForm extends Form
 {
-    use Traits\ChargeForm;
+    use Traits\ChargeFormTrait;
 
     public function buildForm()
     {

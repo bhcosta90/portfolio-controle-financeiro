@@ -6,6 +6,7 @@ use App\Forms\Income\{ParcelForm, RecursiveForm, SimpleForm};
 use App\Http\Controllers\Controller;
 use App\Services\IncomeService;
 use Costa\LaravelPackage\Traits\Web\WebBaseControllerTrait;
+use Exception;
 
 class IncomeController extends Controller
 {
@@ -36,6 +37,11 @@ class IncomeController extends Controller
     protected function getActionIndex()
     {
         return route('income.index');
+    }
+
+    protected function getActionUpdate()
+    {
+        throw new Exception('method `getActionUpdate` do not implemented');
     }
 
     protected function service()
