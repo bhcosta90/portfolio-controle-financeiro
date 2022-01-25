@@ -18,7 +18,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('charge:generate', [
             '--date' => Carbon::now()->format('Y-m'),
-        ])->hourly();
+        ])->monthly();
     }
 
     /**
