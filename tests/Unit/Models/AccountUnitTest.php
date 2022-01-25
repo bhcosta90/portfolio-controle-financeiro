@@ -19,6 +19,7 @@ class AccountUnitTest extends TestCase
     {
         $array = [
             'user_id',
+            'name',
             'value',
             'bank_code',
             'bank_account',

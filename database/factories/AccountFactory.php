@@ -16,6 +16,7 @@ class AccountFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
+            'name' => $this->faker->lastName(),
             'value' => 0,
             'bank_code' => '0000',
             'bank_account' => time(),

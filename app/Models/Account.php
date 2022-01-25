@@ -25,6 +25,7 @@ class Account extends Model implements Transformable
      */
     protected $fillable = [
         'user_id',
+        'name',
         'value',
         'bank_code',
         'bank_account',

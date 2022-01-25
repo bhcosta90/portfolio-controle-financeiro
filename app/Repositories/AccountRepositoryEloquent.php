@@ -7,6 +7,7 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use App\Repositories\Contracts\AccountRepository;
 use App\Models\Account;
 use App\Validators\AccountValidator;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class AccountRepositoryEloquent.
@@ -25,7 +26,14 @@ class AccountRepositoryEloquent extends BaseRepository implements AccountReposit
         return Account::class;
     }
 
-    
+    public function updateValue($uuid, $value)
+    {
+        $obj = $this->where('uuid', $uuid)->first();
+        $obj->increment('value', $value);
+        $obj->save();
+        return $obj;
+    }
+
 
     /**
      * Boot up the repository, pushing criteria
@@ -34,5 +42,5 @@ class AccountRepositoryEloquent extends BaseRepository implements AccountReposit
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
-    
+
 }

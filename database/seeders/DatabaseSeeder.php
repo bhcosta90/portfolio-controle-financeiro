@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\Account::factory()->create([
             'user_id' => $user->id,
+            'name' => "NU PAGAMENTOS S.A.",
             'value' => 0,
             'bank_code' => '0260',
             'bank_account' => '9954491',
