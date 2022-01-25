@@ -23,6 +23,7 @@ class CreateChargesTable extends Migration
             $table->morphs('chargeable');
             $table->unsignedDouble('value');
             $table->unsignedDouble('value_recursive')->nullable();
+            $table->unsignedDouble('value_pay')->nullable();
             $table->string('customer_name');
             $table->date('due_date');
             $table->date('last_date')->nullable();

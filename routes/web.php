@@ -24,7 +24,7 @@ include __DIR__ . '/charge/cost.php';
 include __DIR__ . '/charge/income.php';
 Route::resource('charge', ChargeController::class)->except(['index']);
 Route::get('charge/{uuid}/pay', [ChargeController::class, 'pay'])->name('charge.pay.create');
-Route::post('charge/{uuid}/pay', [ChargeController::class, 'pay'])->name('charge.pay.store');
+Route::post('charge/{uuid}/pay', [ChargeController::class, 'payStore'])->name('charge.pay.store');
 
 Route::group(['prefix' => 'test'], function () {
     Route::get('ofx', function () {

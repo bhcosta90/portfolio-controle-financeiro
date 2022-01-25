@@ -19,6 +19,7 @@ class Charge extends Model
     ];
 
     const STATUS_PENDING = 'PE';
+    const STATUS_PAYED = 'PA';
 
     public static $typeOptions = [
         'month' => 'Month',
@@ -44,6 +45,7 @@ class Charge extends Model
         'future',
         'resume',
         'description',
+        'value_pay',
     ];
 
     protected $casts = [

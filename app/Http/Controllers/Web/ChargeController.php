@@ -59,4 +59,19 @@ class ChargeController extends Controller
         $form = $this->getTranformFormLaravelFormBuilder(ChargePayForm::class, 'Pay', route('charge.pay.store', $id), null);
         return view('charge.pay', compact('form', 'obj'));
     }
+
+    public function payStore($id)
+    {
+        $form = $this->getTranformFormLaravelFormBuilder(ChargePayForm::class);
+        if ($form->isValid() == false) {
+            return redirect()->back()->withErrors($form->getErrors())->withInput();
+        }
+
+        $data = $form->getFieldValues();
+        $service = $this->getService();
+
+        $this->obj = $service->pay($id, $data);
+
+        return redirect($this->getActionIndex())->with('success', $this->getMessageCreated());
+    }
 }
