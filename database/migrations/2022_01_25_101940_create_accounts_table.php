@@ -18,12 +18,14 @@ class CreateAccountsTable extends Migration
 	{
 		Schema::create('accounts', function(Blueprint $table) {
             $table->id('id');
+            $table->uuid('uuid')->unique();
             $table->foreignId('user_id')->index()->constrained('users');
             $table->unsignedDouble('value');
             $table->string('bank_code', 4);
             $table->string('bank_account', 20);
             $table->string('bank_digit', 2);
             $table->timestamps();
+            $table->softDeletes();
 
             $table->unique(['bank_code', 'bank_account', 'bank_digit']);
 		});

@@ -20,7 +20,11 @@ class DatabaseSeeder extends Seeder
         ]);
 
         \App\Models\Account::factory()->create([
-
+            'user_id' => $user->id,
+            'value' => 0,
+            'bank_code' => '0260',
+            'bank_account' => '9954491',
+            'bank_digit' => '3',
         ]);
     }
 }
