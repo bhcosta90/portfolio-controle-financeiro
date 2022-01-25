@@ -35,6 +35,7 @@ class Account extends Model implements Transformable
         'bank_code',
         'bank_account',
         'bank_digit',
+        'bank_agency',
     ];
 
     protected $casts = [

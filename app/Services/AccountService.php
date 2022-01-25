@@ -17,9 +17,9 @@ class AccountService
         $this->repository = $repository;
     }
 
-    public function getDataIndex()
+    public function getDataIndex(array $filters = [])
     {
-        return $this->repository;
+        return $this->repository->where('user_id', $filters['user_id']);
     }
 
     public function pluck($idUser)

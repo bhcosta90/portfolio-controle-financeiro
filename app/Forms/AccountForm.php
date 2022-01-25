@@ -32,6 +32,11 @@ class AccountForm extends Form
             'rules' => 'required|min:3|max:20',
         ]);
 
+        $this->add('bank_agency', 'text', [
+            'label' => __('Account agency'),
+            'rules' => 'required|min:3|max:20',
+        ]);
+
         $this->add('bank_digit', 'text', [
             'label' => __('Digit account'),
             'rules' => 'required|max:2',
