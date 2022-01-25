@@ -57,9 +57,15 @@ class User1Seeder extends Seeder
             ],
             [
                 "customer_name" => "Victória Costa",
-                'resume' => 'Hopi Hari',
-                "value" => 109.90,
-                "due_date" => "2021-09-03",
+                'resume' => 'Diaria da cuidadora',
+                "value" => 100,
+                "due_date" => "2021-12-28",
+            ],
+            [
+                "customer_name" => "Victória Costa",
+                'resume' => 'Fogão',
+                "value" => 150,
+                "due_date" => "2021-12-28",
             ],
             [
                 'customer_name' => 'Paulo Afonso',
