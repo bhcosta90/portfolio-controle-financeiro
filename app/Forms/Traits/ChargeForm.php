@@ -36,7 +36,7 @@ trait ChargeForm
         $this->add('due_date', 'date', [
             'label' => __($title),
             'rules' => 'required|date_format:Y-m-d',
-            'value' => (new Carbon)->format('Y-m-d')
+            'value' => $this->getModel()['due_date'] ?? (new Carbon)->format('Y-m-d')
         ]);
     }
 
