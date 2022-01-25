@@ -6,6 +6,7 @@ use App\Models\Charge;
 use App\Repositories\ChargeRepositoryEloquent as Eloquent;
 use App\Repositories\Contracts\ChargeRepository as Contract;
 use Exception;
+use Illuminate\Support\Facades\DB;
 
 class ChargeService
 {
@@ -36,8 +37,10 @@ class ChargeService
     {
         $obj = $this->getBy($id);
 
-        return $this->repository->update($data + [
-            'status' => Charge::STATUS_PAYED
-        ], $obj->id);
+        return DB::transaction(function () use ($obj, $data) {
+            return $this->repository->update($data + [
+                'status' => Charge::STATUS_PAYED
+            ], $obj->id);
+        });
     }
 }
