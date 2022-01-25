@@ -16,7 +16,7 @@ use Illuminate\Support\Str;
 
 class GenerateChargeJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, ChargeTrait;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, ChargeTrait, ShouldBeUnique;
 
     protected string $dateStart;
 
@@ -84,5 +84,10 @@ class GenerateChargeJob implements ShouldQueue
             DB::rollBack();
             throw $e;
         }
+    }
+
+    public function uniqueId()
+    {
+        return md5($this->dateStart . $this->dateFinish);
     }
 }
