@@ -24,28 +24,37 @@ abstract class BaseCostIncomeService
 
     public function getDataIndex(array $filters = null)
     {
-        $filters['get_due_date'] = empty($filters['date_start']) || empty($filters['date_finish']);
+        $filters['get_due_date'] = true;
 
         if (empty($filters['date_start'])) {
             $filters['date_start'] = (new Carbon())->firstOfMonth()->format('Y-m-d');
         }
 
-        if (empty($filters['date_finish'])) {
-            $filters['date_finish'] = (new Carbon())->firstOfMonth()->addMonth()->lastOfMonth()->format('Y-m-d');
+        if (empty($filters['type'])) {
+            $filters['type'] = 0;
         }
 
-        if (empty($filters['future'])) {
-            $filters['future'] = false;
+        if (empty($filters['date_finish'])) {
+            $filters['date_finish'] = (new Carbon())->firstOfMonth()->lastOfMonth()->format('Y-m-d');
         }
+
+        $filters['date_finish'] = new Carbon($filters['date_finish']);
+
+        if ($filters['type'] == 2) {
+            $filters['date_finish'] = $filters['date_finish']->firstOfMonth()->addMonth()->lastOfMonth();
+        }
+
+        $filters['date_finish'] = $filters['date_finish']->format('Y-m-d');
 
         return $this->repository->whereHas('charge', function ($obj) use ($filters) {
                 $obj->where('user_id', $filters['user_id']);
                 $obj->where(function ($obj) use ($filters) {
                     $obj->whereBetween('due_date', [$filters['date_start'], $filters['date_finish']]);
-                    if ($filters['get_due_date']) {
+                    if (in_array($filters['type'], [0, 2])) {
                         $obj->orWhere('due_date', '<=', $filters['date_start']);
                     }
                 });
+
                 $obj->where(function ($query) use ($filters) {
                     if (!empty($f = $filters['customer_name'] ?? null)) {
                         $query->where('customer_name', 'like', "%{$f}%");
@@ -53,8 +62,8 @@ abstract class BaseCostIncomeService
                 });
                 $obj->where('status', Charge::STATUS_PENDING);
 
-                if ($filters['future'] === false) {
-                    $obj->where('future', $filters['future']);
+                if ($filters['type'] === false) {
+                    $obj->where('type', $filters['type']);
                 }
             })->join('charges', function ($q) {
                 $q->on('charges.chargeable_id', '=', $this->tableName() . '.id')

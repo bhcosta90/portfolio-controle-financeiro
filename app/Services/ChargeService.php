@@ -4,10 +4,13 @@ namespace App\Services;
 
 use App\Models\Charge;
 use App\Models\Cost;
+use App\Models\Income;
 use App\Repositories\ChargeRepositoryEloquent as Eloquent;
 use App\Repositories\Contracts\ChargeRepository as Contract;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class ChargeService
 {
@@ -56,6 +59,75 @@ class ChargeService
     public function destroy($id)
     {
         return $this->repository->delete($id);
+    }
+
+    public function resume(int $idUser, $filters = [])
+    {
+        if (empty($filters['date_start'])) {
+            $filters['date_start'] = (new Carbon())->firstOfMonth()->format('Y-m-d');
+        }
+
+        if (empty($filters['date_finish'])) {
+            $filters['date_finish'] = (new Carbon())->firstOfMonth()->lastOfMonth()->format('Y-m-d');
+        }
+
+        if (empty($filters['future'])) {
+            $filters['future'] = false;
+        }
+
+        $total = [
+            'cost' => [
+                'total' => 0,
+                'due_value' => 0,
+            ],
+            'income' => [
+                'total' => 0,
+                'due_value' => 0
+            ],
+            "account" => [
+                'total' => $valorAccount = $this->getAccountService()->myTotal($idUser),
+            ]
+        ];
+
+        $result = $this->repository->where('user_id', $idUser)
+            ->whereBetween('due_date', [$filters['date_start'], $filters['date_finish']])
+            ->where('future', false)->get();
+
+        foreach($result as $rs){
+            switch ($rs->chargeable_type) {
+                case Income::class:
+                    if ($rs->due_date < Carbon::now()->firstOfMonth()->format('Y-m-d')) {
+                        $total['income']['due_value'] += $rs->value;
+                    } else {
+                        $total['income']['total'] += $rs->value;
+                    }
+                    break;
+                case Cost::class:
+                    if ($rs->due_date < Carbon::now()->firstOfMonth()->format('Y-m-d')) {
+                        $total['cost']['due_value'] += $rs->value;
+                    } else {
+                        $total['cost']['total'] += $rs->value;
+                    }
+                    break;
+                default:
+                    throw new Exception($rs->chargeable_type . ' do not implemented');
+            }
+        }
+
+        $total['calculate'] = [
+            'total' => $valorAccount - $total['cost']['total'] + $total['income']['total'],
+        ];
+
+        foreach($total as &$rs){
+            $rs += [
+                'format' => [
+                    'total' => Str::numberEnToBr($rs['total']),
+                    'due_value' => Str::numberEnToBr($rs['due_value'] ?? 0),
+                ]
+            ];
+        }
+
+        return $total;
     }
 
     /**

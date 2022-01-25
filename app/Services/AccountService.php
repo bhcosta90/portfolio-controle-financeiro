@@ -51,4 +51,9 @@ class AccountService
     {
         return $this->repository->delete($id);
     }
+
+    public function myTotal(int $userId)
+    {
+        return $this->repository->where('user_id', $userId)->sum('value');
+    }
 }
