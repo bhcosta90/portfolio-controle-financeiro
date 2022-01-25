@@ -36,4 +36,19 @@ class AccountService
     {
         return $this->repository->where('uuid', $uuid)->first();
     }
+
+    public function webUpdate($id, $data)
+    {
+        return $this->repository->update($data, $id);
+    }
+
+    public function webStore($data)
+    {
+        return $this->repository->create($data);
+    }
+
+    public function destroy($id)
+    {
+        return $this->repository->delete($id);
+    }
 }

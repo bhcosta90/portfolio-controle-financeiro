@@ -39,6 +39,9 @@
                         <li class="nav-item">
                             <a class='nav-link{{request()->is('income*') ? " active" : ""}}' href="{{ route('income.index') }}">{{ __('Income') }}</a>
                         </li>
+                        <li class="nav-item">
+                            <a class='nav-link{{request()->is('account*') ? " active" : ""}}' href="{{ route('account.index') }}">{{ __('Account') }}</a>
+                        </li>
                     </ul>
                     <ul class="navbar-nav">
                         @guest

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Web\{ChargeController, CostController, IncomeController};
+use App\Http\Controllers\Web\{AccountController, ChargeController, CostController, IncomeController};
 use Illuminate\Support\Facades\{Route, Auth};
 
 /*
@@ -25,6 +25,8 @@ Route::group(['middleware' => 'auth'], function(){
     include __DIR__ . '/charge/income.php';
 
     Route::resource('charge', ChargeController::class)->except(['index']);
+    Route::resource('account', AccountController::class);
+
     Route::group(['prefix' => 'charge', 'as' => 'charge.'], function () {
         Route::get('{uuid}/pay', [ChargeController::class, 'pay'])->name('pay.create');
         Route::post('{uuid}/pay', [ChargeController::class, 'payStore'])->name('pay.store');
