@@ -43,4 +43,9 @@ class ChargeService
             ], $obj->id);
         });
     }
+
+    public function destroy($id)
+    {
+        return $this->repository->delete($id);
+    }
 }

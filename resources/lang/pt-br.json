@@ -104,5 +104,11 @@
     "New cost": "Nova despesa",
     "Simple": "Simples",
     "Payment value": "Valor do pagamento",
-    "Payment charge": "Pagamento de cobrança"
+    "Payment charge": "Pagamento de cobrança",
+    "Successfully saved": "Registro salvo com sucesso",
+    "Successfully registered": "Registro cadastrado com sucesso",
+    "Create": "Cadastrar",
+    "Update": "Salvar",
+    "Charge payed successfully": "Cobrança paga com sucesso",
+    "Successfully deleted record": "Registro deletado com sucesso"
 }

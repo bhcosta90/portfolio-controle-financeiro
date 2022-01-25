@@ -72,6 +72,6 @@ class ChargeController extends Controller
 
         $this->obj = $service->pay($id, $data);
 
-        return redirect($this->getActionIndex())->with('success', $this->getMessageCreated());
+        return redirect($this->getActionIndex())->with('success', __('Charge payed successfully'));
     }
 }
