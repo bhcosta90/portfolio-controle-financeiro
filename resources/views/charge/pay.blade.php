@@ -24,6 +24,7 @@
                     <h4>{{ (new \Carbon\Carbon($obj->due_date))->format('d/m/Y') }}</h4>
                 </div>
             </div>
+            <hr />
             {!! form($form) !!}
         </div>
     </div>
