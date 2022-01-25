@@ -18,6 +18,21 @@ class User extends Authenticatable
             $obj->credential = $obj->credential ? $obj->credential : sha1(password_hash(time(), PASSWORD_DEFAULT));
             $obj->secret = sha1(password_hash($obj->secret ?: time(), PASSWORD_DEFAULT));
         });
+
+        static::created(function ($obj) {
+            $account = AgencyAccount::create([]);
+
+            \App\Models\Account::factory()->create([
+                'user_id' => $obj->id,
+                'name' => "CONTA DIGITAL S.A.",
+                'value' => 0,
+                'bank_code' => '0999',
+                'bank_agency' => str_pad(1, 4, "0", STR_PAD_LEFT),
+                'bank_account' => str_pad($account->id, 7, "0", STR_PAD_LEFT),
+                'bank_digit' => rand(0, 9),
+                'can_deleted' => false,
+            ]);
+        });
     }
 
     /**

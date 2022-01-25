@@ -23,8 +23,10 @@ class CreateAccountsTable extends Migration
             $table->string('name', 100);
             $table->double('value');
             $table->string('bank_code', 4);
+            $table->string('bank_agency', 20);
             $table->string('bank_account', 20);
             $table->string('bank_digit', 2);
+            $table->boolean('can_deleted')->default(true);
             $table->timestamps();
             $table->softDeletes();
 

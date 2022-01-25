@@ -24,6 +24,7 @@ class AccountUnitTest extends TestCase
             'bank_code',
             'bank_account',
             'bank_digit',
+            'bank_agency',
         ];
 
         $this->assertEqualsCanonicalizing($array, $this->model->getFillable());
@@ -47,6 +48,7 @@ class AccountUnitTest extends TestCase
     {
         $array = [
             'value' => 'float',
+            'can_deleted' => 'boolean',
             'deleted_at' => 'datetime',
         ];
 

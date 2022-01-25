@@ -30,6 +30,7 @@ class AccountController extends Controller
         $table->setColumns([
             'name' => __('Name'),
             'bank_code' => __('Code bank'),
+            'bank_agency' => __('Account agency'),
             'bank_account' => __('Account bank'),
             'bank_digit' => __('Digit account')
         ]);

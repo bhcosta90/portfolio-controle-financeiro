@@ -25,10 +25,16 @@ class AccountForm extends Form
             'label' => __('Code bank'),
             'choices' => $data = $this->transformsInArrayBanks(),
             'rules' => 'required|in:' . implode(',', array_keys($data)),
+            'empty_value' => __('Select') . '...'
         ]);
 
         $this->add('bank_account', 'text', [
             'label' => __('Account bank'),
+            'rules' => 'required|min:3|max:20',
+        ]);
+
+        $this->add('bank_agency', 'text', [
+            'label' => __('Account agency'),
             'rules' => 'required|min:3|max:20',
         ]);
 

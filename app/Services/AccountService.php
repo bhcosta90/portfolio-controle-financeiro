@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Repositories\AccountRepositoryEloquent as Eloquent;
 use App\Repositories\Contracts\AccountRepository as Contract;
 use Exception;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
 class AccountService
@@ -17,9 +18,9 @@ class AccountService
         $this->repository = $repository;
     }
 
-    public function getDataIndex()
+    public function getDataIndex(array $filters = [])
     {
-        return $this->repository;
+        return $this->repository->where('user_id', $filters['user_id']);
     }
 
     public function pluck($idUser)
@@ -49,6 +50,11 @@ class AccountService
 
     public function destroy($id)
     {
+        $obj = $this->repository->find($id);
+        if ($obj->can_deleted == false) {
+            throw new Exception(__('This bank account cannot be removed'), Response::HTTP_BAD_REQUEST);
+        }
+
         return $this->repository->delete($id);
     }
 

@@ -19,6 +19,7 @@ class AccountFactory extends Factory
             'name' => $this->faker->lastName(),
             'value' => 0,
             'bank_code' => '0000',
+            'bank_agency' => time(),
             'bank_account' => time(),
             'bank_digit' => $this->faker->numberBetween(0, 9),
         ];

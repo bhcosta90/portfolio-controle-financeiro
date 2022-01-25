@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             'name' => "NU PAGAMENTOS S.A.",
             'value' => 0,
             'bank_code' => '0260',
+            'bank_agency' => '0001',
             'bank_account' => '9954491',
             'bank_digit' => '3',
         ]);
