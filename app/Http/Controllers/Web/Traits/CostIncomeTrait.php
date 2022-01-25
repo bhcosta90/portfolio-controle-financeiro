@@ -72,7 +72,7 @@ trait CostIncomeTrait
             },
             '_liquidar' => [
                 'action' => function ($model) {
-                    return btnLinkIcon(route('charge.pay', $model->charge->uuid), 'fas fa-check', '', 'btn-sm btn-outline-success');
+                    return btnLinkIcon(route('charge.pay.create', $model->charge->uuid), 'fas fa-check', '', 'btn-sm btn-outline-success');
                 },
                 'class' => 'min',
             ],
