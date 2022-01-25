@@ -30,3 +30,24 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 const app = new Vue({
     el: '#app',
 });
+
+
+$("body").on("click", ".btn-link-delete", function(event){
+    const el = $(this);
+    event.preventDefault();
+
+    Swal.fire({
+        title: "Voce tem certeza?",
+        text: "Você não pode reverter essa ação depois!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sim, delete isso!",
+        cancelButtonText: "Não, cancele isso!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $(el).parent().find('form').submit();
+        }
+    });
+});
