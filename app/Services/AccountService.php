@@ -22,9 +22,9 @@ class AccountService
         return $this->repository;
     }
 
-    public function pluck()
+    public function pluck($idUser)
     {
-        return $this->repository->orderBy('name')->pluck('name', 'uuid')->toArray();
+        return $this->repository->orderBy('name')->where('user_id', $idUser)->pluck('name', 'uuid')->toArray();
     }
 
     public function updateValue($id, $value)
