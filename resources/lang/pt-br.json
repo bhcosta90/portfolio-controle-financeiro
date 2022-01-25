@@ -110,5 +110,7 @@
     "Create": "Cadastrar",
     "Update": "Salvar",
     "Charge payed successfully": "Cobrança paga com sucesso",
-    "Successfully deleted record": "Registro deletado com sucesso"
+    "Successfully deleted record": "Registro deletado com sucesso",
+    "Account": "Conta",
+    "Select": "Selecione"
 }

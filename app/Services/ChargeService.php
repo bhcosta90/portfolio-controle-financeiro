@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Charge;
+use App\Models\Cost;
 use App\Repositories\ChargeRepositoryEloquent as Eloquent;
 use App\Repositories\Contracts\ChargeRepository as Contract;
 use Exception;
@@ -38,6 +39,14 @@ class ChargeService
         $obj = $this->getBy($id);
 
         return DB::transaction(function () use ($obj, $data) {
+
+            $valueAccount = $data['value'];
+            if ($obj->chargeable_type == Cost::class) {
+                $valueAccount *= -1;
+            }
+
+            $this->getAccountService()->updateValue($data['account_id'], $valueAccount);
+
             return $this->repository->update($data + [
                 'status' => Charge::STATUS_PAYED
             ], $obj->id);
@@ -47,5 +56,13 @@ class ChargeService
     public function destroy($id)
     {
         return $this->repository->delete($id);
+    }
+
+    /**
+     * @return AccountService
+     */
+    protected function getAccountService()
+    {
+        return app(AccountService::class);
     }
 }

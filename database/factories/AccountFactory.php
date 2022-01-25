@@ -2,11 +2,10 @@
 
 namespace Database\Factories;
 
-use App\Models\FormPayment;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class FormPaymentFactory extends Factory
+class AccountFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,8 +17,10 @@ class FormPaymentFactory extends Factory
         return [
             'user_id' => User::factory(),
             'name' => $this->faker->lastName(),
-            'type' => $this->faker->randomElement(FormPayment::TYPES_FORM_PAYMENT),
-            'active' => false,
+            'value' => 0,
+            'bank_code' => '0000',
+            'bank_account' => time(),
+            'bank_digit' => $this->faker->numberBetween(0, 9),
         ];
     }
 }

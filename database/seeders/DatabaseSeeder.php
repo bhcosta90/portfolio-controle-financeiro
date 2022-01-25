@@ -13,10 +13,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\User::factory()->create([
+        $user = \App\Models\User::factory()->create([
             'username' => 'bhcosta90',
             'name' => 'Bruno Costa',
             'email' => 'bhcosta90@gmail.com'
+        ]);
+
+        \App\Models\Account::factory()->create([
+            'user_id' => $user->id,
+            'name' => "NU PAGAMENTOS S.A.",
+            'value' => 0,
+            'bank_code' => '0260',
+            'bank_account' => '9954491',
+            'bank_digit' => '3',
         ]);
     }
 }
