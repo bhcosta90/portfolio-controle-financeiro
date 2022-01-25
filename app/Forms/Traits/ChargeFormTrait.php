@@ -4,7 +4,7 @@ namespace App\Forms\Traits;
 
 use Carbon\Carbon;
 
-trait ChargeForm
+trait ChargeFormTrait
 {
     public function fieldValue()
     {

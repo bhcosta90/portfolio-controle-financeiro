@@ -2,12 +2,12 @@
 
 namespace App\Forms\Income;
 
-use App\Forms\Traits\ChargeForm;
+use App\Forms\Traits\ChargeFormTrait;
 use Kris\LaravelFormBuilder\Form;
 
 class RecursiveForm extends Form
 {
-    use ChargeForm;
+    use ChargeFormTrait;
 
     public function buildForm()
     {
