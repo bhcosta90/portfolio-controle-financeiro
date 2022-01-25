@@ -7,7 +7,7 @@ use App\Repositories\Contracts\IncomeRepository as Contract;
 use App\Repositories\IncomeRepositoryEloquent as Eloquent;
 use Exception;
 
-class IncomeService extends BaseCostIncomeService
+class IncomeService extends Abstracts\BaseCostIncomeService
 {
     protected Contract $repository;
 

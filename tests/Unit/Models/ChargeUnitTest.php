@@ -22,6 +22,7 @@ class ChargeUnitTest extends TestCase
             'chargeable',
             'value',
             'value_recursive',
+            'value_pay',
             'customer_name',
             'due_date',
             'last_date',

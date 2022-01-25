@@ -7,21 +7,21 @@
         </div>
         <div class='card-body'>
             <div class='form-group'>
-                <label class='control-label'>{{ __('Customer name') }}</label>
-                <h5>{{ $obj->customer_name }}</h5>
+                <div>{{ __('Customer name') }}</div>
+                <h4>{{ $obj->customer_name }}</h4>
             </div>
             <div class='form-group'>
-                <label class='control-label'>{{ __('Resume') }}</label>
-                <h5>{{ $obj->resume }}</h5>
+                <div>{{ __('Resume') }}</div>
+                <h4>{{ $obj->resume }}</h4>
             </div>
             <div class='row'>
                 <div class='form-group col-6'>
-                    <label class='control-label'>{{ __('Value') }}</label>
-                    <h5>{{ Str::numberEnToBr($obj->value) }}</h5>
+                    <div>{{ __('Value') }}</div>
+                    <h4>{{ Str::numberEnToBr($obj->value) }}</h4>
                 </div>
                 <div class='form-group col-6'>
-                    <label class='control-label'>{{ __('Due date') }}</label>
-                    <h5>{{ (new \Carbon\Carbon($obj->due_date))->format('d/m/Y') }}</h5>
+                    <div>{{ __('Due date') }}</div>
+                    <h4>{{ (new \Carbon\Carbon($obj->due_date))->format('d/m/Y') }}</h4>
                 </div>
             </div>
             {!! form($form) !!}

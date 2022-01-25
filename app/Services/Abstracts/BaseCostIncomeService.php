@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Abstracts;
 
 use App\Models\Charge;
 use App\Traits\ChargeTrait;

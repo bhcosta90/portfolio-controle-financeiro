@@ -2,9 +2,11 @@
 
 namespace App\Services;
 
+use App\Models\Charge;
 use App\Repositories\ChargeRepositoryEloquent as Eloquent;
 use App\Repositories\Contracts\ChargeRepository as Contract;
 use Exception;
+use Illuminate\Support\Facades\DB;
 
 class ChargeService
 {
@@ -29,5 +31,16 @@ class ChargeService
     public function webUpdate($id, $data)
     {
         return $this->repository->update($data, $id);
+    }
+
+    public function pay($id, $data)
+    {
+        $obj = $this->getBy($id);
+
+        return DB::transaction(function () use ($obj, $data) {
+            return $this->repository->update($data + [
+                'status' => Charge::STATUS_PAYED
+            ], $obj->id);
+        });
     }
 }
