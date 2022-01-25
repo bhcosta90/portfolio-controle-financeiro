@@ -27,6 +27,10 @@ abstract class BaseCostIncomeService
             $filters['date_finish'] = (new Carbon())->firstOfMonth()->addMonth()->lastOfMonth()->format('Y-m-d');
         }
 
+        if (empty($filters['future'])) {
+            $filters['future'] = false;
+        }
+
         return $this->repository
             ->whereHas('charge', function ($obj) use ($filters) {
                 $obj->where('user_id', $filters['user_id']);
@@ -42,6 +46,10 @@ abstract class BaseCostIncomeService
                     }
                 });
                 $obj->where('status', Charge::STATUS_PENDING);
+
+                if ($filters['future'] === false) {
+                    $obj->where('future', $filters['future']);
+                }
             })->join('charges', function ($q) {
                 $q->on('charges.chargeable_id', '=', $this->tableName() . '.id')
                     ->where('charges.chargeable_type', $this->modelName());
