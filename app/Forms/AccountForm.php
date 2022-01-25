@@ -25,6 +25,7 @@ class AccountForm extends Form
             'label' => __('Code bank'),
             'choices' => $data = $this->transformsInArrayBanks(),
             'rules' => 'required|in:' . implode(',', array_keys($data)),
+            'empty_value' => __('Select') . '...'
         ]);
 
         $this->add('bank_account', 'text', [

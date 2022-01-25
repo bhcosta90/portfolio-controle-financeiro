@@ -29,8 +29,8 @@ class AccountController extends Controller
         $table->setData($this->transformData($serviceData));
         $table->setColumns([
             'name' => __('Name'),
-            'bank_agency' => __('Account agency'),
             'bank_code' => __('Code bank'),
+            'bank_agency' => __('Account agency'),
             'bank_account' => __('Account bank'),
             'bank_digit' => __('Digit account')
         ]);

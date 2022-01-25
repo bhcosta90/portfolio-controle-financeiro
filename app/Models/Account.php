@@ -40,6 +40,7 @@ class Account extends Model implements Transformable
 
     protected $casts = [
         'value' => 'float',
+        'can_deleted' => 'boolean',
     ];
 
 }
