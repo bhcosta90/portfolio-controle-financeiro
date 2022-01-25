@@ -3,7 +3,7 @@
 @section('content')
     <div class='card'>
         <div class='card-header'>
-            <h3 class='m-0'>{{ __('Cost register')}}</h3>
+            <h3 class='m-0'>{{ __('Payment charge')}}</h3>
         </div>
         <div class='card-body'>
             <div class='form-group'>
