@@ -29,7 +29,7 @@ abstract class BaseCostIncomeService
 
         return $this->repository
             ->whereHas('charge', function ($obj) use ($filters) {
-                $obj->where('user_id', $this->getUser());
+                $obj->where('user_id', $filters['user_id']);
                 $obj->where(function ($obj) use ($filters) {
                     $obj->whereBetween('due_date', [$filters['date_start'], $filters['date_finish']]);
                     if ($filters['get_due_date']) {
@@ -66,12 +66,11 @@ abstract class BaseCostIncomeService
         if (empty($data['parcel_total']) && empty($data['parcel_total'])) {
             $data['parcel_total'] = 1;
         }
-        $data['user_id'] = $data['user_id'] ?? $this->getUser();
         $data['due_date'] = (new Carbon($data['due_date']))->format('d/m/Y');
-        return $this->actionStore($data);
+        return $this->apiStore($data);
     }
 
-    public function actionStore($data, $otherDates = null)
+    public function apiStore($data, $otherDates = null)
     {
         $data['value_recursive'] = $data['value'];
 
@@ -136,16 +135,11 @@ abstract class BaseCostIncomeService
         return collect([$this->repository->createWithCharge($data)]);
     }
 
-    public function actionUpdate($id, $data)
+    public function apiUpdate($id, $data)
     {
-        $obj = $this->getBy($id);
+        $obj = $this->repository->where('id', $id)->first();
         $obj->charge->update($data);
         return $obj;
-    }
-
-    protected function getUser(): int
-    {
-        return auth()->user()->id;
     }
 
     protected function getValue()

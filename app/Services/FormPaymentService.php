@@ -25,7 +25,7 @@ class FormPaymentService
         return auth()->user()->id;
     }
 
-    public function actionStore(array $data)
+    public function apiStore(array $data)
     {
         if ($data['active'] == true) {
             $this->tranformAllInInactive();
