@@ -24,6 +24,8 @@ Route::group(['middleware' => 'auth'], function(){
     include __DIR__ . '/charge/cost.php';
     include __DIR__ . '/charge/income.php';
 
+    Route::get('charge/total', [ChargeController::class, 'total']);
+
     Route::resource('charge', ChargeController::class)->except(['index']);
     Route::resource('account', AccountController::class);
 

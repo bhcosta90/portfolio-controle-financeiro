@@ -4,6 +4,8 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+const { default: axios } = require('axios');
+
 require('./bootstrap');
 
 window.Vue = require('vue').default;
@@ -51,3 +53,34 @@ $("body").on("click", ".btn-link-delete", function(event){
         }
     });
 });
+
+if ($("#account_resume").length) {
+    axios.get("/charge/total").then((json) => {
+        $("#expense_total").html(json.data.cost.format.total);
+        $("#expense_payable").html(json.data.cost.format.due_value);
+
+        $("#incoming_total").html(json.data.income.format.total);
+        $("#incoming_payable").html(json.data.income.format.due_value);
+
+        $("#my_account_total").html(json.data.account.format.total);
+        $("#my_account_pay").html(json.data.calculate.format.total);
+
+        let classAccount = "text-danger";
+        let classCalculate = "text-danger";
+
+        if (json.data.account.total > 0) {
+            classAccount = "text-success";
+        } else if(json.data.account.total === 0){
+            classAccount = "text-warning";
+        }
+
+        if (json.data.calculate.total > 0) {
+            classCalculate = "text-success";
+        } else if (json.data.calculate.total === 0) {
+            classCalculate = "text-warning";
+        }
+
+        $("#my_account_total").parent().addClass(classAccount);
+        $("#my_account_pay").parent().addClass(classCalculate);
+    });
+}

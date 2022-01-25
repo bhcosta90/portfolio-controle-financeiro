@@ -10,6 +10,7 @@ use App\Models\Income;
 use App\Services\ChargeService;
 use Costa\LaravelPackage\Traits\Web\WebBaseControllerTrait;
 use Exception;
+use Illuminate\Http\Request;
 
 class ChargeController extends Controller
 {
@@ -73,5 +74,12 @@ class ChargeController extends Controller
         $this->obj = $service->pay($id, $data);
 
         return redirect($this->getActionIndex())->with('success', __('Charge payed successfully'));
+    }
+
+    public function total(Request $request)
+    {
+        $filters = $request->except('_token');
+
+        return $this->getService()->resume(auth()->user()->id, $filters);
     }
 }

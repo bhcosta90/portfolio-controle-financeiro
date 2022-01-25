@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Services\AccountService;
 use Costa\LaravelPackage\Traits\Web\WebBaseControllerTrait;
 use Costa\LaravelTable\TableSimple;
+use Illuminate\Support\Str;
 
 class AccountController extends Controller
 {
