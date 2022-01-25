@@ -36,6 +36,7 @@ class AccountUnitTest extends TestCase
             \Illuminate\Database\Eloquent\Factories\HasFactory::class,
             \Illuminate\Database\Eloquent\SoftDeletes::class,
             \Prettus\Repository\Traits\TransformableTrait::class,
+            \Venturecraft\Revisionable\RevisionableTrait::class,
         ];
 
         $modelTraits = array_keys(class_uses(Model::class));

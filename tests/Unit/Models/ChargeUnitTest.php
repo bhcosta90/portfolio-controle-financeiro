@@ -44,6 +44,7 @@ class ChargeUnitTest extends TestCase
             \Costa\LaravelPackage\Traits\Models\UuidGenerate::class,
             \Illuminate\Database\Eloquent\Factories\HasFactory::class,
             \Illuminate\Database\Eloquent\SoftDeletes::class,
+            \Venturecraft\Revisionable\RevisionableTrait::class,
         ];
 
         $modelTraits = array_keys(class_uses(Model::class));

@@ -6,10 +6,15 @@ use Costa\LaravelPackage\Traits\Models\UuidGenerate;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Venturecraft\Revisionable\RevisionableTrait;
 
 class Charge extends Model
 {
-    use HasFactory, SoftDeletes, UuidGenerate;
+    use HasFactory, SoftDeletes, UuidGenerate, RevisionableTrait;
+
+    protected $revisionEnabled = true;
+    protected $revisionCleanup = true;
+    protected $historyLimit = 500;
 
     public static $statusOptions = [
         'PE' => 'Pending',
