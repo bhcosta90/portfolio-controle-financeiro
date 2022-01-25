@@ -15,6 +15,13 @@ abstract class BaseCostIncomeService
 
     abstract protected function modelName(): string;
 
+    public function getTotalFuture(int $idUser)
+    {
+        return $this->repository->whereHas('charge', function ($obj) use ($idUser) {
+            $obj->where('user_id', $idUser)->where('future', true);
+        })->count();
+    }
+
     public function getDataIndex(array $filters = null)
     {
         $filters['get_due_date'] = empty($filters['date_start']) || empty($filters['date_finish']);
@@ -31,8 +38,7 @@ abstract class BaseCostIncomeService
             $filters['future'] = false;
         }
 
-        return $this->repository
-            ->whereHas('charge', function ($obj) use ($filters) {
+        return $this->repository->whereHas('charge', function ($obj) use ($filters) {
                 $obj->where('user_id', $filters['user_id']);
                 $obj->where(function ($obj) use ($filters) {
                     $obj->whereBetween('due_date', [$filters['date_start'], $filters['date_finish']]);

@@ -89,7 +89,13 @@ trait CostIncomeTrait
                 'class' => 'min',
             ]
         ]);
-        return $table->run();
+
+        $service = $this->getService();
+
+        return [
+            'data' => $table->run(),
+            'future' => $service->getTotalFuture(auth()->user()->id),
+        ];
     }
 
 }

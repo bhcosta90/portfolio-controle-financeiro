@@ -112,5 +112,7 @@
     "Charge payed successfully": "Cobrança paga com sucesso",
     "Successfully deleted record": "Registro deletado com sucesso",
     "Account": "Conta",
-    "Select": "Selecione"
+    "Select": "Selecione",
+    "Only this month": "Somente desse mês",
+    "With the charges of the future": "Com as cobranças do futuro"
 }
