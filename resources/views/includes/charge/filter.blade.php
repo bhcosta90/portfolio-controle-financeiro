@@ -23,10 +23,10 @@
 
         <div class='col-6'>
             <div class='form-group'>
-                <label class='control-label'>{{ __('Future?') }}</label>
+                <label class='control-label'>&nbsp;</label>
                 <select name="future" class='form-control'>
-                    <option value="0" {{request('future') == 0 ? 'selected' : ''}}>Somente desse mês</option>
-                    <option value="1" {{request('future') == 1 ? 'selected' : ''}}>Com as cobranças do futuro</option>
+                    <option value="0" {{request('future') == 0 ? 'selected' : ''}}>{{ __('Only this month') }}</option>
+                    <option value="1" {{request('future') == 1 ? 'selected' : ''}}>{{ __('With the charges of the future')}}</option>
                 </select>
             </div>
         </div>
