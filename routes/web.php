@@ -20,15 +20,17 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-include __DIR__ . '/charge/cost.php';
-include __DIR__ . '/charge/income.php';
+Route::group(['middleware' => 'auth'], function(){
+    include __DIR__ . '/charge/cost.php';
+    include __DIR__ . '/charge/income.php';
 
-Route::resource('charge', ChargeController::class)->except(['index']);
-Route::group(['prefix' => 'charge', 'as' => 'charge.'], function () {
-    Route::get('{uuid}/pay', [ChargeController::class, 'pay'])->name('pay.create');
-    Route::post('{uuid}/pay', [ChargeController::class, 'payStore'])->name('pay.store');
-});
+    Route::resource('charge', ChargeController::class)->except(['index']);
+    Route::group(['prefix' => 'charge', 'as' => 'charge.'], function () {
+        Route::get('{uuid}/pay', [ChargeController::class, 'pay'])->name('pay.create');
+        Route::post('{uuid}/pay', [ChargeController::class, 'payStore'])->name('pay.store');
+    });
 
-Route::group(['prefix' => 'test'], function () {
-    include __DIR__ . '/teste/ofx.php';
+    Route::group(['prefix' => 'test'], function () {
+        include __DIR__ . '/teste/ofx.php';
+    });
 });
