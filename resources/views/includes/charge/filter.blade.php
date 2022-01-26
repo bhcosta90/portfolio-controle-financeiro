@@ -36,6 +36,6 @@
     <button type='submit' class='btn btn-outline-secondary'>Buscar</button>
 
     @empty(request()->type == 2)
-        <span class='text-muted'><small>contém {{$future}} cobrança(s) no futuro</small></span>
+        <span class='text-muted'><small>contém {{$future ?? 0}} cobrança(s) no futuro</small></span>
     @endif
 </form>
