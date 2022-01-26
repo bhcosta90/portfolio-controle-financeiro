@@ -55,7 +55,9 @@ $("body").on("click", ".btn-link-delete", function(event){
 });
 
 if ($("#account_resume").length) {
-    axios.get("/charge/total").then((json) => {
+    const type = $("[name='type']").val();
+
+    axios.get(`/charge/total?type=${type}`).then((json) => {
         $("#expense_total").html(json.data.cost.format.total);
         $("#expense_payable").html(json.data.cost.format.due_value);
 
@@ -70,7 +72,7 @@ if ($("#account_resume").length) {
 
         if (json.data.account.total > 0) {
             classAccount = "text-success";
-        } else if(json.data.account.total === 0){
+        } else if (json.data.account.total === 0) {
             classAccount = "text-warning";
         }
 

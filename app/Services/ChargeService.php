@@ -79,8 +79,11 @@ class ChargeService
             $filters['date_finish'] = (new Carbon())->firstOfMonth()->lastOfMonth()->format('Y-m-d');
         }
 
-        if (empty($filters['future'])) {
-            $filters['future'] = false;
+        if($filters['type'] == 2){
+            $filters['date_finish'] = (new Carbon($filters['date_finish']))->firstOfMonth()
+                ->addMonth()
+                ->lastOfMonth()
+                ->format('Y-m-d');
         }
 
         $total = [
@@ -99,7 +102,8 @@ class ChargeService
 
         $result = $this->repository->where('user_id', $idUser)
             ->whereBetween('due_date', [$filters['date_start'], $filters['date_finish']])
-            ->where('future', false)->get();
+            ->where(fn ($query) => $filters['type'] != 2 ? $query->where('future', 0) : $query)
+            ->get();
 
         foreach ($result as $rs) {
             switch ($rs->chargeable_type) {
