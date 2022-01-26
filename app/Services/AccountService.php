@@ -28,13 +28,13 @@ class AccountService
         return $this->repository
             ->orderBy('name')
             ->where('user_id', $idUser)
-            ->where(fn($q) => $types ? $q->whereIn('type', $types) : $q)
+            ->where('can_deleted', true)
             ->pluck('name', 'uuid')->toArray();
     }
 
-    public function updateValue($id, $value)
+    public function updateValue($bankCode, $bankAgency, $bankAccount, $bankDigit, $value)
     {
-        return $this->repository->updateValue($id, $value);
+        return $this->repository->updateValue($bankCode, $bankAgency, $bankAccount, $bankDigit, $value);
     }
 
     public function getBy($uuid)

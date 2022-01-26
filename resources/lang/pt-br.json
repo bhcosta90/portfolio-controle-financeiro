@@ -128,5 +128,7 @@
     "Account agency": "Agência bancária",
     "This bank account cannot be removed": "Essa conta bancária não pode ser removida",
     "Account transfer": "Conta de transferência",
-    "Account payment": "Conta de pagamento"
+    "Account payment": "Conta de pagamento",
+    "Type": "Tipo",
+    "Pay": "Pagar"
 }
