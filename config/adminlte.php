@@ -124,7 +124,7 @@ return [
     'classes_body' => '',
     'classes_brand' => '',
     'classes_brand_text' => '',
-    'classes_content_wrapper' => '',
+    'classes_content_wrapper' => 'pt-2',
     'classes_content_header' => '',
     'classes_content' => '',
     'classes_sidebar' => 'sidebar-dark-primary elevation-4',
@@ -251,6 +251,22 @@ return [
             'url'  => 'cost',
             'icon' => 'far fa-thumbs-down',
             'active' => ['cost*']
+        ],
+        [
+            'text' => 'Financeiro',
+            'icon' => 'far fa-chart-bar',
+            'submenu' => [
+                // [
+                //     'text' => 'Movimentação Bancária',
+                //     'url'  => 'admin/extrato',
+                //     'active' => ['admin/extrato*']
+                // ],
+                [
+                    'text' => 'Conta Bancária',
+                    'url'  => 'account',
+                    'active' => ['account*']
+                ]
+            ]
         ]
     ],
 

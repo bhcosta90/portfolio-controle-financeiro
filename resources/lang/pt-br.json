@@ -126,5 +126,7 @@
     "Edit charge": "Editar cobrança",
     "Only for that month and overdue charges": "Somente desse mês e as cobranças vencidas",
     "Account agency": "Agência bancária",
-    "This bank account cannot be removed": "Essa conta bancária não pode ser removida"
+    "This bank account cannot be removed": "Essa conta bancária não pode ser removida",
+    "Account transfer": "Conta de transferência",
+    "Account payment": "Conta de pagamento"
 }

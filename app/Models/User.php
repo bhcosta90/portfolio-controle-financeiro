@@ -22,7 +22,7 @@ class User extends Authenticatable
         static::created(function ($obj) {
             $account = AgencyAccount::create([]);
 
-            \App\Models\Account::factory()->create([
+            \App\Models\Account::create([
                 'user_id' => $obj->id,
                 'name' => "CONTA DIGITAL S.A.",
                 'value' => 0,
@@ -31,6 +31,7 @@ class User extends Authenticatable
                 'bank_account' => str_pad($account->id, 7, "0", STR_PAD_LEFT),
                 'bank_digit' => rand(0, 9),
                 'can_deleted' => false,
+                'type' => \App\Models\Account::TYPE_TRANSFER
             ]);
         });
     }

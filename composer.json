@@ -6,6 +6,8 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "ext-pdo_sqlite": "*",
+        "ext-redis": "*",
         "asmpkg/ofx": "dev-master",
         "bhcosta90/laravel-package": "master",
         "bhcosta90/laravel-table": "^1.0",
