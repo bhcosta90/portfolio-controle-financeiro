@@ -32,7 +32,7 @@ class CreateAccountsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->unique(['bank_code', 'bank_account', 'bank_digit']);
+            $table->unique(['bank_code', 'bank_agency', 'bank_account', 'bank_digit']);
 		});
 	}
 
