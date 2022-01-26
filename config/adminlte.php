@@ -471,6 +471,21 @@ return [
                 ],
             ],
         ],
+        'Custom' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '/css/app.css',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '/js/app.js',
+                ],
+            ],
+        ],
     ],
 
     /*
