@@ -82,4 +82,9 @@ class ChargeController extends Controller
 
         return $this->getService()->resume(auth()->user()->id, $filters);
     }
+
+    public function customer(Request $request)
+    {
+        return $this->getService()->allCustomer($request->search ?? '');
+    }
 }

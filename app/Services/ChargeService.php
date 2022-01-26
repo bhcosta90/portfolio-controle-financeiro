@@ -142,6 +142,18 @@ class ChargeService
         return $total;
     }
 
+    public function allCustomer(string $name)
+    {
+        return [
+            'results' => $this->repository
+                ->where('customer_name', 'like', "%" . ($name) . "%")
+                ->select(['customer_name as id_user', 'customer_name as text'])
+                ->orderBy('customer_name')
+                ->groupBy('customer_name')
+                ->get()
+        ];
+    }
+
     /**
      * @return AccountService
      */
