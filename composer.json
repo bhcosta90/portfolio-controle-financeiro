@@ -12,6 +12,7 @@
         "bhcosta90/laravel-tests": "master",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "jeroennoten/laravel-adminlte": "^3.7",
         "kris/laravel-form-builder": "^1.40",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
