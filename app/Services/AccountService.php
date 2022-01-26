@@ -28,6 +28,7 @@ class AccountService
         return $this->repository
             ->orderBy('name')
             ->where('user_id', $idUser)
+            ->where('can_deleted', false)
             ->pluck('name', 'uuid')->toArray();
     }
 
