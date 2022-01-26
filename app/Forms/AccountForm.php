@@ -2,6 +2,7 @@
 
 namespace App\Forms;
 
+use App\Models\Account;
 use Kris\LaravelFormBuilder\Form;
 
 class AccountForm extends Form
@@ -18,6 +19,13 @@ class AccountForm extends Form
                 'label' => __('Value'),
                 'attrs' => ['step' => '0.01'],
                 'rules' => ['numeric', 'min:-9999999999', 'max:9999999999']
+            ]);
+
+            $this->add('type', 'select', [
+                'label' => __('Code bank'),
+                'choices' => $data = Account::TYPES,
+                'rules' => 'required|in:' . implode(',', $data),
+                'empty_value' => __('Select') . '...'
             ]);
         }
 
