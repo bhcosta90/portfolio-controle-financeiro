@@ -22,7 +22,7 @@ class AccountForm extends Form
             ]);
 
             $this->add('type', 'select', [
-                'label' => __('Code bank'),
+                'label' => __('Type'),
                 'choices' => $data = Account::TYPES,
                 'rules' => 'required|in:' . implode(',', $data),
                 'empty_value' => __('Select') . '...'
