@@ -21,10 +21,15 @@ class AccountForm extends Form
                 'rules' => ['numeric', 'min:-9999999999', 'max:9999999999']
             ]);
 
+            $data = [
+                Account::TYPE_TRANSFER => __('Account transfer'),
+                Account::TYPE_PAYMENT => __('Account payment'),
+            ];
+
             $this->add('type', 'select', [
                 'label' => __('Type'),
-                'choices' => $data = Account::TYPES,
-                'rules' => 'required|in:' . implode(',', $data),
+                'choices' => $data,
+                'rules' => 'required|in:' . implode(',', array_keys($data)),
                 'empty_value' => __('Select') . '...'
             ]);
         }
