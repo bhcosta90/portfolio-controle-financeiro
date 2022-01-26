@@ -22,7 +22,6 @@ class AccountForm extends Form
             ]);
 
             $data = [
-                Account::TYPE_TRANSFER => __('Account transfer'),
                 Account::TYPE_PAYMENT => __('Account payment'),
             ];
 
