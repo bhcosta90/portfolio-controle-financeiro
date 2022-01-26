@@ -20,17 +20,6 @@ class AccountForm extends Form
                 'attrs' => ['step' => '0.01'],
                 'rules' => ['numeric', 'min:-9999999999', 'max:9999999999']
             ]);
-
-            $data = [
-                Account::TYPE_PAYMENT => __('Account payment'),
-            ];
-
-            $this->add('type', 'select', [
-                'label' => __('Type'),
-                'choices' => $data,
-                'rules' => 'required|in:' . implode(',', array_keys($data)),
-                'empty_value' => __('Select') . '...'
-            ]);
         }
 
         $this->add('bank_code', 'select', [

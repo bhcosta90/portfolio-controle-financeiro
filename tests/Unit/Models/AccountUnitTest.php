@@ -21,7 +21,6 @@ class AccountUnitTest extends TestCase
             'user_id',
             'name',
             'value',
-            'type',
             'bank_code',
             'bank_account',
             'bank_digit',
