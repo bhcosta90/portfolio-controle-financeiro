@@ -48,7 +48,15 @@ class ChargeService
                 $valueAccount *= -1;
             }
 
-            $this->getAccountService()->updateValue($data['account_id'], $valueAccount);
+            $objAccount = $this->getAccountService()->getBy($data['account_id']);
+
+            $this->getAccountService()->updateValue(
+                $objAccount->bank_code,
+                $objAccount->bank_agency,
+                $objAccount->bank_account,
+                $objAccount->bank_digit,
+                $valueAccount
+            );
 
             return $this->repository->update($data + [
                 'status' => Charge::STATUS_PAYED
@@ -93,7 +101,7 @@ class ChargeService
             ->whereBetween('due_date', [$filters['date_start'], $filters['date_finish']])
             ->where('future', false)->get();
 
-        foreach($result as $rs){
+        foreach ($result as $rs) {
             switch ($rs->chargeable_type) {
                 case Income::class:
                     if ($rs->due_date < Carbon::now()->firstOfMonth()->format('Y-m-d')) {
@@ -118,7 +126,7 @@ class ChargeService
             'total' => $valorAccount - $total['cost']['total'] + $total['income']['total'],
         ];
 
-        foreach($total as &$rs){
+        foreach ($total as &$rs) {
             $rs += [
                 'format' => [
                     'total' => Str::numberEnToBr($rs['total']),

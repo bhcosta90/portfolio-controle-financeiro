@@ -32,9 +32,9 @@ class AccountService
             ->pluck('name', 'uuid')->toArray();
     }
 
-    public function updateValue($id, $value)
+    public function updateValue($bankCode, $bankAgency, $bankAccount, $bankDigit, $value)
     {
-        return $this->repository->updateValue($id, $value);
+        return $this->repository->updateValue($bankCode, $bankAgency, $bankAccount, $bankDigit, $value);
     }
 
     public function getBy($uuid)
