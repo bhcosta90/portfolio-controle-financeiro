@@ -145,7 +145,7 @@ class AccountForm extends Form
         $var_banco['0600'] = 'Banco Luso Brasileiro S.A.';
         $var_banco['0243'] = 'Banco Máxima S.A.';
         $var_banco['0720'] = 'Banco Maxinvest S.A.';
-        $var_banco['0380'] = 'Banco Picpay Servicos S.A ';
+        $var_banco['0380'] = 'Banco Picpay Servicos S.A.';
         $var_banco['0389'] = 'Banco Mercantil de Investimentos S.A.';
         $var_banco['0389'] = 'Banco Mercantil do Brasil S.A.';
         $var_banco['0370'] = 'Banco Mizuho do Brasil S.A.';
