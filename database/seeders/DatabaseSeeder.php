@@ -27,7 +27,6 @@ class DatabaseSeeder extends Seeder
             'bank_agency' => '0001',
             'bank_account' => '9954491',
             'bank_digit' => '3',
-            'type' => \App\Models\Account::TYPE_PAYMENT,
         ]);
     }
 }
