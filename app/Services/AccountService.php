@@ -23,9 +23,13 @@ class AccountService
         return $this->repository->where('user_id', $filters['user_id']);
     }
 
-    public function pluck($idUser)
+    public function pluck($idUser, array $types = null)
     {
-        return $this->repository->orderBy('name')->where('user_id', $idUser)->pluck('name', 'uuid')->toArray();
+        return $this->repository
+            ->orderBy('name')
+            ->where('user_id', $idUser)
+            ->where(fn($q) => $types ? $q->whereIn('type', $types) : $q)
+            ->pluck('name', 'uuid')->toArray();
     }
 
     public function updateValue($id, $value)
