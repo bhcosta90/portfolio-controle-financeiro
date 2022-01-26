@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\{Route, Auth};
 |
 */
 
-Route::view('/', 'welcome');
+Route::redirect('/', 'login');
 
 Auth::routes();
 
