@@ -11,5 +11,5 @@ use Prettus\Repository\Contracts\RepositoryInterface;
  */
 interface AccountRepository extends RepositoryInterface
 {
-    public function updateValue($uuid, $value);
+    public function updateValue($bankCode, $bankAgency, $bankAccount, $bankDigit, $value);
 }

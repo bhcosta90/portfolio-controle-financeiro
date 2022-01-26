@@ -31,7 +31,6 @@ class User extends Authenticatable
                 'bank_account' => str_pad($account->id, 7, "0", STR_PAD_LEFT),
                 'bank_digit' => rand(0, 9),
                 'can_deleted' => false,
-                'type' => \App\Models\Account::TYPE_TRANSFER
             ]);
         });
     }

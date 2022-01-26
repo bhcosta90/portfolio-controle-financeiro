@@ -63,9 +63,9 @@
             "@php artisan key:generate --ansi"
         ],
         "costa": [
-           "@php artisan migrate:fresh --seed",
-           "@php artisan db:seed --class='Database\\Seeders\\Cost\\User1Seeder'",
-           "@php artisan db:seed --class='Database\\Seeders\\Income\\User1Seede'r"
+           "@php artisan migrate:fresh --seed --force",
+           "@php artisan db:seed --class='Database\\Seeders\\Cost\\User1Seeder' --force",
+           "@php artisan db:seed --class='Database\\Seeders\\Income\\User1Seeder' --force"
         ]
     },
     "extra": {

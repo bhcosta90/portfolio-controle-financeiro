@@ -26,9 +26,14 @@ class AccountRepositoryEloquent extends BaseRepository implements AccountReposit
         return Account::class;
     }
 
-    public function updateValue($uuid, $value)
+    public function updateValue($bankCode, $bankAgency, $bankAccount, $bankDigit, $value)
     {
-        $obj = $this->where('uuid', $uuid)->first();
+        $obj = $this->where('bank_code', $bankCode)
+            ->where('bank_agency', $bankAgency)
+            ->where('bank_account', $bankAccount)
+            ->where('bank_digit', $bankDigit)
+            ->first();
+
         $obj->increment('value', $value);
         $obj->save();
         return $obj;
@@ -42,5 +47,4 @@ class AccountRepositoryEloquent extends BaseRepository implements AccountReposit
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
-
 }

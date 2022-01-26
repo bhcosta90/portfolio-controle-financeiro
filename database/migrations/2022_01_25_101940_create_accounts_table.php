@@ -22,7 +22,6 @@ class CreateAccountsTable extends Migration
             $table->uuid('uuid')->unique();
             $table->foreignId('user_id')->index()->constrained('users');
             $table->string('name', 100);
-            $table->enum('type', Account::TYPES);
             $table->double('value');
             $table->string('bank_code', 4);
             $table->string('bank_agency', 20);
