@@ -64,9 +64,11 @@ class GenerateChargeJob implements ShouldQueue
                 foreach ($dataTypesFuture as $rsDates) {
                     $dataInsert = (array) $rs;
                     DB::table('charges')->insert([
+                        'value' => $rs->value_recursive
+                    ] + $rsDates + [
                         'id' => null,
                         'uuid' => Str::uuid(),
-                        'future' => true
+                        'future' => true,
                     ] + $dataInsert);
                 }
 
