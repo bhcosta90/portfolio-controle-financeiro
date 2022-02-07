@@ -11,5 +11,5 @@ use Prettus\Repository\Contracts\RepositoryInterface;
  */
 interface CostRepository extends RepositoryInterface
 {
-    public function createWithCharge(array $data, object $obj = null);
+    public function createWithCharge(array $data, object $objBase = null);
 }
