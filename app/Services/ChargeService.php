@@ -41,9 +41,10 @@ class ChargeService
         $ret = $this->repository->update($data, $id);
 
         if (!empty($data['update_value'])) {
-            $this->repository->where('chargeable_type', $ret->chargeable_type)
-                ->where('chargeable_id', $ret->chargeable_id)
+            $this->repository->where('basecharge_type', $ret->chargeable_type)
+                ->where('basecharge_id', $ret->chargeable_id)
                 ->where('future', 1)
+                ->where('status', Charge::STATUS_PENDING)
                 ->update([
                     'value_recursive' => $data['value'],
                     'value' => $data['value'],
