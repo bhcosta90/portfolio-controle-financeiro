@@ -29,9 +29,17 @@ class CostRepositoryEloquent extends BaseRepository implements CostRepository
     {
         $obj = $this->create([]);
 
+        if (empty($objBase)) {
+            $objBase = $obj;
+        }
+
         $objCharge = (new \App\Models\Charge)->fill($data);
         $objCharge->chargeable_id = $obj->id;
         $objCharge->chargeable_type = get_class($obj);
+
+        $objCharge->basecharge_id = $objBase->id;
+        $objCharge->basecharge_type = get_class($objBase);
+
         $objCharge->save();
 
         return $obj;

@@ -19,7 +19,6 @@ class ChargeUnitTest extends TestCase
     {
         $array = [
             'user_id',
-            'chargeable',
             'value',
             'value_recursive',
             'value_pay',

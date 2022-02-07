@@ -22,6 +22,8 @@ class InvalidationIncomeControllerTest extends TestCase
         Charge::factory()->create([
             'chargeable_id' => $this->model->id,
             'chargeable_type' => get_class($this->model),
+            'basecharge_id' => $this->model->id,
+            'basecharge_type' => get_class($this->model),
             'type' => null,
         ]);
     }
