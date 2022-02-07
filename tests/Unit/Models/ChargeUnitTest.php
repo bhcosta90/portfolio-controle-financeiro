@@ -53,6 +53,7 @@ class ChargeUnitTest extends TestCase
     public function testCasts()
     {
         $array = [
+            'id' => 'integer',
             'value' => 'float',
             'value_recursive' => 'float',
             'parcel_actual' => 'integer',
