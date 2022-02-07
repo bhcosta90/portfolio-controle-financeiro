@@ -191,7 +191,7 @@ class CostControllerTest extends TestCase
 
     public function testFieldTwoWeek()
     {
-        $response = $this->postJson($this->endpoint, ['type' => 'twoweek'] + $this->sendData);
+        $response = $this->postJson($this->endpoint, ['type' => 'twoweek'] + $this->sendData)->dump();die;
         $this->assertCount(4, $response->json('data'));
         $this->assertEquals('twoweek', $response->json('data.0.type'));
         $this->assertEquals('twoweek', $response->json('data.1.type'));

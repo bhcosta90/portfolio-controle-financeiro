@@ -126,19 +126,12 @@ abstract class BaseCostIncomeService
             }
             $dates = array_values($nDates);
 
-            $objDefault = null;
             foreach ($dates as $rsDate) {
-                $ret = $this->repository->createWithCharge([
+                $obj[] = $this->repository->createWithCharge([
                     'future' => $rsDate['future'] ?? false,
                     'due_date' => $rsDate['date_week'],
                     'type' => $data['type'],
-                ] + $data, $objDefault);
-
-                if($objDefault === null){
-                    $objDefault = $ret;
-                }
-
-                $obj[] = $ret;
+                ] + $data);
             }
 
             return collect($obj);

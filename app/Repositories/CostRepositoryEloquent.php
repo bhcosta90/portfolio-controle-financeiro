@@ -25,11 +25,9 @@ class CostRepositoryEloquent extends BaseRepository implements CostRepository
         return Cost::class;
     }
 
-    public function createWithCharge(array $data, object $obj = null)
+    public function createWithCharge(array $data)
     {
-        if ($obj === null) {
-            $obj = $this->create([]);
-        }
+        $obj = $this->create([]);
 
         $objCharge = (new \App\Models\Charge)->fill($data);
         $objCharge->chargeable_id = $obj->id;
