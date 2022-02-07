@@ -59,7 +59,7 @@ class ChargeService
 
         return DB::transaction(function () use ($obj, $data) {
 
-            $valueAccount = $data['value'];
+            $valueAccount = $data['value_pay'];
             if ($obj->chargeable_type == Cost::class) {
                 $valueAccount *= -1;
             }
@@ -119,6 +119,7 @@ class ChargeService
         $result = $this->repository->where('user_id', $idUser)
             ->whereBetween('due_date', [$filters['date_start'], $filters['date_finish']])
             ->where(fn ($query) => $filters['type'] != 2 ? $query->where('future', 0) : $query)
+            ->where('status', Charge::STATUS_PENDING)
             ->get();
 
         foreach ($result as $rs) {
@@ -160,13 +161,19 @@ class ChargeService
 
     public function allCustomer(string $name)
     {
+        $result = $this->repository
+            ->where('customer_name', 'like', "%" . ($name) . "%")
+            ->select(['customer_name as id', 'customer_name as text'])
+            ->orderBy('customer_name')
+            ->groupBy('customer_name')
+            ->get()
+            ->toArray();
+
+        array_push($result, ['id' => 0, 'id_user' => null, 'text' => $name]);
+
+
         return [
-            'results' => $this->repository
-                ->where('customer_name', 'like', "%" . ($name) . "%")
-                ->select(['customer_name as id', 'customer_name as text'])
-                ->orderBy('customer_name')
-                ->groupBy('customer_name')
-                ->get()
+            'results' => $result
         ];
     }
 

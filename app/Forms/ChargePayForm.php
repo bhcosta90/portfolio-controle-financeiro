@@ -17,7 +17,7 @@ class ChargePayForm extends Form
             'rules' => ['required', 'in:' . implode(',', array_keys($ids))]
         ]);
 
-        $this->add('value', 'number', [
+        $this->add('value_pay', 'number', [
             'label' => __('Payment value'),
             'attrs' => ['step' => '0.01'],
             'rules' => ['required', 'numeric', 'min:0.01', 'max:9999999999']
