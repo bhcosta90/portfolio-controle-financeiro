@@ -47,6 +47,7 @@ class AccountUnitTest extends TestCase
     public function testCasts()
     {
         $array = [
+            'id' => 'integer',
             'value' => 'float',
             'can_deleted' => 'boolean',
             'deleted_at' => 'datetime',
