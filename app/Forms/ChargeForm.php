@@ -14,6 +14,11 @@ class ChargeForm extends Form
         $this->fieldResume();
         $this->fieldDueDate();
         $this->fieldValue();
+        if (!empty($this->getModel()['type']) || $this->request->method() == 'PUT') {
+            $this->add('update_value', 'checkbox', [
+                'label' => __('Update value of future charges?')
+            ]);
+        }
         $this->fieldDescription();
     }
 }

@@ -16,7 +16,7 @@ use Illuminate\Support\Str;
 
 class GenerateChargeJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, ChargeTrait, ShouldBeUnique;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, ChargeTrait;
 
     protected string $dateStart;
 
@@ -44,6 +44,7 @@ class GenerateChargeJob implements ShouldQueue
             ->whereBetween('due_date', [$this->dateStart, $this->dateFinish])
             ->whereNotNull('type')
             ->where('future', true)
+            ->whereNull('deleted_at')
             ->get();
 
         $dateFinish = Carbon::createFromFormat('Y-m-d', $this->dateFinish);
@@ -63,25 +64,30 @@ class GenerateChargeJob implements ShouldQueue
 
                 foreach ($dataTypesFuture as $rsDates) {
                     $dataInsert = (array) $rs;
-                    DB::table('charges')->insert([
+
+                    $data = [
                         'value' => $rs->value_recursive
                     ] + $rsDates + [
                         'id' => null,
                         'uuid' => Str::uuid(),
                         'future' => true,
-                    ] + $dataInsert);
+                    ] + $dataInsert;
+
+                    $data['due_date'] = $data['date_week'];
+
+                    unset($data['date_original']);
+                    unset($data['date_week']);
+
+                    DB::table('charges')->insert($data);
                 }
+
+                DB::table('charges')
+                    ->where('id', $rs->id)
+                    ->update(['future' => false]);
 
                 DB::commit();
             }
 
-            DB::table('charges')
-                ->whereBetween('due_date', [$this->dateStart, $this->dateFinish])
-                ->whereNotNull('type')
-                ->where('future', true)
-                ->update(['future' => false]);
-
-            DB::commit();
         } catch (Throwable $e) {
             DB::rollBack();
             throw $e;

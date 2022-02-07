@@ -34,7 +34,23 @@ class ChargeService
 
     public function webUpdate($id, $data)
     {
-        return $this->repository->update($data, $id);
+        if ($data['update_value']) {
+            $data['value_recursive'] = $data['value'];
+        }
+
+        $ret = $this->repository->update($data, $id);
+
+        if (!empty($data['update_value'])) {
+            $this->repository->where('chargeable_type', $ret->chargeable_type)
+                ->where('chargeable_id', $ret->chargeable_id)
+                ->where('future', 1)
+                ->update([
+                    'value_recursive' => $data['value'],
+                    'value' => $data['value'],
+                ]);
+        }
+
+        return $ret;
     }
 
     public function pay($id, $data)
@@ -147,7 +163,7 @@ class ChargeService
         return [
             'results' => $this->repository
                 ->where('customer_name', 'like', "%" . ($name) . "%")
-                ->select(['customer_name as id_user', 'customer_name as text'])
+                ->select(['customer_name as id', 'customer_name as text'])
                 ->orderBy('customer_name')
                 ->groupBy('customer_name')
                 ->get()

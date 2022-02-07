@@ -84,3 +84,30 @@ if ($("#account_resume").length) {
         $("#my_account_pay").parent().addClass(classCalculate);
     });
 }
+
+if ($(".nome_cliente").length) {
+    $(document).ready(function(){
+        $(".nome_cliente").select2({
+            placeholder: "Fornecedor",
+            minimumInputLength: 3,
+            multiple: false,
+            quietMillis: 100,
+            ajax: {
+                url: "/charge/customers",
+                dataType: 'json',
+                type: 'GET',
+                data: function (params) {
+                    return {
+                        search: params.term // search term
+                    };
+                }
+            },
+        }).on("select2:select", function(e) {
+            var data = e.params.data;
+            $(".nome_cliente").val(data.text);
+            $(".nome_cliente").parent().find('.select2-selection__placeholder').text(data.text);
+        })
+        $(".nome_cliente").parent().find('.select2-selection__placeholder').text($(".nome_cliente").val());
+    });
+
+}

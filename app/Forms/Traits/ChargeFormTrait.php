@@ -45,6 +45,9 @@ trait ChargeFormTrait
         $this->add('customer_name', 'text', [
             'label' => __('Customer name'),
             'rules' => 'required|min:3|max:150',
+            'attr' => [
+                'class' => 'form-control nome_cliente'
+            ]
         ]);
     }
 }
