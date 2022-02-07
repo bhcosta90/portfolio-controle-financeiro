@@ -25,15 +25,21 @@ class IncomeRepositoryEloquent extends BaseRepository implements IncomeRepositor
         return Income::class;
     }
 
-
-
-    public function createWithCharge(array $data)
+    public function createWithCharge(array $data, object $objBase = null)
     {
         $obj = $this->create([]);
+
+        if (empty($objBase)) {
+            $objBase = $obj;
+        }
 
         $objCharge = (new \App\Models\Charge)->fill($data);
         $objCharge->chargeable_id = $obj->id;
         $objCharge->chargeable_type = get_class($obj);
+
+        $objCharge->basecharge_id = $obj->id;
+        $objCharge->basecharge_type = get_class($obj);
+
         $objCharge->save();
 
         return $obj;

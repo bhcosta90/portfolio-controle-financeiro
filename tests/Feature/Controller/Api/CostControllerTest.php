@@ -39,6 +39,8 @@ class CostControllerTest extends TestCase
         Charge::factory()->create([
             'chargeable_id' => $this->model->id,
             'chargeable_type' => get_class($this->model),
+            'basecharge_id' => $this->model->id,
+            'basecharge_type' => get_class($this->model),
             'type' => null,
             'user_id' => self::$user->id,
             'due_date' => '2022-01-10',
@@ -186,7 +188,7 @@ class CostControllerTest extends TestCase
         $this->assertEquals('week', $response->json('data.0.type'));
         $this->assertEquals('week', $response->json('data.1.type'));
         $this->assertEquals(false, $response->json('data.0.future'));
-        $this->assertEquals(true, $response->json('data.3.future'));
+        $this->assertEquals(true, $response->json('data.4.future'));
     }
 
     public function testFieldTwoWeek()
