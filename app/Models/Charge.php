@@ -37,7 +37,6 @@ class Charge extends Model
 
     protected $fillable = [
         'user_id',
-        'chargeable',
         'value',
         'value_recursive',
         'customer_name',

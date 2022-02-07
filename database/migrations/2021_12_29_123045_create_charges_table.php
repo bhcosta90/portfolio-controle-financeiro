@@ -21,6 +21,7 @@ class CreateChargesTable extends Migration
             $table->string('resume');
             $table->text('description')->nullable();
             $table->morphs('chargeable');
+            $table->morphs('basecharge');
             $table->unsignedDouble('value');
             $table->unsignedDouble('value_recursive')->nullable();
             $table->unsignedDouble('value_pay')->nullable();

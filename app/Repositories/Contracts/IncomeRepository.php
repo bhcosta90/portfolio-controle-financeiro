@@ -11,5 +11,5 @@ use Prettus\Repository\Contracts\RepositoryInterface;
  */
 interface IncomeRepository extends RepositoryInterface
 {
-    public function createWithCharge(array $data);
+    public function createWithCharge(array $data, object $objBase = null);
 }

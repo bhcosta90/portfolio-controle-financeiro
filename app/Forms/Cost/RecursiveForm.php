@@ -16,7 +16,7 @@ class RecursiveForm extends Form
         $this->fieldValue();
         $this->fieldDueDate("Start date");
 
-        $this->add('tipo', 'select', [
+        $this->add('type', 'select', [
             'label' => 'Forma da Cobrança',
             'choices' => [
                 'Fixos' => [
