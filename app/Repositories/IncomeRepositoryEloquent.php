@@ -37,8 +37,8 @@ class IncomeRepositoryEloquent extends BaseRepository implements IncomeRepositor
         $objCharge->chargeable_id = $obj->id;
         $objCharge->chargeable_type = get_class($obj);
 
-        $objCharge->basecharge_id = $obj->id;
-        $objCharge->basecharge_type = get_class($obj);
+        $objCharge->basecharge_id = $objBase->id;
+        $objCharge->basecharge_type = get_class($objBase);
 
         $objCharge->save();
 
