@@ -132,13 +132,13 @@ class ChargeService
             $this->updateDueDateAndDateStart($obj);
         }
 
-
         $this->getExtractService()->registerExtract($obj->chargeable, $value, Extract::$TYPE_PAYMENT, [
             'value_charge' => $obj->value,
             'name' => $obj->customer_name,
-            'resume' => $obj->resume,
+            'resume' => $obj->basecharge->charge->resume,
             'base_type' => $obj->basecharge_type,
             'base_id' => $obj->basecharge_id,
+            'parcel' => $obj->parcel_actual ?? null,
         ]);
 
         if ($obj->recurrency_id) {

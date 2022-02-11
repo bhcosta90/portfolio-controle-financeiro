@@ -31,6 +31,7 @@ class Extract extends Model implements Transformable
         'user_id',
         'value_charge',
         'value_transfer',
+        'parcel',
         'name',
         'resume',
         'type',
