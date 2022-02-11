@@ -23,12 +23,13 @@ class ExtractService
         $this->repository = $repository;
     }
 
-    public function data()
+    public function data($data)
     {
-        return $this->repository->orderBy('created_at', 'desc');
+        return $this->repository->where('user_id', $data['user_id'])->orderBy('created_at', 'desc');
     }
 
-    public function registerExtract($obj, $value, $type, $dataExtract = []) {
+    public function registerExtract($obj, $value, $type, $dataExtract = [])
+    {
         $data = [
             'extract_type' => get_class($obj),
             'extract_id' => $obj->id,
@@ -58,6 +59,5 @@ class ExtractService
         ];
 
         return $this->repository->create($data);
-
     }
 }
