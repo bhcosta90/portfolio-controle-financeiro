@@ -69,6 +69,8 @@ class ChargeService
         return $this->repository->create($data + [
             'chargeable_type' => get_class($obj),
             'chargeable_id' => $obj->id,
+            'basecharge_type' => get_class($obj),
+            'basecharge_id' => $obj->id,
         ]);
     }
 
