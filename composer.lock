@@ -116,16 +116,16 @@
         },
         {
             "name": "bhcosta90/laravel-table",
-            "version": "1.0.14",
+            "version": "1.0.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bhcosta90/laravel-table.git",
-                "reference": "34cab987eb43c5b5a80fd75b589afdbb459690f3"
+                "reference": "791391cd8ee20a9887b4b3af9fa737418c953d39"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bhcosta90/laravel-table/zipball/34cab987eb43c5b5a80fd75b589afdbb459690f3",
-                "reference": "34cab987eb43c5b5a80fd75b589afdbb459690f3",
+                "url": "https://api.github.com/repos/bhcosta90/laravel-table/zipball/791391cd8ee20a9887b4b3af9fa737418c953d39",
+                "reference": "791391cd8ee20a9887b4b3af9fa737418c953d39",
                 "shasum": ""
             },
             "require": {
@@ -173,9 +173,9 @@
             ],
             "support": {
                 "issues": "https://github.com/bhcosta90/laravel-table/issues",
-                "source": "https://github.com/bhcosta90/laravel-table/tree/1.0.14"
+                "source": "https://github.com/bhcosta90/laravel-table/tree/1.0.15"
             },
-            "time": "2022-02-10T18:33:28+00:00"
+            "time": "2022-02-11T21:06:36+00:00"
         },
         {
             "name": "brick/math",
