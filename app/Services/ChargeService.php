@@ -119,11 +119,8 @@ class ChargeService
             'status' => Charge::$STATUS_PAYED,
         ], $obj->id);
 
-        $this->updateBalanceInUser($ret->chargeable, $value);
-
         if ($obj->chargeable instanceof Parcel) {
             $obj->basecharge->charge->touch();
-            $this->updateBalanceInUser($obj, $value);
 
             if ($obj->basecharge->parcelsActive->count() == 0) {
                 return $obj->basecharge->charge->delete();
@@ -255,23 +252,6 @@ class ChargeService
             ->whereNull('value_pay')
             ->whereNull('deleted_at')
             ->where('user_id', $idUser);
-    }
-
-    private function updateBalanceInUser($obj, $value)
-    {
-        if ($obj instanceof Parcel) {
-            return $this->updateBalanceInUser($obj->charge->basecharge, $value);
-        }
-
-        switch (get_class($obj)) {
-            case Income::class:
-                $this->getUser()->increment('balance_value', $value);
-                break;
-            case Cost::class:
-                $this->getUser()->decrement('balance_value', $value);
-                $value *= -1;
-                break;
-        }
     }
 
     /**
