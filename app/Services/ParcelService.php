@@ -27,10 +27,7 @@ class ParcelService
     public function store($objBase, array $data, Collection $parcels){
         foreach ($parcels as $i => $parcel) {
 
-            $obj = $this->repository->create([
-                'charge_type' => get_class($objBase),
-                'charge_id' => $objBase->id,
-            ]);
+            $obj = $this->repository->create([]);
 
             $this->getChargeService()->create($obj, [
                 'user_id' => $data['user_id'],
