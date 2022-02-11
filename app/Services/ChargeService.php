@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Jobs\RegisterNewChargeRecursiveJob;
 use App\Models\Charge;
 use App\Models\Cost;
+use App\Models\Extract;
 use App\Models\Income;
 use App\Models\Parcel;
 use App\Repositories\ChargeRepositoryEloquent as Eloquent;
@@ -248,17 +249,11 @@ class ChargeService
 
     private function updateBalanceInUser($obj, $value)
     {
-        switch (get_class($obj)) {
-            case Income::class:
-                $this->getUser()->increment('balance_value', $value);
-                break;
-            case Cost::class:
-                $this->getUser()->decrement('balance_value', $value);
-                break;
-            case Parcel::class:
-                $this->updateBalanceInUser($obj->charge->basecharge, $value);
-                break;
+        if($obj instanceof Parcel) {
+            return $this->updateBalanceInUser($obj->charge->basecharge, $value);
         }
+
+        $this->getExtractService()->registerExtract($obj, $value, Extract::$TYPE_PAYMENT);
     }
 
     /**
@@ -267,5 +262,13 @@ class ChargeService
     protected function getParcelService()
     {
         return app(ParcelService::class);
+    }
+
+    /**
+     * @return ExtractService
+     */
+    protected function getExtractService()
+    {
+        return app(ExtractService::class);
     }
 }
