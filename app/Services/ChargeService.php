@@ -121,7 +121,7 @@ class ChargeService
             $this->updateBalanceInUser($obj, $value);
 
             if ($obj->basecharge->parcelsActive->count() == 0) {
-                return $this->pay($obj->basecharge->charge->uuid, 0);
+                return $obj->basecharge->charge->delete();
             }
 
             $this->updateDueDateAndDateStart($obj);
@@ -141,7 +141,10 @@ class ChargeService
         try {
             $ret = $this->repository->delete($id);
             if ($obj->chargeable instanceof Parcel) {
-                $this->updateDueDateAndDateStart($obj);
+                $ret = $this->updateDueDateAndDateStart($obj);
+                if (empty($ret)) {
+                    $obj->basecharge->charge->delete();
+                }
             }
             DB::commit();
         } catch(Exception $e){

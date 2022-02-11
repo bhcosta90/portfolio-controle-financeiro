@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Costa\LaravelPackage\Traits\Models\UuidGenerate;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
@@ -15,7 +16,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  */
 class Charge extends Model implements Transformable
 {
-    use TransformableTrait, UuidGenerate;
+    use TransformableTrait, UuidGenerate, SoftDeletes;
 
     public static $STATUS_PENDING = 'PE';
     public static $STATUS_PAYED = 'PA';
