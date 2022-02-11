@@ -74,9 +74,13 @@ class ChargeService
 
     public function webUpdate($data, $id)
     {
-        $data['customer_name'] = $data['name'];
-        $data['date_start'] = $data['due_date'];
-        $data['date_end'] = $data['due_date'];
+        if(isset($data['name'])){
+            $data['customer_name'] = $data['name'];
+        }
+        if(isset($data['due_date'])){
+            $data['date_start'] = $data['due_date'];
+            $data['date_end'] = $data['due_date'];
+        }
 
         if (!empty($data['updated_value'])) {
             $data['value_recurrency'] = $data['value'];

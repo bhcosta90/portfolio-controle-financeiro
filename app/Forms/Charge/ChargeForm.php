@@ -26,6 +26,9 @@ class ChargeForm extends Form
         }
 
         $this->value();
-        $this->dueDate();
+
+        if (!$this->getData()['model']['chargeable_type'] == Parcel::class) {
+            $this->dueDate();
+        }
     }
 }

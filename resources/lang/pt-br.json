@@ -83,5 +83,8 @@
     "Every 20th": "Todo dia 20",
     "Parcel :actual": "Parcela :actual",
     "Profile Settings": "Configuração do Perfil",
-    "Save Profile": "Salvar perfil"
+    "Save Profile": "Salvar perfil",
+    "Successfully saved": "Registro salvo com sucesso",
+    "Successfully registered": "Registro cadastrado com sucesso",
+    "Successfully deleted record": "Registro deletado com sucesso"
 }
