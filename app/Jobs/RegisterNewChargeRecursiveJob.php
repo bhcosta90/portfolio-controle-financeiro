@@ -53,6 +53,8 @@ class RegisterNewChargeRecursiveJob implements ShouldQueue
                 $model = app($obj->chargeable_type);
                 $objModel = $model->create([]);
                 $this->getChargeService()->create($model, [
+                    'basecharge_type' => $obj->basecharge_type,
+                    'basecharge_id' => $obj->basecharge_id,
                     'due_date' => $dates[0]['date_week'],
                     'date_start' => $dates[0]['date_week'],
                     'date_end' => $dates[0]['date_week'],

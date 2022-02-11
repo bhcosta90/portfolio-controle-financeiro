@@ -2,7 +2,10 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
@@ -61,16 +64,20 @@
             "@php artisan key:generate --ansi"
         ],
         "costa": [
-            "@php artisan migrate:fresh --seed --force",
             "@php artisan db:seed --class='Database\\Seeders\\UserBrunoCostaSeeder' --force"
         ],
         "migrate": [
-            "@php artisan migrate:fresh --seed --force"
+            "@php artisan migrate --force"
+        ],
+        "migrate-fresh": [
+            "@php artisan migrate:fresh --force"
         ]
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "laravel/telescope"
+            ]
         }
     },
     "config": {

@@ -55,6 +55,8 @@ class UserBrunoCostaSeeder extends Seeder
     }
 
     private function register($obj, $data){
+        $data['date_start'] = $data['due_date'];
+        $data['date_end'] = $data['due_date'];
 
         if (!empty($data['parcel_total'])) {
             $parcels = collect(app(Value::class)->parcel(new Carbon($data['due_date']), $data['value'], $data['parcel_total']));
@@ -171,7 +173,7 @@ class UserBrunoCostaSeeder extends Seeder
                 'resume' => 'Corte de unha do Bruno Henrique da Costa',
                 'description' => 'Pagamento via PIX',
                 'type' => 'month',
-                'value' => 75,
+                'value' => 80,
                 'due_date' => (new Carbon())->setDay('10')->format('Y-m-d'),
             ],
             [
