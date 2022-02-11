@@ -51,6 +51,7 @@
                                 </ul>
                             </li>
                             <li class='nav-item'><a class='nav-link' href="{{ route('recurrency.index') }}">Frequências</a></li>
+                            <li class='nav-item'><a class='nav-link' href="{{ route('extract.index') }}">Movimentação</a></li>
                         @endauth
                     </ul>
 

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Charge\ChargeController;
 use App\Http\Controllers\Charge\CostController;
 use App\Http\Controllers\Charge\IncomeController;
+use App\Http\Controllers\ExtractController;
 use App\Http\Controllers\RecurrencyController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\{Auth, Route};
@@ -29,6 +30,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::resource('cost', CostController::class)->only(['index', 'create', 'store']);
     Route::resource('recurrency', RecurrencyController::class);
     Route::resource('charge', ChargeController::class)->except(['index', 'create', 'store']);
+    Route::get('extract', [ExtractController::class, 'index'])->name('extract.index');
+
     Route::get('charge/{id}/pay', [ChargeController::class, 'pay'])->name('charge.pay.create');
     Route::put('charge/{id}/pay', [ChargeController::class, 'payUpdate'])->name('charge.pay.update');
     Route::get('user/profile', [UserProfileController::class, 'profile'])->name('user.profile.edit');

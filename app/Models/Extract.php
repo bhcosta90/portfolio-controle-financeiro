@@ -26,12 +26,17 @@ class Extract extends Model implements Transformable
     protected $fillable = [
         'extract_type',
         'extract_id',
-        'value',
-        'type',
+        'base_type',
+        'base_id',
         'user_id',
+        'value_charge',
+        'value_transfer',
+        'name',
+        'resume',
+        'type',
     ];
 
-    public static function getTypeOptionsAttribute($type = null)
+    public static function getTypeAttribute($type = null)
     {
         $ret = [
             self::$TYPE_PAYMENT => 'Pagamento',
@@ -43,5 +48,22 @@ class Extract extends Model implements Transformable
 
         return $ret;
     }
+
+    public static function getExtractTypeAttribute($extractType)
+    {
+        $ret = [
+            Income::class => 'Receita',
+            Cost::class => 'Despesa',
+            Parcel::class => 'Parcela',
+        ];
+
+        return $ret[$extractType] ?? $extractType;
+    }
+
+    public function extract()
+    {
+        return $this->hasOne(Charge::class, 'extract_id', 'chargeable_id');
+    }
+
 
 }

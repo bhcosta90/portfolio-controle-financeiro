@@ -132,6 +132,15 @@ class ChargeService
             $this->updateDueDateAndDateStart($obj);
         }
 
+
+        $this->getExtractService()->registerExtract($obj->chargeable, $value, Extract::$TYPE_PAYMENT, [
+            'value_charge' => $obj->value,
+            'name' => $obj->customer_name,
+            'resume' => $obj->resume,
+            'base_type' => $obj->basecharge_type,
+            'base_id' => $obj->basecharge_id,
+        ]);
+
         if ($obj->recurrency_id) {
             RegisterNewChargeRecursiveJob::dispatch($obj);
         }
@@ -249,11 +258,19 @@ class ChargeService
 
     private function updateBalanceInUser($obj, $value)
     {
-        if($obj instanceof Parcel) {
+        if ($obj instanceof Parcel) {
             return $this->updateBalanceInUser($obj->charge->basecharge, $value);
         }
 
-        $this->getExtractService()->registerExtract($obj, $value, Extract::$TYPE_PAYMENT);
+        switch (get_class($obj)) {
+            case Income::class:
+                $this->getUser()->increment('balance_value', $value);
+                break;
+            case Cost::class:
+                $this->getUser()->decrement('balance_value', $value);
+                $value *= -1;
+                break;
+        }
     }
 
     /**

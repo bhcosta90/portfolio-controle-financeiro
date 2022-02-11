@@ -22,8 +22,12 @@ class CreateExtractsTable extends Migration
             $table->uuid('uuid')->unique();
             $table->foreignId('user_id')->constrained('users');
             $table->morphs('extract');
-            $table->double('value');
-            $table->enum('type', array_keys(Extract::getTypeOptionsAttribute()));
+            $table->morphs('base');
+            $table->unsignedDouble('value_charge');
+            $table->double('value_transfer');
+            $table->string('name');
+            $table->string('resume');
+            $table->enum('type', array_keys(Extract::getTypeAttribute()));
             $table->timestamps();
 		});
 	}
