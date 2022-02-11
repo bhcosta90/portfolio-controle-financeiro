@@ -173,7 +173,7 @@ class UserBrunoCostaSeeder extends Seeder
                 'resume' => 'Corte de unha do Bruno Henrique da Costa',
                 'description' => 'Pagamento via PIX',
                 'type' => 'month',
-                'value' => 75,
+                'value' => 80,
                 'due_date' => (new Carbon())->setDay('10')->format('Y-m-d'),
             ],
             [
