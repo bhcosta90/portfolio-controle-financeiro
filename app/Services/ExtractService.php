@@ -44,8 +44,11 @@ class ExtractService
                 $value *= -1;
                 break;
             case Parcel::class:
-                if ($typeClass == Cost::class) {
+                if ($obj->charge->basecharge_type == Cost::class) {
+                    $objUser->decrement('balance_value', $value);
                     $value *= -1;
+                } else {
+                    $objUser->increment('balance_value', $value);
                 }
                 break;
             default:
