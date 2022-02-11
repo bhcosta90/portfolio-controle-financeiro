@@ -202,7 +202,7 @@ class UserBrunoCostaSeeder extends Seeder
             ],
             [
                 'customer_name' => 'DAE',
-                'resume' => 'Ýgua',
+                'resume' => 'Água',
                 'value' => 50,
                 "due_date" => (new Carbon)->setDay(10)->format('Y-m-d'),
                 'type' => 'fifth_business_day',

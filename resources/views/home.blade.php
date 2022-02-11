@@ -12,7 +12,7 @@
             @endif
 
             <div class='row'>
-                <div class='col-md-3'>
+                <div class='col-md-3 mb-1'>
                     <div class="card overdue">
                         <div class="card-body">
                             <h5 class="card-title">Cobranças vencidas</h5>
@@ -26,7 +26,7 @@
                     </div>
                 </div>
 
-                <div class='col-md-3'>
+                <div class='col-md-3 mb-1'>
                     <div class="card income">
                         <div class="card-body">
                             <h5 class="card-title">Receitas do mês</h5>
@@ -35,7 +35,7 @@
                     </div>
                 </div>
 
-                <div class='col-md-3'>
+                <div class='col-md-3 mb-1'>
                     <div class="card cost">
                         <div class="card-body">
                             <h5 class="card-title">Despesas do mês</h5>
@@ -44,7 +44,7 @@
                     </div>
                 </div>
 
-                <div class='col-md-3'>
+                <div class='col-md-3 mb-1'>
                     <div class="card resume">
                         <div class="card-body">
                             <h5 class="card-title">Conta bancária</h5>

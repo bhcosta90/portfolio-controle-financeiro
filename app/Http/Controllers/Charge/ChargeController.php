@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Charge;
 
 use App\Forms\Charge\ChargeForm;
 use App\Forms\Charge\ChargePayForm;
+use App\Http\Controllers\Controller;
 use App\Models\Charge;
 use App\Models\Cost;
 use App\Models\Income;

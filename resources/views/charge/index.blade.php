@@ -100,7 +100,7 @@
         </div>
     </div>
     @if($rs->charge->parcel_total)
-    <table class='table mb-0 table-parcel' style='display:none'>
+    <table class='table mb-0 table-parcel table-responsive-md' style='display:none'>
         <tr>
             <th>Parcela</th>
             <th>Vencimento</th>

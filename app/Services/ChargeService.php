@@ -250,9 +250,14 @@ class ChargeService
     {
         switch (get_class($obj)) {
             case Income::class:
-                return $this->getUser()->increment('balance_value', $value);
+                $this->getUser()->increment('balance_value', $value);
+                break;
             case Cost::class:
-                return $this->getUser()->decrement('balance_value', $value);
+                $this->getUser()->decrement('balance_value', $value);
+                break;
+            case Parcel::class:
+                $this->updateBalanceInUser($obj->charge->basecharge, $value);
+                break;
         }
     }
 
