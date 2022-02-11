@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\ChargeController;
-use App\Http\Controllers\CostController;
-use App\Http\Controllers\IncomeController;
+use App\Http\Controllers\Charge\ChargeController;
+use App\Http\Controllers\Charge\CostController;
+use App\Http\Controllers\Charge\IncomeController;
 use App\Http\Controllers\RecurrencyController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\{Auth, Route};

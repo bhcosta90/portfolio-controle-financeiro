@@ -1,41 +1,41 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Charge;
 
-use App\Forms\Charge\CostForm;
-use App\Services\CostService;
+use App\Forms\Charge\IncomeForm;
+use App\Http\Controllers\Controller;
+use App\Services\IncomeService;
 use Carbon\Carbon;
 use Costa\LaravelPackage\Traits\Web\WebCreateTrait;
 use Costa\LaravelPackage\Traits\Web\WebIndexTrait;
-use Illuminate\Http\Request;
 
-class CostController extends Controller
+class IncomeController extends Controller
 {
     use WebIndexTrait, WebCreateTrait;
 
     protected function view(): string
     {
-        return 'cost';
+        return 'income';
     }
 
     protected function service(): string
     {
-        return CostService::class;
+        return IncomeService::class;
     }
 
     protected function routeStore(): string
     {
-        return route('cost.store');
+        return route('income.store');
     }
 
     protected function routeRedirectPostPut(): string
     {
-        return route('cost.index');
+        return route('income.index');
     }
 
     protected function form(): string
     {
-        return CostForm::class;
+        return IncomeForm::class;
     }
 
     protected function getActionCreate(): array
