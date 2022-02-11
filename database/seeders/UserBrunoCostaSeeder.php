@@ -50,11 +50,21 @@ class UserBrunoCostaSeeder extends Seeder
 
             DB::table('charges')->where('parcel_actual', '<=', 6)
                 ->where('customer_name', 'Jair da Costa')
-                ->update(['deleted_at' => Carbon::now()]);
+                ->update([
+                    'deleted_at' => Carbon::now(),
+                ]);
+
+            DB::table('charges')->whereNull('parcel_actual')
+                ->where('customer_name', 'Jair da Costa')
+                ->update([
+                    'due_date' => '2022-01-01',
+                    'date_start' => '2022-01-01',
+                ]);
         }
     }
 
-    private function register($obj, $data){
+    private function register($obj, $data)
+    {
         $data['date_start'] = $data['due_date'];
         $data['date_end'] = $data['due_date'];
 
@@ -71,7 +81,7 @@ class UserBrunoCostaSeeder extends Seeder
         ]);
 
         if (isset($parcels)) {
-            foreach($parcels as $i => $parcel) {
+            foreach ($parcels as $i => $parcel) {
                 $objParcel = Parcel::create();
 
                 $objParcel->charge()->create([
@@ -192,7 +202,7 @@ class UserBrunoCostaSeeder extends Seeder
             ],
             [
                 'customer_name' => 'DAE',
-                'resume' => 'Água',
+                'resume' => 'Ýgua',
                 'value' => 50,
                 "due_date" => (new Carbon)->setDay(10)->format('Y-m-d'),
                 'type' => 'fifth_business_day',
