@@ -30,7 +30,7 @@ trait FormTrait
     protected function recurrency()
     {
         $this->add('recurrency', 'select', [
-            'choices' => $data =  Charge::getTypeOptionsAttribute() + $this->getRecurrencyService()->pluck(),
+            'choices' => $data =  Charge::getTypeOptionsAttribute() + $this->getRecurrencyService()->pluck($this->request->user()->id),
             'label' => __("Frequência"),
             'rules' => ['required', 'in:' . implode(',', array_keys($data))],
         ]);

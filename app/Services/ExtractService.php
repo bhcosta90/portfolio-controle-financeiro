@@ -13,8 +13,6 @@ use Exception;
 
 class ExtractService
 {
-    use UserTrait;
-
     private Contract $repository;
 
     public function __construct(Contract $repository)
@@ -28,21 +26,21 @@ class ExtractService
         return $this->repository->where('user_id', $data['user_id'])->orderBy('created_at', 'desc');
     }
 
-    public function registerExtract($obj, $value, $type, $dataExtract = [])
+    public function registerExtract($objUser, $obj, $value, $type, $dataExtract = [])
     {
         $data = [
             'extract_type' => get_class($obj),
             'extract_id' => $obj->id,
             'type' => $type,
-            'user_id' => $this->getUser()->id,
+            'user_id' => $objUser->id,
         ] + $dataExtract;
 
         switch ($typeClass = get_class($obj)) {
             case Income::class:
-                $this->getUser()->increment('balance_value', $value);
+                $objUser->increment('balance_value', $value);
                 break;
             case Cost::class:
-                $this->getUser()->decrement('balance_value', $value);
+                $objUser->decrement('balance_value', $value);
                 $value *= -1;
                 break;
             case Parcel::class:
