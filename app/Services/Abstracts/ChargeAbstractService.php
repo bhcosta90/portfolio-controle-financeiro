@@ -43,10 +43,6 @@ abstract class ChargeAbstractService
             $obj->where('user_id', $filters['user_id']);
             $obj->where(function ($obj) use ($filters) {
                 $obj->whereBetween('due_date', [$filters['date_start'], $filters['date_finish']]);
-                $obj->orWhere(function($obj) use($filters){
-                    $obj->where('parcel_total', '>', 0)
-                        ->where('date_end', '>=', $filters['date_finish']);
-                });
                 if (in_array($filters['type'], [0, 2])) {
                     $obj->orWhere('due_date', '<=', $filters['date_start']);
                 }

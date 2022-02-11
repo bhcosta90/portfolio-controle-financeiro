@@ -12,6 +12,9 @@ use App\Repositories\Contracts\ChargeRepository as Contract;
 use Carbon\Carbon;
 use Costa\LaravelPackage\Traits\Support\UserTrait;
 use Costa\LaravelPackage\Utils\Value;
+use Exception;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Prettus\Repository\Contracts\RepositoryInterface;
 
 class ChargeService
@@ -93,6 +96,19 @@ class ChargeService
             $value = $obj->value;
         }
 
+        if ($obj->chargeable_type == Parcel::class) {
+            $totalParcelDoNotPay = $this->repository->where('basecharge_type', $obj->basecharge_type)
+                ->where('basecharge_id', $obj->basecharge_id)
+                ->where('parcel_actual', '<', $obj->parcel_actual)
+                ->whereNull('deleted_at')
+                ->where('status', Charge::$STATUS_PENDING)
+                ->count();
+
+            if ($totalParcelDoNotPay) {
+                throw new Exception(__('Há parcelas pendentes, não pode pagar essa cobrança'), Response::HTTP_BAD_REQUEST);
+            }
+        }
+
         $ret = $this->repository->update([
             'value_pay' => $value,
             'status' => Charge::$STATUS_PAYED,
@@ -101,14 +117,14 @@ class ChargeService
         $this->updateBalanceInUser($ret->chargeable, $value);
 
         if ($obj->chargeable instanceof Parcel) {
-            $obj->chargeable->chargeParcel->touch();
-            $objChargeOrigin = $obj->chargeable->chargeParcel->chargeable;
+            $obj->basecharge->charge->touch();
+            $this->updateBalanceInUser($obj, $value);
 
-            $this->updateBalanceInUser($objChargeOrigin, $value);
-
-            if ($objChargeOrigin->parcelActive->count() == 0) {
-                return $this->pay($objChargeOrigin->charge->uuid, 0);
+            if ($obj->basecharge->parcelsActive->count() == 0) {
+                return $obj->basecharge->charge->delete();
             }
+
+            $this->updateDueDateAndDateStart($obj);
         }
 
         if ($obj->recurrency_id) {
@@ -118,9 +134,25 @@ class ChargeService
         return $ret;
     }
 
-    public function delete($id)
+    public function delete($id, $obj)
     {
-        return $this->repository->delete($id);
+        DB::beginTransaction();
+
+        try {
+            $ret = $this->repository->delete($id);
+            if ($obj->chargeable instanceof Parcel) {
+                $ret = $this->updateDueDateAndDateStart($obj);
+                if (empty($ret)) {
+                    $obj->basecharge->charge->delete();
+                }
+            }
+            DB::commit();
+        } catch(Exception $e){
+            DB::rollBack();
+            throw $e;
+        }
+
+        return $ret;
     }
 
     public function getApiOverdue($idUser, $data)
@@ -176,6 +208,23 @@ class ChargeService
             ->groupBy('customer_name')
             ->orderBy('customer_name')
             ->get();
+    }
+
+    private function updateDueDateAndDateStart($obj)
+    {
+        $nextCharge = $this->repository->where('basecharge_type', $obj->basecharge_type)
+            ->where('basecharge_id', $obj->basecharge_id)
+            ->where('parcel_actual', '>', $obj->parcel_actual)
+            ->whereNull('deleted_at')
+            ->where('status', Charge::$STATUS_PENDING)
+            ->first();
+
+        if ($nextCharge) {
+            return $this->repository->update([
+                'due_date' => $nextCharge->due_date,
+                'date_start' => $nextCharge->due_date
+            ], $obj->basecharge->charge->id);
+        }
     }
 
     private function getDefaultApiQuery($idUser, $data)
