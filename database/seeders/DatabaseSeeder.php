@@ -18,8 +18,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(UserBrunoCostaSeeder::class);
-
         dump(\App\Models\User::factory(10)->create()->toArray());
     }
 

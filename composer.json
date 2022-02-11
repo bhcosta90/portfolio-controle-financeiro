@@ -6,6 +6,8 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "ext-pdo_sqlite": "*",
+        "ext-redis": "*",
         "bhcosta90/laravel-package": "master",
         "bhcosta90/laravel-table": "^1.0",
         "fruitcake/laravel-cors": "^2.0",
@@ -26,6 +28,7 @@
         "lucascudo/laravel-pt-br-localization": "^1.1",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^5.10",
+        "overtrue/phplint": "^4.0",
         "phpunit/phpunit": "^9.5.10"
     },
     "autoload": {
@@ -56,6 +59,13 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "costa": [
+            "@php artisan migrate:fresh --seed --force",
+            "@php artisan db:seed --class='Database\\Seeders\\UserBrunoCostaSeeder' --force"
+        ],
+        "migrate": [
+            "@php artisan migrate:fresh --seed --force"
         ]
     },
     "extra": {
