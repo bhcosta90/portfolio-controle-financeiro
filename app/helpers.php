@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 if (!function_exists('btnLinkIcon')) {
     function btnLinkIcon($url, $icon, $title = '', $class = 'btn-outline-primary')
@@ -14,6 +14,13 @@ if (!function_exists('btnLinkEditIcon')) {
     function btnLinkEditIcon($url)
     {
         return btnLinkIcon($url, 'far fa-edit', '', 'btn-outline-primary btn-sm');
+    }
+}
+
+if (!function_exists('btnLinkAddIcon')) {
+    function btnLinkAddIcon($url, $title = 'New register')
+    {
+        return btnLinkIcon($url, 'far fa-plus', __($title), 'btn-outline-primary btn-sm');
     }
 }
 

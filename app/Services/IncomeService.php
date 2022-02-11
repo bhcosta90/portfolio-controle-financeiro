@@ -5,9 +5,8 @@ namespace App\Services;
 use App\Models\Income;
 use App\Repositories\Contracts\IncomeRepository as Contract;
 use App\Repositories\IncomeRepositoryEloquent as Eloquent;
-use Exception;
 
-class IncomeService extends Abstracts\BaseCostIncomeService
+class IncomeService extends Abstracts\ChargeAbstractService
 {
     protected Contract $repository;
 
@@ -26,5 +25,4 @@ class IncomeService extends Abstracts\BaseCostIncomeService
     {
         return Income::class;
     }
-
 }

@@ -2,66 +2,97 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Costa\LaravelPackage\Traits\Models\UuidGenerate;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Venturecraft\Revisionable\RevisionableTrait;
+use Prettus\Repository\Contracts\Transformable;
+use Prettus\Repository\Traits\TransformableTrait;
 
-class Charge extends Model
+/**
+ * Class Charge.
+ *
+ * @package namespace App\Models;
+ */
+class Charge extends Model implements Transformable
 {
-    use HasFactory, SoftDeletes, UuidGenerate, RevisionableTrait;
+    use TransformableTrait, UuidGenerate;
 
-    protected $revisionEnabled = true;
-    protected $revisionCleanup = true;
-    protected $historyLimit = 500;
+    public static $STATUS_PENDING = 'PE';
+    public static $STATUS_PAYED = 'PA';
+    public static $STATUS_CANCELED = 'CA';
+    public static $STATUS_SYNCRONIZING = 'SY';
 
-    public static $statusOptions = [
-        'PE' => 'Pending',
-        'PA' => 'Payed',
-        'CA' => 'Canceled',
-        'SY' => 'In syncronyzed',
-    ];
+    public static $TYPE_PAYMENT_1X = -1;
+    public static $TYPE_PAYMENT_PARCEL = -2;
 
-    const STATUS_PENDING = 'PE';
-    const STATUS_PAYED = 'PA';
-
-    public static $typeOptions = [
-        'month' => 'Month',
-        'twoweek' => 'Two week',
-        'week' => 'Week',
-        'fifth_business_day' => 'Fifth business day',
-        'every_20th' => 'Every 20th',
-        'every_last_day' => 'Every last day',
-    ];
-
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'user_id',
-        'value',
-        'value_recursive',
-        'customer_name',
-        'due_date',
-        'last_date',
-        'parcel_actual',
-        'parcel_total',
-        'type',
-        'status',
-        'future',
+        'recurrency_id',
         'resume',
         'description',
+        'chargeable_id',
+        'chargeable_type',
+        'basecharge_id',
+        'basecharge_type',
+        'value',
         'value_pay',
+        'value_recurrency',
+        'customer_name',
+        'due_date',
+        'date_start',
+        'date_end',
+        'status',
+        'parcel_actual',
+        'parcel_total',
     ];
 
-    protected $casts = [
-        'value' => 'float',
-        'value_recursive' => 'float',
-        'future' => 'boolean',
-        'parcel_actual' => 'integer',
-        'parcel_total' => 'integer',
-    ];
+    public static function getTypeOptionsAttribute($type = null)
+    {
+        $ret = [
+            self::$TYPE_PAYMENT_1X => 'Pagamento a vista',
+            self::$TYPE_PAYMENT_PARCEL => 'Parcelar cobrança',
+        ];
+
+        if (!empty($type)) {
+            return $ret[$type] ?? null;
+        }
+
+        return $ret;
+    }
+
+    public static function getStatusOptionsAttribute($status = null)
+    {
+        $ret = [
+            self::$STATUS_PENDING => 'Pending',
+            self::$STATUS_PAYED => 'Payed',
+            self::$STATUS_CANCELED => 'Canceled',
+            self::$STATUS_SYNCRONIZING => 'In syncronyzed',
+        ];
+
+        if (!empty($status)) {
+            return $ret[$status] ?? null;
+        }
+
+        return $ret;
+    }
 
     public function chargeable()
     {
         return $this->morphTo();
+    }
+
+    public function getIsDueAttribute()
+    {
+        return (new Carbon())->format('Y-m-d') > $this->due_date;
+    }
+
+    public function recurrency()
+    {
+        return $this->belongsTo(Recurrency::class);
     }
 }

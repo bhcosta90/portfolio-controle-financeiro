@@ -1,10 +1,7 @@
 <?php
 
-use App\Http\Controllers\Api\{
-    CostController,
-    FormPaymentController,
-    IncomeController
-};
+use App\Http\Controllers\Api\ChargeController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,8 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['as' => 'api.'], function(){
-    Route::resource('cost', CostController::class);
-    Route::resource('income', IncomeController::class);
-    Route::resource('payment', FormPaymentController::class)->only(['index', 'create', 'store']);
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/charge', [ChargeController::class, 'home'])->can('relatorio:home');
+    Route::get('/charge/customer', [ChargeController::class, 'customer']);
 });

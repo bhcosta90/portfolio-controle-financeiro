@@ -2,7 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\Cost;
+use App\Models\Income;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,20 +18,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $user = \App\Models\User::factory()->create([
-            'username' => 'bhcosta90',
-            'name' => 'Bruno Costa',
-            'email' => 'bhcosta90@gmail.com'
-        ]);
-
-        \App\Models\Account::factory()->create([
-            'user_id' => $user->id,
-            'name' => "NU PAGAMENTOS S.A.",
-            'value' => 0,
-            'bank_code' => '0260',
-            'bank_agency' => '0001',
-            'bank_account' => '9954491',
-            'bank_digit' => '3',
-        ]);
+        dump(\App\Models\User::factory(10)->create()->toArray());
     }
+
+
 }

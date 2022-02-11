@@ -1,7 +1,11 @@
 <?php
 
-use App\Http\Controllers\Web\{AccountController, ChargeController, CostController, IncomeController};
-use Illuminate\Support\Facades\{Route, Auth};
+use App\Http\Controllers\ChargeController;
+use App\Http\Controllers\CostController;
+use App\Http\Controllers\IncomeController;
+use App\Http\Controllers\RecurrencyController;
+use App\Http\Controllers\UserProfileController;
+use Illuminate\Support\Facades\{Auth, Route};
 
 /*
 |--------------------------------------------------------------------------
@@ -14,28 +18,19 @@ use Illuminate\Support\Facades\{Route, Auth};
 |
 */
 
-Route::redirect('/', 'login');
+Route::redirect('/', '/home');
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => 'auth'], function(){
-    include __DIR__ . '/charge/cost.php';
-    include __DIR__ . '/charge/income.php';
-
-    Route::get('charge/total', [ChargeController::class, 'total']);
-    Route::get('charge/customers', [ChargeController::class, 'customer']);
-
-    Route::resource('charge', ChargeController::class)->except(['index']);
-    Route::resource('account', AccountController::class);
-
-    Route::group(['prefix' => 'charge', 'as' => 'charge.'], function () {
-        Route::get('{uuid}/pay', [ChargeController::class, 'pay'])->name('pay.create');
-        Route::post('{uuid}/pay', [ChargeController::class, 'payStore'])->name('pay.store');
-    });
-
-    Route::group(['prefix' => 'test'], function () {
-        include __DIR__ . '/teste/ofx.php';
-    });
+    Route::resource('income', IncomeController::class)->only(['index', 'create', 'store']);
+    Route::resource('cost', CostController::class)->only(['index', 'create', 'store']);
+    Route::resource('recurrency', RecurrencyController::class);
+    Route::resource('charge', ChargeController::class)->except(['index', 'create', 'store']);
+    Route::get('charge/{id}/pay', [ChargeController::class, 'pay'])->name('charge.pay.create');
+    Route::put('charge/{id}/pay', [ChargeController::class, 'payUpdate'])->name('charge.pay.update');
+    Route::get('user/profile', [UserProfileController::class, 'profile'])->name('user.profile.edit');
+    Route::post('user/profile', [UserProfileController::class, 'saveProfile'])->name('user.profile.update');
 });

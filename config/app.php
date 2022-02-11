@@ -80,7 +80,7 @@ return [
     |
     */
 
-    'locale' => env('LANGUAGE', 'pt-br'),
+    'locale' => 'pt-br',
 
     /*
     |--------------------------------------------------------------------------
@@ -174,7 +174,6 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        RealRashid\SweetAlert\SweetAlertServiceProvider::class,
 
     ],
 

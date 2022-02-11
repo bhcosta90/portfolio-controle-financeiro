@@ -8,26 +8,24 @@
         "php": "^7.3|^8.0",
         "ext-pdo_sqlite": "*",
         "ext-redis": "*",
-        "asmpkg/ofx": "dev-master",
         "bhcosta90/laravel-package": "master",
         "bhcosta90/laravel-table": "^1.0",
-        "bhcosta90/laravel-tests": "master",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
-        "jeroennoten/laravel-adminlte": "^3.7",
         "kris/laravel-form-builder": "^1.40",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
-        "realrashid/sweet-alert": "^4.1",
-        "venturecraft/revisionable": "^1.39"
+        "realrashid/sweet-alert": "^5.0"
     },
     "require-dev": {
+        "beyondcode/laravel-query-detector": "^1.5",
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
-        "laravel/sail": "^1.0.1",
+        "laravel/sail": "^1.13",
         "laravel/telescope": "^4.7",
+        "lucascudo/laravel-pt-br-localization": "^1.1",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^5.10",
         "overtrue/phplint": "^4.0",
@@ -64,8 +62,7 @@
         ],
         "costa": [
             "@php artisan migrate:fresh --seed --force",
-            "@php artisan db:seed --class='Database\\Seeders\\Cost\\User1Seeder' --force",
-            "@php artisan db:seed --class='Database\\Seeders\\Income\\User1Seeder' --force"
+            "@php artisan db:seed --class='Database\\Seeders\\UserBrunoCostaSeeder' --force"
         ],
         "migrate": [
             "@php artisan migrate:fresh --seed --force"

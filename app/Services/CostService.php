@@ -6,7 +6,7 @@ use App\Models\Cost;
 use App\Repositories\Contracts\CostRepository as Contract;
 use App\Repositories\CostRepositoryEloquent as Eloquent;
 
-class CostService extends Abstracts\BaseCostIncomeService
+class CostService extends Abstracts\ChargeAbstractService
 {
     protected Contract $repository;
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -21,8 +22,12 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('home');
+        $token = $request->user()->getTokenRelatorio()->plainTextToken;
+        $dateStart = Carbon::now()->firstOfMonth()->format('Y-m-d');
+        $dateEnd = Carbon::now()->lastOfMonth()->format('Y-m-d');
+
+        return view('home', compact('token', 'dateStart', 'dateEnd'));
     }
 }
