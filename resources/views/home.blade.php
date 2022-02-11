@@ -16,8 +16,8 @@
                     <div class="card overdue">
                         <div class="card-body">
                             <h5 class="card-title">Cobranças vencidas</h5>
-                            <h4>
-                                <span class='valor_formatado mb-0 text_status_negativo'></span>
+                            <h4 class='mb-0'>
+                                <span class='valor_formatado text_status_negativo'></span>
                                 <span class='overdue_quantity text-muted'> |
                                     <small class='valor_atual' data-title='cobranças'>...</small>
                                 </span>
