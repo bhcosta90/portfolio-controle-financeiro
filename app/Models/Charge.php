@@ -86,6 +86,16 @@ class Charge extends Model implements Transformable
         return $this->morphTo();
     }
 
+    public function basecharge()
+    {
+        return $this->morphTo();
+    }
+
+    public function chargeParcel()
+    {
+        return $this->hasOne(Charge::class);
+    }
+
     public function getIsDueAttribute()
     {
         return (new Carbon())->format('Y-m-d') > $this->due_date;

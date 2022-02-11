@@ -12,6 +12,8 @@ use App\Repositories\Contracts\ChargeRepository as Contract;
 use Carbon\Carbon;
 use Costa\LaravelPackage\Traits\Support\UserTrait;
 use Costa\LaravelPackage\Utils\Value;
+use Exception;
+use Illuminate\Http\Response;
 use Prettus\Repository\Contracts\RepositoryInterface;
 
 class ChargeService
@@ -93,6 +95,19 @@ class ChargeService
             $value = $obj->value;
         }
 
+        if ($obj->chargeable_type == Parcel::class) {
+            $totalParcelDoNotPay = $this->repository->where('basecharge_type', $obj->basecharge_type)
+                ->where('basecharge_id', $obj->basecharge_id)
+                ->where('parcel_actual', '<', $obj->parcel_actual)
+                ->whereNull('deleted_at')
+                ->where('status', Charge::$STATUS_PENDING)
+                ->count();
+
+            if ($totalParcelDoNotPay) {
+                throw new Exception(__('Há parcelas pendentes, não pode pagar essa cobrança'), Response::HTTP_BAD_REQUEST);
+            }
+        }
+
         $ret = $this->repository->update([
             'value_pay' => $value,
             'status' => Charge::$STATUS_PAYED,
@@ -101,14 +116,23 @@ class ChargeService
         $this->updateBalanceInUser($ret->chargeable, $value);
 
         if ($obj->chargeable instanceof Parcel) {
-            $obj->chargeable->chargeParcel->touch();
-            $objChargeOrigin = $obj->chargeable->chargeParcel->chargeable;
+            $obj->basecharge->charge->touch();
+            $this->updateBalanceInUser($obj, $value);
 
-            $this->updateBalanceInUser($objChargeOrigin, $value);
-
-            if ($objChargeOrigin->parcelActive->count() == 0) {
-                return $this->pay($objChargeOrigin->charge->uuid, 0);
+            if ($obj->basecharge->parcelsActive->count() == 0) {
+                return $this->pay($obj->basecharge->charge->uuid, 0);
             }
+
+            $nextCharge = $this->repository->where('basecharge_type', $obj->basecharge_type)
+                ->where('basecharge_id', $obj->basecharge_id)
+                ->where('parcel_actual', '>', $obj->parcel_actual)
+                ->whereNull('deleted_at')
+                ->where('status', Charge::$STATUS_PENDING)
+                ->first();
+
+            $this->repository->update([
+                'date_start' => $nextCharge->due_date
+            ], $obj->basecharge->charge->id);
         }
 
         if ($obj->recurrency_id) {

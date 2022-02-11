@@ -58,7 +58,7 @@ class ChargeController extends Controller
 
     protected function routeRedirectPostPut($obj = null): string
     {
-        switch($obj->chargeable_type){
+        switch(get_class($obj->basecharge)){
             case Income::class:
                 return route('income.index');
             case Cost::class:
