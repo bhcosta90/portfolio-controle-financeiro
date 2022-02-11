@@ -11,7 +11,7 @@
         "php": "^7.3|^8.0",
         "ext-pdo_sqlite": "*",
         "ext-redis": "*",
-        "bhcosta90/laravel-package": "master",
+        "bhcosta90/laravel-package": "^2.0",
         "bhcosta90/laravel-table": "^1.0",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
