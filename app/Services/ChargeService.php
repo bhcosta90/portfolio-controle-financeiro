@@ -58,7 +58,7 @@ class ChargeService
         ]);
 
         if (isset($parcels)) {
-            $this->getParcelService()->store($obj, $data, $parcels);
+            $this->getParcelService()->store($data, $parcels);
         }
 
         return $obj;

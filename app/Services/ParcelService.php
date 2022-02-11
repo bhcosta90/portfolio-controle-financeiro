@@ -24,7 +24,7 @@ class ParcelService
         return $this->repository;
     }
 
-    public function store($objBase, array $data, Collection $parcels){
+    public function store(array $data, Collection $parcels){
         foreach ($parcels as $i => $parcel) {
 
             $obj = $this->repository->create([]);
