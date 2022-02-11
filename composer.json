@@ -67,6 +67,9 @@
             "@php artisan db:seed --class='Database\\Seeders\\UserBrunoCostaSeeder' --force"
         ],
         "migrate": [
+            "@php artisan migrate --force"
+        ],
+        "migrate-fresh": [
             "@php artisan migrate:fresh --force"
         ]
     },

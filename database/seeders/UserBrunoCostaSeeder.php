@@ -55,6 +55,8 @@ class UserBrunoCostaSeeder extends Seeder
     }
 
     private function register($obj, $data){
+        $data['date_start'] = $data['due_date'];
+        $data['date_end'] = $data['due_date'];
 
         if (!empty($data['parcel_total'])) {
             $parcels = collect(app(Value::class)->parcel(new Carbon($data['due_date']), $data['value'], $data['parcel_total']));
@@ -190,7 +192,7 @@ class UserBrunoCostaSeeder extends Seeder
             ],
             [
                 'customer_name' => 'DAE',
-                'resume' => 'Água',
+                'resume' => 'Ýgua',
                 'value' => 50,
                 "due_date" => (new Carbon)->setDay(10)->format('Y-m-d'),
                 'type' => 'fifth_business_day',
