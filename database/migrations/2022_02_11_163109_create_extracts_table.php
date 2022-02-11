@@ -21,6 +21,7 @@ class CreateExtractsTable extends Migration
             $table->id('id');
             $table->uuid('uuid')->unique();
             $table->foreignId('user_id')->constrained('users');
+            $table->unsignedInteger('parcel')->nullable();
             $table->morphs('extract');
             $table->morphs('base');
             $table->unsignedDouble('value_charge');

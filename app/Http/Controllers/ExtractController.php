@@ -24,9 +24,13 @@ class ExtractController extends Controller
     protected function getTableColumns(): array
     {
         return [
-            __('Valor da transação') => fn($rs) => Str::numberEnToBr($rs->value),
+            __('Valor da transação') => fn($rs) => Str::numberEnToBr($rs->value_transfer),
             __('Tipo da Transação') => fn ($rs) => $rs->type,
             __('Origem da transação') => fn ($rs) => $rs->extract_type,
+            __('Nome') => fn ($rs) => $rs->name,
+            __('Resumo') => fn ($rs) => __($rs->resume, [
+                'actual' => $rs->parcel
+            ]),
         ];
     }
 }
