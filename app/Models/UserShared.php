@@ -9,7 +9,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class UserShared extends Model
 {
-    use HasFactory, UuidGenerate, SoftDeletes;
+    use HasFactory, UuidGenerate;
+
+    protected $fillable = [
+        'user_origin_id',
+        'user_shared_id',
+        'email',
+        'status',
+    ];
 
     public static $STATUS_PENDING = 'PE';
     public static $STATUS_ACCEPT = 'AC';
@@ -28,5 +35,22 @@ class UserShared extends Model
         }
 
         return $ret;
+    }
+
+    public function getIconStatusAttribute()
+    {
+        switch ($this->attributes['status']) {
+            case self::$STATUS_ACCEPT:
+                return 'fa-solid fa-check';
+            case self::$STATUS_NOT_ACCEPT:
+                return 'fa-solid fa-xmark';
+        }
+
+        return 'fa-solid fa-clock-rotate-left';
+    }
+
+    public function userOrigin()
+    {
+        return $this->belongsTo(User::class, 'user_origin_id');
     }
 }

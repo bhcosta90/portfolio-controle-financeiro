@@ -20,9 +20,8 @@ class CreateUserSharedsTable extends Migration
             $table->foreignId('user_origin_id')->constrained('users');
             $table->foreignId('user_shared_id')->nullable()->constrained('users');
             $table->string('email');
-            $table->enum('status', UserShared::getStatusAttribute());
+            $table->enum('status', array_keys(UserShared::getStatusAttribute()));
             $table->timestamps();
-            $table->softDeletes();
 
             $table->unique(['user_origin_id', 'email']);
         });

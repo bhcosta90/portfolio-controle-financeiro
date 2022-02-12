@@ -36,6 +36,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::put('charge/{id}/pay', [ChargeController::class, 'payUpdate'])->name('charge.pay.update');
     Route::get('user/profile', [UserProfileController::class, 'profile'])->name('user.profile.edit');
     Route::post('user/profile', [UserProfileController::class, 'saveProfile'])->name('user.profile.update');
+    Route::post('user/shared', [UserProfileController::class, 'saveShared'])->name('user.shared.update');
+    Route::delete('user/{id}/shared', [UserProfileController::class, 'deleteShared'])->name('user.shared.delete');
 
     Route::get('teste', function(){
         $objCharge = \App\Models\Charge::where('uuid', '3970677d-70d3-49c1-a429-0375f6a736b5')->first();

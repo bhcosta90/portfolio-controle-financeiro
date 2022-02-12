@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Forms;
+namespace App\Forms\User;
 
 use Kris\LaravelFormBuilder\Form;
 
-class UserForm extends Form
+class ProfileForm extends Form
 {
     public function buildForm()
     {

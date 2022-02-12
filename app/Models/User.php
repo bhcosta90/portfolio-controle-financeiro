@@ -69,6 +69,11 @@ class User extends Authenticatable
         });
     }
 
+    public function shareds()
+    {
+        return $this->hasMany(UserShared::class, 'user_origin_id');
+    }
+
     public function getSharedIdUser(): array
     {
         $ret = [
