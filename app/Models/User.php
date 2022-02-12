@@ -13,7 +13,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    private static $CACHE_TOKEN = 'v2';
+    private static $CACHE_TOKEN = 'v1';
 
     use HasApiTokens, HasFactory, Notifiable, UuidGenerate;
 
@@ -55,17 +55,26 @@ class User extends Authenticatable
 
     public function getTokenRelatorio()
     {
-        return Cache::remember('user_token_relatorio_' . $this->uuid . '_' . self::$CACHE_TOKEN, 60 * 60 * 24, function () {
+        return Cache::remember('user_token_relatorio_' . $this->uuid . '_' . self::$CACHE_TOKEN, 60 * 60, function () {
             $this->tokens()->where('name', 'acesso_relatorio')->delete();
             return $this->createToken('acesso_relatorio', ['relatorio:home']);
         });
     }
 
-    public function getTokenCustomer()
+    public function getLoginCustomer()
     {
-        return Cache::remember('user_token_custoemr_' . $this->uuid . '_' . self::$CACHE_TOKEN, 60 * 60 * 24, function () {
+        return Cache::remember('user_token_custoemr_' . $this->uuid . '_' . self::$CACHE_TOKEN, 60 * 60, function () {
             $this->tokens()->where('name', 'acesso_relatorio')->delete();
             return $this->createToken('search_customer');
         });
+    }
+
+    public function getSharedIdUser(): array
+    {
+        $ret = [
+            $this->id,
+        ];
+
+        return $ret;
     }
 }

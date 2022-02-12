@@ -66,7 +66,7 @@ class Charge extends Model implements Transformable
         return $ret;
     }
 
-    public static function getStatusOptionsAttribute($status = null)
+    public static function getStatusAttribute($status = null)
     {
         $ret = [
             self::$STATUS_PENDING => 'Pending',

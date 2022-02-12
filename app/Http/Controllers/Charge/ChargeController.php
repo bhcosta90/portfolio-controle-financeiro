@@ -34,7 +34,7 @@ class ChargeController extends Controller
 
     protected function getActionEdit(): array
     {
-        $token = request()->user()->getTokenCustomer()->plainTextToken;
+        $token = request()->user()->getLoginCustomer()->plainTextToken;
 
         return [
             'token' => $token,
