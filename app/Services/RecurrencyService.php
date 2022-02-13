@@ -27,6 +27,11 @@ class RecurrencyService
         return $this->repository->where('uuid', $id)->first();
     }
 
+    public function delete($id)
+    {
+        return $this->repository->delete($id);
+    }
+
     public function getById($id)
     {
         return $this->repository->find($id);

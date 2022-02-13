@@ -104,6 +104,6 @@ class Charge extends Model implements Transformable
 
     public function recurrency()
     {
-        return $this->belongsTo(Recurrency::class);
+        return $this->belongsTo(Recurrency::class)->withTrashed();
     }
 }

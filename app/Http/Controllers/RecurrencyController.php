@@ -6,12 +6,13 @@ use App\Forms\RecurrencyForm;
 use App\Services\RecurrencyService;
 use Costa\LaravelPackage\Traits\Support\TableTrait;
 use Costa\LaravelPackage\Traits\Web\WebCreateTrait;
+use Costa\LaravelPackage\Traits\Web\WebDestroyTrait;
 use Costa\LaravelPackage\Traits\Web\WebEditTrait;
 use Costa\LaravelPackage\Traits\Web\WebIndexTrait;
 
 class RecurrencyController extends Controller
 {
-    use WebIndexTrait, TableTrait, WebEditTrait, WebCreateTrait;
+    use WebIndexTrait, TableTrait, WebEditTrait, WebCreateTrait, WebDestroyTrait;
 
     protected function view(): string
     {
