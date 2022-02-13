@@ -28,7 +28,7 @@
 
             <div class='col-md-6 mb-3'>
                 <div class='form-group'>
-                    <label class='control-label'>&nbsp;</label>
+                    <label class='control-label'>Tipo</label>
                     <select name="type" class='form-control'>
                         <option value="0" {{request('type') == 0 ? 'selected' : ''}}>{{ __('Com as :title vencidas dos meses anteriores', ['title' => $title ?? 'cobrança']) }}</option>
                         <option value="1" {{request('type') == 1 ? 'selected' : ''}}>{{ __('Sem as :title vencidas dos meses anteriores', ['title' => $title ?? 'cobrança']) }}</option>
