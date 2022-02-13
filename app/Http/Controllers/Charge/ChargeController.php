@@ -83,7 +83,7 @@ class ChargeController extends Controller
                 break;
         }
 
-        $form = $this->transformInFormBuilder('PUT', route('charge.pay.update', $id), [], __($title), ChargePayForm::class);
+        $form = $this->transformInFormBuilder('PUT', route('charge.pay.update', $id), [], __($title, ['parcel' => $obj->parcel_actual ?? 0]), ChargePayForm::class);
         return view('charge.pay', compact('form', 'obj', 'title'));
     }
 
