@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Costa\LaravelPackage\Traits\Models\UuidGenerate;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
@@ -14,7 +15,7 @@ use Prettus\Repository\Traits\TransformableTrait;
  */
 class Recurrency extends Model implements Transformable
 {
-    use TransformableTrait, UuidGenerate;
+    use TransformableTrait, UuidGenerate, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
