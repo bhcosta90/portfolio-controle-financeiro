@@ -2,7 +2,7 @@
 @section('content')
 <div class='card'>
     <div class='card-header'>
-        <div class='float-start'><h4>Pagar cobrança</h4></div>
+        <div class='float-start'><h4>{{ $title }} cobrança</h4></div>
     </div>
     <div class='card-body'>
         <div class='row'>
@@ -17,6 +17,11 @@
             <div class='col-md-4'>
                 <label class='control-label'>Vencimento</label>
                 <h4>{!! Str::date($obj->due_date) !!}</h4>
+            </div>
+
+            <div class='col-md-12'>
+                <label class='control-label'>Resumo</label>
+                <h4>{!! $obj->resume !!}</h4>
             </div>
         </div>
         {!! form($form) !!}
