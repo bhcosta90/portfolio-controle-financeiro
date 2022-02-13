@@ -64,16 +64,16 @@
         },
         {
             "name": "bhcosta90/laravel-package",
-            "version": "2.0.19",
+            "version": "2.0.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bhcosta90/laravel-package.git",
-                "reference": "0635a702dcf1a86db78f0de6752c6abb75b14d3f"
+                "reference": "6a11e3597caed004fb3fee9cb49f3f6602ab18c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bhcosta90/laravel-package/zipball/0635a702dcf1a86db78f0de6752c6abb75b14d3f",
-                "reference": "0635a702dcf1a86db78f0de6752c6abb75b14d3f",
+                "url": "https://api.github.com/repos/bhcosta90/laravel-package/zipball/6a11e3597caed004fb3fee9cb49f3f6602ab18c4",
+                "reference": "6a11e3597caed004fb3fee9cb49f3f6602ab18c4",
                 "shasum": ""
             },
             "require": {
@@ -109,9 +109,9 @@
             "description": "package to facilitate the laravel",
             "support": {
                 "issues": "https://github.com/bhcosta90/laravel-package/issues",
-                "source": "https://github.com/bhcosta90/laravel-package/tree/2.0.19"
+                "source": "https://github.com/bhcosta90/laravel-package/tree/2.0.20"
             },
-            "time": "2022-02-13T02:45:26+00:00"
+            "time": "2022-02-13T03:07:14+00:00"
         },
         {
             "name": "bhcosta90/laravel-table",
