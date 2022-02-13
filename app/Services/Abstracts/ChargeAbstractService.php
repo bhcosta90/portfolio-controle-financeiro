@@ -66,10 +66,7 @@ abstract class ChargeAbstractService
             ->with('charge.recurrency', 'parcelsActive')
             ->orderBy('charges.date_start');
 
-        return [
-            'type' => Charge::$TYPE_PAYMENT_1X,
-            'result' => $result,
-        ];
+        return $result;
     }
 
     public function webStore($data)

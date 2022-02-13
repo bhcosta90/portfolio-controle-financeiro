@@ -8,6 +8,7 @@ use App\Models\Cost;
 use App\Models\Extract;
 use App\Models\Income;
 use App\Models\Parcel;
+use App\Models\User;
 use App\Repositories\ChargeRepositoryEloquent as Eloquent;
 use App\Repositories\Contracts\ChargeRepository as Contract;
 use Carbon\Carbon;
@@ -95,7 +96,7 @@ class ChargeService
         return $this->repository->where('uuid', $id)->firstOrFail();
     }
 
-    public function pay($obj, $value = null)
+    public function pay($obj, User $user, $value = null)
     {
         if ($value === null) {
             $value = $obj->value;
@@ -119,11 +120,8 @@ class ChargeService
             'status' => Charge::$STATUS_PAYED,
         ], $obj->id);
 
-        $this->updateBalanceInUser($ret->chargeable, $value);
-
         if ($obj->chargeable instanceof Parcel) {
             $obj->basecharge->charge->touch();
-            $this->updateBalanceInUser($obj, $value);
 
             if ($obj->basecharge->parcelsActive->count() == 0) {
                 return $obj->basecharge->charge->delete();
@@ -132,13 +130,14 @@ class ChargeService
             $this->updateDueDateAndDateStart($obj);
         }
 
-        $this->getExtractService()->registerExtract($obj->chargeable, $value, Extract::$TYPE_PAYMENT, [
+        $this->getExtractService()->registerExtract($user, $obj->chargeable, $value, Extract::$TYPE_PAYMENT, [
             'value_charge' => $obj->value,
             'name' => $obj->customer_name,
             'resume' => $obj->basecharge->charge->resume,
             'base_type' => $obj->basecharge_type,
             'base_id' => $obj->basecharge_id,
             'parcel' => $obj->parcel_actual ?? null,
+            'user' => $user,
         ]);
 
         if ($obj->recurrency_id) {
@@ -221,7 +220,7 @@ class ChargeService
             ->where('customer_name', 'like', "%{$customer}%")
             ->groupBy('customer_name')
             ->orderBy('customer_name')
-            ->where('id_user', $idUser)
+            ->where('user_id', $idUser)
             ->get();
     }
 
@@ -255,23 +254,6 @@ class ChargeService
             ->whereNull('value_pay')
             ->whereNull('deleted_at')
             ->where('user_id', $idUser);
-    }
-
-    private function updateBalanceInUser($obj, $value)
-    {
-        if ($obj instanceof Parcel) {
-            return $this->updateBalanceInUser($obj->charge->basecharge, $value);
-        }
-
-        switch (get_class($obj)) {
-            case Income::class:
-                $this->getUser()->increment('balance_value', $value);
-                break;
-            case Cost::class:
-                $this->getUser()->decrement('balance_value', $value);
-                $value *= -1;
-                break;
-        }
     }
 
     /**

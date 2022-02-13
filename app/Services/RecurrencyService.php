@@ -9,8 +9,6 @@ use Costa\LaravelPackage\Traits\Support\UserTrait;
 
 class RecurrencyService
 {
-    use UserTrait;
-
     private Contract $repository;
 
     public function __construct(Contract $repository)
@@ -19,19 +17,24 @@ class RecurrencyService
         $this->repository = $repository;
     }
 
-    public function data()
+    public function data($filter)
     {
-        return $this->repository->where('user_id', $this->getUser()->id)
+        return $this->repository->where('user_id', $filter['user_id'])
             ->orderBy('name');
     }
 
     public function find($id){
-        return $this->data()->where('uuid', $id)->first();
+        return $this->repository->where('uuid', $id)->first();
+    }
+
+    public function delete($id)
+    {
+        return $this->repository->delete($id);
     }
 
     public function getById($id)
     {
-        return $this->data()->find($id);
+        return $this->repository->find($id);
     }
 
     public function webStore($data)
@@ -68,8 +71,8 @@ class RecurrencyService
         }
     }
 
-    public function pluck()
+    public function pluck($idUser)
     {
-        return $this->data()->pluck('name', 'id')->toArray();
+        return $this->data(['user_id' => $idUser])->pluck('name', 'id')->toArray();
     }
 }

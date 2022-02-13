@@ -66,7 +66,7 @@ class Charge extends Model implements Transformable
         return $ret;
     }
 
-    public static function getStatusOptionsAttribute($status = null)
+    public static function getStatusAttribute($status = null)
     {
         $ret = [
             self::$STATUS_PENDING => 'Pending',
@@ -104,6 +104,6 @@ class Charge extends Model implements Transformable
 
     public function recurrency()
     {
-        return $this->belongsTo(Recurrency::class);
+        return $this->belongsTo(Recurrency::class)->withTrashed();
     }
 }

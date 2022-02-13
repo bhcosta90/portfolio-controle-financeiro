@@ -28,7 +28,7 @@
 
             <div class='col-md-6 mb-3'>
                 <div class='form-group'>
-                    <label class='control-label'>&nbsp;</label>
+                    <label class='control-label'>Tipo</label>
                     <select name="type" class='form-control'>
                         <option value="0" {{request('type') == 0 ? 'selected' : ''}}>{{ __('Com as :title vencidas dos meses anteriores', ['title' => $title ?? 'cobrança']) }}</option>
                         <option value="1" {{request('type') == 1 ? 'selected' : ''}}>{{ __('Sem as :title vencidas dos meses anteriores', ['title' => $title ?? 'cobrança']) }}</option>
@@ -49,7 +49,7 @@
 
 @foreach($data as $rs)
 <div class='card mb-1'>
-    <div class='card-header {{$rs->charge->is_due && empty($rs->charge->parcel_total) ? 'text-danger' : '' }}'>
+    <div class='card-header {{$rs->charge->is_due ? 'text-danger' : '' }}'>
         <div class='float-start'>
             <h6 class='mb-0 {{$rs->charge->is_due && empty($rs->charge->parcel_total) ? '' : '' }}'>
                 {{ $rs->charge->customer_name }} - {{ $rs->charge->resume }}
@@ -78,7 +78,7 @@
                     $totalParcelas = $rs->charge->value;
                 }
                 @endphp
-                <small class='text-muted'>{{ __('Cobrança parcelada em: :totalx no valor total de: R$:valor, ainda falta pagar o total de :totalParcelas parcela(s) no valor de: :faltaPagar', [
+                <small class='{{$rs->charge->is_due ? 'text-danger' : 'text-muted' }}''>{{ __('Cobrança parcelada em: :totalx no valor total de: R$:valor, ainda falta pagar o total de :totalParcelas parcela(s) no valor de: :faltaPagar', [
                     'total' => $rs->charge->parcel_total,
                     'valor' => Str::numberEnToBr($rs->charge->value),
                     'totalParcelas' => $quantidade,

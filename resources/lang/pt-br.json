@@ -87,5 +87,7 @@
     "Successfully saved": "Registro salvo com sucesso",
     "Successfully registered": "Registro cadastrado com sucesso",
     "Successfully deleted record": "Registro deletado com sucesso",
-    "Do not results": "Não há resultados"
+    "Do not results": "Não há resultados",
+    "Start date": "Data inicial",
+    "Final date": "Data final"
 }

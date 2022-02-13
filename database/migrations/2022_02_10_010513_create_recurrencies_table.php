@@ -24,6 +24,7 @@ class CreateRecurrenciesTable extends Migration
             $table->string('name');
             $table->boolean('can_updated')->nullable()->default(true);
             $table->timestamps();
+            $table->softDeletes();
 
             $table->unique(['user_id', 'type']);
 		});

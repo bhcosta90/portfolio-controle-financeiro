@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Charge;
 
 use App\Forms\Charge\CostForm;
 use App\Http\Controllers\Controller;
+use App\Models\Charge;
 use App\Services\CostService;
 use Carbon\Carbon;
 use Costa\LaravelPackage\Traits\Web\WebCreateTrait;
@@ -40,7 +41,7 @@ class CostController extends Controller
 
     protected function getActionCreate(): array
     {
-        $token = request()->user()->getTokenCustomer()->plainTextToken;
+        $token = request()->user()->getLoginCustomer()->plainTextToken;
 
         return [
             'token' => $token,
@@ -52,6 +53,13 @@ class CostController extends Controller
         return [
             'due_date' => (new Carbon())->format('Y-m-d'),
             'parcel' => 0,
+        ];
+    }
+
+    protected function getActionIndex(): array
+    {
+        return [
+            'type' => Charge::$TYPE_PAYMENT_1X
         ];
     }
 }
