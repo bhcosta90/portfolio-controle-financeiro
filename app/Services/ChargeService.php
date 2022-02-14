@@ -132,7 +132,7 @@ class ChargeService
         return $this->repository->where('uuid', $id)->firstOrFail();
     }
 
-    public function pay($obj, User $user, $value = null)
+    public function pay($obj, User $user, $value)
     {
         if ($value === null) {
             $value = $obj->value;
