@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\User;
 use App\Models\UserShared;
 
 class UserSharedService
@@ -36,6 +37,30 @@ class UserSharedService
             'email' => $email,
             'status' => UserShared::$STATUS_PENDING,
         ]);
+    }
+
+    public function update($data, $id)
+    {
+        $obj = $this->find($id);
+        $obj->update($data);
+
+        return $obj;
+    }
+
+    public function approved(User $user, $id)
+    {
+        $obj = $this->update([
+            'user_shared_id' => $user->id,
+        ], $id);
+
+        $this->repository->create([
+            'status' => UserShared::$STATUS_ACCEPT,
+            'user_origin_id' => $user->id,
+            'user_shared_id' => $obj->user_origin_id,
+            'email' => $obj->userOrigin->email,
+        ]);
+
+        return $obj;
     }
 
     public function myPendentsShared(string $email)

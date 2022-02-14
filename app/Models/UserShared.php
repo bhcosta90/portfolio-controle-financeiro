@@ -5,7 +5,6 @@ namespace App\Models;
 use Costa\LaravelPackage\Traits\Models\UuidGenerate;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class UserShared extends Model
 {

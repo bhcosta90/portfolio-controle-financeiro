@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Forms\User\ProfileForm;
 use App\Forms\User\SharedForm;
+use App\Models\UserShared;
 use App\Services\UserSharedService;
 use Costa\LaravelPackage\Traits\Support\FormTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Throwable;
 
 class UserProfileController extends Controller
 {
@@ -60,6 +63,24 @@ class UserProfileController extends Controller
     public function deleteShared($id){
         $this->getUserSharedService()->delete($this->getUserSharedService()->find($id)->id);
         return redirect()->back()->with('success', __('Foi deletado com sucesso esse compartilhamento'));
+    }
+
+    public function typeRejectShared($id){
+        $this->getUserSharedService()->update(['status' => UserShared::$STATUS_NOT_ACCEPT], $id);
+        return redirect()->back()->with('success', __('O compartilhamento foi reprovado com sucesso'));
+    }
+
+    public function typeApprovedShared(Request $request, $id){
+        DB::beginTransaction();
+        try {
+            $this->getUserSharedService()->update(['status' => UserShared::$STATUS_ACCEPT], $id);
+            $this->getUserSharedService()->approved($request->user(), $id);
+            DB::commit();
+            return redirect()->back()->with('success', __('O compartilhamento foi reprovado com sucesso'));
+        } catch(Throwable $e){
+            DB::rollBack();
+            throw $e;
+        }
     }
 
     protected function form(): string

@@ -77,8 +77,8 @@
                 <td style='width:50%'>{{ $shared->userOrigin->email }}</td>
                 <td>
                     <div class="btn-group" role="group" aria-label="Basic example">
-                        <div>{!!btnLinkDelIcon('', 'fa-solid fa-check', 'btn btn-sm btn-outline-success btn-link-delete', null, 'Tem certeza que deseja aprovar esse compartilhamento?')!!}</div>
-                        <div>{!!btnLinkDelIcon('', 'fa-solid fa-xmark', 'btn btn-sm btn-outline-danger btn-link-delete')!!}</div>
+                        <div>{!!btnLinkDelIcon(route('user.shared.approved', ['id' => $shared->uuid]), 'fa-solid fa-check', 'btn btn-sm btn-outline-success btn-link-delete', null, 'Tem certeza que deseja aprovar esse compartilhamento?', 'POST')!!}</div>
+                        <div>{!!btnLinkDelIcon(route('user.shared.reject', ['id' => $shared->uuid]), 'fa-solid fa-xmark', 'btn btn-sm btn-outline-danger btn-link-delete', null, 'Tem certeza que deseja deletar essa linha?', 'POST')!!}</div>
                         {{-- <button type="button" class="btn btn-sm btn-outline-success">{{ __('Aceitar') }}</button>
                         <button type="button" class="btn btn-sm btn-outline-danger">{{ __('Recusar') }}</button> --}}
                     </div>
