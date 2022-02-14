@@ -87,7 +87,7 @@ class User extends Authenticatable
 
         return array_unique(array_merge(
             $ret,
-            $this->sharedsShared->pluck('user_origin_id')->toArray()
+            $this->sharedsShared()->where('status', UserShared::$STATUS_ACCEPT)->pluck('user_origin_id')->toArray()
         ));
     }
 }
