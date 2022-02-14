@@ -29,7 +29,7 @@ class ChargeController extends Controller
     }
 
     public function customer(Request $request){
-        $data = $this->getService()->getCustomers($request->user()->id, $request->search)->toArray();
+        $data = $this->getService()->getCustomers($request->user()->getSharedIdUser(), $request->search)->toArray();
         $dataResult = array_map(fn ($ret) => ['id' => $ret['name'], 'text' => $ret['name']] + $ret, $data);
 
         array_push($dataResult, ['id' => 0, 'id_user' => null, 'text' => $request->search]);

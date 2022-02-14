@@ -6,13 +6,13 @@ $("body").on("click", ".btn-link-delete", function (event) {
 
     Swal.fire({
         title: "Voce tem certeza?",
-        text: "Você não pode reverter essa ação depois!",
+        text: $(el).parent().find("form").data('text'),
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Sim, delete isso!",
-        cancelButtonText: "Não, cancele isso!",
+        confirmButtonText: "Sim",
+        cancelButtonText: "Cancelar",
     }).then((result) => {
         if (result.isConfirmed) {
             $(el).parent().find("form").submit();
