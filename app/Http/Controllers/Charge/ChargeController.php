@@ -17,6 +17,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Throwable;
+use Illuminate\Support\Str;
 
 class ChargeController extends Controller
 {
@@ -45,6 +46,8 @@ class ChargeController extends Controller
     {
         $ret = $obj->toArray();
         $ret['name'] = $obj->customer_name;
+        $ret['value'] = Str::numberEnToBr($ret['value']);
+        $ret['recurrency'] = $ret['recurrency_id'];
         return $ret;
     }
 
@@ -75,8 +78,16 @@ class ChargeController extends Controller
     public function pay($id)
     {
         $obj = $this->getService()->find($id);
-        $form = $this->transformInFormBuilder('PUT', route('charge.pay.update', $id), [], __('Pagar'), ChargePayForm::class);
-        return view('charge.pay', compact('form', 'obj'));
+
+        $title = 'Pagar';
+        switch (get_class($obj->basecharge)) {
+            case Income::class:
+                $title = 'Receber';
+                break;
+        }
+
+        $form = $this->transformInFormBuilder('PUT', route('charge.pay.update', $id), [], __($title), ChargePayForm::class);
+        return view('charge.pay', compact('form', 'obj', 'title'));
     }
 
     public function payUpdate($id, Request $request)

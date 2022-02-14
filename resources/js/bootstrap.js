@@ -1,16 +1,17 @@
-window._ = require('lodash');
+window._ = require("lodash");
 
 try {
-    require('bootstrap');
+    require("bootstrap");
 } catch (e) {}
 
 try {
-    window.$ = require('jquery');
+    window.$ = require("jquery");
 
     $.ajaxSetup({
         headers: {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-            "Authorization": 'Bearer ' + $('meta[name="user-token"]').attr("content"),
+            Authorization:
+                "Bearer " + $('meta[name="user-token"]').attr("content"),
         },
     });
 } catch (e) {}
@@ -18,7 +19,45 @@ try {
 try {
     window.select2 = require("select2");
     $.fn.select2.defaults.set("theme", "bootstrap-5");
-    $('.select2').select2();
+    $("select.select2").select2();
+} catch (e) {
+    console.log(e);
+}
+
+try {
+    require("jquery-mask-plugin");
+    // $("input.value").mask("000.000.000.000.000,00", { reverse: true });
+    $("input.value.negative").mask("000.000,00", {
+        reverse: true,
+        translation: {
+            0: {
+                pattern: /-|\d/,
+                recursive: true,
+            },
+        },
+        onChange: function (value, e) {
+            e.target.value = value
+                .replace(/^-\./, "-")
+                .replace(/^-,/, "-")
+                .replace(/(?!^)-/g, "");
+        },
+    });
+
+    $("input.value").mask("000.000,00", {
+        reverse: true,
+        translation: {
+            0: {
+                pattern: /\d/,
+                recursive: true,
+            },
+        },
+        onChange: function (value, e) {
+            e.target.value = value
+                .replace(/^-\./, "-")
+                .replace(/^-,/, "-")
+                .replace(/(?!^)-/g, "");
+        },
+    });
 } catch (e) {
     console.log(e);
 }
@@ -29,9 +68,9 @@ try {
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = require('axios');
+window.axios = require("axios");
 
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

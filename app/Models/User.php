@@ -64,7 +64,7 @@ class User extends Authenticatable
     public function getLoginCustomer()
     {
         return Cache::remember('user_token_custoemr_' . $this->uuid . '_' . self::$CACHE_TOKEN, 60 * 60, function () {
-            $this->tokens()->where('name', 'acesso_relatorio')->delete();
+            $this->tokens()->where('name', 'login_customer')->delete();
             return $this->createToken('search_customer');
         });
     }

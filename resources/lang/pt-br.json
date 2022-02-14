@@ -89,5 +89,7 @@
     "Successfully deleted record": "Registro deletado com sucesso",
     "Do not results": "Não há resultados",
     "Start date": "Data inicial",
-    "Final date": "Data final"
+    "Final date": "Data final",
+    "Updated": "Atualizar",
+    "Created": "Cadastrar"
 }

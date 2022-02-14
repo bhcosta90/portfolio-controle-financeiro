@@ -7,6 +7,7 @@ use App\Services\ChargeService;
 use App\Services\RecurrencyService;
 use Carbon\Carbon;
 use Costa\LaravelPackage\Utils\Recursive;
+use Illuminate\Support\Str;
 
 abstract class ChargeAbstractService
 {
@@ -85,6 +86,9 @@ abstract class ChargeAbstractService
 
             $data['due_date'] = $dates[0]['date_week'];
         }
+
+        $data['value'] = Str::numberBrToEn($data['value']);
+
         return $this->getChargeService()->store($this->repository, $data);
     }
 
