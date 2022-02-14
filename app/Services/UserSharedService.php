@@ -32,11 +32,19 @@ class UserSharedService
 
     public function shared(int $idUser, string $email)
     {
-        return $this->repository->create([
+        $ret = $this->repository->firstOrCreate([
+            'user_origin_id' => $idUser,
+            'email' => $email,
+        ], [
             'user_origin_id' => $idUser,
             'email' => $email,
             'status' => UserShared::$STATUS_PENDING,
         ]);
+
+        if ($ret->wasRecentlyCreated == false) {
+            $ret->status = UserShared::$STATUS_PENDING;
+            $ret->save();
+        }
     }
 
     public function update($data, $id)
