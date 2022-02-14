@@ -47,6 +47,7 @@ class ChargeController extends Controller
         $ret = $obj->toArray();
         $ret['name'] = $obj->customer_name;
         $ret['value'] = Str::numberEnToBr($ret['value']);
+        $ret['recurrency'] = $ret['recurrency_id'];
         return $ret;
     }
 

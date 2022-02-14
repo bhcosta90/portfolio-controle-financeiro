@@ -25,11 +25,14 @@ class ChargeForm extends Form
                 }
         }
 
-        if (!$this->getData()['model']['chargeable_type'] == Parcel::class) {
-            $this->dueDate();
-        } else {
-            $this->recurrency();
-            $this->parcel();
+        $this->dueDate();
+
+        switch($this->getData()['model']['chargeable_type']){
+            case Parcel::class:
+                break;
+            default:
+                $this->recurrency();
+                $this->parcel();
         }
 
         $this->value();
