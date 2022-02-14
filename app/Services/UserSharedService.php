@@ -35,6 +35,9 @@ class UserSharedService
         return $this->repository->create([
             'user_origin_id' => $idUser,
             'email' => $email,
+        ], [
+            'user_origin_id' => $idUser,
+            'email' => $email,
             'status' => UserShared::$STATUS_PENDING,
         ]);
     }
