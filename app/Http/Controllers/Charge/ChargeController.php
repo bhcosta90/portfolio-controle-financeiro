@@ -101,7 +101,7 @@ class ChargeController extends Controller
             }
 
             $data = $this->getDataForm(ChargePayForm::class);
-            $this->getService()->pay($obj, $request->user(), $data['value_pay']);
+            $this->getService()->pay($obj, $request->user(), Str::numberBrToEn($data['value_pay']));
             DB::commit();
             return redirect($this->routeRedirectPostPut($obj))->with('success', __('Cobrança paga com sucesso'));
         } catch (Throwable $e) {
