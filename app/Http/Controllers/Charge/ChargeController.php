@@ -17,6 +17,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Throwable;
+use Illuminate\Support\Str;
 
 class ChargeController extends Controller
 {
@@ -45,6 +46,8 @@ class ChargeController extends Controller
     {
         $ret = $obj->toArray();
         $ret['name'] = $obj->customer_name;
+        $ret['value'] = Str::numberEnToBr($ret['value']);
+        $ret['recurrency'] = $ret['recurrency_id'];
         return $ret;
     }
 

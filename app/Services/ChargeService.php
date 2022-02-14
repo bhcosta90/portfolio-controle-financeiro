@@ -13,11 +13,13 @@ use App\Repositories\ChargeRepositoryEloquent as Eloquent;
 use App\Repositories\Contracts\ChargeRepository as Contract;
 use Carbon\Carbon;
 use Costa\LaravelPackage\Traits\Support\UserTrait;
+use Costa\LaravelPackage\Utils\Recursive;
 use Costa\LaravelPackage\Utils\Value;
 use Exception;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Prettus\Repository\Contracts\RepositoryInterface;
+use Illuminate\Support\Str;
 
 class ChargeService
 {
@@ -55,7 +57,7 @@ class ChargeService
         $this->create($obj, $data + [
             'basecharge_type' => get_class($obj),
             'basecharge_id' => $obj->id,
-            'parcel_total' => count($parcels ?? []),
+            'parcel_total' => isset($parcels) ? count($parcels) : null,
             'value_recurrency' => $data['value'],
         ]);
 
@@ -74,21 +76,55 @@ class ChargeService
         ]);
     }
 
-    public function webUpdate($data, $id)
+    public function webUpdate($data, $id, $obj)
     {
         if(isset($data['name'])){
             $data['customer_name'] = $data['name'];
         }
+
         if(isset($data['due_date'])){
             $data['date_start'] = $data['due_date'];
             $data['date_end'] = $data['due_date'];
         }
 
-        if (!empty($data['updated_value'])) {
+        $data['value'] = Str::numberBrToEn($data['value']);
+        $data['recurrency_id'] = $data['recurrency'] > 0 ? $data['recurrency'] : null;
+
+        if (!empty($data['updated_value']) || $obj->parcel_total == null) {
             $data['value_recurrency'] = $data['value'];
         }
 
-        return $this->repository->update($data, $id);
+        if (!empty($data['recurrency']) && $data['recurrency'] > 0) {
+
+            $type = $this->getRecurrencyService()->getById($data['recurrency']);
+
+            /** @var Recursive $objRecursive */
+            $dates = app(Recursive::class)->calculate(
+                $type->type,
+                (new Carbon($data['due_date'])),
+                (new Carbon($data['due_date']))->addMonth()->lastOfMonth(),
+                ['first_date' => true]
+            );
+
+            $data['due_date'] = $dates[0]['date_week'];
+        }
+
+        if ($data['recurrency'] == Charge::$TYPE_PAYMENT_PARCEL) {
+            $data['date_start'] = $data['due_date'];
+            $date = new Carbon($data['due_date']);
+            $parcels = collect(app(Value::class)->parcel($date, $data['value'], $data['parcel']));
+            $data['date_end'] = $parcels->last()['due_date'];
+        }
+
+        $data['parcel_total'] = isset($parcels) ? count($parcels) : null;
+
+        $ret = $this->repository->update($data, $id);
+
+        if (isset($parcels)) {
+            $this->getParcelService()->store($obj->basecharge, $data, $parcels);
+        }
+
+        return $ret;
     }
 
     public function find($id)
@@ -270,5 +306,13 @@ class ChargeService
     protected function getExtractService()
     {
         return app(ExtractService::class);
+    }
+
+    /**
+     * @return RecurrencyService
+     */
+    protected function getRecurrencyService()
+    {
+        return app(RecurrencyService::class);
     }
 }

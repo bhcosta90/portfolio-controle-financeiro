@@ -21,7 +21,7 @@
 
             <div class='col-md-12'>
                 <label class='control-label'>Resumo</label>
-                <h4>{!! $obj->resume !!}</h4>
+                <h4>{!! __($obj->resume, ['actual' => $obj->parcel_actual]) !!}</h4>
             </div>
         </div>
         {!! form($form) !!}

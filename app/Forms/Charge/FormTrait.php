@@ -27,7 +27,7 @@ trait FormTrait
         ]);
     }
 
-    protected function recurrency()
+    protected function recurrency($parcel = true)
     {
         $this->add('recurrency', 'select', [
             'choices' => $data =  Charge::getTypeOptionsAttribute() + $this->getRecurrencyService()->pluck($this->request->user()->id),
@@ -59,14 +59,17 @@ trait FormTrait
 
     protected function value()
     {
-        $this->add('value', 'number', [
-            'rules' => ['required', 'numeric', 'min:0', 'max:999999999'],
+        $this->add('value', 'text', [
+            'rules' => ['required'],
             'label' => __('Quantidade de parcela'),
             'label' => __('Valor da cobrança'),
             'label_attr' => [
                 'data-default' => __('Valor da cobrança'),
                 'data-recurrency' => __('Valor da cobrança'),
                 'data-parcel' => __('Valor total da cobrança')
+            ],
+            'attr' => [
+                'class' => 'form-control value'
             ]
         ]);
     }
