@@ -55,7 +55,7 @@ class ChargeService
         $this->create($obj, $data + [
             'basecharge_type' => get_class($obj),
             'basecharge_id' => $obj->id,
-            'parcel_total' => count($parcels ?? []),
+            'parcel_total' => isset($parcels) ? count($parcels) : null,
             'value_recurrency' => $data['value'],
         ]);
 
