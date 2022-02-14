@@ -53,11 +53,14 @@ class UserSharedService
             'user_shared_id' => $user->id,
         ], $id);
 
-        $this->repository->create([
+
+        $this->repository->firstOrCreate([
+            'user_origin_id' => $user->id,
+            'email' => $obj->userOrigin->email,
+        ], [
             'status' => UserShared::$STATUS_ACCEPT,
             'user_origin_id' => $user->id,
             'user_shared_id' => $obj->user_origin_id,
-            'email' => $obj->userOrigin->email,
         ]);
 
         return $obj;

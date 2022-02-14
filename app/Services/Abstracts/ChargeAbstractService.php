@@ -41,7 +41,7 @@ abstract class ChargeAbstractService
         $filters['date_finish'] = $filters['date_finish']->format('Y-m-d');
 
         $result = $this->repository->whereHas('charge', function ($obj) use ($filters) {
-            $obj->where('user_id', $filters['user_id']);
+            $obj->whereIn('user_id', $filters['user']->getSharedIdUser());
             $obj->where(function ($obj) use ($filters) {
                 $obj->whereBetween('due_date', [$filters['date_start'], $filters['date_finish']]);
                 if (in_array($filters['type'], [0, 2])) {

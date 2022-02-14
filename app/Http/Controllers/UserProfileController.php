@@ -26,13 +26,11 @@ class UserProfileController extends Controller
 
         $sharedForm = $this->transformInFormBuilder("POST", route('user.shared.update'), [], null, SharedForm::class);
 
-
-
         return view('user.profile', [
             'user' => $request->user(),
             'form' => $form,
             'sharedForm' => $sharedForm,
-            'shareds' => $data->shareds,
+            'shareds' => $data->sharedsOrigin,
         ]);
     }
 
