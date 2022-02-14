@@ -32,7 +32,7 @@ class UserSharedService
 
     public function shared(int $idUser, string $email)
     {
-        return $this->repository->create([
+        return $this->repository->firstOrCreate([
             'user_origin_id' => $idUser,
             'email' => $email,
         ], [
