@@ -18,6 +18,7 @@ use Exception;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Prettus\Repository\Contracts\RepositoryInterface;
+use Illuminate\Support\Str;
 
 class ChargeService
 {
@@ -87,6 +88,8 @@ class ChargeService
         if (!empty($data['updated_value'])) {
             $data['value_recurrency'] = $data['value'];
         }
+
+        $data['value'] = Str::numberBrToEn($data['value']);
 
         return $this->repository->update($data, $id);
     }
