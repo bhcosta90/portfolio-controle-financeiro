@@ -29,14 +29,8 @@ trait FormTrait
 
     protected function recurrency($parcel = true)
     {
-        $data =  Charge::getTypeOptionsAttribute() + $this->getRecurrencyService()->pluck($this->request->user()->id);
-
-        if($parcel === false){
-            unset($data[-2]);
-        }
-
         $this->add('recurrency', 'select', [
-            'choices' => $data,
+            'choices' => $data =  Charge::getTypeOptionsAttribute() + $this->getRecurrencyService()->pluck($this->request->user()->id),
             'label' => __("Frequência"),
             'rules' => ['required', 'in:' . implode(',', array_keys($data))],
         ]);
