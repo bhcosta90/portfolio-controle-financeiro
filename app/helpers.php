@@ -25,18 +25,18 @@ if (!function_exists('btnLinkAddIcon')) {
 }
 
 if (!function_exists('btnLinkDelIcon')) {
-    function btnLinkDelIcon($url, $icon = 'fas fa-trash-alt', $class = 'btn-outline-danger btn-sm btn-link-delete', $title = '', $textConfirm = 'Tem certeza que deseja deletar essa linha?')
+    function btnLinkDelIcon($url, $icon = 'fas fa-trash-alt', $class = 'btn-outline-danger btn-sm btn-link-delete', $title = '', $textConfirm = 'Tem certeza que deseja deletar essa linha?', $action = 'DELETE')
     {
         $form_id = sha1($url);
-        $html = Form::open([
+        $html = btnLinkIcon("#{$form_id}", $icon, $title, $class);
+        $html .= Form::open([
             'url' => $url,
             'id' => $form_id,
-            'method' => 'DELETE',
+            'method' => $action,
             'class' => 'form-delete-confirmation',
             'data-text' => $textConfirm
         ]);
         $html .= Form::close();
-        $html .= btnLinkIcon("#{$form_id}", $icon, $title, $class);
         return $html;
     }
 }

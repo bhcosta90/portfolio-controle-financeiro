@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\UserSharedService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -28,6 +29,16 @@ class HomeController extends Controller
         $dateStart = Carbon::now()->firstOfMonth()->format('Y-m-d');
         $dateEnd = Carbon::now()->lastOfMonth()->format('Y-m-d');
 
-        return view('home', compact('token', 'dateStart', 'dateEnd'));
+        $shareds = $this->getUserSharedService()->myPendentsShared($request->user()->email);
+
+        return view('home', compact('token', 'dateStart', 'dateEnd', 'shareds'));
+    }
+
+    /**
+     * @return UserSharedService
+     */
+    protected function getUserSharedService()
+    {
+        return app(UserSharedService::class);
     }
 }

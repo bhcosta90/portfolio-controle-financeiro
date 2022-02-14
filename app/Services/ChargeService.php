@@ -256,7 +256,7 @@ class ChargeService
             ->where('customer_name', 'like', "%{$customer}%")
             ->groupBy('customer_name')
             ->orderBy('customer_name')
-            ->where('user_id', $idUser)
+            ->whereIn('user_id', $idUser)
             ->get();
     }
 
