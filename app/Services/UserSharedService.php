@@ -35,10 +35,10 @@ class UserSharedService
         return $this->repository->firstOrCreate([
             'user_origin_id' => $idUser,
             'email' => $email,
+            'status' => UserShared::$STATUS_PENDING,
         ], [
             'user_origin_id' => $idUser,
             'email' => $email,
-            'status' => UserShared::$STATUS_PENDING,
         ]);
     }
 
