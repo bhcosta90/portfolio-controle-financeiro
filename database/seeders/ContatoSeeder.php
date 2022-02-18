@@ -29,7 +29,7 @@ class ContatoSeeder extends Seeder
 
         $user = \App\Models\User::factory()->create([
             'name' => 'Contato de Teste',
-            'email' => 'contato@norelly.com',
+            'email' => 'contato@noreply.com',
             'tenant_id' => $tenant->id,
             'password' => '$2y$10$iPROZXJucKKgUfuEkBqrTOf2aG4.ytR9c58MyEasXDk6Zn9HUXdy2' // 123456
         ]);
