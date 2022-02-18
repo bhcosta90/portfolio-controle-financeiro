@@ -13,7 +13,7 @@ final class ContaBancariaService
 
     public function data()
     {
-        return $this->repository->with(['banco', 'banco.entidade'])
+        return $this->repository->with(['entidade'])
             ->orderBy('id', 'desc');
     }
 

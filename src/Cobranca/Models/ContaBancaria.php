@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Entidade\Models\Banco;
+use Modules\Entidade\Models\Entidade;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 
 class ContaBancaria extends Model
@@ -21,7 +22,7 @@ class ContaBancaria extends Model
     public static $TIPO_CP = 'CP';
 
     protected $fillable = [
-        'banco_id',
+        'entidade_id',
         'agencia',
         'conta',
         'tipo',
@@ -60,9 +61,9 @@ class ContaBancaria extends Model
         return $tipos;
     }
 
-    public function banco()
+    public function entidade()
     {
-        return $this->belongsTo(Banco::class);
+        return $this->belongsTo(Entidade::class);
     }
 
     public function getNomeSelectAttribute()
