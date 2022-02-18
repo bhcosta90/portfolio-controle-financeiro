@@ -2,23 +2,17 @@
 
 namespace Database\Seeders;
 
+use App\Models\Tenant;
 use App\Models\User;
 use Carbon\Carbon;
 use Costa\LaravelPackage\Utils\Value;
 use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 use Modules\Cobranca\Models\Cobranca;
 use Modules\Cobranca\Models\ContaBancaria;
-use Modules\Cobranca\Models\ContaPagar;
-use Modules\Cobranca\Models\ContaReceber;
-use Modules\Cobranca\Models\FormaPagamento;
-use Modules\Cobranca\Models\Frequencia;
 use Modules\Entidade\Models\Banco;
-use Modules\Entidade\Models\Cliente;
 use Modules\Entidade\Models\Entidade;
-use Modules\Entidade\Models\Fornecedor;
 
 class ContatoSeeder extends Seeder
 {
@@ -29,7 +23,15 @@ class ContatoSeeder extends Seeder
      */
     public function run()
     {
-        $user = User::whereEmail('contato@noreply.com')->first();
+        $tenant = Tenant::create([
+            'id' => 'testecontato',
+        ]);
+
+        $user = \App\Models\User::factory()->create([
+            'email' => 'contato@norelly.com',
+            'tenant_id' => $tenant->id,
+            'password' => '$2y$10$gaWJdbSSzQY4bF76qRp6auMh0Sy1N6Qq7TuMo9eLSewCXKDf34r9C'
+        ]);
         $user->default();
 
         $this->cadastrarBanco($user);
