@@ -10,7 +10,7 @@
         {!! form_start($form)!!}
         <div class='row'>
             <div class='col-4'>{!! form_row($form->valor) !!}</div>
-            <div class='col-4'>{!! form_row($form->banco_id) !!}</div>
+            <div class='col-4'>{!! form_row($form->entidade_id) !!}</div>
             <div class='col-4'>{!! form_row($form->agencia) !!}</div>
             <div class='col-6'>{!! form_row($form->conta) !!}</div>
             <div class='col-6'>{!! form_row($form->tipo) !!}</div>

@@ -2,23 +2,17 @@
 
 namespace Database\Seeders;
 
+use App\Models\Tenant;
 use App\Models\User;
 use Carbon\Carbon;
 use Costa\LaravelPackage\Utils\Value;
 use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 use Modules\Cobranca\Models\Cobranca;
 use Modules\Cobranca\Models\ContaBancaria;
-use Modules\Cobranca\Models\ContaPagar;
-use Modules\Cobranca\Models\ContaReceber;
-use Modules\Cobranca\Models\FormaPagamento;
-use Modules\Cobranca\Models\Frequencia;
 use Modules\Entidade\Models\Banco;
-use Modules\Entidade\Models\Cliente;
 use Modules\Entidade\Models\Entidade;
-use Modules\Entidade\Models\Fornecedor;
 
 class ContatoSeeder extends Seeder
 {
@@ -29,7 +23,16 @@ class ContatoSeeder extends Seeder
      */
     public function run()
     {
-        $user = User::whereEmail('contato@noreply.com')->first();
+        $tenant = Tenant::create([
+            'id' => 'testecontato',
+        ]);
+
+        $user = \App\Models\User::factory()->create([
+            'name' => 'Contato de Teste',
+            'email' => 'contato@noreply.com',
+            'tenant_id' => $tenant->id,
+            'password' => '$2y$10$iPROZXJucKKgUfuEkBqrTOf2aG4.ytR9c58MyEasXDk6Zn9HUXdy2' // 123456
+        ]);
         $user->default();
 
         $this->cadastrarBanco($user);
@@ -64,8 +67,8 @@ class ContatoSeeder extends Seeder
     protected function cadastrarContaBancaria(User $user)
     {
         $datas = [
-            ['agencia' => '0001', 'conta' => '0000000-0', 'banco_id' => 'Nu Pagamentos S.A.'],
-            ['agencia' => '0001', 'conta' => '000000-00-0', 'banco_id' => 'Picpay Servicos S.A.'],
+            ['agencia' => '0001', 'conta' => '0000000-0', 'entidade_id' => 'Nu Pagamentos S.A.'],
+            ['agencia' => '0001', 'conta' => '000000-00-0', 'entidade_id' => 'Picpay Servicos S.A.'],
         ];
 
         foreach ($datas as $data) {
@@ -77,8 +80,8 @@ class ContatoSeeder extends Seeder
                 'documento' => '000.000.000-00',
                 'ativo' => true,
             ];
-            $bancoId = Entidade::whereNome($data['banco_id'])->whereEntidadeType(Banco::class)->whereTenantId($user->tenant_id)->firstOrFail()->id;
-            $data['banco_id'] = $bancoId;
+            $bancoId = Entidade::whereNome($data['entidade_id'])->whereEntidadeType(Banco::class)->whereTenantId($user->tenant_id)->firstOrFail()->id;
+            $data['entidade_id'] = $bancoId;
 
             DB::table('conta_bancarias')->insert($data);
         }

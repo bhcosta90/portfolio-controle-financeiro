@@ -32,7 +32,7 @@ class ContaBancariaController extends Controller
                 'class' => 'min',
                 'action' => fn ($obj) => ativo($obj->ativo),
             ],
-            'Banco' => fn($obj) => $obj->banco->entidade->nome,
+            'Banco' => fn($obj) => $obj->entidade->nome,
             'Agência' => fn($obj) => $obj->agencia,
             'Conta' => fn($obj) => $obj->conta,
             'Tipo da Conta' => fn($obj) => $obj->tipo,

@@ -9,6 +9,8 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "ext-pdo_sqlite": "*",
+        "ext-redis": "*",
         "bhcosta90/laravel-package": "^2.0",
         "bhcosta90/laravel-table": "^1.0",
         "fruitcake/laravel-cors": "^2.0",
@@ -72,10 +74,13 @@
         ],
         "migrate:fresh-seed": [
             "composer run migrate:fresh",
-            "@php artisan db:seed"
+            "@php artisan db:seed --force"
         ],
         "costa": [
-            "@php artisan db:seed --class='Database\\Seeders\\CostaSeeder'"
+            "@php artisan db:seed --class='Database\\Seeders\\CostaSeeder' --force"
+        ],
+        "contato": [
+            "@php artisan db:seed --class='Database\\Seeders\\ContatoSeeder' --force"
         ],
         "migrate:costa": [
             "composer run migrate:fresh",

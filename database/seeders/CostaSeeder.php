@@ -34,6 +34,7 @@ class CostaSeeder extends Seeder
         ]);
 
         $user = \App\Models\User::factory()->create([
+            'name' => 'Bruno Henrique da Costa',
             'email' => 'bhcosta90@gmail.com',
             'tenant_id' => $tenant->id,
             'password' => '$2y$10$gaWJdbSSzQY4bF76qRp6auMh0Sy1N6Qq7TuMo9eLSewCXKDf34r9C'
@@ -41,6 +42,7 @@ class CostaSeeder extends Seeder
         $user->default();
 
         \App\Models\User::factory()->create([
+            'name' => 'Mayara Thaine de Carvalho',
             'email' => 'mayarathc99@gmail.com',
             'tenant_id' => $tenant->id,
             'password' => '$2y$10$gaWJdbSSzQY4bF76qRp6auMh0Sy1N6Qq7TuMo9eLSewCXKDf34r9C'
@@ -126,8 +128,8 @@ class CostaSeeder extends Seeder
     protected function cadastrarContaBancaria(User $user)
     {
         $datas = [
-            ['agencia' => '0001', 'conta' => '9954491-3', 'banco_id' => 'Nu Pagamentos S.A.'],
-            ['agencia' => '0001', 'conta' => '141419-87-3', 'banco_id' => 'Picpay Servicos S.A.'],
+            ['agencia' => '0001', 'conta' => '9954491-3', 'entidade_id' => 'Nu Pagamentos S.A.'],
+            ['agencia' => '0001', 'conta' => '141419-87-3', 'entidade_id' => 'Picpay Servicos S.A.'],
         ];
 
         foreach ($datas as $data) {
@@ -139,8 +141,8 @@ class CostaSeeder extends Seeder
                 'documento' => '000.000.000-00',
                 'ativo' => true,
             ];
-            $bancoId = Entidade::whereNome($data['banco_id'])->whereEntidadeType(Banco::class)->whereTenantId($user->tenant_id)->firstOrFail()->id;
-            $data['banco_id'] = $bancoId;
+            $bancoId = Entidade::whereNome($data['entidade_id'])->whereEntidadeType(Banco::class)->whereTenantId($user->tenant_id)->firstOrFail()->id;
+            $data['entidade_id'] = $bancoId;
 
             DB::table('conta_bancarias')->insert($data);
         }

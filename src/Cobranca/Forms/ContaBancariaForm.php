@@ -12,7 +12,7 @@ class ContaBancariaForm extends Form
     {
         $dataBanco = $this->getBancoService()->pluck();
 
-        $this->add('banco_id', 'select', [
+        $this->add('entidade_id', 'select', [
             'rules' => ['required', 'in:' . implode(',', array_keys($dataBanco))],
             'label' => 'Banco',
             'choices' => $dataBanco,
