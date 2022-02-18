@@ -1,0 +1,13 @@
+{
+    "name": "Cobranca",
+    "alias": "cobranca",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Cobranca\\Providers\\CobrancaServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

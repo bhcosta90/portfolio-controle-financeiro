@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use RealRashid\SweetAlert\Facades\Alert;
 
 class AlertMiddleware
 {
@@ -18,11 +17,11 @@ class AlertMiddleware
     public function handle(Request $request, Closure $next)
     {
         if (session('success')) {
-            Alert::success(session('success'));
+            toastr()->success(session('success'));
         }
 
         if (session('error')) {
-            Alert::error(session('error'));
+            toastr()->error(session('error'));
         }
 
         if (session('errorForm')) {
@@ -32,7 +31,7 @@ class AlertMiddleware
             }
             $html .= "</ul>";
 
-            Alert::html('Error during the creation!', $html, 'error');
+            toastr()->error($html);
         }
 
         return $next($request);

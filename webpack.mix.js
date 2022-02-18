@@ -1,4 +1,4 @@
-const mix = require('laravel-mix');
+const mix = require("laravel-mix");
 
 /*
  |--------------------------------------------------------------------------
@@ -11,6 +11,23 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css')
-    .sourceMaps();
+// mix.js('resources/js/app.js', 'public/js')
+//     .sass('resources/sass/app.scss', 'public/css')
+//     .scripts(['resources/js/home.js'], 'public/js/home.js')
+//     .sourceMaps();
+mix.scripts(
+    [
+        "node_modules/jquery/dist/jquery.js",
+        "node_modules/bootstrap/dist/js/bootstrap.js",
+        "node_modules/select2/dist/js/select2.full.js",
+        "node_modules/select2/dist/js/i18n/pt-BR.js",
+        "node_modules/jquery-mask-plugin/dist/jquery.mask.js",
+        "node_modules/toastr/build/toastr.min.js",
+        "resources/js/vendor.js",
+    ],
+    "public/js/vendor.js"
+)
+    .sass("resources/sass/app.scss", "public/css")
+    .scripts(["resources/js/home.js"], "public/js/home.js")
+    .sourceMaps()
+    .version();

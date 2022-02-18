@@ -1,9 +1,21 @@
-<?php
+﻿<?php
+
+use Illuminate\Support\Facades\Route;
+use Stancl\Tenancy\Middleware\InitializeTenancyByPath;
+
+if (!function_exists('ativo')) {
+    function ativo($is)
+    {
+        $class = $is ? 'bg-success' : 'bg-danger';
+
+        return "<div class='{$class}' style='width:10px; height:10px; position: relative; margin-top: 7px'></div>";
+    }
+}
 
 if (!function_exists('btnLinkIcon')) {
-    function btnLinkIcon($url, $icon, $title = '', $class = 'btn-outline-primary')
+    function btnLinkIcon($url, $icon, $title = '', $class = 'btn-outline-primary', $target = '')
     {
-        $html = "<a href='{$url}' class='btn {$class}' title='{$title}'>
+        $html = "<a target='{$target}' href='{$url}' class='btn {$class}' title='{$title}'>
                     <i class='{$icon}'></i> {$title}
                  </a>";
         return $html;
@@ -38,5 +50,40 @@ if (!function_exists('btnLinkDelIcon')) {
         ]);
         $html .= Form::close();
         return $html;
+    }
+}
+
+if (!function_exists('tenantRoute')) {
+    function tenantRoute($fn, $middleware = 'web')
+    {
+        /*Route::middleware([
+            'web',
+            InitializeTenancyByDomain::class,
+            PreventAccessFromCentralDomains::class,
+        ])->group(function ()  use($fn){
+            $fn();
+        });
+
+        Route::middleware([
+            'api',
+            InitializeTenancyByDomain::class,
+            PreventAccessFromCentralDomains::class,
+        ])->group(function ()  use ($fn) {
+            $fn();
+        });*/
+
+        Route::group([
+            'prefix' => '/{tenant}',
+            'middleware' => [InitializeTenancyByPath::class, $middleware],
+        ], function () use ($fn) {
+            $fn();
+        });
+    }
+}
+
+if (!function_exists('str')) {
+    function str()
+    {
+        return app(Illuminate\Support\Str::class);
     }
 }

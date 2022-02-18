@@ -9,12 +9,9 @@ return [
         'field_error_class'   => '',
         'help_block_class'    => 'help-block',
         'error_class'         => 'text-danger',
-        'required_class'      => 'required',
+        'required_class'      => 'required'
 
         // Override a class from a field.
-        'select'                => [
-           'field_class'     => 'select2 form-control',
-        ]
         //'text'                => [
         //    'wrapper_class'   => 'form-field-text',
         //    'label_class'     => 'form-field-text-label',

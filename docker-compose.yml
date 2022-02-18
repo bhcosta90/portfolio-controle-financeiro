@@ -24,6 +24,7 @@ services:
         depends_on:
             - mariadb
             - redis
+            - minio
     mariadb:
         image: 'mariadb:10'
         ports:
@@ -53,6 +54,29 @@ services:
             - sail
         healthcheck:
             test: ["CMD", "redis-cli", "ping"]
+            retries: 3
+            timeout: 5s
+    memcached:
+        image: 'memcached:alpine'
+        ports:
+            - '11212:11211'
+        networks:
+            - sail
+    minio:
+        image: 'minio/minio:latest'
+        ports:
+            - '${FORWARD_MINIO_PORT:-9000}:9000'
+            - '${FORWARD_MINIO_CONSOLE_PORT:-8900}:8900'
+        environment:
+            MINIO_ROOT_USER: 'sail'
+            MINIO_ROOT_PASSWORD: 'password'
+        volumes:
+            - './vendor/_data/minio:/data/minio'
+        networks:
+            - sail
+        command: minio server /data/minio --console-address ":8900"
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
             retries: 3
             timeout: 5s
     mailhog:

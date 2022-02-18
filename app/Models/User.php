@@ -2,25 +2,22 @@
 
 namespace App\Models;
 
-use App\Services\RecurrencyService;
-use Costa\LaravelPackage\Traits\Models\UuidGenerate;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Laravel\Sanctum\HasApiTokens;
+use Modules\Cobranca\Services\FormaPagamentoService;
+use Modules\Cobranca\Services\FrequenciaService;
+use Modules\Entidade\Models\Banco;
+use Modules\Entidade\Models\Entidade;
+use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 
 class User extends Authenticatable
 {
-    private static $CACHE_TOKEN = 'v1';
-
-    use HasApiTokens, HasFactory, Notifiable, UuidGenerate;
-
-    public static function booted(): void
-    {
-        static::created(fn ($obj) => app(RecurrencyService::class)->register($obj));
-    }
+    use HasApiTokens, HasFactory, Notifiable, BelongsToTenant;
 
     /**
      * The attributes that are mass assignable.
@@ -31,7 +28,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'balance_value',
+        'tenant_id',
     ];
 
     /**
@@ -53,41 +50,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function getTokenRelatorio()
+    public function default()
     {
-        return Cache::remember('user_token_relatorio_' . $this->uuid . '_' . self::$CACHE_TOKEN, 60 * 60, function () {
-            $this->tokens()->where('name', 'acesso_relatorio')->delete();
-            return $this->createToken('acesso_relatorio', ['relatorio:home']);
-        });
-    }
-
-    public function getLoginCustomer()
-    {
-        return Cache::remember('user_token_custoemr_' . $this->uuid . '_' . self::$CACHE_TOKEN, 60 * 60, function () {
-            $this->tokens()->where('name', 'login_customer')->delete();
-            return $this->createToken('search_customer');
-        });
-    }
-
-    public function sharedsOrigin()
-    {
-        return $this->hasMany(UserShared::class, 'user_origin_id');
-    }
-
-    public function sharedsShared()
-    {
-        return $this->hasMany(UserShared::class, 'user_shared_id');
-    }
-
-    public function getSharedIdUser(): array
-    {
-        $ret = [
-            $this->id,
-        ];
-
-        return array_unique(array_merge(
-            $ret,
-            $this->sharedsShared()->where('status', UserShared::$STATUS_ACCEPT)->pluck('user_origin_id')->toArray()
-        ));
+        app(FrequenciaService::class)->registrDefault($this);
+        app(FormaPagamentoService::class)->registrDefault($this);
     }
 }

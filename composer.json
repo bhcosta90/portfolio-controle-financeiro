@@ -9,21 +9,21 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
-        "ext-pdo_sqlite": "*",
-        "ext-redis": "*",
         "bhcosta90/laravel-package": "^2.0",
         "bhcosta90/laravel-table": "^1.0",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
-        "kris/laravel-form-builder": "^1.40",
+        "kris/laravel-form-builder": "1.40.0",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
-        "realrashid/sweet-alert": "^5.0"
+        "nwidart/laravel-modules": "^9.0",
+        "stancl/tenancy": "^3.5",
+        "yoeunes/toastr": "^1.2"
     },
     "require-dev": {
-        "beyondcode/laravel-query-detector": "^1.5",
+        "beyondcode/laravel-query-detector": "^1.6",
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
         "laravel/sail": "^1.13",
@@ -31,12 +31,13 @@
         "lucascudo/laravel-pt-br-localization": "^1.1",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^5.10",
-        "overtrue/phplint": "^4.0",
+        "overtrue/phplint": "^4.1",
         "phpunit/phpunit": "^9.5.10"
     },
     "autoload": {
         "psr-4": {
             "App\\": "app/",
+            "Modules\\": "src/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
         },
@@ -63,14 +64,22 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ],
-        "costa": [
-            "@php artisan db:seed --class='Database\\Seeders\\UserBrunoCostaSeeder' --force"
-        ],
         "migrate": [
             "@php artisan migrate --force"
         ],
-        "migrate-fresh": [
+        "migrate:fresh": [
             "@php artisan migrate:fresh --force"
+        ],
+        "migrate:fresh-seed": [
+            "composer run migrate:fresh",
+            "@php artisan db:seed"
+        ],
+        "costa": [
+            "@php artisan db:seed --class='Database\\Seeders\\CostaSeeder'"
+        ],
+        "migrate:costa": [
+            "composer run migrate:fresh",
+            "composer run costa"
         ]
     },
     "extra": {

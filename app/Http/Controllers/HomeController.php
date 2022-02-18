@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\UserSharedService;
-use Carbon\Carbon;
+use App\Services\ResumoService;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,22 +22,27 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index(Request $request)
+    public function index()
     {
-        $token = $request->user()->getTokenRelatorio()->plainTextToken;
-        $dateStart = Carbon::now()->firstOfMonth()->format('Y-m-d');
-        $dateEnd = Carbon::now()->lastOfMonth()->format('Y-m-d');
-
-        $shareds = $this->getUserSharedService()->myPendentsShared($request->user()->email);
-
-        return view('home', compact('token', 'dateStart', 'dateEnd', 'shareds'));
+        return view('home');
     }
 
-    /**
-     * @return UserSharedService
-     */
-    protected function getUserSharedService()
+    public function resumo($tipo)
     {
-        return app(UserSharedService::class);
+        $service = app(ResumoService::class);
+        $data = $service->$tipo();
+        $dataFormatada = [];
+
+        foreach ($data as $k => $v) {
+            $dataFormatada[] = [
+                'key' => $k,
+                'value' => $v,
+            ];
+        }
+
+        return [
+            'data' => $dataFormatada,
+            'tipo' => $tipo,
+        ];
     }
 }

@@ -3,8 +3,6 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -38,12 +36,6 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             //
-        });
-
-        $this->renderable(function (Throwable $e, Request $request) {
-            if (!$request->ajax() && $e->getCode() == Response::HTTP_BAD_REQUEST) {
-                return redirect()->back()->with('error', $e->getMessage())->withInput($request->all());
-            }
         });
     }
 }
