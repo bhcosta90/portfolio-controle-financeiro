@@ -68,6 +68,6 @@ class ContaBancaria extends Model
 
     public function getNomeSelectAttribute()
     {
-        return sprintf("%s | Agência: %s | Conta: %s", $this->banco->entidade->nome, $this->agencia, $this->conta);
+        return sprintf("%s | Agência: %s | Conta: %s", $this->entidade->nome, $this->agencia, $this->conta);
     }
 }
