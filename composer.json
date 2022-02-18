@@ -79,6 +79,9 @@
         "costa": [
             "@php artisan db:seed --class='Database\\Seeders\\CostaSeeder' --force"
         ],
+        "contato": [
+            "@php artisan db:seed --class='Database\\Seeders\\ContatoSeeder' --force"
+        ],
         "migrate:costa": [
             "composer run migrate:fresh",
             "composer run costa"

@@ -28,9 +28,10 @@ class ContatoSeeder extends Seeder
         ]);
 
         $user = \App\Models\User::factory()->create([
+            'name' => 'Contato de Teste',
             'email' => 'contato@norelly.com',
             'tenant_id' => $tenant->id,
-            'password' => '$2y$10$gaWJdbSSzQY4bF76qRp6auMh0Sy1N6Qq7TuMo9eLSewCXKDf34r9C'
+            'password' => '$2y$10$iPROZXJucKKgUfuEkBqrTOf2aG4.ytR9c58MyEasXDk6Zn9HUXdy2' // 123456
         ]);
         $user->default();
 
@@ -66,8 +67,8 @@ class ContatoSeeder extends Seeder
     protected function cadastrarContaBancaria(User $user)
     {
         $datas = [
-            ['agencia' => '0001', 'conta' => '0000000-0', 'banco_id' => 'Nu Pagamentos S.A.'],
-            ['agencia' => '0001', 'conta' => '000000-00-0', 'banco_id' => 'Picpay Servicos S.A.'],
+            ['agencia' => '0001', 'conta' => '0000000-0', 'entidade_id' => 'Nu Pagamentos S.A.'],
+            ['agencia' => '0001', 'conta' => '000000-00-0', 'entidade_id' => 'Picpay Servicos S.A.'],
         ];
 
         foreach ($datas as $data) {
@@ -79,8 +80,8 @@ class ContatoSeeder extends Seeder
                 'documento' => '000.000.000-00',
                 'ativo' => true,
             ];
-            $bancoId = Entidade::whereNome($data['banco_id'])->whereEntidadeType(Banco::class)->whereTenantId($user->tenant_id)->firstOrFail()->id;
-            $data['banco_id'] = $bancoId;
+            $bancoId = Entidade::whereNome($data['entidade_id'])->whereEntidadeType(Banco::class)->whereTenantId($user->tenant_id)->firstOrFail()->id;
+            $data['entidade_id'] = $bancoId;
 
             DB::table('conta_bancarias')->insert($data);
         }

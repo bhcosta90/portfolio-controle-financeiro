@@ -18,7 +18,7 @@ class CreateContaBancariasTable extends Migration
             $table->id();
             $table->uuid('uuid')->unique();
             $table->string('tenant_id')->index();
-            $table->foreignId('banco_id')->constrained('bancos');
+            $table->foreignId('entidade_id')->constrained('entidades');
             $table->string('agencia');
             $table->string('conta');
             $table->enum('tipo', array_keys(ContaBancaria::getTipoAttribute()))->nullable();
