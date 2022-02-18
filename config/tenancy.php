@@ -18,9 +18,7 @@ return [
      */
     'central_domains' => [
         '127.0.0.1',
-        'localhost',
-        'controlefinanceiro.dev.bhcosta90.dev.br',
-        'controlefinanceiro.bhcosta90.dev.br',
+        env('ENDERECO_PRINCIPAL', 'localhost'),
     ],
 
     /**
