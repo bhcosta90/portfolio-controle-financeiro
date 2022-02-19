@@ -34,7 +34,7 @@ class ContaBancariaMovimentacaoController extends Controller
             'Data' => fn($obj) => str()->date($obj->dt_created_at),
             'Descrição' => fn($obj) => $obj->descricao,
             'Movimento' => function($obj){
-                $nomeCliente = $obj->entidade->nome;
+                $nomeCliente = $obj->entidade?->nome;
                 $movimento = $obj->movimento;
                 $parcela = $obj->parcela ? " Parcela: {$obj->parcela} - " : "";
                 return "{$movimento} <small>({$parcela}{$nomeCliente})</small>";
