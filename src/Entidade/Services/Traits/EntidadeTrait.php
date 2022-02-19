@@ -28,7 +28,7 @@ trait EntidadeTrait
 
     public function find($id)
     {
-        return $this->repository->whereHas('entidade', fn($q) => $q->where('uuid', $id))->first()->entidade;
+        return $this->repository->whereHas('entidade', fn($q) => $q->where('uuid', $id))->first()?->entidade;
     }
 
     public function getById($id)
