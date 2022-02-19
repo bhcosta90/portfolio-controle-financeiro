@@ -18,7 +18,7 @@
             </div>
             <div class='col-md-6'>
                 <label class='control-label'>Valor</label>
-                <h4>R${!! $obj->valor_cobranca !!}</h4>
+                <h4>R${!! str()->numberEnToBr($obj->valor_cobranca) !!}</h4>
             </div>
             <div class='col-md-6'>
                 <label class='control-label'>Vencimento</label>
