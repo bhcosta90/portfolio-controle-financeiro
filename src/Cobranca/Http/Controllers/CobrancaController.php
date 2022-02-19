@@ -70,7 +70,7 @@ class CobrancaController extends Controller
         }
 
         if ($obj->status == Cobranca::$STATUS_PAGO) {
-            return redirect($redirect)->with('success', 'Essa cobrança já foi liquidada');
+            return redirect($redirect)->with('warning', 'Essa cobrança já foi liquidada');
         }
 
         $data['valor_cobranca'] = str()->numberBrToEn($data['valor_cobranca']);
