@@ -10,7 +10,7 @@
         <div class='row'>
             <div class='col-md-6'>
                 <label class='control-label'>Nome</label>
-                <h4>{!! $obj->entidade->nome !!}</h4>
+                <h4>{!! $obj->entidade?->nome ?: '-' !!}</h4>
             </div>
             <div class='col-md-6'>
                 <label class='control-label'>Resumo</label>

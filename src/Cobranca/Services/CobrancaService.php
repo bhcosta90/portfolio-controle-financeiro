@@ -2,6 +2,8 @@
 
 namespace Modules\Cobranca\Services;
 
+use Carbon\Carbon;
+use Costa\LaravelPackage\Traits\Support\DayWeekTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -10,6 +12,8 @@ use Modules\Entidade\Services\EntidadeService;
 
 final class CobrancaService
 {
+    use DayWeekTrait;
+
     public function __construct(private Cobranca $repository)
     {
         //
@@ -111,6 +115,33 @@ final class CobrancaService
         return $ret;
     }
 
+    public function duplicarCobranca($obj)
+    {
+        if ($obj->frequencia_id) {
+            $repository = app($obj->cobranca_type);
+            $objRepository = $repository->create([]);
+
+            $objFrequencia = $this->getFrequenciaService()->getById($obj->frequencia_id);
+            $splitTipoFrequencia = collect(explode('|', $objFrequencia->tipo));
+            $dataCalculado = (new Carbon($obj->data_vencimento))->addDay($splitTipoFrequencia->first());
+            $dataVencimento = $this->onlyDayWeek($dataCalculado, 0, true);
+
+            $ret = $this->repository->fill([
+                'cobranca_type' => get_class($objRepository),
+                'cobranca_id' => $objRepository->id,
+                'valor_cobranca' => str()->numberBrToEn($obj->valor_frequencia),
+                'valor_frequencia' => str()->numberBrToEn($obj->valor_frequencia),
+                'data_emissao' => (new Carbon)->format('Y-m-d'),
+                'data_original' => $dataCalculado->format('Y-m-d'),
+                'data_vencimento' => $dataVencimento->format('Y-m-d'),
+                'status' => Cobranca::$STATUS_PENDENTE,
+                'valor_original' => null,
+            ] + $obj->toArray());
+
+            return $ret->save();
+        }
+    }
+
     public function find($id)
     {
         return $this->repository->where('uuid', $id)->first();
@@ -123,7 +154,11 @@ final class CobrancaService
 
     public function delete($id)
     {
-        return $this->getById($id)->delete();
+        $obj = $this->getById($id);
+        if ($obj->valor_cobranca != $obj->valor_frequencia) {
+            $this->duplicarCobranca($obj);
+        }
+        return $obj->delete();
     }
 
     /**

@@ -8,6 +8,7 @@ use Costa\LaravelPackage\Traits\Web\WebEditTrait;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Modules\Cobranca\Forms\CobrancaForm;
 use Modules\Cobranca\Forms\PagamentoForm;
@@ -93,21 +94,39 @@ class CobrancaController extends Controller
         $data['descricao'] = $obj->descricao;
         $data['tipo'] = $tipo;
 
-        $this->getPagamentoService()->store($obj->cobranca_type, $data);
+        return DB::transaction(function () use ($obj, $data, $redirect) {
+            $this->getPagamentoService()->store($obj->cobranca_type, $data);
 
-        if (($valorCobranca = str()->numberBrToEn($obj->valor_cobranca)) == $data['valor_cobranca']) {
-            $obj->update([
-                'status' => Cobranca::$STATUS_PAGO,
-                'valor_original' => null
-            ]);
-        } else {
-            $obj->update([
-                'valor_original' => $valorCobranca,
-                'valor_cobranca' => $valorCobranca - $data['valor_cobranca'],
-            ]);
-        }
+            $dataUpdate = [];
 
-        return redirect($redirect)->with('success', 'Pagamento realizado com sucesso');
+            if(str()->numberBrToEn($obj->valor_frequencia) == null){
+                $dataUpdate += [
+                    'valor_frequencia' => str()->numberBrToEn($obj->valor_cobranca),
+                ];
+            }
+
+            $duplicar = false;
+            if (($valorCobranca = str()->numberBrToEn($obj->valor_cobranca)) == $data['valor_cobranca']) {
+                $duplicar = true;
+                $dataUpdate += [
+                    'status' => Cobranca::$STATUS_PAGO,
+                    'valor_original' => null
+                ];
+            } else {
+                $dataUpdate += [
+                    'valor_original' => $valorCobranca,
+                    'valor_cobranca' => $valorCobranca - $data['valor_cobranca'],
+                ];
+            }
+
+            $obj->update($dataUpdate);
+
+            if ($duplicar && $obj->frequencia_id) {
+                $this->getCobrancaService()->duplicarCobranca($obj);
+            }
+
+            return redirect($redirect)->with('success', 'Pagamento realizado com sucesso');
+        });
     }
 
     protected function view(): string
@@ -199,5 +218,13 @@ class CobrancaController extends Controller
     protected function getFormaPagamentoService()
     {
         return app(FormaPagamentoService::class);
+    }
+
+    /**
+     * @return CobrancaService
+     */
+    protected function getCobrancaService()
+    {
+        return app(CobrancaService::class);
     }
 }

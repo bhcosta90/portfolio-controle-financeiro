@@ -22,6 +22,7 @@ class Cobranca extends Model
         'descricao',
         'valor_cobranca',
         'valor_original',
+        'valor_frequencia',
         'observacao',
         'data_emissao',
         'data_original',
@@ -93,6 +94,11 @@ class Cobranca extends Model
     }
 
     public function getValorCobrancaAttribute($str)
+    {
+        return str()->numberEnToBr($str);
+    }
+
+    public function getValorFrequenciaAttribute($str)
     {
         return str()->numberEnToBr($str);
     }
