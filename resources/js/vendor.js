@@ -95,6 +95,12 @@ function inputSelect2(div) {
                         }).on("click", function () {
                             $(el).val("").trigger("change");
                             linkRemove.remove();
+
+                            if ((ref = $(el).data("ref")) !== undefined) {
+                                if ((ret = $(`#${ref}`)).length) {
+                                    ret.val("");
+                                }
+                            }
                         });
 
                         if ($(el).val()) {
@@ -113,6 +119,7 @@ function inputSelect2(div) {
                             .parent()
                             .find(".select2-selection__placeholder")
                             .text(data.text);
+
                         if ((ref = $(el).data("ref")) !== undefined) {
                             if ((ret = $(`#${ref}`)).length) {
                                 ret.val(data.id);
