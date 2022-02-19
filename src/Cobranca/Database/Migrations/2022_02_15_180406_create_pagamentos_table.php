@@ -27,7 +27,7 @@ class CreatePagamentosTable extends Migration
             $table->string('movimento');
             $table->string('descricao')->nullable();
             $table->unsignedTinyInteger('parcela')->nullable();
-            $table->enum('tipo', array_keys(Pagamento::getTipoAttribute()));
+            $table->enum('tipo', array_keys(Pagamento::getTipoFormatarAttribute()));
             $table->double('saldo_anterior');
             $table->double('saldo_atual');
             $table->unsignedDouble('valor_cobranca');

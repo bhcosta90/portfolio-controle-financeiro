@@ -20,9 +20,15 @@ use Illuminate\Support\Facades\Route;
 tenantRoute(function () {
     Route::prefix('cobranca')->as('cobranca.')->middleware('auth')->group(function () {
         // Route::get('/movimentacao', 'ContaBancariaController@movimentacao')->name('contabancaria.movimentacao');
-        Route::group(['prefix' => 'contabancaria', 'as' => 'contabancaria.'], function(){
+        Route::group(['prefix' => 'contabancaria', 'as' => 'contabancaria.'], function () {
             Route::resource('movimentacao', 'ContaBancariaMovimentacaoController')->only(['index', 'show']);
         });
+
+        Route::group(['prefix' => 'relatorio', 'as' => 'relatorio.', 'namespace' => "Relatorio"], function () {
+            Route::get('movimentacao', 'MovimentacaoController@index')->name('movimentacao.index');
+            Route::GET('movimentacao/filter', 'MovimentacaoController@filter')->name('movimentacao.filter');
+        });
+
         Route::resource('contabancaria', 'ContaBancariaController');
 
         Route::resource('formapagamento', 'FormaPagamentoController');

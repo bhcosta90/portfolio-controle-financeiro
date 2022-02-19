@@ -9,6 +9,7 @@ use Modules\Entidade\Forms\EntidadeForm;
 use Modules\Entidade\Models\Banco;
 use Modules\Entidade\Models\Cliente;
 use Modules\Entidade\Models\Fornecedor;
+use Modules\Entidade\Services\BancoService;
 use Modules\Entidade\Services\EntidadeService;
 
 class EntidadeController extends Controller
@@ -28,6 +29,14 @@ class EntidadeController extends Controller
     protected function form(): string
     {
         return EntidadeForm::class;
+    }
+
+    protected function getModelEdit($obj)
+    {
+        $ret = $obj->toArray();
+        $ret['banco_id'] = $this->getBancoService()->getById($ret['banco_id'])->uuid;
+
+        return $ret;
     }
 
     protected function getActionEdit($id, $obj)
@@ -65,5 +74,13 @@ class EntidadeController extends Controller
             case Cliente::class;
                 return route('entidade.cliente.index', ['tenant' => tenant()]);
         }
+    }
+
+    /**
+     * @return BancoService
+     */
+    protected function getBancoService()
+    {
+        return app(BancoService::class);
     }
 }

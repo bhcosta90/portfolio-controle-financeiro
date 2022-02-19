@@ -5,6 +5,7 @@ namespace Modules\Entidade\Services\Traits;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Modules\Entidade\Services\BancoService;
 use Modules\Entidade\Services\EntidadeService;
 
 trait EntidadeTrait
@@ -30,6 +31,11 @@ trait EntidadeTrait
         return $this->repository->whereHas('entidade', fn($q) => $q->where('uuid', $id))->first()->entidade;
     }
 
+    public function getById($id)
+    {
+        return $this->repository->whereHas('entidade', fn($q) => $q->where('id', $id))->first()?->entidade;
+    }
+
     public function webStore($data)
     {
         DB::beginTransaction();
@@ -40,6 +46,8 @@ trait EntidadeTrait
                 'entidade_type' => get_class($obj),
                 'entidade_id' => $obj->id,
             ];
+
+            $data['banco_id'] = $this->getBancoService()->find($data['banco_id'])?->id;
 
             $ret = $this->getEntidadeService()->create($data);
             DB::commit();
@@ -61,5 +69,13 @@ trait EntidadeTrait
     protected function getEntidadeService()
     {
         return app(EntidadeService::class);
+    }
+
+    /**
+     * @return BancoService
+     */
+    protected function getBancoService()
+    {
+        return app(BancoService::class);
     }
 }

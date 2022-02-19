@@ -14,6 +14,7 @@ use Modules\Cobranca\Forms\PagamentoForm;
 use Modules\Cobranca\Models\Cobranca;
 use Modules\Cobranca\Models\ContaPagar;
 use Modules\Cobranca\Models\ContaReceber;
+use Modules\Cobranca\Models\Pagamento;
 use Modules\Cobranca\Services\CobrancaService;
 use Modules\Cobranca\Services\ContaBancariaService;
 use Modules\Cobranca\Services\FormaPagamentoService;
@@ -56,10 +57,12 @@ class CobrancaController extends Controller
             case ContaReceber::class;
                 $redirect = route('cobranca.conta.receber.index', $dataRedirect);
                 $data['movimento'] = "Conta a receber";
+                $tipo = Pagamento::$TIPO_RECEBIMENTO;
                 break;
             case ContaPagar::class;
                 $redirect = route('cobranca.conta.pagar.index', $dataRedirect);
                 $data['movimento'] = "Conta a pagar";
+                $tipo = Pagamento::$TIPO_PAGAMENTO;
                 break;
             default:
                 throw new Exception('Não foi possível redirecionar');
@@ -87,6 +90,7 @@ class CobrancaController extends Controller
         $data['forma_pagamento_id'] = $this->getFormaPagamentoService()->find($data['forma_pagamento_id'])?->id;
         $data['entidade_id'] = $obj->entidade_id;
         $data['descricao'] = $obj->descricao;
+        $data['tipo'] = $tipo;
 
         $this->getPagamentoService()->store($obj->cobranca_type, $data);
 
