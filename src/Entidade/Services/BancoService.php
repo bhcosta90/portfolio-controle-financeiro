@@ -21,6 +21,6 @@ final class BancoService
 
     public function pluck()
     {
-        return $this->data()->where('ativo', 1)->get()->pluck('entidade.nome', 'entidade.id')->toArray();
+        return $this->data()->where('ativo', 1)->get()->pluck('entidade.nome', 'entidade.uuid')->toArray();
     }
 }

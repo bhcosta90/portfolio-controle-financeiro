@@ -3,6 +3,7 @@
 namespace Modules\Cobranca\Services;
 
 use Modules\Cobranca\Models\ContaBancaria;
+use Modules\Entidade\Services\EntidadeService;
 
 final class ContaBancariaService
 {
@@ -19,7 +20,6 @@ final class ContaBancariaService
 
     public function webStore($data)
     {
-        $data['valor'] = str()->numberBrToEn($data['valor']);
         return $this->repository->create($data);
     }
 
@@ -36,6 +36,9 @@ final class ContaBancariaService
     public function webUpdate($data, $id)
     {
         $obj = $this->repository->find($id);
+
+        $data['entidade_id'] = $this->getEntidadeService()->find($data['entidade_id'])->id;
+
         $obj->update($data);
         return $obj;
     }
@@ -48,5 +51,13 @@ final class ContaBancariaService
     public function pluck()
     {
         return $this->data()->where('ativo', 1)->get()->pluck('nomeSelect', 'uuid')->toArray();
+    }
+
+    /**
+     * @return EntidadeService
+     */
+    protected function getEntidadeService()
+    {
+        return app(EntidadeService::class);
     }
 }

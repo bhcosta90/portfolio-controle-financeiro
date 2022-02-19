@@ -35,11 +35,11 @@ trait CobrancaServiceTrait
                 $query->where(function ($query) use ($filter) {
                     $query->where(fn ($query) => $filter['data_inicio'] ?? null ? $query->where('cobrancas.data_vencimento', '>=', $filter['data_inicio']) : null)
                         ->where(fn ($query) => $filter['data_final'] ?? null ? $query->where('cobrancas.data_vencimento', '<=', $filter['data_final']) : null);
-                })->orWhere(fn ($query) => in_array($filter['type'] ?? null, [0, 2, 5]) && !empty($filter['data_inicio'])? $query->where('cobrancas.data_vencimento', '<', $filter['data_inicio']) : null);
+                })->orWhere(fn ($query) => in_array($filter['type'] ?? null, [0, 2, 5]) && !empty($filter['data_inicio']) ? $query->where('cobrancas.data_vencimento', '<', $filter['data_inicio']) : null);
             })
             ->where(fn ($query) => empty($filter['entidade_id']) ? null : $query->whereHas('cobranca.entidade', fn ($query) => $query->where('uuid', $filter['entidade_id'])))
             ->where(function ($query) use ($filter) {
-                switch($filter['type'] ?? 0) {
+                switch ($filter['type'] ?? 0) {
                     case 0:
                         $query->where('status', '!=', [Cobranca::$STATUS_PAGO]);
                         break;
@@ -101,7 +101,7 @@ trait CobrancaServiceTrait
             throw ValidationException::withMessages($dataErros);
         }
 
-        $data['valor_cobranca'] = str()->numberBrToEn($data['valor_cobranca']);
+        $data['valor_cobranca'] = $data['valor_cobranca'];
         $data['entidade_id'] = $idEntidade;
 
         return DB::transaction(function () use ($data) {

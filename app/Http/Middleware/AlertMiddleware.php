@@ -24,6 +24,10 @@ class AlertMiddleware
             toastr()->error(session('error'));
         }
 
+        if (session('warning')) {
+            toastr()->warning(session('warning'));
+        }
+
         if (session('errorForm')) {
             $html = "<ul style='list-style: none;'>";
             foreach (session('errorForm') as $error) {

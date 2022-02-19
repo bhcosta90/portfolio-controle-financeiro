@@ -10,6 +10,7 @@ use Costa\LaravelPackage\Traits\Web\WebIndexTrait;
 use Illuminate\Routing\Controller;
 use Modules\Cobranca\Forms\ContaBancariaForm;
 use Modules\Cobranca\Services\ContaBancariaService;
+use Modules\Entidade\Services\EntidadeService;
 
 class ContaBancariaController extends Controller
 {
@@ -49,6 +50,12 @@ class ContaBancariaController extends Controller
         ];
     }
 
+    protected function getModelEdit($obj)
+    {
+        $obj->entidade_id = $this->getEntidadeService()->getById($obj->entidade_id)->uuid;
+        return $obj;
+    }
+
     protected function form(): string
     {
         return ContaBancariaForm::class;
@@ -67,5 +74,13 @@ class ContaBancariaController extends Controller
     protected function routeRedirectPostPut(): string
     {
         return route('cobranca.contabancaria.index', ['tenant' => tenant()]);
+    }
+
+    /**
+     * @return EntidadeService
+     */
+    protected function getEntidadeService()
+    {
+        return app(EntidadeService::class);
     }
 }

@@ -38,7 +38,18 @@ final class EntidadeService
 
     public function webUpdate($data, $id){
         $obj = $this->repository->find($id);
+
+        $data['banco_id'] = $this->getBancoService()->find($data['banco_id'])?->id;
+
         $obj->update($data);
         return $obj;
+    }
+
+    /**
+     * @return BancoService
+     */
+    protected function getBancoService()
+    {
+        return app(BancoService::class);
     }
 }

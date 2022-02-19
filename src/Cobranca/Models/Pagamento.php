@@ -6,6 +6,7 @@ use App\Models\User;
 use Costa\LaravelPackage\Traits\Models\UuidGenerate;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\Entidade\Models\Banco;
 use Modules\Entidade\Models\Entidade;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 
@@ -34,17 +35,15 @@ class Pagamento extends Model
     ];
 
     public static $TIPO_PAGAMENTO = 'PA';
-    public static $TIPO_TRANSFERENCIA = 'TR';
     public static $TIPO_RECEBIMENTO = 'RE';
 
     public static $PAGAMENTO_TIPO_RECEITA = [ContaReceber::class];
     public static $PAGAMENTO_TIPO_DESPESA = [ContaPagar::class];
 
-    public static function getTipoAttribute($status = null)
+    public static function getTipoFormatarAttribute($status = null)
     {
         $ret = [
             self::$TIPO_PAGAMENTO => 'Pagamento',
-            self::$TIPO_TRANSFERENCIA => 'Transferência',
             self::$TIPO_RECEBIMENTO => 'Recebimento',
         ];
 
@@ -73,5 +72,19 @@ class Pagamento extends Model
     public function usuario()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function banco()
+    {
+        return $this->belongsTo(Banco::class);
+    }
+
+    public function getFormatacaoMovimentoAttribute()
+    {
+        $nomeCliente = $this->entidade ? $this->entidade?->nome . ' - ' : '';
+        $movimento = $this->movimento;
+        $parcela = $this->parcela ? " Parcela: {$this->parcela}" : "";
+
+        return "{$movimento} <small>({$parcela}{$nomeCliente})</small>";
     }
 }

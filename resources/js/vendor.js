@@ -44,6 +44,27 @@ function tooltip(div) {
     $(div).find('[data-toggle="tooltip"]').tooltip();
 }
 
+$("body").on("click", ".btn-link-delete", function (event) {
+
+    const el = $(this);
+    event.preventDefault();
+
+    Swal.fire({
+        title: "Voce tem certeza?",
+        text: $(el).parent().find("form").data("text"),
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sim",
+        cancelButtonText: "Cancelar",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $(el).parent().find("form").submit();
+        }
+    });
+});
+
 function inputSelect2(div) {
     $(div)
         .find("input.select2")
@@ -74,6 +95,12 @@ function inputSelect2(div) {
                         }).on("click", function () {
                             $(el).val("").trigger("change");
                             linkRemove.remove();
+
+                            if ((ref = $(el).data("ref")) !== undefined) {
+                                if ((ret = $(`#${ref}`)).length) {
+                                    ret.val("");
+                                }
+                            }
                         });
 
                         if ($(el).val()) {
@@ -92,6 +119,7 @@ function inputSelect2(div) {
                             .parent()
                             .find(".select2-selection__placeholder")
                             .text(data.text);
+
                         if ((ref = $(el).data("ref")) !== undefined) {
                             if ((ret = $(`#${ref}`)).length) {
                                 ret.val(data.id);

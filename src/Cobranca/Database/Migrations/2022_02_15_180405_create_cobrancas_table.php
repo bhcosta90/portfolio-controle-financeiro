@@ -25,6 +25,7 @@ class CreateCobrancasTable extends Migration
             $table->morphs('cobranca');
             $table->string('descricao')->nullable();
             $table->unsignedDouble('valor_cobranca');
+            $table->unsignedDouble('valor_frequencia')->nullable();
             $table->unsignedDouble('valor_original')->nullable();
             $table->text('observacao')->nullable();
             $table->date('data_emissao');

@@ -18,7 +18,11 @@ class ContaPagarController extends Controller
             'Saída' => fn ($obj) => $this->estaVencido($obj->cobranca, $obj->cobranca->conta_bancaria_id ? $obj->cobranca->conta_bancaria->nome_select : '-'),
             'Descrição' => fn ($obj) => $this->estaVencido($obj->cobranca, $obj->cobranca->descricao_parcela),
             'Vencimento' => fn ($obj) => $this->estaVencido($obj->cobranca, str()->date($obj->cobranca->data_vencimento)),
-            'Valor' => fn ($obj) => $this->estaVencido($obj->cobranca, "<span>{$obj->cobranca->valor_cobranca}</span> <small class='text-muted'>" . ($obj->cobranca->valor_original ? "({$obj->cobranca->valor_original})" : '') . "</small>"),
+            'Valor' => function($obj){
+                $valorCobranca = str()->numberEnToBr($obj->cobranca->valor_cobranca);
+                $valorOriginal = str()->numberEnToBr($obj->cobranca->valor_original);
+                return $this->estaVencido($obj->cobranca, "<span>{$valorCobranca}</span> <small class='text-muted'>" . ($obj->cobranca->valor_original ? "({$valorOriginal})" : '') . "</small>");
+            },
             'Frequência' => fn ($obj) => $this->estaVencido($obj->cobranca, $obj->cobranca->frequencia_id ? $obj->cobranca->frequencia->nome : 'Uma vez'),
             '_pagar' => [
                 'action' => fn ($obj) => btnLinkIcon(route('cobranca.cobranca.pagar.show', ['cobranca' => $obj->cobranca->uuid, 'tenant' => tenant()]), 'fas fa-check', '', 'btn-sm btn-outline-success'),
@@ -66,5 +70,17 @@ class ContaPagarController extends Controller
             'data_inicio' => (new Carbon)->firstOfMonth()->format('Y-m-d'),
             'data_final' => (new Carbon)->endOfMonth()->format('Y-m-d')
         ]);
+    }
+
+    protected function serialize($array)
+    {
+        $array['valor_cobranca'] = str()->numberBrToEn($array['valor_cobranca']);
+        if (isset($array['parcelas'])) {
+            foreach ($array['parcelas'] as &$rs) {
+                $rs['valor'] = str()->numberBrToEn($rs['valor']);
+            }
+        }
+
+        return $array;
     }
 }
