@@ -34,7 +34,7 @@ class CreatePagamentosTable extends Migration
             $table->unsignedDouble('valor_multa');
             $table->unsignedDouble('valor_juros');
             $table->unsignedDouble('valor_desconto');
-            $table->unsignedDouble('valor_total');
+            $table->double('valor_total');
             $table->timestamps();
         });
     }

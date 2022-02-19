@@ -26,13 +26,12 @@ final class PagamentoService
         };
 
         return $this->repository
-            // ->with(['conta_bancaria.banco.entidade', 'forma_pagamento', 'entidade', 'usuario'])
-            // ->where(fn($q) => !empty($filter['conta_bancaria_id']) ? $q->where('conta_bancaria_id', $filter['conta_bancaria_id']) : null)
-            // ->whereBetween('created_at', [$filter['data_inicio'] . ' 00:00:00', $filter['data_final'] . ' 23:59:59'])
-            // ->where(empty($filter['conta_bancaria_id']) ? null : fn($q) => $q->whereHas('conta_bancaria', fn($q) => $q->where('uuid', $filter['conta_bancaria_id'])))
-            // ->where(empty($filter['forma_pagamento_id']) ? null : fn($q) => $q->whereHas('forma_pagamento', fn($q) => $q->where('uuid', $filter['forma_pagamento_id'])))
-            // ->where(empty($filter['tipo_cobranca']) ? null : fn($q) => $q->where('tipo', $filter['tipo_cobranca']))
-            // ->where(is_null($tipoMovimentacao) ? null : fn($q) => $q->whereIn('pagamento_type', $tipoMovimentacao))
+            ->with(['conta_bancaria.entidade', 'forma_pagamento', 'entidade', 'usuario'])
+            ->whereBetween('created_at', [$filter['data_inicio'] . ' 00:00:00', $filter['data_final'] . ' 23:59:59'])
+            ->where(empty($filter['conta_bancaria_id']) ? null : fn($q) => $q->whereHas('conta_bancaria', fn($q) => $q->where('uuid', $filter['conta_bancaria_id'])))
+            ->where(empty($filter['forma_pagamento_id']) ? null : fn($q) => $q->whereHas('forma_pagamento', fn($q) => $q->where('uuid', $filter['forma_pagamento_id'])))
+            ->where(empty($filter['tipo_cobranca']) ? null : fn($q) => $q->where('tipo', $filter['tipo_cobranca']))
+            ->where(is_null($tipoMovimentacao) ? null : fn($q) => $q->whereIn('pagamento_type', $tipoMovimentacao))
             ->orderBy('id', 'desc');
     }
 

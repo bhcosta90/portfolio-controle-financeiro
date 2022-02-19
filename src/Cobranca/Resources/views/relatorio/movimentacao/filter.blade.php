@@ -27,7 +27,7 @@
             </tr>
         </thead>
         @foreach($data as $rs)
-        <tr class={{$rs->tipo == \Modules\Cobranca\Models\Pagamento::$TIPO_PAGAMENTO ? 'text-success' : 'text-danger'}}>
+        <tr class={{$rs->tipo == \Modules\Cobranca\Models\Pagamento::$TIPO_RECEBIMENTO ? 'text-success' : 'text-danger'}}>
             <td>{{ str()->date($rs->dt_created_at) }}</td>
             <td>{{ $rs->descricao }}</td>
             <td>{!! $rs->formatacao_movimento !!}</td>

@@ -62,6 +62,7 @@ class CobrancaController extends Controller
             case ContaPagar::class;
                 $redirect = route('cobranca.conta.pagar.index', $dataRedirect);
                 $data['movimento'] = "Conta a pagar";
+                $data['valor_total'] *= -1;
                 $tipo = Pagamento::$TIPO_PAGAMENTO;
                 break;
             default:
