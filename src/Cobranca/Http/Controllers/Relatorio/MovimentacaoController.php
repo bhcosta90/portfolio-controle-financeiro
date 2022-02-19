@@ -3,6 +3,7 @@
 namespace Modules\Cobranca\Http\Controllers\Relatorio;
 
 use Carbon\Carbon;
+use Costa\LaravelPackage\Support\FormSupport;
 use Costa\LaravelPackage\Traits\Support\FormTrait;
 use Costa\LaravelTable\TableSimple;
 use Illuminate\Http\Request;
@@ -14,8 +15,6 @@ use PDF;
 
 class MovimentacaoController extends Controller
 {
-    use FormTrait;
-
     public function index(FormBuilder $formBuilder)
     {
         $model = [
@@ -46,8 +45,12 @@ class MovimentacaoController extends Controller
     public function filter(Request $request){
         $service = app(PagamentoService::class);
 
-        $data = $service->data($this->getDataForm($this->form()))->get();
-        $total = $service->data($this->getDataForm($this->form()))->sum('valor_total');
+        $objForm = app(FormSupport::class);
+        $objForm->form = $this->form();
+        $dataForm = $objForm->data();
+
+        $data = $service->data($dataForm)->get();
+        $total = $service->data($dataForm)->sum('valor_total');
 
         $ret = [
             'data' => $data,

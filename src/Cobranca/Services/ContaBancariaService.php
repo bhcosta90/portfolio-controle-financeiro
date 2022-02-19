@@ -20,7 +20,6 @@ final class ContaBancariaService
 
     public function webStore($data)
     {
-        $data['valor'] = str()->numberBrToEn($data['valor']);
         return $this->repository->create($data);
     }
 

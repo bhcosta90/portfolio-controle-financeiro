@@ -67,4 +67,16 @@ class ContaPagarController extends Controller
             'data_final' => (new Carbon)->endOfMonth()->format('Y-m-d')
         ]);
     }
+
+    protected function serialize($array)
+    {
+        $array['valor_cobranca'] = str()->numberBrToEn($array['valor_cobranca']);
+        if (isset($array['parcelas'])) {
+            foreach ($array['parcelas'] as &$rs) {
+                $rs['valor'] = str()->numberBrToEn($rs['valor']);
+            }
+        }
+
+        return $array;
+    }
 }

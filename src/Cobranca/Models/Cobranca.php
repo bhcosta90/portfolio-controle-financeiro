@@ -93,18 +93,18 @@ class Cobranca extends Model
         return $this->descricao ?: '-';
     }
 
-    public function getValorCobrancaAttribute($str)
-    {
-        return str()->numberEnToBr($str);
-    }
+    // public function getValorCobrancaAttribute($str)
+    // {
+    //     return str()->numberEnToBr($str);
+    // }
 
-    public function getValorFrequenciaAttribute($str)
-    {
-        return str()->numberEnToBr($str);
-    }
+    // public function getValorFrequenciaAttribute($str)
+    // {
+    //     return str()->numberEnToBr($str);
+    // }
 
-    public function getValorOriginalAttribute($str)
-    {
-        return $str ? str()->numberEnToBr($str) : null;
-    }
+    // public function getValorOriginalAttribute($str)
+    // {
+    //     return $str ? str()->numberEnToBr($str) : null;
+    // }
 }

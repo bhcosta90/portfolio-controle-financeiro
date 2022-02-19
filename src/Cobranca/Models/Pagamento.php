@@ -81,9 +81,9 @@ class Pagamento extends Model
 
     public function getFormatacaoMovimentoAttribute()
     {
-        $nomeCliente = $this->entidade->nome;
+        $nomeCliente = $this->entidade ? $this->entidade?->nome . ' - ' : '';
         $movimento = $this->movimento;
-        $parcela = $this->parcela ? " Parcela: {$this->parcela} - " : "";
+        $parcela = $this->parcela ? " Parcela: {$this->parcela}" : "";
 
         return "{$movimento} <small>({$parcela}{$nomeCliente})</small>";
     }

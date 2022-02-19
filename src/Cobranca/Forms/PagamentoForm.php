@@ -46,10 +46,10 @@ class PagamentoForm extends Form
             'value' => ''
         ]);
 
-        $valor = str()->numberBrToEn($this->getData()['model']->valor_cobranca);
-        $valorJuros = str()->numberBrToEn($this->request->valor_juros) ?: 0;
-        $valorMulta = str()->numberBrToEn($this->request->valor_multa) ?: 0;
-        $valorDesconto = str()->numberBrToEn($this->request->valor_desconto) ?: 0;
+        $valor = $this->getData()['model']->valor_cobranca;
+        $valorJuros = $this->request->valor_juros ?: 0;
+        $valorMulta = $this->request->valor_multa ?: 0;
+        $valorDesconto = $this->request->valor_desconto ?: 0;
 
         $valor += $valorJuros;
         $valor += $valorMulta;

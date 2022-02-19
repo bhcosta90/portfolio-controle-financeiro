@@ -30,7 +30,7 @@ final class CobrancaService
         if (count($data['parcelas'] ?? []) > 1) {
 
             foreach ($data['parcelas'] as $parcel => $rs) {
-                $data['valor_cobranca'] = str()->numberBrToEn($rs['valor']);
+                $data['valor_cobranca'] = $rs['valor'];
                 $data['data_vencimento'] = $rs['data'];
                 $data['parcela'] = $parcel + 1;
                 $objCreated = $obj->create([]);
@@ -76,7 +76,7 @@ final class CobrancaService
             throw ValidationException::withMessages($dataErros);
         }
 
-        $data['valor_cobranca'] = str()->numberBrToEn($data['valor_cobranca']);
+        $data['valor_cobranca'] = $data['valor_cobranca'];
         $data['entidade_id'] = $idEntidade;
 
         $obj = $this->getById($id);
@@ -87,7 +87,7 @@ final class CobrancaService
             $ret = DB::transaction(function () use ($data, $obj, $objBase) {
                 $ret = [];
                 foreach ($data['parcelas'] as $parcel => $rs) {
-                    $data['valor_cobranca'] = str()->numberBrToEn($rs['valor']);
+                    $data['valor_cobranca'] = $rs['valor'];
                     $data['data_vencimento'] = $rs['data'];
                     $data['data_original'] = $rs['data'];
                     $data['parcela'] = $parcel + 1;
@@ -129,8 +129,8 @@ final class CobrancaService
             $ret = $this->repository->fill([
                 'cobranca_type' => get_class($objRepository),
                 'cobranca_id' => $objRepository->id,
-                'valor_cobranca' => str()->numberBrToEn($obj->valor_frequencia),
-                'valor_frequencia' => str()->numberBrToEn($obj->valor_frequencia),
+                'valor_cobranca' => $obj->valor_frequencia,
+                'valor_frequencia' => $obj->valor_frequencia,
                 'data_emissao' => (new Carbon)->format('Y-m-d'),
                 'data_original' => $dataCalculado->format('Y-m-d'),
                 'data_vencimento' => $dataVencimento->format('Y-m-d'),

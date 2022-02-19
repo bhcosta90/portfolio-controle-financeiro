@@ -3,6 +3,7 @@
 namespace Modules\Cobranca\Http\Controllers;
 
 use Carbon\Carbon;
+use Costa\LaravelPackage\Support\FormSupport;
 use Costa\LaravelPackage\Traits\Web\WebDestroyTrait;
 use Costa\LaravelPackage\Traits\Web\WebEditTrait;
 use Exception;
@@ -27,17 +28,17 @@ class CobrancaController extends Controller
 {
     use WebEditTrait, WebDestroyTrait;
 
-    public function pagarShow($id){
+    public function pagarShow($id)
+    {
 
         $obj = $this->getService()->find($id);
 
-        $form = $this->transformInFormBuilder(
-            'POST',
-            route('cobranca.cobranca.pagar.store', [tenant(), $id]),
-            $obj,
-            'Enviar',
-            PagamentoForm::class
-        );
+        $objForm = app(FormSupport::class);
+        $objForm->form = PagamentoForm::class;
+        $objForm->model = $obj;
+        $objForm->button = 'Enviar';
+
+        $form = $objForm->exec('POST', route('cobranca.cobranca.pagar.store', [tenant(), $id]));
 
         return view('cobranca::cobranca.pagamento', compact('form', 'obj'));
     }
@@ -52,7 +53,10 @@ class CobrancaController extends Controller
 
         $obj = $this->getService()->find($id);
 
-        $data = $this->getDataForm(PagamentoForm::class, $obj);
+        $objForm = app(FormSupport::class);
+        $objForm->form = PagamentoForm::class;
+        $objForm->model = $obj;
+        $data = $this->serialize($objForm->data());
 
         switch ($obj->cobranca_type) {
             case ContaReceber::class;
@@ -74,9 +78,9 @@ class CobrancaController extends Controller
             return redirect($redirect)->with('warning', 'Essa cobrança já foi liquidada');
         }
 
-        $data['valor_cobranca'] = str()->numberBrToEn($data['valor_cobranca']);
+        $data['valor_cobranca'] = $data['valor_cobranca'];
 
-        if($data['valor_cobranca'] > str()->numberBrToEn($obj->valor_cobranca)){
+        if ($data['valor_cobranca'] > $obj->valor_cobranca) {
             throw ValidationException::withMessages(['valor_cobranca' => 'Este valor não pode ser superior a o valor de: ' . $obj->valor_cobranca]);
         }
 
@@ -84,9 +88,9 @@ class CobrancaController extends Controller
         $data['pagamento_type'] = $obj->cobranca_type;
         $data['cobranca_id'] = $obj->id;
         $data['parcela'] = $obj->parcela;
-        $data['valor_multa'] = str()->numberBrToEn($data['valor_multa']);
-        $data['valor_juros'] = str()->numberBrToEn($data['valor_juros']);
-        $data['valor_desconto'] = str()->numberBrToEn($data['valor_desconto']);
+        $data['valor_multa'] = $data['valor_multa'];
+        $data['valor_juros'] = $data['valor_juros'];
+        $data['valor_desconto'] = $data['valor_desconto'];
         $data['valor_total'] = str()->truncate($data['valor_total']);
         $data['conta_bancaria_id'] = $this->getContaBancariaService()->find($data['conta_bancaria_id'])?->id;
         $data['forma_pagamento_id'] = $this->getFormaPagamentoService()->find($data['forma_pagamento_id'])?->id;
@@ -99,14 +103,14 @@ class CobrancaController extends Controller
 
             $dataUpdate = [];
 
-            if(str()->numberBrToEn($obj->valor_frequencia) == null){
+            if ($obj->valor_frequencia == null) {
                 $dataUpdate += [
-                    'valor_frequencia' => str()->numberBrToEn($obj->valor_cobranca),
+                    'valor_frequencia' => $obj->valor_cobranca,
                 ];
             }
 
             $duplicar = false;
-            if (($valorCobranca = str()->numberBrToEn($obj->valor_cobranca)) == $data['valor_cobranca']) {
+            if (($valorCobranca = $obj->valor_cobranca) == $data['valor_cobranca']) {
                 $duplicar = true;
                 $dataUpdate += [
                     'status' => Cobranca::$STATUS_PAGO,
@@ -134,22 +138,37 @@ class CobrancaController extends Controller
         return 'cobranca::cobranca';
     }
 
-    protected function getModelEdit($obj)
+    protected function serializeModel($obj)
     {
-        $ret = $obj->toArray();
-        $ret['frequencia_id'] = $this->getFrequenciaService()->getById($ret['frequencia_id'])?->uuid;
-        $ret['conta_bancaria_id'] = $this->getContaBancariaService()->getById($ret['conta_bancaria_id'])?->uuid;
-        $ret['forma_pagamento_id'] = $this->getFormaPagamentoService()->getById($ret['forma_pagamento_id'])?->uuid;
-        $ret['entidade_id'] = ($objEntidade = $this->getEntidadeService()->getById($ret['entidade_id']))?->uuid;
-        $ret['fornecedor'] = $objEntidade?->nome;
-        $ret['cliente'] = $objEntidade?->nome;
-
-        return $ret;
+        $obj->frequencia_id = $this->getFrequenciaService()->getById($obj->frequencia_id)?->uuid;
+        $obj->conta_bancaria_id = $this->getContaBancariaService()->getById($obj->conta_bancaria_id)?->uuid;
+        $obj->forma_pagamento_id = $this->getFormaPagamentoService()->getById($obj->forma_pagamento_id)?->uuid;
+        $obj->entidade_id = ($objEntidade = $this->getEntidadeService()->getById($obj->entidade_id))?->uuid;
+        $obj->fornecedor = $objEntidade?->nome;
+        $obj->cliente = $objEntidade?->nome;
+        $obj->valor_cobranca = str()->numberEnToBr($obj->valor_cobranca);
+        return $obj;
     }
 
     protected function routeUpdate($obj): string
     {
         return route('cobranca.cobranca.update', ['tenant' => tenant(), 'cobranca' => $obj->uuid]);
+    }
+
+    protected function serialize($array)
+    {
+        $array['valor_cobranca'] = str()->numberBrToEn($array['valor_cobranca']);
+        $array['valor_multa'] = str()->numberBrToEn($array['valor_multa'] ?? 0);
+        $array['valor_juros'] = str()->numberBrToEn($array['valor_juros'] ?? 0);
+        $array['valor_desconto'] = str()->numberBrToEn($array['valor_desconto'] ?? 0);
+
+        if (isset($array['parcelas'])) {
+            foreach ($array['parcelas'] as &$rs) {
+                $rs['valor'] = str()->numberBrToEn($rs['valor']);
+            }
+        }
+
+        return $array;
     }
 
     protected function routeRedirectPostPut($obj = null): string
@@ -160,7 +179,7 @@ class CobrancaController extends Controller
             'data_final' => (new Carbon)->endOfMonth()->format('Y-m-d')
         ];
 
-        switch($obj[0]->cobranca_type) {
+        switch ($obj[0]->cobranca_type) {
             case ContaReceber::class;
                 return route('cobranca.conta.receber.index', $data);
             case ContaPagar::class;
