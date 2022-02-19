@@ -34,10 +34,22 @@ class ContaBancariaMovimentacaoController extends Controller
             'Data' => fn($obj) => str()->date($obj->dt_created_at),
             'Descrição' => fn($obj) => $obj->descricao,
             'Movimento' => function($obj){
-                $nomeCliente = $obj->entidade?->nome;
-                $movimento = $obj->movimento;
-                $parcela = $obj->parcela ? " Parcela: {$obj->parcela} - " : "";
-                return "{$movimento} <small>({$parcela}{$nomeCliente})</small>";
+                $str = "{$obj->movimento}";
+                if($obj->entidade || $obj->parcela){
+                    $str .= "<small>(";
+
+                    if($obj->entidade){
+                        $str .= "{$obj->entidade->nome} - ";
+                    }
+                    if($obj->parcela) {
+                        $str .= "Parcela: {$obj->parcela} - ";
+                    }
+
+                    $str = substr($str, 0, -3);
+
+                    $str .= ")</small>";
+                }
+                return $str;
             },
             'Documento' => fn ($obj) => $obj->forma_pagamento->nome,
             'Usuário' => fn ($obj) => $obj->usuario->name,

@@ -17,7 +17,7 @@ final class CobrancaMovimentacaoService
     {
         $this->getBancoAtivo($filter);
 
-        $filter['conta_bancaria_id'] = self::$bancoAtivo['id'];
+        $filter['conta_bancaria_id'] = self::$bancoAtivo['uuid'];
         return $this->getPagamentoService()->data($filter);
     }
 
