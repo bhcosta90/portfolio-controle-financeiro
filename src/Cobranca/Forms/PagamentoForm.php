@@ -66,7 +66,7 @@ class PagamentoForm extends Form
         ]);
 
         $this->add('conta_bancaria_id', 'select', [
-            'class' => 'select2 form-control',
+            'attr' => ['class' => 'select2 form-control'],
             'label' => 'Conta Bancária',
             'choices' => $dataContaBancaria = $this->getContaBancariaService()->pluck(),
             'empty_value' => 'Selecione...',
@@ -75,7 +75,7 @@ class PagamentoForm extends Form
         ]);
 
         $this->add('forma_pagamento_id', 'select', [
-            'class' => 'select2 form-control',
+            'attr' => ['class' => 'select2 form-control'],
             'label' => 'Forma de pagamento',
             'choices' => $dataFormaPagamento = $this->getFormaPagamentoService()->pluck(),
             'rules' => ['required', 'in:' . implode(',', array_keys($dataFormaPagamento))],
