@@ -84,16 +84,16 @@
         },
         {
             "name": "bhcosta90/laravel-package",
-            "version": "2.0.32",
+            "version": "2.0.34",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bhcosta90/laravel-package.git",
-                "reference": "9065b2ccd6a13110bdc56aec8489a90e71a00960"
+                "reference": "3603be3da07ea4e192925faa167606806c4d8a1f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bhcosta90/laravel-package/zipball/9065b2ccd6a13110bdc56aec8489a90e71a00960",
-                "reference": "9065b2ccd6a13110bdc56aec8489a90e71a00960",
+                "url": "https://api.github.com/repos/bhcosta90/laravel-package/zipball/3603be3da07ea4e192925faa167606806c4d8a1f",
+                "reference": "3603be3da07ea4e192925faa167606806c4d8a1f",
                 "shasum": ""
             },
             "require": {
@@ -129,22 +129,22 @@
             "description": "package to facilitate the laravel",
             "support": {
                 "issues": "https://github.com/bhcosta90/laravel-package/issues",
-                "source": "https://github.com/bhcosta90/laravel-package/tree/2.0.32"
+                "source": "https://github.com/bhcosta90/laravel-package/tree/2.0.34"
             },
-            "time": "2022-02-19T17:54:15+00:00"
+            "time": "2022-02-19T20:21:36+00:00"
         },
         {
             "name": "bhcosta90/laravel-table",
-            "version": "1.0.15",
+            "version": "1.0.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bhcosta90/laravel-table.git",
-                "reference": "791391cd8ee20a9887b4b3af9fa737418c953d39"
+                "reference": "d358505db0eaf58616590b16a8398b5812252cb4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bhcosta90/laravel-table/zipball/791391cd8ee20a9887b4b3af9fa737418c953d39",
-                "reference": "791391cd8ee20a9887b4b3af9fa737418c953d39",
+                "url": "https://api.github.com/repos/bhcosta90/laravel-table/zipball/d358505db0eaf58616590b16a8398b5812252cb4",
+                "reference": "d358505db0eaf58616590b16a8398b5812252cb4",
                 "shasum": ""
             },
             "require": {
@@ -192,9 +192,9 @@
             ],
             "support": {
                 "issues": "https://github.com/bhcosta90/laravel-table/issues",
-                "source": "https://github.com/bhcosta90/laravel-table/tree/1.0.15"
+                "source": "https://github.com/bhcosta90/laravel-table/tree/1.0.16"
             },
-            "time": "2022-02-11T21:06:36+00:00"
+            "time": "2022-02-19T20:18:36+00:00"
         },
         {
             "name": "brick/math",
