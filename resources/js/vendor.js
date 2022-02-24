@@ -71,7 +71,8 @@ function inputSelect2(div) {
         .each(function (_, el) {
             $(el)
                 .select2({
-                    placeholder: "",
+                    placeholder: "Selecione...",
+                    allowClear: true,
                     minimumInputLength: 2,
                     multiple: false,
                     quietMillis: 500,
