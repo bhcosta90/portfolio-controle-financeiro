@@ -293,7 +293,7 @@ class CostaSeeder extends Seeder
             ],
             [
                 'nome' => 'DAE',
-                'descricao' => 'Ýgua',
+                'descricao' => 'Água',
                 'valor' => 50,
                 "data_vencimento" => (new Carbon)->setDay(10)->format('Y-m-d'),
                 'type' => 'fifth_business_day',
