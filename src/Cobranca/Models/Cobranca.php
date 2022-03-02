@@ -98,10 +98,10 @@ class Cobranca extends Model
         return str()->numberEnToBr($this->valor_cobranca);
     }
 
-    // public function getValorFrequenciaAttribute($str)
-    // {
-    //     return str()->numberEnToBr($str);
-    // }
+    public function getStrValorFrequenciaAttribute()
+    {
+        return str()->numberEnToBr($this->valor_frequencia);
+    }
 
     public function getStrValorOriginalAttribute()
     {
