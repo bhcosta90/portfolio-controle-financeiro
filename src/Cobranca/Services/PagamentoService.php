@@ -4,6 +4,7 @@ namespace Modules\Cobranca\Services;
 
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Modules\Cobranca\Models\Cobranca;
 use Modules\Cobranca\Models\ContaPagar;
 use Modules\Cobranca\Models\ContaReceber;
 use Modules\Cobranca\Models\Frequencia;
@@ -42,15 +43,15 @@ final class PagamentoService
             $data['saldo_anterior'] = $objContaBancaria->valor;
             $data['saldo_atual'] = $objContaBancaria->valor + $data['valor_total'];
 
-            switch ($objClass) {
-                case ContaPagar::class;
+            switch ($data['tipo']) {
+                case Cobranca::$TIPO_DEBITO;
                     $objContaBancaria->decrement('valor', abs($data['valor_total']));
                     break;
-                case ContaReceber::class;
+                case Cobranca::$TIPO_CREDITO;
                     $objContaBancaria->increment('valor', abs($data['valor_total']));
                     break;
                 default:
-                    throw new Exception('Não configurado essa classe de objeto: ' . $objClass);
+                    throw new Exception('Não configurado esse tipo: ' . $data['tipo']);
             }
 
             return $this->repository->create($data);

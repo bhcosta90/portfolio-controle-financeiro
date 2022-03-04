@@ -34,25 +34,8 @@ class Pagamento extends Model
         'saldo_atual',
     ];
 
-    public static $TIPO_PAGAMENTO = 'PA';
-    public static $TIPO_RECEBIMENTO = 'RE';
-
     public static $PAGAMENTO_TIPO_RECEITA = [ContaReceber::class];
     public static $PAGAMENTO_TIPO_DESPESA = [ContaPagar::class];
-
-    public static function getTipoFormatarAttribute($status = null)
-    {
-        $ret = [
-            self::$TIPO_PAGAMENTO => 'Pagamento',
-            self::$TIPO_RECEBIMENTO => 'Recebimento',
-        ];
-
-        if (!empty($status)) {
-            return $ret[$status] ?? null;
-        }
-
-        return $ret;
-    }
 
     public function conta_bancaria()
     {
