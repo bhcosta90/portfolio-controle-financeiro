@@ -2,6 +2,7 @@
 
 namespace Modules\Cobranca\Services;
 
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Modules\Cobranca\Models\FormaPagamento;
@@ -42,7 +43,13 @@ final class FormaPagamentoService
 
     public function delete($id)
     {
-        return $this->repository->where('id', $id)->delete();
+        $obj = $this->repository->where('id', $id)->first();
+
+        if (!empty($obj->tipo)) {
+            throw new Exception('Essa forma de pagamento não pode ser deletada', 400);
+        }
+
+        return $obj->delete();
     }
 
     public function pluck()
@@ -58,7 +65,7 @@ final class FormaPagamentoService
                 ['nome' => 'Dinheiro'],
                 ['nome' => 'Cartão de Crédito'],
                 ['nome' => 'Cartão de Débito'],
-                ['nome' => 'Transferência'],
+                ['nome' => 'Transferência', 'tipo' => 'transferencia'],
                 ['nome' => 'Boleto'],
             ];
 
@@ -73,5 +80,9 @@ final class FormaPagamentoService
                 DB::table('forma_pagamentos')->insert($forma);
             }
         }
+    }
+
+    public function getByTipo($tipo){
+        return $this->repository->where('tipo', $tipo)->first()->id;
     }
 }

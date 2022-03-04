@@ -12,7 +12,7 @@
             @endforeach
         </ul>
     </nav>
-    <div class="tab-content">
+    <div class="tab-content bg-white p-2">
         {!! $table->render() !!}
     </div>
 @endsection

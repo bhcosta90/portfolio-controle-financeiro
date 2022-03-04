@@ -62,16 +62,17 @@ class CobrancaController extends Controller
             case ContaReceber::class;
                 $redirect = route('cobranca.conta.receber.index', $dataRedirect);
                 $data['movimento'] = "Conta a receber";
-                $tipo = Pagamento::$TIPO_RECEBIMENTO;
                 break;
             case ContaPagar::class;
                 $redirect = route('cobranca.conta.pagar.index', $dataRedirect);
                 $data['movimento'] = "Conta a pagar";
-                $data['valor_total'] *= -1;
-                $tipo = Pagamento::$TIPO_PAGAMENTO;
                 break;
             default:
                 throw new Exception('Não foi possível redirecionar');
+        }
+
+        if ($obj->tipo == Cobranca::$TIPO_DEBITO) {
+            $data['valor_total'] *= -1;
         }
 
         if ($obj->status == Cobranca::$STATUS_PAGO) {
@@ -96,10 +97,10 @@ class CobrancaController extends Controller
         $data['forma_pagamento_id'] = $this->getFormaPagamentoService()->find($data['forma_pagamento_id'])?->id;
         $data['entidade_id'] = $obj->entidade_id;
         $data['descricao'] = $obj->descricao;
-        $data['tipo'] = $tipo;
+        $data['tipo'] = $obj->tipo;
 
         return DB::transaction(function () use ($obj, $data, $redirect) {
-            $this->getPagamentoService()->store($obj->cobranca_type, $data);
+            $this->getPagamentoService()->store($data);
 
             $dataUpdate = [];
 

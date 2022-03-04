@@ -30,12 +30,16 @@ class Cobranca extends Model
         'forma_pagamento_id',
         'parcela',
         'status',
+        'tipo',
     ];
 
     public static $STATUS_PENDENTE = '10';
     public static $STATUS_EM_SINCRONIZACAO = '20';
     public static $STATUS_CANCELADO = '30';
     public static $STATUS_PAGO = '40';
+
+    public static $TIPO_CREDITO = 'credito';
+    public static $TIPO_DEBITO = 'debito';
 
     public static function getTextStatusAttribute($status = null)
     {
@@ -92,6 +96,22 @@ class Cobranca extends Model
 
         return $this->descricao ?: '-';
     }
+
+    public static function getTipoFormatarAttribute($status = null)
+    {
+        $ret = [
+            self::$TIPO_CREDITO => 'Crédito',
+            self::$TIPO_DEBITO => 'Débito',
+        ];
+
+        if (!empty($status)) {
+            return $ret[$status] ?? null;
+        }
+
+        return $ret;
+    }
+
+
 
     public function getStrValorCobrancaAttribute()
     {

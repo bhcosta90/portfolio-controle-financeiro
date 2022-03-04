@@ -34,25 +34,8 @@ class Pagamento extends Model
         'saldo_atual',
     ];
 
-    public static $TIPO_PAGAMENTO = 'PA';
-    public static $TIPO_RECEBIMENTO = 'RE';
-
     public static $PAGAMENTO_TIPO_RECEITA = [ContaReceber::class];
     public static $PAGAMENTO_TIPO_DESPESA = [ContaPagar::class];
-
-    public static function getTipoFormatarAttribute($status = null)
-    {
-        $ret = [
-            self::$TIPO_PAGAMENTO => 'Pagamento',
-            self::$TIPO_RECEBIMENTO => 'Recebimento',
-        ];
-
-        if (!empty($status)) {
-            return $ret[$status] ?? null;
-        }
-
-        return $ret;
-    }
 
     public function conta_bancaria()
     {
@@ -85,6 +68,11 @@ class Pagamento extends Model
         $movimento = $this->movimento;
         $parcela = $this->parcela ? " Parcela: {$this->parcela}" : "";
 
-        return "{$movimento} <small>({$parcela}{$nomeCliente})</small>";
+        $parentes = ['(', ')'];
+        if (empty($this->parcela) && empty($this->entidade)) {
+            $parentes = [null, null];
+        }
+
+        return "{$movimento} <small>{$parentes[0]}{$parcela}{$nomeCliente}{$parentes[1]}</small>";
     }
 }

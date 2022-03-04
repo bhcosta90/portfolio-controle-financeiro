@@ -4,10 +4,14 @@ namespace Modules\Cobranca\Services;
 
 use Carbon\Carbon;
 use Costa\LaravelPackage\Traits\Support\DayWeekTrait;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Modules\Cobranca\Models\Cobranca;
+use Modules\Cobranca\Models\ContaPagar;
+use Modules\Cobranca\Models\ContaReceber;
+use Modules\Cobranca\Models\ContaTransferencia;
 use Modules\Entidade\Services\EntidadeService;
 
 final class CobrancaService
@@ -37,7 +41,9 @@ final class CobrancaService
 
                 $data['cobranca_id'] = $objCreated->id;
                 $data['cobranca_type'] = get_class($objCreated);
-                $ret[] = $this->repository->create($data);
+                $ret[] = $this->repository->create($data + [
+                    'tipo' => $this->getTipoCobranca($objCreated)
+                ]);
             }
         } else {
             $objCreated = $obj->create([]);
@@ -45,6 +51,7 @@ final class CobrancaService
             $data += [
                 'cobranca_id' => $objCreated->id,
                 'cobranca_type' => get_class($objCreated),
+                'tipo' => $this->getTipoCobranca($objCreated),
             ];
             $ret[] = $this->repository->create($data);
         }
@@ -159,6 +166,16 @@ final class CobrancaService
             $this->duplicarCobranca($obj);
         }
         return $obj->delete();
+    }
+
+    protected function getTipoCobranca($obj)
+    {
+        return match(get_class($obj)){
+            ContaPagar::class => Cobranca::$TIPO_DEBITO,
+            ContaReceber::class => Cobranca::$TIPO_CREDITO,
+            ContaTransferencia::class => null,
+            default => throw new Exception('Tipo não configurado: ' . get_class($obj)),
+        };
     }
 
     /**

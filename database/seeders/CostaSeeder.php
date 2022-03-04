@@ -148,7 +148,8 @@ class CostaSeeder extends Seeder
         }
     }
 
-    protected function registrarCobrancas($class, $idTenant, $idEntidade, $idFormaPagamento, $idFrequencia, $data){
+    protected function registrarCobrancas($class, $idTenant, $idEntidade, $idFormaPagamento, $idFrequencia, $data)
+    {
         if (empty($data['parcela_total'])) {
             $obj = app($class)->create([]);
             try {
@@ -165,14 +166,15 @@ class CostaSeeder extends Seeder
                     'observacao' => $data['observacao'] ?? null,
                     'descricao' => $data['descricao'] ?? null,
                     'frequencia_id' => empty($data['type']) ? null : $idFrequencia,
+                    'tipo' => $data['tipo'],
                 ]);
-            } catch(Exception $e){
+            } catch (Exception $e) {
                 dump($class, $idTenant, $idEntidade, $idFrequencia, $data);
                 throw $e;
             }
         } else {
             $values = (new Value())->parcel(new Carbon($data['data_vencimento']), $data['valor'], $data['parcela_total']);
-            foreach($values as $i => $rs){
+            foreach ($values as $i => $rs) {
                 $obj = app($class)->create([]);
 
                 Cobranca::create([
@@ -187,6 +189,7 @@ class CostaSeeder extends Seeder
                     'data_original' => $data['data_vencimento'],
                     'data_vencimento' => $rs['due_date'],
                     'parcela' => $i + 1,
+                    'tipo' => $data['tipo'],
                 ]);
             }
         }
@@ -200,14 +203,16 @@ class CostaSeeder extends Seeder
                 'descricao' => 'Mensalidade do celular',
                 'parcela_total' => 10,
                 'valor' => 799,
-                'data_vencimento' => '2021-08-20'
+                'data_vencimento' => '2021-08-20',
+                'tipo' => Cobranca::$TIPO_CREDITO,
             ],
             [
                 'nome' => 'Jair da Costa',
                 'descricao' => 'Mensalidade do Seguro para o celular',
                 'parcela_total' => 12,
                 'valor' => 235.92,
-                'data_vencimento' => '2021-08-20'
+                'data_vencimento' => '2021-08-20',
+                'tipo' => Cobranca::$TIPO_CREDITO,
             ],
             [
                 'nome' => 'José Maria da Costa',
@@ -215,12 +220,14 @@ class CostaSeeder extends Seeder
                 'valor' => 573.62,
                 'data_vencimento' => '2021-02-05',
                 'observacao' => 'Com desconto das duas parcelas do armário de quarto (Valor do Cartão = 1065 | Valor da Faculdade = 308.62 | Parcela do armário = -800)',
+                'tipo' => Cobranca::$TIPO_CREDITO,
             ],
             [
                 'nome' => 'José Maria da Costa',
                 'descricao' => 'Empréstimo para funerária',
                 'valor' => 1750.00,
                 'data_vencimento' => '2021-02-05',
+                'tipo' => Cobranca::$TIPO_CREDITO,
             ],
             [
                 'nome' => 'PJBank',
@@ -228,6 +235,7 @@ class CostaSeeder extends Seeder
                 'valor' => 1893.27,
                 'data_vencimento' => (new Carbon)->setDay('10')->format('Y-m-d'),
                 'type' => 'every_20th',
+                'tipo' => Cobranca::$TIPO_CREDITO,
             ],
             [
                 'nome' => 'PJBank',
@@ -235,18 +243,21 @@ class CostaSeeder extends Seeder
                 'valor' => 2628.81,
                 'data_vencimento' => (new Carbon)->setDay('10')->format('Y-m-d'),
                 'type' => 'fifth_business_day',
+                'tipo' => Cobranca::$TIPO_CREDITO,
             ],
             [
                 "nome" => "Victória Costa",
                 'descricao' => 'Diaria da cuidadora',
                 'valor' => 100,
                 "data_vencimento" => "2021-12-28",
+                'tipo' => Cobranca::$TIPO_CREDITO,
             ],
             [
                 "nome" => "Victória Costa",
                 'descricao' => 'Fogão',
                 'valor' => 150,
                 "data_vencimento" => "2021-12-28",
+                'tipo' => Cobranca::$TIPO_CREDITO,
             ],
             [
                 'nome' => 'Paulo Afonso',
@@ -254,6 +265,7 @@ class CostaSeeder extends Seeder
                 'valor' => 35,
                 'type' => 'fifth_business_day',
                 'data_vencimento' => '2021-10-01',
+                'tipo' => Cobranca::$TIPO_CREDITO,
             ],
             [
                 'nome' => 'José Maria da Costa',
@@ -261,6 +273,7 @@ class CostaSeeder extends Seeder
                 'valor' => 97.05,
                 'type' => 'fifth_business_day',
                 'data_vencimento' => (new Carbon)->setDay('10')->format('Y-m-d'),
+                'tipo' => Cobranca::$TIPO_CREDITO,
             ]
 
         ];
@@ -276,6 +289,7 @@ class CostaSeeder extends Seeder
                 'type' => 'month',
                 'valor' => 80,
                 'data_vencimento' => (new Carbon)->setDay('10')->format('Y-m-d'),
+                'tipo' => Cobranca::$TIPO_DEBITO,
             ],
             [
                 'nome' => 'André Trevisan',
@@ -283,6 +297,7 @@ class CostaSeeder extends Seeder
                 'valor' => 120,
                 "data_vencimento" => (new Carbon)->setDay(10)->format('Y-m-d'),
                 'type' => 'every_20th',
+                'tipo' => Cobranca::$TIPO_DEBITO,
             ],
             [
                 'nome' => 'CPFL',
@@ -290,6 +305,7 @@ class CostaSeeder extends Seeder
                 'valor' => 150,
                 "data_vencimento" => (new Carbon)->setDay(10)->format('Y-m-d'),
                 'type' => 'fifth_business_day',
+                'tipo' => Cobranca::$TIPO_DEBITO,
             ],
             [
                 'nome' => 'DAE',
@@ -297,6 +313,7 @@ class CostaSeeder extends Seeder
                 'valor' => 50,
                 "data_vencimento" => (new Carbon)->setDay(10)->format('Y-m-d'),
                 'type' => 'fifth_business_day',
+                'tipo' => Cobranca::$TIPO_DEBITO,
             ],
             [
                 'nome' => 'Rosângela Macário de Lima',
@@ -305,6 +322,7 @@ class CostaSeeder extends Seeder
                 'type' => 'fifth_business_day',
                 'data_vencimento' => (new Carbon)->setDay(10)->format('Y-m-d'),
                 'observacao' => 'Transferência via PIX: (19) 99181-7970 (Referente a televisão do Bruno, Paulo Afonso)',
+                'tipo' => Cobranca::$TIPO_DEBITO,
             ],
             [
                 'nome' => 'Faculdade Einstein Limeira',
@@ -313,6 +331,7 @@ class CostaSeeder extends Seeder
                 'type' => 'fifth_business_day',
                 'data_vencimento' => (new Carbon)->setDay(10)->format('Y-m-d'),
                 'observacao' => 'Pagamento via boleto',
+                'tipo' => Cobranca::$TIPO_DEBITO,
             ],
             [
                 'nome' => 'Comgás',
@@ -321,6 +340,7 @@ class CostaSeeder extends Seeder
                 'type' => 'fifth_business_day',
                 'data_vencimento' => (new Carbon)->setDay(10)->format('Y-m-d'),
                 'observacao' => 'Pagamento via aplicativo',
+                'tipo' => Cobranca::$TIPO_DEBITO,
             ],
             [
                 'nome' => 'Caixa Economica Federal',
@@ -329,6 +349,7 @@ class CostaSeeder extends Seeder
                 'type' => 'fifth_business_day',
                 'data_vencimento' => (new Carbon)->setDay(10)->format('Y-m-d'),
                 'observacao' => 'Pagamento do NuBank para a Caixa',
+                'tipo' => Cobranca::$TIPO_DEBITO,
             ],
             [
                 'nome' => 'Canção Nova',
@@ -337,6 +358,7 @@ class CostaSeeder extends Seeder
                 'type' => 'fifth_business_day',
                 'data_vencimento' => (new Carbon)->setDay(10)->format('Y-m-d'),
                 'observacao' => 'Pagamento via PIX',
+                'tipo' => Cobranca::$TIPO_DEBITO,
             ],
             // [
             //     'nome' => 'Josefina Costa',
@@ -358,6 +380,7 @@ class CostaSeeder extends Seeder
                 'valor' => 139.99,
                 'type' => 'fifth_business_day',
                 'data_vencimento' => (new Carbon)->setDay(10)->format('Y-m-d'),
+                'tipo' => Cobranca::$TIPO_DEBITO,
             ],
             [
                 'nome' => 'Vivo',
@@ -365,6 +388,7 @@ class CostaSeeder extends Seeder
                 'valor' => 119.99,
                 'type' => 'fifth_business_day',
                 'data_vencimento' => (new Carbon)->setDay(10)->format('Y-m-d'),
+                'tipo' => Cobranca::$TIPO_DEBITO,
             ],
             [
                 'nome' => 'Nubank',
@@ -372,6 +396,7 @@ class CostaSeeder extends Seeder
                 'valor' => 1800,
                 'type' => 'every_20th',
                 'data_vencimento' => (new Carbon)->setDay('10')->format('Y-m-d'),
+                'tipo' => Cobranca::$TIPO_DEBITO,
             ]
         ];
     }
