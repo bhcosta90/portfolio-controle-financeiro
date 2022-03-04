@@ -45,6 +45,8 @@ tenantRoute(function () {
 
             Route::get('pagar/total', 'ContaPagarController@total')->name('pagar.total');
             Route::resource('pagar', 'ContaPagarController');
+
+            Route::resource('transferencia', 'ContaTransferenciaController')->only('create', 'store');
         });
     });
 });

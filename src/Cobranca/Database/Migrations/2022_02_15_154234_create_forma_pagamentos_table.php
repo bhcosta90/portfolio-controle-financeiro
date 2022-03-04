@@ -20,6 +20,7 @@ class CreateFormaPagamentosTable extends Migration
             $table->string('nome');
             $table->boolean('ativo');
             $table->tinyInteger('ordem');
+            $table->string('tipo', 25)->nullable();
             $table->timestamps();
         });
     }
