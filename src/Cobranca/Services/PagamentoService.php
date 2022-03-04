@@ -40,14 +40,13 @@ final class PagamentoService
         return DB::transaction(function () use ($objClass, $data) {
             $objContaBancaria = $this->getContaBancariaService()->getById($data['conta_bancaria_id']);
             $data['saldo_anterior'] = $objContaBancaria->valor;
+            $data['saldo_atual'] = $objContaBancaria->valor + $data['valor_total'];
 
             switch ($objClass) {
                 case ContaPagar::class;
-                    $data['saldo_atual'] = $objContaBancaria->valor - $data['valor_total'];
                     $objContaBancaria->decrement('valor', $data['valor_total']);
                     break;
                 case ContaReceber::class;
-                    $data['saldo_atual'] = $objContaBancaria->valor + $data['valor_total'];
                     $objContaBancaria->increment('valor', $data['valor_total']);
                     break;
                 default:
