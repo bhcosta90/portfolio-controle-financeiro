@@ -64,15 +64,31 @@ class Pagamento extends Model
 
     public function getFormatacaoMovimentoAttribute()
     {
-        $nomeCliente = $this->entidade ? $this->entidade?->nome . ' - ' : '';
-        $movimento = $this->movimento;
-        $parcela = $this->parcela ? " Parcela: {$this->parcela}" : "";
+        // $nomeCliente = $this->entidade ? $this->entidade?->nome . ' - ' : '';
+        // $movimento = $this->movimento;
+        // $parcela = $this->parcela ? " Parcela: {$this->parcela}" : "";
 
-        $parentes = ['(', ')'];
-        if (empty($this->parcela) && empty($this->entidade)) {
-            $parentes = [null, null];
+        // $parentes = ['(', ')'];
+        // if (empty($this->parcela) && empty($this->entidade)) {
+        //     $parentes = [null, null];
+        // }
+
+        // return "{$movimento} <small>{$parentes[0]}{$parcela}{$nomeCliente}{$parentes[1]}</small>";
+
+        $movimento = $this->movimento;
+
+        $incremento = "";
+
+        if ($this->entidade) {
+            $incremento .= $this->entidade->nome . ' - ';
         }
 
-        return "{$movimento} <small>{$parentes[0]}{$parcela}{$nomeCliente}{$parentes[1]}</small>";
+        $incremento = substr($incremento, 0, -3);
+
+        if($incremento){
+            $incremento = " <small>({$incremento})</small>";
+        }
+
+        return $movimento . $incremento;
     }
 }
