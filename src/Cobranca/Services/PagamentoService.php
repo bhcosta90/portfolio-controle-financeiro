@@ -36,9 +36,9 @@ final class PagamentoService
             ->orderBy('id', 'desc');
     }
 
-    public function store(string $objClass, $data)
+    public function store($data)
     {
-        return DB::transaction(function () use ($objClass, $data) {
+        return DB::transaction(function () use ($data) {
             $objContaBancaria = $this->getContaBancariaService()->getById($data['conta_bancaria_id']);
             $data['saldo_anterior'] = $objContaBancaria->valor;
             $data['saldo_atual'] = $objContaBancaria->valor + $data['valor_total'];

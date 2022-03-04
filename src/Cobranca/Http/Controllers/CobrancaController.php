@@ -100,7 +100,7 @@ class CobrancaController extends Controller
         $data['tipo'] = $obj->tipo;
 
         return DB::transaction(function () use ($obj, $data, $redirect) {
-            $this->getPagamentoService()->store($obj->cobranca_type, $data);
+            $this->getPagamentoService()->store($data);
 
             $dataUpdate = [];
 
