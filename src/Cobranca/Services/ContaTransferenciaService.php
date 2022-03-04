@@ -24,6 +24,7 @@ final class ContaTransferenciaService
             'data_emissao' => Carbon::now()->format('Y-m-d'),
             'forma_pagamento_id' => $idFormaPagamento = $this->getFormaPagamentoService()->getByTipo('transferencia'),
             'valor_cobranca' => $valor,
+            'status' => Cobranca::$STATUS_PAGO,
         ];
 
         $cobrancaOrigem = $this->getCobrancaService()->store($obj, $data + [
