@@ -43,7 +43,8 @@ class MovimentacaoController extends Controller
         return view('cobranca::relatorio.movimentacao.index', compact('form'));
     }
 
-    public function filter(Request $request){
+    public function filter(Request $request)
+    {
         $service = app(PagamentoService::class);
 
         $objForm = app(FormSupport::class);
@@ -54,8 +55,12 @@ class MovimentacaoController extends Controller
 
         $total = 0;
 
-        foreach($data as $rs){
-            $total += $rs->tipo == Cobranca::$TIPO_DEBITO ? $rs->saldo_atual * -1 : $rs->saldo_atual;
+        foreach ($data as $rs) {
+            if ($rs->tipo == Cobranca::$TIPO_DEBITO) {
+                $total -= $rs->saldo_atual;
+            } else {
+                $total += $rs->saldo_atual;
+            }
         }
 
         $ret = [
@@ -66,11 +71,10 @@ class MovimentacaoController extends Controller
             'total' => $total,
         ];
 
-        return match($request->formato){
+        return match ($request->formato) {
             'html' => view('cobranca::relatorio.movimentacao.filter', $ret),
             default => $this->imprimirPDF($ret),
         };
-
     }
 
     private function imprimirPDF($params)
