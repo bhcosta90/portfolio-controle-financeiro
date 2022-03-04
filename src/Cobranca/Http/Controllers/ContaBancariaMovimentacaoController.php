@@ -32,7 +32,7 @@ class ContaBancariaMovimentacaoController extends Controller
     {
         return [
             'Data' => fn($obj) => str()->date($obj->dt_created_at),
-            'Descrição' => fn($obj) => $obj->descricao,
+            'Descrição' => fn($obj) => $obj->descricao ?: '-',
             'Movimento' => function($obj){
                 $str = "{$obj->movimento}";
                 if($obj->entidade || $obj->parcela){
