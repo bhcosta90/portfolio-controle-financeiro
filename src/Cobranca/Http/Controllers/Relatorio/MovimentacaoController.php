@@ -50,7 +50,7 @@ class MovimentacaoController extends Controller
         $dataForm = $objForm->data();
 
         $data = $service->data($dataForm)->get();
-        $total = $service->data($dataForm)->sum('valor_total');
+        $total = $service->data($dataForm)->sum('saldo_atual');
 
         $ret = [
             'data' => $data,
