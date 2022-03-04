@@ -46,7 +46,7 @@ trait CobrancaFormTrait {
 
         $this->add('data_vencimento', 'date', [
             'label' => 'Data de vencimento',
-            'value' => $this->getData()['model']['data_emissao'] ?? (new Carbon())->format('Y-m-d'),
+            'value' => $this->getData()['model']['data_vencimento'] ?? (new Carbon())->format('Y-m-d'),
             'rules' => 'required|date'
         ]);
 

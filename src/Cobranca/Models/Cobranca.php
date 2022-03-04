@@ -93,18 +93,18 @@ class Cobranca extends Model
         return $this->descricao ?: '-';
     }
 
-    // public function getValorCobrancaAttribute($str)
-    // {
-    //     return str()->numberEnToBr($str);
-    // }
+    public function getStrValorCobrancaAttribute()
+    {
+        return str()->numberEnToBr($this->valor_cobranca);
+    }
 
-    // public function getValorFrequenciaAttribute($str)
-    // {
-    //     return str()->numberEnToBr($str);
-    // }
+    public function getStrValorFrequenciaAttribute()
+    {
+        return str()->numberEnToBr($this->valor_frequencia);
+    }
 
-    // public function getValorOriginalAttribute($str)
-    // {
-    //     return $str ? str()->numberEnToBr($str) : null;
-    // }
+    public function getStrValorOriginalAttribute()
+    {
+        return $this->valor_cobranca_original ? str()->numberEnToBr($this->valor_cobranca_original) : null;
+    }
 }
