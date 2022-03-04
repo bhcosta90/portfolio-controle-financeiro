@@ -42,7 +42,8 @@ class MovimentacaoController extends Controller
         return view('cobranca::relatorio.movimentacao.index', compact('form'));
     }
 
-    public function filter(Request $request){
+    public function filter(Request $request)
+    {
         $service = app(PagamentoService::class);
 
         $objForm = app(FormSupport::class);
@@ -50,7 +51,22 @@ class MovimentacaoController extends Controller
         $dataForm = $objForm->data();
 
         $data = $service->data($dataForm)->get();
-        $total = $service->data($dataForm)->sum('valor_total');
+        $bancos = $service->data($dataForm)
+            ->select('conta_bancarias.uuid')
+            ->join('conta_bancarias', 'pagamentos.conta_bancaria_id', '=', 'conta_bancarias.id')
+            ->groupBy('conta_bancarias.uuid')->get();
+
+        $total = 0;
+        foreach ($bancos as $rs) {
+            $objBanco = $service->data([
+                'conta_bancaria_id' => $rs->uuid,
+                'order' => 'pagamentos.id'
+            ] + $dataForm)
+                ->limit(1)
+                ->first();
+
+            $total += $objBanco->saldo_atual;
+        }
 
         $ret = [
             'data' => $data,
@@ -60,11 +76,10 @@ class MovimentacaoController extends Controller
             'total' => $total,
         ];
 
-        return match($request->formato){
+        return match ($request->formato) {
             'html' => view('cobranca::relatorio.movimentacao.filter', $ret),
             default => $this->imprimirPDF($ret),
         };
-
     }
 
     private function imprimirPDF($params)
