@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Modules\Cobranca\Forms\Relatorio\MovimentacaoForm;
-use Modules\Cobranca\Models\Cobranca;
 use Modules\Cobranca\Services\PagamentoService;
 use PDF;
 
@@ -43,8 +42,7 @@ class MovimentacaoController extends Controller
         return view('cobranca::relatorio.movimentacao.index', compact('form'));
     }
 
-    public function filter(Request $request)
-    {
+    public function filter(Request $request){
         $service = app(PagamentoService::class);
 
         $objForm = app(FormSupport::class);
@@ -52,16 +50,7 @@ class MovimentacaoController extends Controller
         $dataForm = $objForm->data();
 
         $data = $service->data($dataForm)->get();
-
-        $total = 0;
-
-        foreach ($data as $rs) {
-            if ($rs->tipo == Cobranca::$TIPO_DEBITO) {
-                $total -= $rs->saldo_atual;
-            } else {
-                $total += $rs->saldo_atual;
-            }
-        }
+        $total = $service->data($dataForm)->sum('valor_total');
 
         $ret = [
             'data' => $data,
@@ -71,10 +60,11 @@ class MovimentacaoController extends Controller
             'total' => $total,
         ];
 
-        return match ($request->formato) {
+        return match($request->formato){
             'html' => view('cobranca::relatorio.movimentacao.filter', $ret),
             default => $this->imprimirPDF($ret),
         };
+
     }
 
     private function imprimirPDF($params)
