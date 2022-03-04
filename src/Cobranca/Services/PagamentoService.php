@@ -44,10 +44,10 @@ final class PagamentoService
 
             switch ($objClass) {
                 case ContaPagar::class;
-                    $objContaBancaria->decrement('valor', $data['valor_total']);
+                    $objContaBancaria->decrement('valor', abs($data['valor_total']));
                     break;
                 case ContaReceber::class;
-                    $objContaBancaria->increment('valor', $data['valor_total']);
+                    $objContaBancaria->increment('valor', abs($data['valor_total']));
                     break;
                 default:
                     throw new Exception('Não configurado essa classe de objeto: ' . $objClass);
