@@ -127,6 +127,7 @@
     <!-- Scripts -->
     <script src="{{ asset(mix('js/vendor.js')) }}"></script>
     @yield('js')
+    @toastr_render
 
 </body>
 </html>
