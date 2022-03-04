@@ -68,6 +68,11 @@ class Pagamento extends Model
         $movimento = $this->movimento;
         $parcela = $this->parcela ? " Parcela: {$this->parcela}" : "";
 
-        return "{$movimento} <small>({$parcela}{$nomeCliente})</small>";
+        $parentes = ['(', ')'];
+        if (empty($this->parcela) && empty($this->entidade)) {
+            $parentes = [null, null];
+        }
+
+        return "{$movimento} <small>{$parentes[0]}{$parcela}{$nomeCliente}{$parentes[1]}</small>";
     }
 }
