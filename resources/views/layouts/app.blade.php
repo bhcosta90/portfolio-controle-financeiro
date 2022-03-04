@@ -57,6 +57,7 @@
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li><a class="dropdown-item" href="{{ route('cobranca.conta.pagar.index', ['tenant' => tenant(), 'data_inicio' => (new \Carbon\Carbon)->firstOfMonth()->format('Y-m-d'), 'data_final' => (new \Carbon\Carbon)->endOfMonth()->format('Y-m-d')]) }}">Contas a pagar</a></li>
                                     <li><a class="dropdown-item" href="{{ route('cobranca.conta.receber.index', ['tenant' => tenant(), 'data_inicio' => (new \Carbon\Carbon)->firstOfMonth()->format('Y-m-d'), 'data_final' => (new \Carbon\Carbon)->endOfMonth()->format('Y-m-d')]) }}">Contas a receber</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('cobranca.conta.transferencia.create', ['tenant' => tenant()]) }}">Tranferência entre contas</a></li>
                                     <li><a class="dropdown-item" href="{{ route('cobranca.contabancaria.movimentacao.index', ['tenant' => tenant(), 'data_inicio' => (new \Carbon\Carbon)->now()->format('Y-m-d'), 'data_final' => (new \Carbon\Carbon)->now()->format('Y-m-d')]) }}">Movimentação bancária</a></li>
                                     {{-- <li>
                                         <hr class="dropdown-divider">

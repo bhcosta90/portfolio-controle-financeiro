@@ -4,11 +4,8 @@ namespace Modules\Cobranca\Forms\Relatorio;
 
 use Kris\LaravelFormBuilder\Form;
 use Modules\Cobranca\Models\Cobranca;
-use Modules\Cobranca\Models\ContaBancaria;
-use Modules\Cobranca\Models\Pagamento;
 use Modules\Cobranca\Services\ContaBancariaService;
 use Modules\Cobranca\Services\FormaPagamentoService;
-use Modules\Entidade\Services\BancoService;
 
 class MovimentacaoForm extends Form
 {
@@ -45,7 +42,7 @@ class MovimentacaoForm extends Form
             'attr' => ['class' => 'form-control select2'],
         ]);
 
-        $dataSelect = Pagamento::getTipoFormatarAttribute();
+        $dataSelect = Cobranca::getTipoFormatarAttribute();
 
         $this->add('tipo_cobranca', 'select', [
             'rules' => ['nullable', 'in:' . implode(',', array_keys($dataSelect))],

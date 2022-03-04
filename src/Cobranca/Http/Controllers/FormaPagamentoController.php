@@ -38,7 +38,7 @@ class FormaPagamentoController extends Controller
                 'class' => 'min',
             ],
             '_delete' => [
-                'action' => fn ($obj) => btnLinkDelIcon(route('cobranca.formapagamento.destroy', ['formapagamento' => $obj->uuid, 'tenant' => tenant()])),
+                'action' => fn ($obj) => empty($obj->tipo) ? btnLinkDelIcon(route('cobranca.formapagamento.destroy', ['formapagamento' => $obj->uuid, 'tenant' => tenant()])) : '-',
                 'class' => 'min',
             ]
         ];
