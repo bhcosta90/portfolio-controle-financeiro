@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Modules\Cobranca\Forms\Relatorio\MovimentacaoForm;
+use Modules\Cobranca\Models\Cobranca;
 use Modules\Cobranca\Services\PagamentoService;
 use PDF;
 
@@ -50,7 +51,12 @@ class MovimentacaoController extends Controller
         $dataForm = $objForm->data();
 
         $data = $service->data($dataForm)->get();
-        $total = $service->data($dataForm)->sum('saldo_atual');
+
+        $total = 0;
+
+        foreach($data as $rs){
+            $total += $rs->tipo == Cobranca::$TIPO_DEBITO ? $rs->saldo_atual * -1 : $rs->saldo_atual;
+        }
 
         $ret = [
             'data' => $data,
