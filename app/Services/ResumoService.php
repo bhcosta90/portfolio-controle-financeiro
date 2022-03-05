@@ -128,7 +128,7 @@ class ResumoService
 
     public function saldobancario()
     {
-        $valor = $this->getValorTotalPagar() - $this->getValorTotalReceber() + $this->getValorTotalBancos();
+        $valor = $this->getValorTotalReceber() - $this->getValorTotalPagar() + $this->getValorTotalBancos();
 
         return [
             'valor_real' => $valor ?? 0,
