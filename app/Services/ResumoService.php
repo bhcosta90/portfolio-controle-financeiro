@@ -126,6 +126,16 @@ class ResumoService
         ];
     }
 
+    public function saldobancario()
+    {
+        $valor = $this->getValorTotalPagar() - $this->getValorTotalReceber() + $this->getValorTotalBancos();
+
+        return [
+            'valor_real' => $valor ?? 0,
+            'valor_formatado' => str()->numberEnToBr($valor ?? 0),
+        ];
+    }
+
     private function getValorTotalReceber()
     {
         return DB::table('cobrancas')
@@ -146,5 +156,13 @@ class ResumoService
             ->where('status', Cobranca::$STATUS_PENDENTE)
             ->whereNull('deleted_at')
             ->sum('valor_cobranca');
+    }
+
+    private function getValorTotalBancos()
+    {
+        return DB::table('conta_bancarias')
+            ->where('tenant_id', tenant('id'))
+            ->where('ativo', 1)
+            ->sum('valor');
     }
 }
