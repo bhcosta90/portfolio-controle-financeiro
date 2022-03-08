@@ -97,7 +97,7 @@ class CobrancaController extends Controller
         $data['forma_pagamento_id'] = $this->getFormaPagamentoService()->find($data['forma_pagamento_id'])->id;
         $data['entidade_id'] = $obj->entidade_id;
         $data['descricao'] = $obj->descricao;
-        $data['tipo'] = $obj->tipo;
+        $data['tipo_cobranca'] = $obj->tipo;
 
         return DB::transaction(function () use ($obj, $data, $redirect) {
             $this->getPagamentoService()->store($data);

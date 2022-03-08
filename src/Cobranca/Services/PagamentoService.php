@@ -43,7 +43,7 @@ final class PagamentoService
             $data['saldo_anterior'] = $objContaBancaria->valor;
             $data['saldo_atual'] = $objContaBancaria->valor + $data['valor_total'];
 
-            switch ($data['tipo']) {
+            switch ($data['tipo_cobranca']) {
                 case Cobranca::$TIPO_DEBITO;
                     $objContaBancaria->decrement('valor', abs($data['valor_total']));
                     break;

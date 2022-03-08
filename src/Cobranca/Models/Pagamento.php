@@ -24,7 +24,7 @@ class Pagamento extends Model
         'movimento',
         'descricao',
         'parcela',
-        'tipo',
+        'tipo_cobranca',
         'valor_cobranca',
         'valor_multa',
         'valor_juros',
