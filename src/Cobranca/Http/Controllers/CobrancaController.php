@@ -94,7 +94,7 @@ class CobrancaController extends Controller
         $data['valor_desconto'] = $data['valor_desconto'];
         $data['valor_total'] = str()->truncate($data['valor_total']);
         $data['conta_bancaria_id'] = $this->getContaBancariaService()->find($data['conta_bancaria_id'])?->id;
-        $data['forma_pagamento_id'] = $this->getFormaPagamentoService()->find($data['forma_pagamento_id'])?->id;
+        $data['forma_pagamento_id'] = $this->getFormaPagamentoService()->find($data['forma_pagamento_id'])->id;
         $data['entidade_id'] = $obj->entidade_id;
         $data['descricao'] = $obj->descricao;
         $data['tipo'] = $obj->tipo;

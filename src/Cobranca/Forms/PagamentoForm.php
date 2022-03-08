@@ -79,7 +79,8 @@ class PagamentoForm extends Form
             'label' => 'Forma de pagamento',
             'choices' => $dataFormaPagamento = $this->getFormaPagamentoService()->pluck(),
             'rules' => ['required', 'in:' . implode(',', array_keys($dataFormaPagamento))],
-            'selected' => $this->getData()['model']?->forma_pagamento->uuid
+            'empty_value' => 'Selecione...',
+            'selected' => $this->getData()['model']?->forma_pagamento?->uuid
         ]);
     }
 
