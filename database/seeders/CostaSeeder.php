@@ -68,7 +68,7 @@ class CostaSeeder extends Seeder
                 ]);
             }
 
-            $this->registrarCobrancas(ContaReceber::class, $user->tenant->id, $clientes[$nomeCliente]->id, $idFormaPagamento, $idFrequencia, $rs);
+            $this->registrarCobrancas(ContaReceber::class, $user->tenant->id, $clientes[$nomeCliente]->id, $idFrequencia, $rs);
         }
 
         $fornecedores = [];
@@ -84,7 +84,7 @@ class CostaSeeder extends Seeder
                 ]);
             }
 
-            $this->registrarCobrancas(ContaPagar::class, $user->tenant->id, $fornecedores[$nomeCliente]->id, $idFormaPagamento, $idFrequencia, $rs);
+            $this->registrarCobrancas(ContaPagar::class, $user->tenant->id, $fornecedores[$nomeCliente]->id, $idFrequencia, $rs);
         }
 
         Cobranca::where('parcela', '<=', 6)
@@ -148,13 +148,12 @@ class CostaSeeder extends Seeder
         }
     }
 
-    protected function registrarCobrancas($class, $idTenant, $idEntidade, $idFormaPagamento, $idFrequencia, $data)
+    protected function registrarCobrancas($class, $idTenant, $idEntidade, $idFrequencia, $data)
     {
         if (empty($data['parcela_total'])) {
             $obj = app($class)->create([]);
             try {
                 Cobranca::create([
-                    'forma_pagamento_id' => $idFormaPagamento,
                     'tenant_id' => $idTenant,
                     'cobranca_type' => get_class($obj),
                     'cobranca_id' => $obj->id,
@@ -178,7 +177,6 @@ class CostaSeeder extends Seeder
                 $obj = app($class)->create([]);
 
                 Cobranca::create([
-                    'forma_pagamento_id' => $idFormaPagamento,
                     'tenant_id' => $idTenant,
                     'cobranca_type' => get_class($obj),
                     'cobranca_id' => $obj->id,
