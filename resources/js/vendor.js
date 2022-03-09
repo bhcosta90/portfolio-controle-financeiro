@@ -1,39 +1,15 @@
 function numberFormat(div) {
-    $(div)
-        .find("input.value.negative")
-        .mask("000.000,00", {
-            reverse: true,
-            translation: {
-                0: {
-                    pattern: /-|\d/,
-                    recursive: true,
-                },
-            },
-            onChange: function (value, e) {
-                e.target.value = value
-                    .replace(/^-\./, "-")
-                    .replace(/^-,/, "-")
-                    .replace(/(?!^)-/g, "");
-            },
-        });
 
-    $(div)
-        .find("input.value.positive")
-        .mask("000.000,00", {
-            reverse: true,
-            translation: {
-                0: {
-                    pattern: /\d/,
-                    recursive: true,
-                },
-            },
-            onChange: function (value, e) {
-                e.target.value = value
-                    .replace(/^-\./, "-")
-                    .replace(/^-,/, "-")
-                    .replace(/(?!^)-/g, "");
-            },
-        });
+    div.find("input.value.positive").maskMoney({
+        thousands: ".",
+        decimal: ",",
+    });
+
+    div.find("input.value.negative").maskMoney({
+        thousands: ".",
+        decimal: ",",
+        allowNegative: true,
+    });
 }
 
 function selectSelect2(div) {
