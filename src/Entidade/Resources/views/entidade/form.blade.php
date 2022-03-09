@@ -7,7 +7,7 @@
     </li>
     <li class="nav-item" role="presentation">
         <button class="nav-link" id="dados-bancarios-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab"
-            aria-controls="contact" aria-selected="false">Ddados bancários</button>
+            aria-controls="contact" aria-selected="false">Dados bancários</button>
     </li>
 </ul>
 <div class="tab-content" id="myTabContent">
