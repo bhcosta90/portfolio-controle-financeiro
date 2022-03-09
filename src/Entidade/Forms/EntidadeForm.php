@@ -65,7 +65,7 @@ class EntidadeForm extends Form
         $dataBanco = $this->getBancoService()->pluck();
 
         $this->add('banco_id', 'select', [
-            'rules' => ['required', 'in:' . implode(',', array_keys($dataBanco))],
+            'rules' => ['nullable', 'in:' . implode(',', array_keys($dataBanco))],
             'label' => 'Banco',
             'choices' => $dataBanco,
             'empty_value' => 'Selecione',
