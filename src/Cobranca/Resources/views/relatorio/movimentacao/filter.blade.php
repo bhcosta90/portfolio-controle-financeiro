@@ -14,7 +14,7 @@
     </table>
 
     <h2 style='text-align:right; font-weight: normal' class='{{ $total < 0 ? 'text-danger' : 'text-success' }}'><small>Saldo: R$</small>{{ str()->numberEnToBr($total) }}</h2>
-    <table>
+    <table class='list'>
         <thead>
             <tr>
                 <th>Data</th>

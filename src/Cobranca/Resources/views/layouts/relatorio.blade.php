@@ -29,6 +29,10 @@
         text-align: left;
     }
 
+    .list tbody td {
+        border: 1px solid #ccc;
+    }
+
     .float-start {
         float: left;
     }
