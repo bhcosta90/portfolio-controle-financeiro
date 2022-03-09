@@ -20,7 +20,7 @@ class CreateCobrancasTable extends Migration
             $table->string('tenant_id')->index();
             $table->foreignId('entidade_id')->nullable()->constrained('entidades');
             $table->foreignId('frequencia_id')->nullable()->constrained('frequencias');
-            $table->foreignId('forma_pagamento_id')->constrained('forma_pagamentos');
+            $table->foreignId('forma_pagamento_id')->nullable()->constrained('forma_pagamentos');
             $table->foreignId('conta_bancaria_id')->nullable()->constrained('conta_bancarias');
             $table->morphs('cobranca');
             $table->enum('tipo', array_keys(Cobranca::getTipoFormatarAttribute()));

@@ -54,12 +54,30 @@ class MovimentacaoController extends Controller
         $bancos = $service->data($dataForm)
             ->select('conta_bancarias.uuid')
             ->join('conta_bancarias', 'pagamentos.conta_bancaria_id', '=', 'conta_bancarias.id')
+            ->whereNotNull('pagamentos.conta_bancaria_id')
             ->groupBy('conta_bancarias.uuid')->get();
 
         $total = 0;
         foreach ($bancos as $rs) {
             $objBanco = $service->data([
                 'conta_bancaria_id' => $rs->uuid,
+                'order' => 'pagamentos.id'
+            ] + $dataForm)
+                ->limit(1)
+                ->first();
+
+            $total += $objBanco->saldo_atual;
+        }
+
+        $movimentacoes = $service->data($dataForm)
+            ->select('pagamentos.tipo_movimento')
+            ->whereNull('pagamentos.conta_bancaria_id')
+            ->whereNotNull('pagamentos.tipo_movimento')
+            ->groupBy('pagamentos.tipo_movimento')->get();
+
+        foreach ($movimentacoes as $movimentacao) {
+            $objBanco = $service->data([
+                'tipo_movimento' => (string) $movimentacao->tipo_movimento,
                 'order' => 'pagamentos.id'
             ] + $dataForm)
                 ->limit(1)

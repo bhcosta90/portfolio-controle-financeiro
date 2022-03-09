@@ -83,6 +83,7 @@ trait CobrancaFormTrait {
             'attr' => ['class' => 'select2 form-control'],
             'label' => 'Forma de pagamento',
             'choices' => $dataFormaPagamento = $this->getFormaPagamentoService()->pluck(),
+            'empty_value' => 'Selecione...',
             'rules' => ['nullable', 'in:' . implode(',', array_keys($dataFormaPagamento))],
         ]);
 

@@ -81,7 +81,7 @@ trait CobrancaServiceTrait
         $idEntidade = $this->getEntidadeService()->find($data['entidade_id'])?->id;
         $data['frequencia_id'] = $this->getFrequenciaService()->find($data['frequencia_id'])?->id;
         $data['conta_bancaria_id'] = $this->getContaBancariaService()->find($data['conta_bancaria_id'])?->id;
-        $data['forma_pagamento_id'] = $this->getFormaPagamentoService()->find($data['forma_pagamento_id'])->id;
+        $data['forma_pagamento_id'] = $this->getFormaPagamentoService()->find($data['forma_pagamento_id'])?->id;
 
         $dataErros = [];
         if ($data['entidade_id'] && empty($idEntidade)) {

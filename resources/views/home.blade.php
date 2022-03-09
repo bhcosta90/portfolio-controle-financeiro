@@ -96,7 +96,28 @@
 
         <div class="row">
 
-            <div class="col-xl-4 mb-4 col-md-12 requisicao lucro" data-route="{{route('resumo.index', ['tipo' => 'lucro', 'tenant' => tenant()])}}">
+            <div class="mb-4 col-xl-6 col-md-12 requisicao saldobancario" data-route="{{route('resumo.index', ['tipo' => 'saldobancario', 'tenant' => tenant()])}}">
+                <div class="card overflow-hidden">
+                    <div class="card-content">
+                        <div class="card-body cleartfix">
+                            <div class="row media align-items-stretch">
+                                <div class="align-self-center col-1">
+                                    <i class="text-calculado fa-solid fa-money-check-dollar fs-1 mr-2" data-class='valor_real'></i>
+                                </div>
+                                <div class="media-body col-6">
+                                    <h4>Saldo Financeiro</h4>
+                                    <span>Valor final do saldo financeiro após as contas a pagar</span>
+                                </div>
+                                <div class="text-end text-calculado col-5" data-class='valor_real'>
+                                    <h2>R$ <span class="valor_formatado">...</span></h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-6 mb-4 col-md-12 requisicao lucro" data-route="{{route('resumo.index', ['tipo' => 'lucro', 'tenant' => tenant()])}}">
                 <div class="card overflow-hidden">
                     <div class="card-content">
                         <div class="card-body cleartfix">
@@ -117,7 +138,7 @@
                 </div>
             </div>
 
-            <div class="col-xl-4 mb-4 col-md-12 requisicao contapagar" data-route="{{route('resumo.index', ['tipo' => 'contapagar', 'tenant' => tenant()])}}">
+            <div class="col-xl-6 mb-4 col-md-12 requisicao contapagar" data-route="{{route('resumo.index', ['tipo' => 'contapagar', 'tenant' => tenant()])}}">
                 <div class="card overflow-hidden">
                     <div class="card-content">
                         <div class="card-body cleartfix">
@@ -138,7 +159,7 @@
                 </div>
             </div>
 
-            <div class="mb-4 col-xl-4 col-md-12 requisicao contareceber" data-route="{{route('resumo.index', ['tipo' => 'contareceber', 'tenant' => tenant()])}}">
+            <div class="mb-4 col-xl-6 col-md-12 requisicao contareceber" data-route="{{route('resumo.index', ['tipo' => 'contareceber', 'tenant' => tenant()])}}">
                 <div class="card overflow-hidden">
                     <div class="card-content">
                         <div class="card-body cleartfix">

@@ -14,6 +14,8 @@ class Pagamento extends Model
 {
     use HasFactory, UuidGenerate, BelongsToTenant;
 
+    public static $TIPO_CAIXA_MOVIMENTO = -1;
+
     protected $fillable = [
         'cobranca_id',
         'user_id',
@@ -24,7 +26,8 @@ class Pagamento extends Model
         'movimento',
         'descricao',
         'parcela',
-        'tipo',
+        'tipo_cobranca',
+        'tipo_movimento',
         'valor_cobranca',
         'valor_multa',
         'valor_juros',
@@ -64,17 +67,6 @@ class Pagamento extends Model
 
     public function getFormatacaoMovimentoAttribute()
     {
-        // $nomeCliente = $this->entidade ? $this->entidade?->nome . ' - ' : '';
-        // $movimento = $this->movimento;
-        // $parcela = $this->parcela ? " Parcela: {$this->parcela}" : "";
-
-        // $parentes = ['(', ')'];
-        // if (empty($this->parcela) && empty($this->entidade)) {
-        //     $parentes = [null, null];
-        // }
-
-        // return "{$movimento} <small>{$parentes[0]}{$parcela}{$nomeCliente}{$parentes[1]}</small>";
-
         $movimento = $this->movimento;
 
         $incremento = "";
@@ -90,5 +82,18 @@ class Pagamento extends Model
         }
 
         return $movimento . $incremento;
+    }
+
+    public static function getTipoMovimentoFormatarAttribute($status = null)
+    {
+        $ret = [
+            self::$TIPO_CAIXA_MOVIMENTO => 'Caixa (Movimento)',
+        ];
+
+        if (!empty($status)) {
+            return $ret[$status] ?? null;
+        }
+
+        return $ret;
     }
 }

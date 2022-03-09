@@ -21,7 +21,7 @@ mix.scripts(
         "node_modules/bootstrap/dist/js/bootstrap.js",
         "node_modules/select2/dist/js/select2.full.js",
         "node_modules/select2/dist/js/i18n/pt-BR.js",
-        "node_modules/jquery-mask-plugin/dist/jquery.mask.js",
+        "node_modules/jquery-maskmoney/dist/jquery.maskMoney.js",
         "node_modules/toastr/build/toastr.min.js",
         "node_modules/sweetalert2/dist/sweetalert2.all.js",
         "resources/js/vendor.js",
