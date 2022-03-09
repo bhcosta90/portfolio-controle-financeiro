@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Modules\Cobranca\Models\Cobranca;
+use Modules\Cobranca\Models\Pagamento;
 
 class CreatePagamentosTable extends Migration
 {
@@ -28,6 +29,7 @@ class CreatePagamentosTable extends Migration
             $table->string('descricao')->nullable();
             $table->unsignedTinyInteger('parcela')->nullable();
             $table->enum('tipo_cobranca', array_keys(Cobranca::getTipoFormatarAttribute()));
+            $table->enum('tipo_movimento', array_keys(Pagamento::getTipoMovimentoFormatarAttribute()));
             $table->double('saldo_anterior');
             $table->double('saldo_atual');
             $table->unsignedDouble('valor_cobranca');

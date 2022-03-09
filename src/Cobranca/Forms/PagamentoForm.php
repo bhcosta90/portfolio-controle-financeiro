@@ -3,6 +3,7 @@
 namespace Modules\Cobranca\Forms;
 
 use Kris\LaravelFormBuilder\Form;
+use Modules\Cobranca\Models\Pagamento;
 use Modules\Cobranca\Services\ContaBancariaService;
 use Modules\Cobranca\Services\FormaPagamentoService;
 
@@ -68,7 +69,7 @@ class PagamentoForm extends Form
         $this->add('conta_bancaria_id', 'select', [
             'attr' => ['class' => 'select2 form-control'],
             'label' => 'Conta Bancária',
-            'choices' => $dataContaBancaria = $this->getContaBancariaService()->pluck(),
+            'choices' => $dataContaBancaria = [Pagamento::$TIPO_CAIXA_MOVIMENTO => 'Caixa (Movimento)'] + $this->getContaBancariaService()->pluck(),
             'empty_value' => 'Selecione...',
             'rules' => ['required', 'in:' . implode(',', array_keys($dataContaBancaria))],
             'selected' => $this->getData()['model']?->conta_bancaria?->uuid
@@ -78,9 +79,9 @@ class PagamentoForm extends Form
             'attr' => ['class' => 'select2 form-control'],
             'label' => 'Forma de pagamento',
             'choices' => $dataFormaPagamento = $this->getFormaPagamentoService()->pluck(),
-            'rules' => ['required', 'in:' . implode(',', array_keys($dataFormaPagamento))],
             'empty_value' => 'Selecione...',
-            'selected' => $this->getData()['model']?->forma_pagamento?->uuid
+            'rules' => ['required', 'in:' . implode(',', array_keys($dataFormaPagamento))],
+            'selected' => $this->getData()['model']->forma_pagamento?->uuid
         ]);
     }
 
