@@ -11,6 +11,7 @@ use Illuminate\Routing\Controller;
 use Modules\Cobranca\Forms\ContaBancariaForm;
 use Modules\Cobranca\Services\ContaBancariaService;
 use Modules\Entidade\Services\EntidadeService;
+use Illuminate\Support\Str;
 
 class ContaBancariaController extends Controller
 {
@@ -39,6 +40,7 @@ class ContaBancariaController extends Controller
             'Tipo da Conta' => fn($obj) => $obj->tipo,
             'Tipo do Documento' => fn($obj) => $obj->tipo_documento,
             'Documento' => fn($obj) => $obj->documento,
+            'Valor' => fn($obj) => Str::numberEnToBr($obj->valor),
             '_edit' => [
                 'action' => fn ($obj) => btnLinkEditIcon(route('cobranca.contabancaria.edit', ['contabancarium' => $obj->uuid, 'tenant' => tenant()])),
                 'class' => 'min',
