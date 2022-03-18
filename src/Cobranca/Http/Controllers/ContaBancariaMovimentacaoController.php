@@ -53,8 +53,9 @@ class ContaBancariaMovimentacaoController extends Controller
             },
             'Documento' => fn ($obj) => $obj->forma_pagamento->nome,
             'Usuário' => fn ($obj) => $obj->usuario->name,
-            'Saldo Anterior' => fn ($obj) => str()->numberEnToBr($obj->valor_total),
+            'Saldo Anterior' => fn ($obj) => str()->numberEnToBr($obj->saldo_anterior),
             'Saldo Atual' => fn ($obj) => str()->numberEnToBr($obj->saldo_atual),
+            'Valor do Pagamento' => fn ($obj) => str()->numberEnToBr(abs($obj->valor_total)),
         ];
     }
 

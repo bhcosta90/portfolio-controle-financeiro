@@ -42,6 +42,7 @@ final class PagamentoService
         return DB::transaction(function () use ($data) {
             if ($data['conta_bancaria_id'] != Pagamento::$TIPO_CAIXA_MOVIMENTO) {
                 $objContaBancaria = $this->getContaBancariaService()->getById($data['conta_bancaria_id']);
+
                 $data['saldo_anterior'] = $objContaBancaria->valor;
                 $data['saldo_atual'] = $objContaBancaria->valor + $data['valor_total'];
 

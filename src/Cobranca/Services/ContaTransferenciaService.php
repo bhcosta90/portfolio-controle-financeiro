@@ -58,7 +58,7 @@ final class ContaTransferenciaService
             'conta_bancaria_id' => $cobrancaDestino->conta_bancaria_id,
             'valor_total' => $valor,
             'tipo' => $cobrancaDestino->tipo,
-            'tipo_cobranca' => $cobrancaOrigem->tipo,
+            'tipo_cobranca' => $cobrancaDestino->tipo,
             'valor' => $valor,
             'valor_cobranca' => $valor,
             'valor_multa' => 0,
