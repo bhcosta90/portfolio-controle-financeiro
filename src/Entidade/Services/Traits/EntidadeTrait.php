@@ -47,6 +47,14 @@ trait EntidadeTrait
                 'entidade_id' => $obj->id,
             ];
 
+            if (!empty($data['banco_id'])) {
+                $data['banco_id'] = $this->getBancoService()->find($data['banco_id'])->id;
+            }
+
+            if (!empty($data['entidade_id'])) {
+                $data['entidade_id'] = $this->getEntidadeService()->find($data['entidade_id'])->id;
+            }
+
             $data['banco_id'] = !empty($data['banco_id'])
                 ? $this->getBancoService()->find($data['banco_id'])->id
                 : null;
