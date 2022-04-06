@@ -54,7 +54,8 @@ trait CobrancaServiceTrait
                         $query->whereIn('status', [Cobranca::$STATUS_PAGO]);
                         break;
                     case 5:
-                        $query->where('cobrancas.data_vencimento', '<=', Carbon::now()->format('Y-m-d'));
+                        $query->where('cobrancas.data_vencimento', '<=', Carbon::now()->format('Y-m-d'))
+                            ->whereIn('status', [Cobranca::$STATUS_PENDENTE]);
                         break;
                 }
             })
