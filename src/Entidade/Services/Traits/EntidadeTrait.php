@@ -51,10 +51,6 @@ trait EntidadeTrait
                 $data['banco_id'] = $this->getBancoService()->find($data['banco_id'])->id;
             }
 
-            if (!empty($data['entidade_id'])) {
-                $data['entidade_id'] = $this->getEntidadeService()->find($data['entidade_id'])->id;
-            }
-
             $ret = $this->getEntidadeService()->create($data);
             DB::commit();
             return $ret;
