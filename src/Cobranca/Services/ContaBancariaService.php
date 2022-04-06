@@ -20,6 +20,10 @@ final class ContaBancariaService
 
     public function webStore($data)
     {
+        if (!empty($data['entidade_id'])) {
+            $data['entidade_id'] = $this->getEntidadeService()->find($data['entidade_id'])->id;
+        }
+
         return $this->repository->create($data);
     }
 
