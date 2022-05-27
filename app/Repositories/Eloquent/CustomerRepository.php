@@ -14,7 +14,7 @@ use Costa\Shared\ValueObject\UuidObject;
 class CustomerRepository implements CustomerRepositoryInterface
 {
     public function __construct(
-        private Relationship $model,
+        protected Relationship $model,
     ) {
         //  
     }

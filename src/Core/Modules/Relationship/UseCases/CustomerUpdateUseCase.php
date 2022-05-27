@@ -2,8 +2,6 @@
 
 namespace Costa\Modules\Relationship\UseCases;
 
-use App\Repositories\Eloquent\CustomerRepository;
-use Costa\Modules\Relationship\CustomerEntity;
 use Costa\Modules\Relationship\Repositories\CustomerRepositoryInterface;
 use Costa\Shared\ValueObject\DocumentObject;
 use Costa\Shared\ValueObject\Enums\DocumentEnum;
@@ -11,17 +9,17 @@ use Costa\Shared\ValueObject\Input\InputNameObject;
 
 class CustomerUpdateUseCase
 {
-    /** @param CustomerRepository $relationship */
     public function __construct(
-        private CustomerRepositoryInterface $relationship
+        protected CustomerRepositoryInterface $relationship
     ) {
         //
     }
 
     public function handle(DTO\Update\Input $input): DTO\Create\Output
     {
+        /** @var \Costa\Modules\Relationship\CustomerEntity */
         $obj = $this->relationship->find($input->id);
-        
+
         $obj->update(
             name: new InputNameObject($input->name),
             document: $input->documentValue

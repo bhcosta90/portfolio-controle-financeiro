@@ -2,7 +2,7 @@
 
 namespace Costa\Modules\Relationship\Repositories;
 
-interface CustomerRepositoryInterface extends CustomerRepositoryInterface
+interface SupplierRepositoryInterface extends CustomerRepositoryInterface
 {
     //
 }

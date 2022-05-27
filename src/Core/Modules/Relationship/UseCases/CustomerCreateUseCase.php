@@ -11,9 +11,8 @@ use Costa\Shared\ValueObject\Input\InputNameObject;
 
 class CustomerCreateUseCase
 {
-    /** @param CustomerRepository $relationship */
     public function __construct(
-        private CustomerRepositoryInterface $relationship
+        protected CustomerRepositoryInterface $relationship
     ) {
         //
     }

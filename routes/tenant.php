@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\Api\Relationship\CustomerController;
+use App\Http\Controllers\Api\Relationship\{CustomerController, SupplierController};
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
@@ -36,5 +36,6 @@ Route::middleware([
 ])->prefix('api')->group(function () {
     Route::prefix('relationship')->group(function () {
         Route::resource('customer', CustomerController::class);
+        Route::resource('supplier', SupplierController::class);
     });
 });

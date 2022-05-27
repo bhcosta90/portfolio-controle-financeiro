@@ -3,14 +3,15 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\Relationship;
+use Costa\Modules\Relationship\Repositories\SupplierRepositoryInterface;
 use Costa\Modules\Relationship\SupplierEntity;
 use Costa\Shared\ValueObject\Input\InputNameObject;
 use Costa\Shared\ValueObject\UuidObject;
 
-class SupplierRepository implements CustomerRepository
+class SupplierRepository extends CustomerRepository implements SupplierRepositoryInterface
 {
     public function __construct(
-        private Relationship $model,
+        protected Relationship $model,
     ) {
         //  
     }
