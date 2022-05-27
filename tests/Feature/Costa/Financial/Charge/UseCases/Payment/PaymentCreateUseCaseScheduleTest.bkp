@@ -1,0 +1,221 @@
+<?php
+
+namespace Tests\Feature\Costa\Financeiro\Charge\UseCases\Payment;
+
+use App\Models\Account;
+use App\Models\Charge;
+use App\Models\Relationship;
+use App\Models\Tenant;
+use App\Models\User;
+use Costa\Financeiro\Charge\Exceptions\PaymentException;
+use Costa\Financeiro\Charge\UseCases\Payment\DTO\Create\Input as CreateInput;
+use Costa\Financeiro\Charge\UseCases\Payment\DTO\Schedule\Input as ScheduleInput;
+use Costa\Financeiro\Charge\UseCases\Payment\DTO\Pay\Input as PayInput;
+use Costa\Financeiro\Charge\UseCases\Payment\DTO\Find\Input as FindInput;
+use Costa\Financeiro\Charge\UseCases\Payment\PaymentCreateUseCase;
+use Costa\Financeiro\Charge\UseCases\Payment\PaymentPayUseCase;
+use Costa\Financeiro\Charge\UseCases\Payment\PaymentDeleteUseCase;
+use Costa\Financeiro\Charge\UseCases\Payment\PaymentScheduleUseCase;
+use DateTime;
+use Illuminate\Support\Facades\Auth;
+use stdClass;
+use Tests\TestCase;
+
+class PaymentCreateUseCaseScheduleTest extends TestCase
+{
+    public function testScheduleCharge()
+    {
+        $data = $this->getDefaultData();
+
+        /** @var PaymentCreateUseCase */
+        $useCase = app(PaymentCreateUseCase::class);
+        $response = $useCase->exec(new CreateInput(
+            charge: $data->charge->uuid,
+            scheduled: true,
+            bankAccount: false,
+            valueCharge: 50,
+            valueTransaction: 50,
+            valuePayment: 50,
+            dateScheduled: $date = (new DateTime())->modify('+1 day')->format('Y-m-d'),
+        ));
+
+        $this->assertDatabaseHas('payments', [
+            'uuid' => (string) $response->id,
+            'date_schedule' => $date,
+            'completed' => 0,
+        ]);
+
+        $this->assertDatabaseHas('accounts', [
+            'model_id' => $data->relation,
+            'value' => 0,
+        ]);
+
+        $this->assertDatabaseHas('charges', [
+            'uuid' => $data->charge->uuid,
+            'status' => 3,
+            'value_pay' => 50,
+        ]);
+
+        $this->assertDatabaseHas('tenants', [
+            'id' => 1,
+            'value' => 0,
+        ]);
+
+        /** @var PaymentScheduleUseCase */
+        $useCase = app(PaymentScheduleUseCase::class);
+        $useCase->exec(new ScheduleInput(date: $date));
+
+        $this->assertDatabaseHas('accounts', [
+            'model_id' => $data->relation,
+            'value' => 50,
+        ]);
+
+        $this->assertDatabaseHas('payments', [
+            'uuid' => (string) $response->id,
+            'completed' => 1,
+            'value_transaction' => 50,
+            'value_payment' => 50,
+        ]);
+
+        $this->assertDatabaseMissing('payments', [
+            'uuid' => (string) $response->id,
+            'date_schedule' => null,
+            'completed' => 1,
+            'value_transaction' => 50,
+            'value_payment' => 50,
+        ]);
+    }
+
+    public function testScheduleChargeCancel() {
+        $data = $this->getDefaultData();
+
+        /** @var PaymentCreateUseCase */
+        $useCase = app(PaymentCreateUseCase::class);
+        $response = $useCase->exec(new CreateInput(
+            charge: $data->charge->uuid,
+            scheduled: true,
+            bankAccount: false,
+            valueCharge: 50,
+            valueTransaction: 50,
+            valuePayment: 50,
+            dateScheduled: (new DateTime())->modify('+1 day')->format('Y-m-d'),
+        ));
+
+        $this->assertDatabaseHas('charges', [
+            'uuid' => $data->charge->uuid,
+            'status' => 3,
+            'value_pay' => 50,
+        ]);
+
+        /** @var PaymentDeleteUseCase */
+        $useCase = app(PaymentDeleteUseCase::class);
+        $useCase->exec(new FindInput(id: $response->id));
+
+        $this->assertDatabaseHas('charges', [
+            'uuid' => $data->charge->uuid,
+            'status' => 1,
+            'value_pay' => 0,
+        ]);
+    }
+
+    public function testScheduleChargePartialCancel() {
+        $data = $this->getDefaultData();
+
+        /** @var PaymentCreateUseCase */
+        $useCase = app(PaymentCreateUseCase::class);
+        
+        $response01 = $useCase->exec(new CreateInput(
+            charge: $data->charge->uuid,
+            scheduled: true,
+            bankAccount: false,
+            valueCharge: 50,
+            valueTransaction: 10,
+            valuePayment: 10,
+            dateScheduled: (new DateTime())->modify('+1 day')->format('Y-m-d'),
+        ));
+
+        $response02 = $useCase->exec(new CreateInput(
+            charge: $data->charge->uuid,
+            scheduled: true,
+            bankAccount: false,
+            valueCharge: 50,
+            valueTransaction: 15,
+            valuePayment: 15,
+            dateScheduled: (new DateTime())->modify('+1 day')->format('Y-m-d'),
+        ));
+
+        $this->assertDatabaseHas('charges', [
+            'uuid' => $data->charge->uuid,
+            'status' => 2,
+            'value_pay' => 25,
+        ]);
+
+        /** @var PaymentDeleteUseCase */
+        $useCase = app(PaymentDeleteUseCase::class);
+        $useCase->exec(new FindInput(id: $response02->id));
+
+        $this->assertDatabaseHas('charges', [
+            'uuid' => $data->charge->uuid,
+            'status' => 2,
+            'value_pay' => 10,
+        ]);
+
+        /** @var PaymentDeleteUseCase */
+        $useCase = app(PaymentDeleteUseCase::class);
+        $useCase->exec(new FindInput(id: $response01->id));
+
+        $this->assertDatabaseHas('charges', [
+            'uuid' => $data->charge->uuid,
+            'status' => 1,
+            'value_pay' => 0,
+        ]);
+    }
+
+    public function testScheduleChargeError() {
+        $this->expectException(PaymentException::class);
+        $this->expectExceptionMessage('This payment cannot be canceled because it has already been settled.');
+
+        $data = $this->getDefaultData();
+
+        /** @var PaymentCreateUseCase */
+        $useCase = app(PaymentCreateUseCase::class);
+        
+        $response01 = $useCase->exec(new CreateInput(
+            charge: $data->charge->uuid,
+            scheduled: true,
+            bankAccount: false,
+            valueCharge: 50,
+            valueTransaction: 10,
+            valuePayment: 10,
+            dateScheduled: (new DateTime())->modify('+1 day')->format('Y-m-d'),
+        ));
+
+        /** @var PaymentPayUseCase */
+        $useCase = app(PaymentPayUseCase::class);
+        $response = $useCase->exec(new PayInput(id: $response01->id));
+
+        /** @var PaymentDeleteUseCase */
+        $useCase = app(PaymentDeleteUseCase::class);
+        $useCase->exec(new FindInput(id: $response->id));
+    }
+
+    protected function getDefaultData()
+    {
+        $class = new stdClass;
+
+        Auth::login($user = User::factory()->create());
+        $objCharge = Charge::factory()->create(['value_charge' => 50]);
+        $idRelation = Relationship::where('id', $objCharge->relationship_id)->first()->uuid;
+        $idTenant = Tenant::where('id', $user->tenant_id)->first()->uuid;
+
+        Account::factory()->create([
+            'value' => 0,
+            'model_id' => $idRelation,
+        ]);
+
+        $class->charge = $objCharge;
+        $class->relation = $idRelation;
+        $class->tenant = $idTenant;
+        return $class;
+    }
+}
