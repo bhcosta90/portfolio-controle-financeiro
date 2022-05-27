@@ -57,7 +57,7 @@
         ],
         "costa": [
             "@php artisan migrate:fresh --seed",
-            "@php artisan db:seed --class='Database\\Seeders\\CostaSeeder'"
+            "@php artisan db:seed --class='Database\\Seeders\\CostaMigrateSeeder'"
         ]
     },
     "extra": {
