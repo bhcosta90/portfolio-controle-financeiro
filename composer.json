@@ -45,6 +45,14 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "migrate": [
+            "@php artisan migrate --force",
+            "@php artisan tenants:migrate --force"
+        ],
+        "tenant": [
+            "@php artisan tenants:migrate-fresh",
+            "@php artisan tenants:seed --class='Database\\Seeders\\TenantSeeder'"
         ]
     },
     "extra": {
