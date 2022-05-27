@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Costa\Financeiro\Relationship\Entities;
+namespace Tests\Unit\Costa\Modules\Relationship\Entities;
 
 use PHPUnit\Framework\TestCase;
 use Costa\Modules\Relationship\Entities\SupplierEntity as Entity;
