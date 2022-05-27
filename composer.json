@@ -5,21 +5,15 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "php": "^8.1",
-        "ext-pdo_sqlite": "*",
-        "ext-redis": "*",
+        "php": "^8.0.2",
         "guzzlehttp/guzzle": "^7.2",
-        "jeroennoten/laravel-adminlte": "^3.8",
-        "kris/laravel-form-builder": "^1.51",
         "laravel/framework": "^9.11",
         "laravel/sanctum": "^2.14.1",
-        "laravel/tinker": "^2.7",
-        "laravel/ui": "^3.4"
+        "laravel/tinker": "^2.7"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
         "laravel/sail": "^1.0.1",
-        "laravel/telescope": "^4.9",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
         "phpunit/phpunit": "^9.5.10",
@@ -28,13 +22,9 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/",
-            "Costa\\": "src/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        },
-        "files": [
-            "app/helpers.php"
-        ]
+        }
     },
     "autoload-dev": {
         "psr-4": {
@@ -54,10 +44,6 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
-        ],
-        "costa": [
-            "@php artisan migrate:fresh --seed",
-            "@php artisan db:seed --class='Database\\Seeders\\CostaMigrateSeeder'"
         ]
     },
     "extra": {
@@ -71,11 +57,5 @@
         "sort-packages": true
     },
     "minimum-stability": "dev",
-    "prefer-stable": true,
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/bhcosta90/controle-financeiro-domain.git"
-        }
-    ]
+    "prefer-stable": true
 }
