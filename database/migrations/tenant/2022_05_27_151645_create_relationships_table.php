@@ -17,9 +17,10 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('name');
             $table->string('entity')->index();
-            $table->string('document_type');
-            $table->string('document_value');
+            $table->string('document_type')->nullable();
+            $table->string('document_value')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

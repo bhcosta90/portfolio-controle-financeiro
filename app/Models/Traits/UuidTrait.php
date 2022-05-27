@@ -4,6 +4,13 @@ namespace App\Models\Traits;
 
 trait UuidTrait
 {
-    public $increment = false;
-    public $keyType = 'string';
+    public function getKeyType()
+    {
+        return "string";
+    }
+
+    public function getIncrementing()
+    {
+        return false;
+    }
 }
