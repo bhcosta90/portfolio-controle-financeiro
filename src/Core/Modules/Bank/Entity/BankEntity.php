@@ -1,24 +1,23 @@
 <?php
 
-namespace Costa\Modules\Account\Entity;
+namespace Costa\Modules\Bank\Entity;
 
 use Costa\Shared\Abstracts\EntityAbstract;
-use Costa\Shared\ValueObject\ModelObject;
+use Costa\Shared\ValueObject\Input\InputNameObject;
 use Costa\Shared\ValueObject\UuidObject;
 
-class AccountEntity extends EntityAbstract
+class BankEntity extends EntityAbstract
 {
     public function __construct(
-        protected ModelObject $entity,
-        protected float $value,
+        protected InputNameObject $name,
         protected ?UuidObject $id = null,
     ) {
         parent::__construct();
     }
 
     public function update(
-        float $value,
+        InputNameObject $name,
     ) {
-        $this->value = $value;
+        $this->name = $name;
     }
 }

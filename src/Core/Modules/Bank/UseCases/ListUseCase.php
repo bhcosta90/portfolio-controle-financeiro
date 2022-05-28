@@ -1,13 +1,13 @@
 <?php
 
-namespace Costa\Modules\Relationship\Customer\UseCases;
+namespace Costa\Modules\Bank\UseCases;
 
-use Costa\Modules\Relationship\Customer\Repository\CustomerRepositoryInterface;
+use Costa\Modules\Bank\Repository\BankRepositoryInterface;
 
 class ListUseCase
 {
     public function __construct(
-        protected CustomerRepositoryInterface $repo,
+        protected BankRepositoryInterface $repo,
     ) {
         //
     }

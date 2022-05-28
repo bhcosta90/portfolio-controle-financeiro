@@ -8,7 +8,7 @@ use Costa\Modules\Relationship\Customer\Repository\CustomerRepositoryInterface;
 class FindUseCase
 {
     public function __construct(
-        protected CustomerRepositoryInterface $relationship
+        protected CustomerRepositoryInterface $repo
     ) {
         //
     }
@@ -16,7 +16,7 @@ class FindUseCase
     public function handle(DTO\Find\Input $input): DTO\Find\Output
     {
         /** @var CustomerEntity */
-        $objEntity = $this->relationship->find($input->id);
+        $objEntity = $this->repo->find($input->id);
         return new DTO\Find\Output(
             id: $objEntity->id,
             name: $objEntity->name->value,

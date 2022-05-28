@@ -4,8 +4,6 @@ namespace Costa\Modules\Recurrence\UseCases;
 
 use Costa\Modules\Recurrence\Entity\RecurrenceEntity;
 use Costa\Modules\Recurrence\Repository\RecurrenceRepositoryInterface;
-use Costa\Shared\ValueObject\DocumentObject;
-use Costa\Shared\ValueObject\Enums\DocumentEnum;
 use Costa\Shared\ValueObject\Input\InputIntObject;
 use Costa\Shared\ValueObject\Input\InputNameObject;
 use Throwable;

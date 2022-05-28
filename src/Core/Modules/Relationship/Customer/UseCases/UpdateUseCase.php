@@ -11,7 +11,7 @@ use Costa\Shared\ValueObject\Input\InputNameObject;
 class UpdateUseCase
 {
     public function __construct(
-        protected CustomerRepositoryInterface $relationship
+        protected CustomerRepositoryInterface $repo
     ) {
         //
     }
@@ -19,7 +19,7 @@ class UpdateUseCase
     public function handle(DTO\Update\Input $input): DTO\Update\Output
     {
         /** @var CustomerEntity */
-        $objEntity = $this->relationship->find($input->id);
+        $objEntity = $this->repo->find($input->id);
         $objEntity->update(
             name: new InputNameObject($input->name),
             document: $input->documentValue
@@ -27,7 +27,7 @@ class UpdateUseCase
                 : null
         );
 
-        $this->relationship->update($objEntity);
+        $this->repo->update($objEntity);
 
         return new DTO\Update\Output(
             id: $objEntity->id,

@@ -50,7 +50,7 @@ class AccountRepository implements AccountRepositoryInterface
 
     public function findDb(string|int $key): object|array
     {
-        return $this->model->where('id', $key)->firstOrFail();
+        return $this->model->findOrFail($key);
     }
 
     public function delete(EntityAbstract $entity): bool
@@ -71,6 +71,14 @@ class AccountRepository implements AccountRepositoryInterface
     public function pluck(): array
     {
         return $this->model->pluck('name', 'id')->toArray();
+    }
+
+    public function findByEntity(ModelObject $entity): AccountEntity
+    {
+        $obj = $this->model->where('entity_type', $entity->type)
+            ->where('entity_id', $entity->id)
+            ->firstOrFail();
+        return $this->entity($obj);
     }
 
     protected function entity(object $entity)

@@ -65,7 +65,7 @@ class SupplierRepository implements SupplierRepositoryInterface
 
     public function findDb(string|int $key): object|array
     {
-        return $this->model->where('id', $key)->firstOrFail();
+        return $this->model->findOrFail($key);
     }
 
     public function delete(EntityAbstract $entity): bool

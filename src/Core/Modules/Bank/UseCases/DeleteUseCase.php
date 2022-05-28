@@ -1,22 +1,22 @@
 <?php
 
-namespace Costa\Modules\Relationship\Customer\UseCases;
+namespace Costa\Modules\Bank\UseCases;
 
-use Costa\Modules\Relationship\Customer\Entity\CustomerEntity;
-use Costa\Modules\Relationship\Customer\Repository\CustomerRepositoryInterface;
+use Costa\Modules\Bank\Entity\BankEntity;
+use Costa\Modules\Bank\Repository\BankRepositoryInterface;
 use Costa\Shared\ValueObject\DeleteObject;
 
 class DeleteUseCase
 {
     public function __construct(
-        protected CustomerRepositoryInterface $repo
+        protected BankRepositoryInterface $repo
     ) {
         //
     }
 
     public function handle(DTO\Find\Input $input): DeleteObject
     {
-        /** @var CustomerEntity */
+        /** @var BankEntity */
         $objEntity = $this->repo->find($input->id);
         return new DeleteObject($this->repo->delete($objEntity));
     }

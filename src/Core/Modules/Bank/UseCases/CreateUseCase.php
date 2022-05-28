@@ -1,14 +1,12 @@
 <?php
 
-namespace Costa\Modules\Relationship\Customer\UseCases;
+namespace Costa\Modules\Bank\UseCases;
 
 use Costa\Modules\Account\Entity\AccountEntity;
 use Costa\Modules\Account\Repository\AccountRepositoryInterface;
-use Costa\Modules\Relationship\Customer\Entity\CustomerEntity;
-use Costa\Modules\Relationship\Customer\Repository\CustomerRepositoryInterface;
+use Costa\Modules\Bank\Entity\BankEntity;
+use Costa\Modules\Bank\Repository\BankRepositoryInterface;
 use Costa\Shared\Contracts\TransactionContract;
-use Costa\Shared\ValueObject\DocumentObject;
-use Costa\Shared\ValueObject\Enums\DocumentEnum;
 use Costa\Shared\ValueObject\Input\InputNameObject;
 use Costa\Shared\ValueObject\ModelObject;
 use Throwable;
@@ -16,7 +14,7 @@ use Throwable;
 class CreateUseCase
 {
     public function __construct(
-        protected CustomerRepositoryInterface $repo,
+        protected BankRepositoryInterface $repo,
         protected AccountRepositoryInterface $account,
         protected TransactionContract $transaction,
     ) {
@@ -25,14 +23,14 @@ class CreateUseCase
 
     public function handle(DTO\Create\Input $input): DTO\Create\Output
     {
-        $objEntity = new CustomerEntity(
+        $objEntity = new BankEntity(
             name: new InputNameObject($input->name),
-            document: $input->documentValue
-                ? new DocumentObject(DocumentEnum::from($input->documentType), $input->documentValue)
-                : null
         );
 
-        $objAccount = new AccountEntity(new ModelObject($objEntity->id(), $objEntity), 0);
+        $objAccount = new AccountEntity(
+            entity: new ModelObject($objEntity->id(), $objEntity),
+            value: $input->value,
+        );
 
         try {
             $this->repo->insert($objEntity);
@@ -42,8 +40,7 @@ class CreateUseCase
             return new DTO\Create\Output(
                 id: $objEntity->id,
                 name: $objEntity->name->value,
-                document_type: $objEntity->document?->type->value,
-                document_value: $objEntity->document?->document,
+                value: $objAccount->value,
             );
         } catch (Throwable $e) {
             $this->transaction->rollback();

@@ -2,20 +2,19 @@
 
 namespace App\Repositories\Eloquent;
 
-use App\Models\Recurrence;
+use App\Models\Bank;
 use App\Repositories\Presenters\PaginatorPresenter;
-use Costa\Modules\Recurrence\Entity\RecurrenceEntity;
-use Costa\Modules\Recurrence\Repository\RecurrenceRepositoryInterface;
+use Costa\Modules\Bank\Entity\BankEntity;
+use Costa\Modules\Bank\Repository\BankRepositoryInterface;
 use Costa\Shared\Abstracts\EntityAbstract;
 use Costa\Shared\Contracts\PaginationInterface;
-use Costa\Shared\ValueObject\Input\InputIntObject;
 use Costa\Shared\ValueObject\Input\InputNameObject;
 use Costa\Shared\ValueObject\UuidObject;
 
-class RecurrenceRepository implements RecurrenceRepositoryInterface
+class BankRepository implements BankRepositoryInterface
 {
     public function __construct(
-        protected Recurrence $model,
+        protected Bank $model,
     ) {
         //  
     }
@@ -25,7 +24,6 @@ class RecurrenceRepository implements RecurrenceRepositoryInterface
         $obj = $this->model->create([
             'id' => $entity->id(),
             'name' => $entity->name->value,
-            'days' => $entity->days->value,
         ]);
 
         return $this->entity($obj);
@@ -37,7 +35,6 @@ class RecurrenceRepository implements RecurrenceRepositoryInterface
 
         $obj->update([
             'name' => $entity->name->value,
-            'days' => $entity->days->value,
         ]);
 
         return $this->entity($obj);
@@ -75,10 +72,9 @@ class RecurrenceRepository implements RecurrenceRepositoryInterface
 
     protected function entity(object $entity)
     {
-        return new RecurrenceEntity(
+        return new BankEntity(
             new InputNameObject($entity->name),
-            new InputIntObject($entity->days),
-            new UuidObject($entity->id)
+            new UuidObject($entity->id),
         );
     }
 }
