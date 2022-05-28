@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Api\RecurrenceController;
 use App\Http\Controllers\Api\Relationship\{CustomerController, SupplierController};
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
@@ -38,4 +39,5 @@ Route::middleware([
         Route::resource('customer', CustomerController::class);
         Route::resource('supplier', SupplierController::class);
     });
+    Route::resource('recurrence', RecurrenceController::class);
 });

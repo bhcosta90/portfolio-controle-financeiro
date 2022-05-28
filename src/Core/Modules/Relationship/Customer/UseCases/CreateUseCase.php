@@ -11,6 +11,7 @@ use Costa\Shared\ValueObject\DocumentObject;
 use Costa\Shared\ValueObject\Enums\DocumentEnum;
 use Costa\Shared\ValueObject\Input\InputNameObject;
 use Costa\Shared\ValueObject\ModelObject;
+use Throwable;
 
 class CreateUseCase
 {

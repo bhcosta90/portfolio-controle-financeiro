@@ -2,20 +2,20 @@
 
 namespace App\Repositories\Eloquent;
 
-use App\Models\Account;
+use App\Models\Recurrence;
 use App\Repositories\Presenters\PaginatorPresenter;
-use Costa\Modules\Account\Entity\AccountEntity;
-use Costa\Modules\Account\Repository\AccountRepositoryInterface;
-use Costa\Modules\Relationship\Customer\Entity\CustomerEntity;
+use Costa\Modules\Recurrence\Entity\RecurrenceEntity;
+use Costa\Modules\Recurrence\Repository\RecurrenceRepositoryInterface;
 use Costa\Shared\Abstracts\EntityAbstract;
 use Costa\Shared\Contracts\PaginationInterface;
-use Costa\Shared\ValueObject\ModelObject;
+use Costa\Shared\ValueObject\Input\InputIntObject;
+use Costa\Shared\ValueObject\Input\InputNameObject;
 use Costa\Shared\ValueObject\UuidObject;
 
-class AccountRepository implements AccountRepositoryInterface
+class RecurrenceRepository implements RecurrenceRepositoryInterface
 {
     public function __construct(
-        protected Account $model,
+        protected Recurrence $model,
     ) {
         //  
     }
@@ -24,9 +24,8 @@ class AccountRepository implements AccountRepositoryInterface
     {
         $obj = $this->model->create([
             'id' => $entity->id(),
-            'entity_type' => $entity->entity->type,
-            'entity_id' => $entity->entity->id,
-            'value' => $entity->value,
+            'name' => $entity->name->value,
+            'days' => $entity->days->value,
         ]);
 
         return $this->entity($obj);
@@ -37,7 +36,8 @@ class AccountRepository implements AccountRepositoryInterface
         $obj = $this->findDb($entity->id);
 
         $obj->update([
-            'value' => $entity->value,
+            'name' => $entity->name->value,
+            'days' => $entity->days->value,
         ]);
 
         return $this->entity($obj);
@@ -75,9 +75,9 @@ class AccountRepository implements AccountRepositoryInterface
 
     protected function entity(object $entity)
     {
-        return new AccountEntity(
-            new ModelObject($entity->entity_id, $entity->entity_type),
-            $entity->value,
+        return new RecurrenceEntity(
+            new InputNameObject($entity->name),
+            new InputIntObject($entity->days),
             new UuidObject($entity->id)
         );
     }
