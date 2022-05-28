@@ -42,4 +42,8 @@ Route::middleware([
     });
     Route::resource('recurrence', RecurrenceController::class);
     Route::resource('bank', BankController::class);
+
+    Route::prefix('charge')->group(function () {
+        Route::resource('receive', RecurrenceController::class);
+    });
 });
