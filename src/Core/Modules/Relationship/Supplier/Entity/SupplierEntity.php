@@ -1,11 +1,13 @@
 <?php
 
-namespace Costa\Modules\Relationship;
+namespace Costa\Modules\Relationship\Supplier\Entity;
 
 use Costa\Shared\Abstracts\EntityAbstract;
-use Costa\Shared\ValueObject\{DocumentObject, UuidObject, Input\InputNameObject};
+use Costa\Shared\ValueObject\DocumentObject;
+use Costa\Shared\ValueObject\Input\InputNameObject;
+use Costa\Shared\ValueObject\UuidObject;
 
-class CustomerEntity extends EntityAbstract
+class SupplierEntity extends EntityAbstract
 {
     public function __construct(
         protected InputNameObject $name,

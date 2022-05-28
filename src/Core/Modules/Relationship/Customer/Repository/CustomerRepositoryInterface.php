@@ -1,6 +1,6 @@
 <?php
 
-namespace Costa\Modules\Relationship\Repositories;
+namespace Costa\Modules\Relationship\Customer\Repository;
 
 use Costa\Shared\Contracts\RepositoryInterface;
 

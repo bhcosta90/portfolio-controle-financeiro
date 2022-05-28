@@ -1,6 +1,6 @@
 <?php
 
-namespace Costa\Modules\Relationship\UseCases\DTO\Update;
+namespace Costa\Modules\Relationship\Customer\UseCases\DTO\Update;
 
 class Input
 {

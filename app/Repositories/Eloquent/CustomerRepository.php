@@ -4,10 +4,12 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\Relationship;
 use App\Repositories\Presenters\PaginatorPresenter;
-use Costa\Modules\Relationship\CustomerEntity;
-use Costa\Modules\Relationship\Repositories\CustomerRepositoryInterface;
+use Costa\Modules\Relationship\Customer\Entity\CustomerEntity;
+use Costa\Modules\Relationship\Customer\Repository\CustomerRepositoryInterface;
 use Costa\Shared\Abstracts\EntityAbstract;
 use Costa\Shared\Contracts\PaginationInterface;
+use Costa\Shared\ValueObject\DocumentObject;
+use Costa\Shared\ValueObject\Enums\DocumentEnum;
 use Costa\Shared\ValueObject\Input\InputNameObject;
 use Costa\Shared\ValueObject\UuidObject;
 
@@ -25,7 +27,7 @@ class CustomerRepository implements CustomerRepositoryInterface
             'id' => $entity->id(),
             'entity' => get_class($entity),
             'name' => $entity->name->value,
-            'document_type' => $entity->document?->type,
+            'document_type' => $entity->document?->type->value,
             'document_value' => $entity->document?->document,
         ]);
 
@@ -39,7 +41,7 @@ class CustomerRepository implements CustomerRepositoryInterface
 
         $obj->update([
             'name' => $entity->name->value,
-            'document_type' => $entity->document?->type,
+            'document_type' => $entity->document?->type->value,
             'document_value' => $entity->document?->document,
         ]);
 
@@ -81,12 +83,9 @@ class CustomerRepository implements CustomerRepositoryInterface
         return new CustomerEntity(
             id: new UuidObject($entity->id),
             name: new InputNameObject($entity->name),
-            document: null,
+            document: $entity->document_value
+                ? new DocumentObject(DocumentEnum::from($entity->document_type), $entity->document_value)
+                : null,
         );
-    }
-
-    protected function getEntity()
-    {
-        return CustomerEntity::class;
     }
 }

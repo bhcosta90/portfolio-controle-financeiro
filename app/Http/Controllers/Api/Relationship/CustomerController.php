@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Api\Relationship;
 
 use App\Http\Controllers\Controller;
-use Costa\Modules\Relationship\Repositories\CustomerRepositoryInterface;
-use Costa\Modules\Relationship\UseCases\CustomerCreateUseCase;
-use Costa\Modules\Relationship\UseCases\CustomerUpdateUseCase;
-use Costa\Modules\Relationship\UseCases\DTO\Create\Input as CreateInput;
-use Costa\Modules\Relationship\UseCases\DTO\Update\Input as UpdateInput;
+use Costa\Modules\Relationship\Customer\UseCases\{CreateUseCase, UpdateUseCase, FindUseCase, DeleteUseCase};
+use Costa\Modules\Relationship\Customer\UseCases\DTO\Create\Input as CreateInput;
+use Costa\Modules\Relationship\Customer\UseCases\DTO\Update\Input as UpdateInput;
+use Costa\Modules\Relationship\Customer\UseCases\DTO\Find\Input as FindInput;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -17,7 +16,7 @@ class CustomerController extends Controller
         //
     }
 
-    public function store(Request $request, CustomerCreateUseCase $uc)
+    public function store(Request $request, CreateUseCase $uc)
     {
         $resp = $uc->handle(new CreateInput(
             name: $request->name,
@@ -25,24 +24,16 @@ class CustomerController extends Controller
             documentValue: $request->document['value'] ?? null,
         ));
         
-        return response()->json(['data' => [
-            'id' => (string) $resp->id,
-            'name' => $resp->name->value,
-        ]]);
+        return response()->json(['data' => $resp]);
     }
 
-    public function show($id, CustomerRepositoryInterface $repository)
+    public function show($id, FindUseCase $uc)
     {
-        $resp = $repository->find($id);
-
-        return response()->json(['data' => [
-            'id' => (string) $resp->id,
-            'name' => $resp->name->value,
-        ]]);
-
+        $resp = $uc->handle(new FindInput($id));
+        return response()->json(['data' => $resp]);
     }
 
-    public function update(Request $request, CustomerUpdateUseCase $uc, $id)
+    public function update(Request $request, UpdateUseCase $uc, $id)
     {
         $resp = $uc->handle(new UpdateInput(
             id: $id,
@@ -51,15 +42,12 @@ class CustomerController extends Controller
             documentValue: $request->document['value'] ?? null,
         ));
         
-        return response()->json(['data' => [
-            'id' => (string) $resp->id,
-            'name' => $resp->name->value,
-        ]]);
+        return response()->json(['data' => $resp]);
     }
 
-    public function destroy($id, CustomerRepositoryInterface $repository)
+    public function destroy($id, DeleteUseCase $uc)
     {
-        $repository->delete($repository->find($id));
+        $uc->handle(new FindInput($id));
         return response()->noContent();
     }
 }

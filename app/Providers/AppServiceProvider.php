@@ -6,9 +6,8 @@ use App\Repositories\Eloquent\{
     CustomerRepository,
     SupplierRepository
 };
-
-use Costa\Modules\Relationship\Repositories\CustomerRepositoryInterface;
-use Costa\Modules\Relationship\Repositories\SupplierRepositoryInterface;
+use Costa\Modules\Relationship\Customer\Repository\CustomerRepositoryInterface;
+use Costa\Modules\Relationship\Supplier\Repository\SupplierRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
