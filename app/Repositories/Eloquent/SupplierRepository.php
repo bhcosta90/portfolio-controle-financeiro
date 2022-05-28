@@ -21,6 +21,17 @@ class SupplierRepository implements SupplierRepositoryInterface
         //  
     }
 
+    protected function entity(object $entity)
+    {
+        return new SupplierEntity(
+            id: new UuidObject($entity->id),
+            name: new InputNameObject($entity->name),
+            document: $entity->document_value
+                ? new DocumentObject(DocumentEnum::from($entity->document_type), $entity->document_value)
+                : null,
+        );
+    }
+    
     public function insert(EntityAbstract $entity): EntityAbstract
     {
         $obj = $this->model->create([
@@ -34,7 +45,6 @@ class SupplierRepository implements SupplierRepositoryInterface
         return $this->entity($obj);
     }
 
-    /** @param CustomerEntity $entity */
     public function update(EntityAbstract $entity): EntityAbstract
     {
         $obj = $this->findDb($entity->id);
@@ -65,7 +75,14 @@ class SupplierRepository implements SupplierRepositoryInterface
 
     public function paginate(?array $filter = null, ?int $page = 1, ?int $totalPage = 15): PaginationInterface
     {
-        return new PaginatorPresenter($this->model->paginate());
+        $result = $this->model
+            ->where('entity', SupplierEntity::class)
+            ->orderBy('name', 'asc');
+            
+        return new PaginatorPresenter($result->paginate(
+            page: $page,
+            perPage: $totalPage,
+        ));
     }
 
     public function all(?array $filter = null): array|object
@@ -75,17 +92,6 @@ class SupplierRepository implements SupplierRepositoryInterface
 
     public function pluck(): array
     {
-        return $this->model->pluck('name', 'id')->toArray();
-    }
-
-    protected function entity(object $entity)
-    {
-        return new SupplierEntity(
-            id: new UuidObject($entity->id),
-            name: new InputNameObject($entity->name),
-            document: $entity->document_value
-                ? new DocumentObject(DocumentEnum::from($entity->document_type), $entity->document_value)
-                : null,
-        );
+        return $this->model->orderBy('name', 'asc')->pluck('name', 'id')->toArray();
     }
 }

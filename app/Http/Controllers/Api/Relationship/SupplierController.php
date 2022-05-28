@@ -3,17 +3,22 @@
 namespace App\Http\Controllers\Api\Relationship;
 
 use App\Http\Controllers\Controller;
-use Costa\Modules\Relationship\Supplier\UseCases\{CreateUseCase, UpdateUseCase, FindUseCase, DeleteUseCase};
+use Costa\Modules\Relationship\Supplier\UseCases\{CreateUseCase, UpdateUseCase, FindUseCase, DeleteUseCase, ListUseCase};
 use Costa\Modules\Relationship\Supplier\UseCases\DTO\Create\Input as CreateInput;
 use Costa\Modules\Relationship\Supplier\UseCases\DTO\Update\Input as UpdateInput;
 use Costa\Modules\Relationship\Supplier\UseCases\DTO\Find\Input as FindInput;
+use Costa\Modules\Relationship\Supplier\UseCases\DTO\List\Input as ListInput;
 use Illuminate\Http\Request;
 
 class SupplierController extends Controller
 {
-    public function index()
+    public function index(ListUseCase $uc, Request $request)
     {
-        //
+        return response()->json($uc->exec(new ListInput(
+            $request->all(), 
+            $request->limit,
+            $request->page,
+        )));
     }
 
     public function store(Request $request, CreateUseCase $uc)
