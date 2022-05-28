@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Repositories\Eloquent\{
     AccountRepository,
     BankRepository,
+    ChargeRepository,
     CustomerRepository,
     RecurrenceRepository,
     SupplierRepository
@@ -12,6 +13,7 @@ use App\Repositories\Eloquent\{
 use App\Repositories\Transactions\DatabaseTransaction;
 use Costa\Modules\Account\Repository\AccountRepositoryInterface;
 use Costa\Modules\Bank\Repository\BankRepositoryInterface;
+use Costa\Modules\Charge\Receive\Repository\ChargeRepositoryInterface;
 use Costa\Modules\Recurrence\Repository\RecurrenceRepositoryInterface;
 use Costa\Modules\Relationship\Customer\Repository\CustomerRepositoryInterface;
 use Costa\Modules\Relationship\Supplier\Repository\SupplierRepositoryInterface;
@@ -41,6 +43,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(AccountRepositoryInterface::class, AccountRepository::class);
         $this->app->singleton(RecurrenceRepositoryInterface::class, RecurrenceRepository::class);
         $this->app->singleton(BankRepositoryInterface::class, BankRepository::class);
+        $this->app->singleton(ChargeRepositoryInterface::class, ChargeRepository::class);
     }
 
     /**

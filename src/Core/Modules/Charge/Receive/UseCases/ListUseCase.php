@@ -1,8 +1,8 @@
 <?php
 
-namespace Costa\Modules\Charge\UseCases;
+namespace Costa\Modules\Charge\Receive\UseCases;
 
-use Costa\Modules\Charge\Repository\ChargeRepositoryInterface;
+use Costa\Modules\Charge\Receive\Repository\ChargeRepositoryInterface;
 
 class ListUseCase
 {

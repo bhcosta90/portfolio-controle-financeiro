@@ -1,11 +1,11 @@
 <?php
 
-namespace Costa\Modules\Charge\UseCases\DTO\Update;
+namespace Costa\Modules\Charge\Receive\UseCases\DTO\Update;
 
 class Output
 {
     public function __construct(
-        public string $id,
+        public int|string $id,
     ) {
 
     }

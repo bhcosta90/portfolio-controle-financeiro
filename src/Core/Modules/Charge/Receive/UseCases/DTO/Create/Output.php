@@ -1,11 +1,14 @@
 <?php
 
-namespace Costa\Modules\Charge\UseCases\DTO\Create;
+namespace Costa\Modules\Charge\Receive\UseCases\DTO\Create;
 
 class Output
 {
     public function __construct(
-        public string $id,
+        public int|string $id,
+        public string $title,
+        public ?string $description,
+        public float $value,
     ) {
     }
 }

@@ -1,11 +1,11 @@
 <?php
 
-namespace Costa\Modules\Charge\UseCases\DTO\Find;
+namespace Costa\Modules\Charge\Receive\UseCases\DTO\Find;
 
 class Output
 {
     public function __construct(
-        public string $id,
+        public int|string $id,
         public string $name,
         public float $value,
     ) {

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Api\BankController;
+use App\Http\Controllers\Api\Charge\{ReceiveController};
 use App\Http\Controllers\Api\RecurrenceController;
 use App\Http\Controllers\Api\Relationship\{CustomerController, SupplierController};
 use Illuminate\Support\Facades\Route;
@@ -44,6 +45,6 @@ Route::middleware([
     Route::resource('bank', BankController::class);
 
     Route::prefix('charge')->group(function () {
-        Route::resource('receive', RecurrenceController::class);
+        Route::resource('receive', ReceiveController::class);
     });
 });

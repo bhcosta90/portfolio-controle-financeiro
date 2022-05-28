@@ -1,11 +1,11 @@
 <?php
 
-namespace Costa\Modules\Charge\UseCases;
+namespace Costa\Modules\Charge\Receive\UseCases;
 
 use Costa\Modules\Account\Entity\AccountEntity;
 use Costa\Modules\Account\Repository\AccountRepositoryInterface;
 use Costa\Modules\Charge\Receive\Entity\ChargeEntity;
-use Costa\Modules\Charge\Repository\ChargeRepositoryInterface;
+use Costa\Modules\Charge\Receive\Repository\ChargeRepositoryInterface;
 use Costa\Shared\Contracts\TransactionContract;
 use Costa\Shared\ValueObject\Input\InputNameObject;
 use Costa\Shared\ValueObject\ModelObject;

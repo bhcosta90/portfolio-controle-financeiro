@@ -1,6 +1,6 @@
 <?php
 
-namespace Costa\Modules\Charge\UseCases\DTO\Find;
+namespace Costa\Modules\Charge\Receive\UseCases\DTO\Find;
 
 class Input
 {

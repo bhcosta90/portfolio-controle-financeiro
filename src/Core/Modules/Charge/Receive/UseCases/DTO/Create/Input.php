@@ -1,12 +1,20 @@
 <?php
 
-namespace Costa\Modules\Charge\UseCases\DTO\Create;
+namespace Costa\Modules\Charge\Receive\UseCases\DTO\Create;
+
+use DateTime;
 
 class Input
 {
     public function __construct(
-        public string $name,
+        public string $title,
+        public ?string $description,
+        public ?string $customerId,
+        public ?string $customerName,
         public float $value,
+        public DateTime $date,
+        public int $parcel,
+        public ?string $recurrence = null,
     ) {
         //
     }
