@@ -154,7 +154,7 @@ class ChargeRepository
 
     public function getValueTotal(?array $filter = null): float
     {
-        return $this->getSelect($filter)->sum('value_charge');
+        return $this->getSelect($filter)->sum('value_charge - value_pay');
     }
 
     protected function getTenantId()
