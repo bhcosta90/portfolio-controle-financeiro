@@ -2,16 +2,22 @@
 
 namespace Costa\Modules\Relationship\Customer\UseCases;
 
+use Costa\Modules\Account\Entity\AccountEntity;
+use Costa\Modules\Account\Repository\AccountRepositoryInterface;
 use Costa\Modules\Relationship\Customer\Entity\CustomerEntity;
 use Costa\Modules\Relationship\Customer\Repository\CustomerRepositoryInterface;
+use Costa\Shared\Contracts\TransactionContract;
 use Costa\Shared\ValueObject\DocumentObject;
 use Costa\Shared\ValueObject\Enums\DocumentEnum;
 use Costa\Shared\ValueObject\Input\InputNameObject;
+use Costa\Shared\ValueObject\ModelObject;
 
 class CreateUseCase
 {
     public function __construct(
-        protected CustomerRepositoryInterface $relationship
+        protected CustomerRepositoryInterface $relationship,
+        protected AccountRepositoryInterface $account,
+        protected TransactionContract $transaction,
     ) {
         //
     }
@@ -25,13 +31,22 @@ class CreateUseCase
                 : null
         );
 
-        $this->relationship->insert($objEntity);
+        $objAccount = new AccountEntity(new ModelObject($objEntity->id(), $objEntity), 0);
 
-        return new DTO\Create\Output(
-            id: $objEntity->id,
-            name: $objEntity->name->value,
-            document_type: $objEntity->document?->type->value,
-            document_value: $objEntity->document?->document,
-        );
+        try {
+            $this->relationship->insert($objEntity);
+            $this->account->insert($objAccount);
+            $this->transaction->commit();
+
+            return new DTO\Create\Output(
+                id: $objEntity->id,
+                name: $objEntity->name->value,
+                document_type: $objEntity->document?->type->value,
+                document_value: $objEntity->document?->document,
+            );
+        } catch (Throwable $e) {
+            $this->transaction->rollback();
+            throw $e;
+        }
     }
 }

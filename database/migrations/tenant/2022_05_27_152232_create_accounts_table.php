@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('accounts', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('entity');
+            $table->uuidMorphs('entity');
             $table->float('value');
             $table->timestamps();
             $table->softDeletes();
