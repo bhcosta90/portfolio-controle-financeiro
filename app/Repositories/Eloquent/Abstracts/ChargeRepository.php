@@ -15,6 +15,7 @@ use Costa\Shareds\ValueObjects\Input\InputValueObject;
 use Costa\Shareds\ValueObjects\ModelObject;
 use Costa\Shareds\ValueObjects\UuidObject;
 use DateTime;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 class ChargeRepository
@@ -154,7 +155,7 @@ class ChargeRepository
 
     public function getValueTotal(?array $filter = null): float
     {
-        return $this->getSelect($filter)->sum('value_charge - value_pay');
+        return $this->getSelect($filter)->sum(DB::raw('value_charge - value_pay'));
     }
 
     protected function getTenantId()
