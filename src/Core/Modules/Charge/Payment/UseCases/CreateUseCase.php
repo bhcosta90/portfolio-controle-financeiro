@@ -6,6 +6,7 @@ use Costa\Modules\Charge\Payment\Entity\ChargeEntity;
 use Costa\Modules\Charge\Payment\Repository\ChargeRepositoryInterface;
 use Costa\Modules\Charge\Utils\Shared\ParcelCalculate;
 use Costa\Modules\Charge\Utils\Shared\DTO\ParcelCalculate\Input as ParcelCalculateInput;
+use Costa\Modules\Recurrence\Repository\RecurrenceRepositoryInterface;
 use Costa\Modules\Relationship\Supplier\Entity\SupplierEntity;
 use Costa\Modules\Relationship\Supplier\Repository\SupplierRepositoryInterface;
 use Costa\Shared\Contracts\TransactionContract;
@@ -14,12 +15,14 @@ use Costa\Shared\ValueObject\Input\InputValueObject;
 use Costa\Shared\ValueObject\ModelObject;
 use Costa\Shared\ValueObject\UuidObject;
 use Exception;
+use Throwable;
 
 class CreateUseCase
 {
     public function __construct(
         protected ChargeRepositoryInterface $repo,
         protected SupplierRepositoryInterface $relationship,
+        protected RecurrenceRepositoryInterface $recurrence,
         protected TransactionContract $transaction,
     ) {
         //
@@ -54,6 +57,10 @@ class CreateUseCase
                     throw new Exception('Customer not found');
                 }
 
+                if ($rs->recurrence) {
+                    $rs->recurrence = $this->recurrence->find((string) $rs->recurrence)->id;
+                }
+
                 $objEntity = new ChargeEntity(
                     title: new InputNameObject($rs->title),
                     description: new InputNameObject($rs->description, true),
@@ -63,7 +70,7 @@ class CreateUseCase
                     base: new UuidObject($uuid),
                     dateStart: $parcel[0]->date,
                     dateFinish: end($parcel)->date,
-                    recurrence: $rs->recurrence,
+                    recurrence: $rs->recurrence ? new UuidObject($rs->recurrence) : null,
                 );
 
                 $create[] = $objEntity;
@@ -74,6 +81,7 @@ class CreateUseCase
                     description: $objEntity->description->value,
                     value: $objEntity->value->value,
                     customerId: $cacheRelationship[$keyCache]->id(),
+                    recurrenceId: $objEntity->recurrence,
                 );
             }
 
@@ -83,18 +91,11 @@ class CreateUseCase
         try {
             foreach ($create as $rs) {
                 $this->repo->insert($rs);
-                $ret[] = new DTO\Create\Output(
-                    id: $objEntity->id(),
-                    title: $objEntity->title->value,
-                    description: $objEntity->description->value,
-                    value: $objEntity->value->value,
-                    customerId: $cacheRelationship[$keyCache]->id(),
-                );
             }
             
             $this->transaction->commit();
 
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->transaction->rollback();
             throw $e;
         }

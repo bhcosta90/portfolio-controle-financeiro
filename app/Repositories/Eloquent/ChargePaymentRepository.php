@@ -34,7 +34,7 @@ class ChargePaymentRepository implements ChargeRepositoryInterface
             date: new DateTime($entity->date_due),
             dateStart: new DateTime($entity->date_start),
             dateFinish: new DateTime($entity->date_finish),
-            recurrence: $entity->recurrence ? new UuidObject($entity->recurrence) : null,
+            recurrence: $entity->recurrence_id ? new UuidObject($entity->recurrence_id) : null,
             id: new UuidObject($entity->id),
             createdAt: new DateTime($entity->created_at),
             payValue: new InputValueObject($entity->value_pay, true),
@@ -76,6 +76,7 @@ class ChargePaymentRepository implements ChargeRepositoryInterface
             'relationship_id' => $entity->relationship?->id,
             'relationship_type' => $entity->relationship ? get_class($entity->relationship) : null,
             'value_charge' => $entity->value->value,
+            'recurrence_id' => $entity->recurrence,
         ]);
 
         return $this->entity($obj);

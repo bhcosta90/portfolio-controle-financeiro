@@ -6,6 +6,7 @@ use Costa\Modules\Charge\Receive\Entity\ChargeEntity;
 use Costa\Modules\Charge\Receive\Repository\ChargeRepositoryInterface;
 use Costa\Modules\Charge\Utils\Shared\ParcelCalculate;
 use Costa\Modules\Charge\Utils\Shared\DTO\ParcelCalculate\Input as ParcelCalculateInput;
+use Costa\Modules\Recurrence\Repository\RecurrenceRepositoryInterface;
 use Costa\Modules\Relationship\Customer\Entity\CustomerEntity;
 use Costa\Modules\Relationship\Customer\Repository\CustomerRepositoryInterface;
 use Costa\Shared\Contracts\TransactionContract;
@@ -21,6 +22,7 @@ class CreateUseCase
     public function __construct(
         protected ChargeRepositoryInterface $repo,
         protected CustomerRepositoryInterface $relationship,
+        protected RecurrenceRepositoryInterface $recurrence,
         protected TransactionContract $transaction,
     ) {
         //
@@ -55,6 +57,10 @@ class CreateUseCase
                     throw new Exception('Customer not found');
                 }
 
+                if ($rs->recurrence) {
+                    $rs->recurrence = $this->recurrence->find((string) $rs->recurrence)->id;
+                }
+
                 $objEntity = new ChargeEntity(
                     title: new InputNameObject($rs->title),
                     description: new InputNameObject($rs->description, true),
@@ -64,7 +70,7 @@ class CreateUseCase
                     base: new UuidObject($uuid),
                     dateStart: $parcel[0]->date,
                     dateFinish: end($parcel)->date,
-                    recurrence: $rs->recurrence,
+                    recurrence: $rs->recurrence ? new UuidObject($rs->recurrence) : null,
                 );
 
                 $create[] = $objEntity;
@@ -75,6 +81,7 @@ class CreateUseCase
                     description: $objEntity->description->value,
                     value: $objEntity->value->value,
                     customerId: $cacheRelationship[$keyCache]->id(),
+                    recurrenceId: $objEntity->recurrence,
                 );
             }
 
@@ -84,13 +91,6 @@ class CreateUseCase
         try {
             foreach ($create as $rs) {
                 $this->repo->insert($rs);
-                $ret[] = new DTO\Create\Output(
-                    id: $objEntity->id(),
-                    title: $objEntity->title->value,
-                    description: $objEntity->description->value,
-                    value: $objEntity->value->value,
-                    customerId: $cacheRelationship[$keyCache]->id(),
-                );
             }
             
             $this->transaction->commit();

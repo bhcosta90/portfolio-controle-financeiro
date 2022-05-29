@@ -23,7 +23,8 @@ class FindUseCase
             title: $objEntity->title->value,
             description: $objEntity->description->value,
             value: $objEntity->value->value,
-            customerId: $objEntity->relationship?->id,
+            customerId: $objEntity->relationship->id,
+            recurrenceId: $objEntity->recurrence,
         );
     }
 }

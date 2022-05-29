@@ -65,7 +65,7 @@ class PaymentController extends Controller
             customer: $request->customer,
             value: $request->value,
             date: new DateTime($request->date),
-            recurrence: $charge['recurrence'] ?? null,
+            recurrence: $request->recurrence ?? null,
         ));
         
         return response()->json(['data' => $resp]);
