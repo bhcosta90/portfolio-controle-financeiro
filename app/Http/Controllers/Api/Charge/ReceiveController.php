@@ -37,7 +37,7 @@ class ReceiveController extends Controller
         foreach($request->charges as $charge){
             $input[] = new CreateInput(
                 title: $charge['title'],
-                description: $rs['description'] ?? null,
+                description: $charge['description'] ?? null,
                 value: $charge['value'],
                 date: new DateTime($charge['date']),
                 parcel: empty($charge['parcel']) || $charge['parcel'] < 1 ? 1 : $charge['parcel'],
@@ -60,8 +60,12 @@ class ReceiveController extends Controller
     {
         $resp = $uc->handle(new UpdateInput(
             id: $id,
-            name: $request->name,
-            days: $request->days,
+            title: $request->title,
+            description: $request->description ?? null,
+            customer: $request->customer,
+            value: $request->value,
+            date: new DateTime($request->date),
+            recurrence: $charge['recurrence'] ?? null,
         ));
         
         return response()->json(['data' => $resp]);

@@ -32,6 +32,7 @@ class CreateUseCase
     {
         $charges = [];
         $uuid = str()->uuid();
+        $create = [];
 
         $cacheRelationship = [];
         foreach ($input as $rs) {
@@ -67,17 +68,37 @@ class CreateUseCase
                     recurrence: $rs->recurrence,
                 );
 
-                $this->repo->insert($objEntity);
+                $create[] = $objEntity;
 
                 $ret[] = new DTO\Create\Output(
                     id: $objEntity->id(),
                     title: $objEntity->title->value,
                     description: $objEntity->description->value,
                     value: $objEntity->value->value,
+                    customerId: $cacheRelationship[$keyCache]->id(),
                 );
             }
 
             $charges[] = $ret;
+        }
+
+        try {
+            foreach ($create as $rs) {
+                $this->repo->insert($rs);
+                $ret[] = new DTO\Create\Output(
+                    id: $objEntity->id(),
+                    title: $objEntity->title->value,
+                    description: $objEntity->description->value,
+                    value: $objEntity->value->value,
+                    customerId: $cacheRelationship[$keyCache]->id(),
+                );
+            }
+            
+            $this->transaction->commit();
+
+        } catch (Exception $e) {
+            $this->transaction->rollback();
+            throw $e;
         }
 
         return $charges;

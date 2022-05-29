@@ -9,6 +9,7 @@ class Output
         public string $title,
         public ?string $description,
         public float $value,
+        public string $customerId,
     ) {
     }
 }

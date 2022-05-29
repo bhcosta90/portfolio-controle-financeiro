@@ -20,8 +20,10 @@ class FindUseCase
 
         return new DTO\Find\Output(
             id: $objEntity->id,
-            name: $objEntity->name->value,
-            value: $objEntity->days->value,
+            title: $objEntity->title->value,
+            description: $objEntity->description->value,
+            value: $objEntity->value->value,
+            customerId: $objEntity->relationship?->id,
         );
     }
 }

@@ -17,6 +17,8 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('recurrence_id')->nullable()->constrained('recurrences');
             $table->foreignUuid('relationship_id')->nullable()->constrained('relationships');
+            $table->string('relationship_type')->nullable();
+            $table->string('entity')->index();
             $table->uuid('uuid')->index();
             $table->string('title')->nullable();
             $table->string('description')->nullable();
@@ -27,7 +29,7 @@ return new class extends Migration
             $table->unsignedTinyInteger('parcel_actual')->nullable();
             $table->unsignedTinyInteger('status');
             $table->unsignedFloat('value_charge');
-            $table->unsignedFloat('value_pay')->nullable();
+            $table->unsignedFloat('value_pay');
             $table->timestamps();
             $table->softDeletes();
         });
