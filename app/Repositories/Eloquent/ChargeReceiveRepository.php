@@ -15,7 +15,7 @@ use Costa\Shared\ValueObject\ModelObject;
 use Costa\Shared\ValueObject\UuidObject;
 use DateTime;
 
-class ChargeRepository implements ChargeRepositoryInterface
+class ChargeReceiveRepository implements ChargeRepositoryInterface
 {
     public function __construct(
         protected Charge $model,
