@@ -2,7 +2,6 @@
 
 namespace Costa\Modules\Charge\Receive\UseCases;
 
-use Costa\Modules\Account\Entity\AccountEntity;
 use Costa\Modules\Charge\Receive\Entity\ChargeEntity;
 use Costa\Modules\Charge\Receive\Repository\ChargeRepositoryInterface;
 use Costa\Modules\Charge\Utils\Shared\ParcelCalculate;
@@ -96,7 +95,7 @@ class CreateUseCase
             
             $this->transaction->commit();
 
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->transaction->rollback();
             throw $e;
         }

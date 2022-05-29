@@ -2,26 +2,24 @@
 
 namespace Costa\Modules\Charge\Payment\UseCases;
 
-use Costa\Modules\Account\Entity\AccountEntity;
 use Costa\Modules\Charge\Payment\Entity\ChargeEntity;
 use Costa\Modules\Charge\Payment\Repository\ChargeRepositoryInterface;
 use Costa\Modules\Charge\Utils\Shared\ParcelCalculate;
 use Costa\Modules\Charge\Utils\Shared\DTO\ParcelCalculate\Input as ParcelCalculateInput;
-use Costa\Modules\Relationship\Customer\Entity\CustomerEntity;
-use Costa\Modules\Relationship\Customer\Repository\CustomerRepositoryInterface;
+use Costa\Modules\Relationship\Supplier\Entity\SupplierEntity;
+use Costa\Modules\Relationship\Supplier\Repository\SupplierRepositoryInterface;
 use Costa\Shared\Contracts\TransactionContract;
 use Costa\Shared\ValueObject\Input\InputNameObject;
 use Costa\Shared\ValueObject\Input\InputValueObject;
 use Costa\Shared\ValueObject\ModelObject;
 use Costa\Shared\ValueObject\UuidObject;
 use Exception;
-use Throwable;
 
 class CreateUseCase
 {
     public function __construct(
         protected ChargeRepositoryInterface $repo,
-        protected CustomerRepositoryInterface $relationship,
+        protected SupplierRepositoryInterface $relationship,
         protected TransactionContract $transaction,
     ) {
         //
@@ -45,7 +43,7 @@ class CreateUseCase
                 if ($rs->customerId && empty($cacheRelationship[$keyCache])) {
                     $cacheRelationship[$keyCache] = $this->relationship->find($rs->customerId);
                 } elseif ($rs->customerName && empty($cacheRelationship[$keyCache])) {
-                    $entityCustomer = new CustomerEntity(
+                    $entityCustomer = new SupplierEntity(
                         name: new InputNameObject($rs->customerName),
                         document: null,
                     );

@@ -6,7 +6,7 @@ use App\Models\Charge;
 use App\Repositories\Presenters\PaginatorPresenter;
 use Costa\Modules\Charge\Payment\Entity\ChargeEntity;
 use Costa\Modules\Charge\Payment\Repository\ChargeRepositoryInterface;
-use Costa\Modules\Relationship\Customer\Entity\CustomerEntity;
+use Costa\Modules\Relationship\Supplier\Entity\SupplierEntity;
 use Costa\Shared\Abstracts\EntityAbstract;
 use Costa\Shared\Contracts\PaginationInterface;
 use Costa\Shared\ValueObject\Input\InputNameObject;
@@ -101,7 +101,7 @@ class ChargePaymentRepository implements ChargeRepositoryInterface
         $result = $this->model
             ->select('charges.*', 'relationships.name as relationship_name')
             ->join('relationships', fn ($q) => $q->on('relationships.id', '=', 'charges.relationship_id')
-            ->where('relationships.entity', CustomerEntity::class))
+            ->where('relationships.entity', SupplierEntity::class))
             ->where('charges.entity', ChargeEntity::class)
             ->orderBy('charges.date_due', 'asc');
 

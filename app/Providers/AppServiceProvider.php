@@ -6,6 +6,7 @@ use App\Repositories\Eloquent\{
     AccountRepository,
     BankRepository,
     ChargeReceiveRepository,
+    ChargePaymentRepository,
     CustomerRepository,
     RecurrenceRepository,
     SupplierRepository
@@ -14,6 +15,7 @@ use App\Repositories\Transactions\DatabaseTransaction;
 use Costa\Modules\Account\Repository\AccountRepositoryInterface;
 use Costa\Modules\Bank\Repository\BankRepositoryInterface;
 use Costa\Modules\Charge\Receive\Repository\ChargeRepositoryInterface as ReceiveRepositoryInterface;
+use Costa\Modules\Charge\Payment\Repository\ChargeRepositoryInterface as PaymentRepositoryInterface;
 use Costa\Modules\Recurrence\Repository\RecurrenceRepositoryInterface;
 use Costa\Modules\Relationship\Customer\Repository\CustomerRepositoryInterface;
 use Costa\Modules\Relationship\Supplier\Repository\SupplierRepositoryInterface;
@@ -44,6 +46,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(RecurrenceRepositoryInterface::class, RecurrenceRepository::class);
         $this->app->singleton(BankRepositoryInterface::class, BankRepository::class);
         $this->app->singleton(ReceiveRepositoryInterface::class, ChargeReceiveRepository::class);
+        $this->app->singleton(PaymentRepositoryInterface::class, ChargePaymentRepository::class);
     }
 
     /**
