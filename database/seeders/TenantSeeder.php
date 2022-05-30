@@ -49,6 +49,7 @@ class TenantSeeder extends Seeder
 
             foreach (($data['receive'] ?? []) as $rs) {
                 if (empty($dataCache['customer'][$rs['name']])) {
+                    /** @var CustomerCreateUseCase */
                     $objCustomer = app(CustomerCreateUseCase::class);
                     $dataCache['customer'][$rs['name']] = $objCustomer->handle(new CustomerInput(
                         name: $rs['name']
@@ -60,6 +61,7 @@ class TenantSeeder extends Seeder
                     $dataCache['recurrence'][$rs['recurrence']] = $this->registerRecurrence($rs['recurrence']);
                 }
 
+                /** @var ReceiveCreateUseCase */
                 $objCharge = app(ReceiveCreateUseCase::class);
                 $objCharge->handle([
                     new ReceiveInput(
@@ -76,6 +78,7 @@ class TenantSeeder extends Seeder
 
             foreach (($data['payment'] ?? []) as $rs) {
                 if (empty($dataCache['supplier'][$rs['name']])) {
+                    /** @var SupplierCreateUseCase */
                     $objCustomer = app(SupplierCreateUseCase::class);
                     $dataCache['supplier'][$rs['name']] = $objCustomer->handle(new SupplierInput(
                         name: $rs['name']
@@ -86,6 +89,7 @@ class TenantSeeder extends Seeder
                     $dataCache['recurrence'][$rs['recurrence']] = $this->registerRecurrence($rs['recurrence']);
                 }
 
+                /** @var PaymentCreateUseCase */
                 $objCharge = app(PaymentCreateUseCase::class);
                 $objCharge->handle([
                     new PaymentInput(
@@ -101,6 +105,7 @@ class TenantSeeder extends Seeder
             }
 
             foreach (($data['bank'] ?? []) as $rs) {
+                /** @var BankCreateUseCase */
                 $objBank = app(BankCreateUseCase::class);
                 $objBank->handle(new BankInput(name: $rs['name'], value: $rs['value']));
             }
