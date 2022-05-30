@@ -67,7 +67,7 @@ class CreateUseCase
                 $objEntity = new ChargeEntity(
                     title: new InputNameObject($rs->title),
                     description: new InputNameObject($rs->description, true),
-                    relationship: new ModelObject($objCustomer->id(), $objCustomer),
+                    customer: new ModelObject($objCustomer->id(), $objCustomer),
                     value: new InputValueObject($rsParcel->value),
                     date: $rsParcel->date,
                     base: new UuidObject($uuid),

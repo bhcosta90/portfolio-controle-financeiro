@@ -75,8 +75,8 @@ class ChargePaymentRepository implements ChargeRepositoryInterface
             'title' => $entity->title->value,
             'description' => $entity->description?->value,
             'date_due' => $entity->date->format('Y-m-d'),
-            'relationship_id' => $entity->relationship?->id,
-            'relationship_type' => $entity->relationship ? get_class($entity->relationship) : null,
+            'relationship_id' => $entity->supplier?->id,
+            'relationship_type' => $entity->supplier ? get_class($entity->supplier) : null,
             'value_charge' => $entity->value->value,
             'recurrence_id' => $entity->recurrence,
         ]);
