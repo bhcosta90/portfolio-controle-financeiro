@@ -15,6 +15,7 @@ use Costa\Shared\ValueObject\Input\InputValueObject;
 use Costa\Shared\ValueObject\ModelObject;
 use Costa\Shared\ValueObject\UuidObject;
 use DateTime;
+use Illuminate\Support\Facades\DB;
 
 class ChargeReceiveRepository implements ChargeRepositoryInterface
 {
@@ -105,11 +106,7 @@ class ChargeReceiveRepository implements ChargeRepositoryInterface
 
     public function paginate(?array $filter = null, ?int $page = 1, ?int $totalPage = 15): PaginationInterface
     {
-        $result = $this->model
-            ->select('charges.*', 'relationships.name as relationship_name')
-            ->join('relationships', fn ($q) => $q->on('relationships.id', '=', 'charges.relationship_id')
-            ->where('relationships.entity', CustomerEntity::class))
-            ->where('charges.entity', ChargeEntity::class)
+        $result = $this->toSql()
             ->orderBy('charges.date_due', 'asc');
 
         return new PaginatorPresenter($result->paginate(
@@ -120,12 +117,17 @@ class ChargeReceiveRepository implements ChargeRepositoryInterface
 
     public function all(?array $filter = null): array|object
     {
-        return $this->model->get();
+        return $this->toSql($filter)->get();
+    }
+
+    public function total(?array $filter = null): float
+    {
+        return $this->toSql()->sum(DB::raw('charges.value_charge - charges.value_pay'));
     }
 
     public function pluck(): array
     {
-        return $this->model->orderBy('name', 'asc')->pluck('name', 'id')->toArray();
+        return $this->toSql([])->orderBy('name', 'asc')->pluck('name', 'id')->toArray();
     }
     
     public function insertWithParcel(ChargeEntity $entity, ParcelObject $parcel): ChargeEntity
@@ -150,5 +152,14 @@ class ChargeReceiveRepository implements ChargeRepositoryInterface
         ]);
 
         return $this->entity($obj);        
+    }
+
+    private function toSql(?array $filter = null)
+    {
+        return $this->model
+            ->select('charges.*', 'relationships.name as relationship_name')
+            ->join('relationships', fn ($q) => $q->on('relationships.id', '=', 'charges.relationship_id')
+            ->where('relationships.entity', CustomerEntity::class))
+            ->where('charges.entity', ChargeEntity::class);
     }
 }

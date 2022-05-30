@@ -52,8 +52,8 @@ class UpdateUseCase
                 title: $objEntity->title->value,
                 description: $objEntity->description->value,
                 value: $objEntity->value->value,
-                customerId: $objCustomer->id(),
-                recurrenceId: $objEntity->recurrence,
+                customer_id: $objCustomer->id(),
+                recurrence_id: $objEntity->recurrence,
             );
         } catch (Throwable $e) {
             $this->transaction->rollback();

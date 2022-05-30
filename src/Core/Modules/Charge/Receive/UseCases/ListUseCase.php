@@ -29,6 +29,7 @@ class ListUseCase
             to: $result->to(),
             from: $result->from(),
             current_page: $result->currentPage(),
+            value: $this->repo->total($input->filter),
         );
     }
 }

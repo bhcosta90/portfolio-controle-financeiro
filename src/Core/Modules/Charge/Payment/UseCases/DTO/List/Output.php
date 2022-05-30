@@ -13,6 +13,7 @@ class Output
         public int $to,
         public int $from,
         public int $current_page,
+        public float $value,
     ) {
     }
 }

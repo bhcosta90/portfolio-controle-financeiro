@@ -81,8 +81,8 @@ class CreateUseCase
                     title: $objEntity->title->value,
                     description: $objEntity->description->value,
                     value: $objEntity->value->value,
-                    customerId: $cacheRelationship[$keyCache]->id(),
-                    recurrenceId: $objEntity->recurrence,
+                    customer_id: $cacheRelationship[$keyCache]->id(),
+                    recurrence_id: $objEntity->recurrence,
                 );
 
                 try {
