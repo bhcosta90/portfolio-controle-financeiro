@@ -6,6 +6,7 @@ use Costa\Modules\Charge\Receive\Entity\ChargeEntity;
 use Costa\Modules\Charge\Receive\Repository\ChargeRepositoryInterface;
 use Costa\Modules\Charge\Utils\Shared\ParcelCalculate;
 use Costa\Modules\Charge\Utils\Shared\DTO\ParcelCalculate\Input as ParcelCalculateInput;
+use Costa\Modules\Charge\Utils\ValueObject\ParcelObject;
 use Costa\Modules\Recurrence\Repository\RecurrenceRepositoryInterface;
 use Costa\Modules\Relationship\Customer\Entity\CustomerEntity;
 use Costa\Modules\Relationship\Customer\Repository\CustomerRepositoryInterface;
@@ -40,18 +41,20 @@ class CreateUseCase
             $ret = [];
             $parcel = (new ParcelCalculate)->handle(new ParcelCalculateInput($rs->parcel, $rs->value, $rs->date));
             /**/
-            foreach ($parcel as $rsParcel) {
+            foreach ($parcel as $k => $rsParcel) {
                 $keyCache = $rs->customerId ?? $rs->customerName;
 
-                if ($rs->customerId && empty($cacheRelationship[$keyCache])) {
+                /*if ($rs->customerId && empty($cacheRelationship[$keyCache])) {
                     $cacheRelationship[$keyCache] = $this->relationship->find($rs->customerId);
                 } elseif ($rs->customerName && empty($cacheRelationship[$keyCache])) {
-                    $entityCustomer = new CustomerEntity(
+                    $entityCustomer = new SupplierEntity(
                         name: new InputNameObject($rs->customerName),
                         document: null,
                     );
                     $cacheRelationship[$keyCache] = $this->relationship->insert($entityCustomer);
-                }
+                }*/
+                
+                $cacheRelationship[$keyCache] = $this->relationship->find($rs->customerId);
 
                 if (($objCustomer = $cacheRelationship[$keyCache]) === null) {
                     throw new Exception('Customer not found');
@@ -73,8 +76,6 @@ class CreateUseCase
                     recurrence: $rs->recurrence ? new UuidObject($rs->recurrence) : null,
                 );
 
-                $create[] = $objEntity;
-
                 $ret[] = new DTO\Create\Output(
                     id: $objEntity->id(),
                     title: $objEntity->title->value,
@@ -83,21 +84,17 @@ class CreateUseCase
                     customerId: $cacheRelationship[$keyCache]->id(),
                     recurrenceId: $objEntity->recurrence,
                 );
+
+                try {
+                    $this->repo->insertWithParcel($objEntity, new ParcelObject($rs->parcel, $k + 1));
+                    $this->transaction->commit();
+                }catch(Throwable $e) {
+                    $this->transaction->rollback();
+                    throw $e;
+                }
             }
 
             $charges[] = $ret;
-        }
-
-        try {
-            foreach ($create as $rs) {
-                $this->repo->insert($rs);
-            }
-            
-            $this->transaction->commit();
-
-        } catch (Throwable $e) {
-            $this->transaction->rollback();
-            throw $e;
         }
 
         return $charges;

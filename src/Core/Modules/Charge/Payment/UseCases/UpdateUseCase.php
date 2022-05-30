@@ -28,7 +28,7 @@ class UpdateUseCase
     {
         /** @var ChargeEntity */
         $objEntity = $this->repo->find($input->id);
-        $objCustomer = $this->relationship->find($input->customer);
+        $objSupplier = $this->relationship->find($input->supplier);
 
         if ($input->recurrence) {
             $input->recurrence = $this->recurrence->find((string) $input->recurrence)->id;
@@ -37,7 +37,7 @@ class UpdateUseCase
         $objEntity->update(
             title: new InputNameObject($input->title),
             description: new InputNameObject($input->description, true),
-            relationship: new ModelObject($objCustomer->id(), $objCustomer),
+            relationship: new ModelObject($objSupplier->id(), $objSupplier),
             value: new InputValueObject($input->value),
             date: $input->date,
             recurrence: $input->recurrence ? new UuidObject($input->recurrence) : null,
@@ -52,7 +52,7 @@ class UpdateUseCase
                 title: $objEntity->title->value,
                 description: $objEntity->description->value,
                 value: $objEntity->value->value,
-                customerId: $objCustomer->id(),
+                customerId: $objSupplier->id(),
                 recurrenceId: $objEntity->recurrence,
             );
         } catch (Throwable $e) {

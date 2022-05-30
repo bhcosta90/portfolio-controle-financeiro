@@ -10,7 +10,7 @@ class Input
         public string $id,
         public string $title,
         public ?string $description,
-        public ?string $customer,
+        public ?string $supplier,
         public float $value,
         public DateTime $date,
         public ?string $recurrence = null,

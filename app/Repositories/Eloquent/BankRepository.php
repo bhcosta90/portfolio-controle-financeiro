@@ -47,7 +47,12 @@ class BankRepository implements BankRepositoryInterface
 
     public function findDb(string|int $key): object|array
     {
-        return $this->model->findOrFail($key);
+        return $this->model->find($key);
+    }
+
+    public function exist(string|int $key): bool
+    {
+        return $this->model->findDb($key)->count();
     }
 
     public function delete(EntityAbstract $entity): bool

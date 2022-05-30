@@ -42,8 +42,7 @@ class PaymentController extends Controller
                 date: new DateTime($charge['date']),
                 parcel: empty($charge['parcel']) || $charge['parcel'] < 1 ? 1 : $charge['parcel'],
                 recurrence: $charge['recurrence'] ?? null,
-                customerId: $charge['customer']['id'] ?? null,
-                customerName: $charge['customer']['name'] ?? null
+                supplierId: $charge['supplier'] ?? null,
             );
         }
         $resp = $uc->handle($input);
@@ -62,7 +61,7 @@ class PaymentController extends Controller
             id: $id,
             title: $request->title,
             description: $request->description ?? null,
-            customer: $request->customer,
+            supplier: $request->supplier,
             value: $request->value,
             date: new DateTime($request->date),
             recurrence: $request->recurrence ?? null,

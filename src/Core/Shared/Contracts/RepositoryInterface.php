@@ -14,6 +14,8 @@ interface RepositoryInterface
 
     public function findDb(string|int $key): object|array;
 
+    public function exist(string|int $key): bool;
+
     public function delete(EntityAbstract $entity): bool;
 
     public function paginate(?array $filter = null, ?int $page = 1, ?int $totalPage = 15): PaginationInterface;
@@ -21,4 +23,5 @@ interface RepositoryInterface
     public function all(?array $filter = null): array|object;
 
     public function pluck(): array;
+
 }

@@ -6,6 +6,7 @@ use App\Models\Charge;
 use App\Repositories\Presenters\PaginatorPresenter;
 use Costa\Modules\Charge\Payment\Entity\ChargeEntity;
 use Costa\Modules\Charge\Payment\Repository\ChargeRepositoryInterface;
+use Costa\Modules\Charge\Utils\ValueObject\ParcelObject;
 use Costa\Modules\Relationship\Supplier\Entity\SupplierEntity;
 use Costa\Shared\Abstracts\EntityAbstract;
 use Costa\Shared\Contracts\PaginationInterface;
@@ -89,7 +90,12 @@ class ChargePaymentRepository implements ChargeRepositoryInterface
 
     public function findDb(string|int $key): object|array
     {
-        return $this->model->findOrFail($key);
+        return $this->model->find($key);
+    }
+
+    public function exist(string|int $key): bool
+    {
+        return $this->model->findDb($key)->count();
     }
 
     public function delete(EntityAbstract $entity): bool
@@ -120,5 +126,29 @@ class ChargePaymentRepository implements ChargeRepositoryInterface
     public function pluck(): array
     {
         return $this->model->orderBy('name', 'asc')->pluck('name', 'id')->toArray();
+    }
+
+    public function insertWithParcel(ChargeEntity $entity, ParcelObject $parcel): ChargeEntity
+    {
+        $obj = $this->model->create([
+            'id' => $entity->id(),
+            'recurrence_id' => $entity->recurrence,
+            'relationship_id' => $entity->relationship?->id,
+            'relationship_type' => $entity->relationship ? get_class($entity->relationship) : null,
+            'uuid' => $entity->base,
+            'title' => $entity->title->value,
+            'description' => $entity->description?->value,
+            'date_start' => $entity->date->format('Y-m-d'),
+            'date_finish' => $entity->dateStart->format('Y-m-d'),
+            'date_due' => $entity->dateFinish->format('Y-m-d'),
+            'parcel_total' => $parcel->total,
+            'parcel_actual' => $parcel->actual,
+            'status' => $entity->status->value,
+            'value_charge' => $entity->value->value,
+            'value_pay' => 0,
+            'entity' => get_class($entity),
+        ]);
+
+        return $this->entity($obj);        
     }
 }
