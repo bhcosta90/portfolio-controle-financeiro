@@ -37,7 +37,7 @@ class UpdateUseCase
         $objEntity->update(
             title: new InputNameObject($input->title),
             description: new InputNameObject($input->description, true),
-            relationship: new ModelObject($objSupplier->id(), $objSupplier),
+            supplier: new ModelObject($objSupplier->id(), $objSupplier),
             value: new InputValueObject($input->value),
             date: $input->date,
             recurrence: $input->recurrence ? new UuidObject($input->recurrence) : null,

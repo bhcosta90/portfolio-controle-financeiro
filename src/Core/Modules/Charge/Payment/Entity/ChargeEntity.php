@@ -19,7 +19,7 @@ class ChargeEntity extends EntityAbstract
     public function __construct(
         protected InputNameObject $title,
         protected ?InputNameObject $description,
-        protected ModelObject $relationship,
+        protected ModelObject $supplier,
         protected InputValueObject $value,
         protected DateTime $date,
         protected UuidObject $base,
@@ -44,14 +44,14 @@ class ChargeEntity extends EntityAbstract
     public function update(
         InputNameObject $title,
         ?InputNameObject $description,
-        ModelObject $relationship,
+        ModelObject $supplier,
         InputValueObject $value,
         DateTime $date,
         ?UuidObject $recurrence = null,
     ) {
         $this->title = $title;
         $this->description = $description;
-        $this->relationship = $relationship;
+        $this->supplier = $supplier;
         $this->value = $value;
         $this->date = $date;
         $this->recurrence = $recurrence;

@@ -9,7 +9,7 @@ class Input
     public function __construct(
         public string $title,
         public ?string $description,
-        public ?string $supplierId,
+        public ?string $supplier,
         public float $value,
         public DateTime $date,
         public int $parcel,

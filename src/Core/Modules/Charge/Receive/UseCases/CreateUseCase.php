@@ -42,10 +42,10 @@ class CreateUseCase
             $parcel = (new ParcelCalculate)->handle(new ParcelCalculateInput($rs->parcel, $rs->value, $rs->date));
             /**/
             foreach ($parcel as $k => $rsParcel) {
-                $keyCache = $rs->customerId ?? $rs->customerName;
+                $keyCache = $rs->customer ?? $rs->customerName;
 
-                /*if ($rs->customerId && empty($cacheRelationship[$keyCache])) {
-                    $cacheRelationship[$keyCache] = $this->relationship->find($rs->customerId);
+                /*if ($rs->customer && empty($cacheRelationship[$keyCache])) {
+                    $cacheRelationship[$keyCache] = $this->relationship->find($rs->customer);
                 } elseif ($rs->customerName && empty($cacheRelationship[$keyCache])) {
                     $entityCustomer = new SupplierEntity(
                         name: new InputNameObject($rs->customerName),
@@ -54,7 +54,7 @@ class CreateUseCase
                     $cacheRelationship[$keyCache] = $this->relationship->insert($entityCustomer);
                 }*/
                 
-                $cacheRelationship[$keyCache] = $this->relationship->find($rs->customerId);
+                $cacheRelationship[$keyCache] = $this->relationship->find($rs->customer);
 
                 if (($objCustomer = $cacheRelationship[$keyCache]) === null) {
                     throw new Exception('Customer not found');

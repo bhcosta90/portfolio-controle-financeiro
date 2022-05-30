@@ -8,7 +8,6 @@ use Costa\Modules\Charge\Utils\Shared\ParcelCalculate;
 use Costa\Modules\Charge\Utils\Shared\DTO\ParcelCalculate\Input as ParcelCalculateInput;
 use Costa\Modules\Charge\Utils\ValueObject\ParcelObject;
 use Costa\Modules\Recurrence\Repository\RecurrenceRepositoryInterface;
-use Costa\Modules\Relationship\Supplier\Entity\SupplierEntity;
 use Costa\Modules\Relationship\Supplier\Repository\SupplierRepositoryInterface;
 use Costa\Shared\Contracts\TransactionContract;
 use Costa\Shared\ValueObject\Input\InputNameObject;
@@ -42,10 +41,10 @@ class CreateUseCase
             $parcel = (new ParcelCalculate)->handle(new ParcelCalculateInput($rs->parcel, $rs->value, $rs->date));
             /**/
             foreach ($parcel as $k => $rsParcel) {
-                $keyCache = $rs->supplierId ?? $rs->supplierName;
+                $keyCache = $rs->supplier ?? $rs->supplierName;
 
-                /*if ($rs->supplierId && empty($cacheRelationship[$keyCache])) {
-                    $cacheRelationship[$keyCache] = $this->relationship->find($rs->supplierId);
+                /*if ($rs->supplier && empty($cacheRelationship[$keyCache])) {
+                    $cacheRelationship[$keyCache] = $this->relationship->find($rs->supplier);
                 } elseif ($rs->supplierName && empty($cacheRelationship[$keyCache])) {
                     $entityCustomer = new SupplierEntity(
                         name: new InputNameObject($rs->supplierName),
@@ -53,7 +52,7 @@ class CreateUseCase
                     );
                     $cacheRelationship[$keyCache] = $this->relationship->insert($entityCustomer);
                 }*/
-                $cacheRelationship[$keyCache] = $this->relationship->find($rs->supplierId);
+                $cacheRelationship[$keyCache] = $this->relationship->find($rs->supplier);
 
                 if (($objCustomer = $cacheRelationship[$keyCache]) === null) {
                     throw new Exception('Customer not found');
@@ -66,7 +65,7 @@ class CreateUseCase
                 $objEntity = new ChargeEntity(
                     title: new InputNameObject($rs->title),
                     description: new InputNameObject($rs->description, true),
-                    relationship: new ModelObject($objCustomer->id(), $objCustomer),
+                    supplier: new ModelObject($objCustomer->id(), $objCustomer),
                     value: new InputValueObject($rsParcel->value),
                     date: $rsParcel->date,
                     base: new UuidObject($uuid),

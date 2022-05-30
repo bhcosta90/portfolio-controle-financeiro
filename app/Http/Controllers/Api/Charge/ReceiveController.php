@@ -42,7 +42,7 @@ class ReceiveController extends Controller
                 date: new DateTime($charge['date']),
                 parcel: empty($charge['parcel']) || $charge['parcel'] < 1 ? 1 : $charge['parcel'],
                 recurrence: $charge['recurrence'] ?? null,
-                customerId: $charge['customer'] ?? null,
+                customer: $charge['customer'] ?? null,
             );
         }
         $resp = $uc->handle($input);

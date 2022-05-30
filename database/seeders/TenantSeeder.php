@@ -67,7 +67,7 @@ class TenantSeeder extends Seeder
                     new ReceiveInput(
                         title: $rs['title'],
                         description: $data['description'] ?? null,
-                        customerId: $dataCache['customer'][$rs['name']]->id,
+                        customer: $dataCache['customer'][$rs['name']]->id,
                         value: $rs['value'],
                         date: new DateTime($rs['date']),
                         parcel: $rs['parcel'] ?? 1,
@@ -95,7 +95,7 @@ class TenantSeeder extends Seeder
                     new PaymentInput(
                         title: $rs['title'],
                         description: $data['description'] ?? null,
-                        supplierId: $dataCache['supplier'][$rs['name']]->id,
+                        supplier: $dataCache['supplier'][$rs['name']]->id,
                         value: $rs['value'],
                         date: new DateTime($rs['date']),
                         parcel: $rs['parcel'] ?? 1,
@@ -116,8 +116,8 @@ class TenantSeeder extends Seeder
 
     private function registerRecurrence($recurrence)
     {
-        $days = match ($recurrence) {
-            default => 30
+        $result = match ($recurrence) {
+            default => ['name' => 'Mensal', 'days' => 30]
         };
 
         /** @var RecurrenceCreateUseCase */
@@ -125,8 +125,8 @@ class TenantSeeder extends Seeder
         
         return $objRecurrence->handle(
             new RecurrenceInput(
-                name: 'Mensal',
-                days: $days
+                name: $result['name'],
+                days: $result['days']
             )
         );
     }
