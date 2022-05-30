@@ -119,7 +119,10 @@ class TenantSeeder extends Seeder
         $days = match ($recurrence) {
             default => 30
         };
+
+        /** @var RecurrenceCreateUseCase */
         $objRecurrence = app(RecurrenceCreateUseCase::class);
+        
         return $objRecurrence->handle(
             new RecurrenceInput(
                 name: 'Mensal',
