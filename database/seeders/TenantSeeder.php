@@ -27,24 +27,27 @@ class TenantSeeder extends Seeder
      */
     public function run()
     {
+        $total = 10;
+        \App\Models\User::factory()->create([
+            'name' => 'Suporte administrativo',
+            'email' => 'suporte@noreply.com',
+            'password' => '$2y$10$mZOsus8yaBMZNHH3tPQKMeEr4XACZwpqcN.VIJq2V1i01PRoYZAge',
+        ]);
+
         if (tenant()->id == '0b26c3fd-bb33-4419-867a-5aee383353f5') {
             \App\Models\User::factory()->create([
                 'name' => 'Bruno Henrique da Costa',
                 'email' => 'bhcosta90@gmail.com',
                 'password' => '$2y$10$A5txKXUODkQyLrTOdOA7g.fzu/xY5lbHtp/MkCdPX7wwKcJ9h1LFu',
             ]);
-        } else {
-            \App\Models\User::factory()->create([
-                'name' => 'Usuário administrador',
-                'email' => 'test@example.com',
-            ]);
+            $total--;
         }
 
         if (file_exists($file = storage_path('data.json'))) {
             $data = json_decode(file_get_contents($file), true);
             $dataCache = [];
 
-            foreach ($data['receive'] ?? [] as $rs) {
+            foreach (($data['receive'] ?? []) as $rs) {
                 if (empty($dataCache['customer'][$rs['name']])) {
                     $objCustomer = app(CustomerCreateUseCase::class);
                     $dataCache['customer'][$rs['name']] = $objCustomer->handle(new CustomerInput(
@@ -71,7 +74,7 @@ class TenantSeeder extends Seeder
                 ]);
             }
 
-            foreach ($data['payment'] ?? [] as $rs) {
+            foreach (($data['payment'] ?? []) as $rs) {
                 if (empty($dataCache['supplier'][$rs['name']])) {
                     $objCustomer = app(SupplierCreateUseCase::class);
                     $dataCache['supplier'][$rs['name']] = $objCustomer->handle(new SupplierInput(
@@ -97,13 +100,13 @@ class TenantSeeder extends Seeder
                 ]);
             }
 
-            foreach ($data['bank'] ?? [] as $rs) {
+            foreach (($data['bank'] ?? []) as $rs) {
                 $objBank = app(BankCreateUseCase::class);
                 $objBank->handle(new BankInput(name: $rs['name'], value: $rs['value']));
             }
         }
 
-        \App\Models\User::factory(9)->create([]);
+        \App\Models\User::factory($total - 1)->create([]);
     }
 
     private function registerRecurrence($recurrence)

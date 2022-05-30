@@ -74,7 +74,7 @@ class ChargePaymentRepository implements ChargeRepositoryInterface
         $obj->update([
             'title' => $entity->title->value,
             'description' => $entity->description?->value,
-            'date_due' => $entity->dateFinish->format('Y-m-d'),
+            'date_due' => $entity->date->format('Y-m-d'),
             'relationship_id' => $entity->relationship?->id,
             'relationship_type' => $entity->relationship ? get_class($entity->relationship) : null,
             'value_charge' => $entity->value->value,
