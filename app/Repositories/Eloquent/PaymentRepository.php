@@ -46,8 +46,7 @@ class PaymentRepository implements PaymentRepositoryInterface
         $obj = $this->findDb($entity->id);
 
         $obj->update([
-            'name' => $entity->name->value,
-            'days' => $entity->days->value,
+            'completed' => $entity->completed,
         ]);
 
         return $this->entity($obj);

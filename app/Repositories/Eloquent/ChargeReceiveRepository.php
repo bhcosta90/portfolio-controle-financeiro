@@ -42,6 +42,7 @@ class ChargeReceiveRepository implements ChargeRepositoryInterface
             id: new UuidObject($entity->id),
             createdAt: new DateTime($entity->created_at),
             payValue: new InputValueObject($entity->value_pay, true),
+            status: ChargeStatusEnum::from($entity->status),
         );
     }
 

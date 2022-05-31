@@ -23,7 +23,11 @@ class PaymentEntity extends EntityAbstract
         protected ?DateTime $createdAt = null,
     ) {
         parent::__construct();
-
         $this->completed = (new DateTime())->format('Y-m-d') >= $this->date->format('Y-m-d');
+    }
+
+    public function completed($completed = true)
+    {
+        $this->completed = $completed;
     }
 }

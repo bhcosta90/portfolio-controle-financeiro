@@ -14,7 +14,6 @@ use DateTime;
 
 class ChargeEntity extends EntityAbstract
 {
-    protected ChargeStatusEnum $status = ChargeStatusEnum::PENDING;
     protected ChargeTypeEnum $type = ChargeTypeEnum::CREDIT;
 
     public function __construct(
@@ -24,6 +23,7 @@ class ChargeEntity extends EntityAbstract
         protected InputValueObject $value,
         protected DateTime $date,
         protected UuidObject $base,
+        protected ChargeStatusEnum $status = ChargeStatusEnum::PENDING,
         protected ?DateTime $dateStart = null,
         protected ?DateTime $dateFinish = null,
         protected ?UuidObject $recurrence = null,
@@ -60,6 +60,10 @@ class ChargeEntity extends EntityAbstract
 
     public function pay(float $transaction, $forceCompleted = false)
     {
+        if ($this->status == ChargeStatusEnum::COMPLETED) {
+            throw new DomainValidationException("This charge is now complete.");
+        }
+
         $varPayValue = $this->payValue->value + $transaction;
 
         if ($varPayValue > $this->value->value) {
