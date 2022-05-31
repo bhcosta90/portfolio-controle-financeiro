@@ -4,8 +4,10 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\Charge;
 use App\Repositories\Presenters\PaginatorPresenter;
+use Carbon\Carbon;
 use Costa\Modules\Charge\Payment\Entity\ChargeEntity;
 use Costa\Modules\Charge\Payment\Repository\ChargeRepositoryInterface;
+use Costa\Modules\Charge\Utils\Enums\ChargeStatusEnum;
 use Costa\Modules\Charge\Utils\ValueObject\ParcelObject;
 use Costa\Modules\Relationship\Supplier\Entity\SupplierEntity;
 use Costa\Shared\Abstracts\EntityAbstract;
@@ -48,8 +50,8 @@ class ChargePaymentRepository implements ChargeRepositoryInterface
         $obj = $this->model->create([
             'id' => $entity->id(),
             'recurrence_id' => $entity->recurrence,
-            'relationship_id' => $entity->relationship?->id,
-            'relationship_type' => $entity->relationship ? get_class($entity->relationship) : null,
+            'relationship_id' => $entity->supplier?->id,
+            'relationship_type' => $entity->supplier?->type,
             'uuid' => $entity->base,
             'title' => $entity->title->value,
             'description' => $entity->description?->value,
@@ -76,7 +78,7 @@ class ChargePaymentRepository implements ChargeRepositoryInterface
             'description' => $entity->description?->value,
             'date_due' => $entity->date->format('Y-m-d'),
             'relationship_id' => $entity->supplier?->id,
-            'relationship_type' => $entity->supplier ? get_class($entity->supplier) : null,
+            'relationship_type' => $entity->supplier?->type,
             'value_charge' => $entity->value->value,
             'recurrence_id' => $entity->recurrence,
         ]);
@@ -106,7 +108,7 @@ class ChargePaymentRepository implements ChargeRepositoryInterface
 
     public function paginate(?array $filter = null, ?int $page = 1, ?int $totalPage = 15): PaginationInterface
     {
-        $result = $this->toSql()
+        $result = $this->toSql($filter)
             ->orderBy('charges.date_due', 'asc');
 
         return new PaginatorPresenter($result->paginate(
@@ -136,7 +138,7 @@ class ChargePaymentRepository implements ChargeRepositoryInterface
             'id' => $entity->id(),
             'recurrence_id' => $entity->recurrence,
             'relationship_id' => $entity->supplier?->id,
-            'relationship_type' => $entity->supplier ? get_class($entity->supplier) : null,
+            'relationship_type' => $entity->supplier?->type,
             'uuid' => $entity->base,
             'title' => $entity->title->value,
             'description' => $entity->description?->value,
@@ -151,7 +153,7 @@ class ChargePaymentRepository implements ChargeRepositoryInterface
             'entity' => get_class($entity),
         ]);
 
-        return $this->entity($obj);        
+        return $this->entity($obj);
     }
 
     private function toSql(?array $filter = null)
@@ -159,7 +161,44 @@ class ChargePaymentRepository implements ChargeRepositoryInterface
         return $this->model
             ->select('charges.*', 'relationships.name as relationship_name')
             ->join('relationships', fn ($q) => $q->on('relationships.id', '=', 'charges.relationship_id')
-            ->where('relationships.entity', SupplierEntity::class))
-            ->where('charges.entity', ChargeEntity::class);
+                ->where('relationships.entity', SupplierEntity::class))
+            ->where('charges.entity', ChargeEntity::class)
+            ->where(fn ($q) => ($f = $filter['name'] ?? null) ? $q->where('relationships.name', 'like', "%{$f}%") : null)
+            ->where(fn ($q) => $this->filterByDate($q, $filter));
+    }
+
+    private function filterByDate(\Illuminate\Database\Eloquent\Builder $q, ?array $filter = [])
+    {
+        $dateParam = $filter['month'] ?? null;
+
+        if ($dateParam) {
+            $dateStart = $filter['date_start'] ?? (new Carbon(
+                str_pad($dateParam, 10, "01-", STR_PAD_LEFT)
+            ))->firstOfMonth()->format('Y-m-d');
+            $dateFinish = $filter['date_finish'] ?? (new Carbon(
+                str_pad($dateParam, 10, "01-", STR_PAD_LEFT)
+            ))->lastOfMonth()->format('Y-m-d');
+        } else {
+            $dateStart = $filter['date_start'] ?? Carbon::now()->firstOfMonth()->format('Y-m-d');
+            $dateFinish = $filter['date_finish'] ?? Carbon::now()->lastOfMonth()->format('Y-m-d');
+        }
+
+        $type = $filter['type'] ?? 0;
+
+        $q->where(function ($query) use ($type, $dateStart, $dateFinish) {
+            $query->where(function ($query) use ($dateStart, $dateFinish) {
+                $query->where(fn ($query) => $query->where('charges.date_due', '>=', $dateStart))
+                    ->where(fn ($query) => $query->where('charges.date_due', '<=', $dateFinish));
+            })->orWhere(fn ($query) => in_array($type, [0, 2, 5]) && !empty($dateStart) ? $query->where('charges.date_due', '<', $dateStart) : null);
+        });
+
+        match ($filter['type'] ?? null) {
+            '1' => $q->whereIn('charges.status', [ChargeStatusEnum::PENDING->value, ChargeStatusEnum::PARTIAL->value]),
+            '2', '3' => $q->whereIn('charges.status', [ChargeStatusEnum::PENDING->value, ChargeStatusEnum::PARTIAL->value, ChargeStatusEnum::COMPLETED->value]),
+            '4' => $q->whereIn('charges.status', [ChargeStatusEnum::COMPLETED->value]),
+            '5' => $q->where('charges.date_due', '<=', Carbon::now()->format('Y-m-d'))
+                ->whereIn('charges.status', [ChargeStatusEnum::PENDING->value, ChargeStatusEnum::PARTIAL->value]),
+            default => $q->whereNot('charges.status', ChargeStatusEnum::COMPLETED->value),
+        };
     }
 }

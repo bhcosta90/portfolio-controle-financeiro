@@ -56,4 +56,9 @@ class ChargeEntity extends EntityAbstract
         $this->date = $date;
         $this->recurrence = $recurrence;
     }
+
+    public function pay()
+    {
+        
+    }
 }

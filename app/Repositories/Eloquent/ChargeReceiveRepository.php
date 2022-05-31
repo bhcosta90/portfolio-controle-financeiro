@@ -51,7 +51,7 @@ class ChargeReceiveRepository implements ChargeRepositoryInterface
             'id' => $entity->id(),
             'recurrence_id' => $entity->recurrence,
             'relationship_id' => $entity->customer?->id,
-            'relationship_type' => $entity->customer ? get_class($entity->customer) : null,
+            'relationship_type' => $entity->customer?->type,
             'uuid' => $entity->base,
             'title' => $entity->title->value,
             'description' => $entity->description?->value,
@@ -77,8 +77,8 @@ class ChargeReceiveRepository implements ChargeRepositoryInterface
             'title' => $entity->title->value,
             'description' => $entity->description?->value,
             'date_due' => $entity->date->format('Y-m-d'),
-            'relationship_id' => $entity->relationship?->id,
-            'relationship_type' => $entity->relationship ? get_class($entity->relationship) : null,
+            'relationship_id' => $entity->customer?->id,
+            'relationship_type' => $entity->customer?->type,
             'value_charge' => $entity->value->value,
             'recurrence_id' => $entity->recurrence,
         ]);
@@ -138,7 +138,7 @@ class ChargeReceiveRepository implements ChargeRepositoryInterface
             'id' => $entity->id(),
             'recurrence_id' => $entity->recurrence,
             'relationship_id' => $entity->customer?->id,
-            'relationship_type' => $entity->customer ? get_class($entity->customer) : null,
+            'relationship_type' => $entity->customer?->type,
             'uuid' => $entity->base,
             'title' => $entity->title->value,
             'description' => $entity->description?->value,
@@ -163,6 +163,7 @@ class ChargeReceiveRepository implements ChargeRepositoryInterface
             ->join('relationships', fn ($q) => $q->on('relationships.id', '=', 'charges.relationship_id')
                 ->where('relationships.entity', CustomerEntity::class))
             ->where('charges.entity', ChargeEntity::class)
+            ->where(fn ($q) => ($f = $filter['name'] ?? null) ? $q->where('relationships.name', 'like', "%{$f}%") : null)
             ->where(fn ($q) => $this->filterByDate($q, $filter));
     }
 
@@ -190,12 +191,6 @@ class ChargeReceiveRepository implements ChargeRepositoryInterface
                     ->where(fn ($query) => $query->where('charges.date_due', '<=', $dateFinish));
             })->orWhere(fn ($query) => in_array($type, [0, 2, 5]) && !empty($dateStart) ? $query->where('charges.date_due', '<', $dateStart) : null);
         });
-
-        $q->whereNot('charges.status', ChargeStatusEnum::COMPLETED->value);
-
-        if ($f = $filter['description'] ?? null) {
-            $q->where('charges.title', 'like', "%{$f}%");
-        }
 
         match ($filter['type'] ?? null) {
             '1' => $q->whereIn('charges.status', [ChargeStatusEnum::PENDING->value, ChargeStatusEnum::PARTIAL->value]),
