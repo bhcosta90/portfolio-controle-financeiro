@@ -19,7 +19,8 @@ class Kernel extends ConsoleKernel
     {
         $date = (new DateTime())->format('Y-m-d');
         $schedule->command("tenant:run payment:schedule --option='date={$date}'")->dailyAt('10:00:00');
-        $schedule->call(fn() => Http::get('http://controlefinanceiro.bhcosta90.dev.br'))->everyFiveMinutes();
+        $schedule->command("queue:work --stop-when-empty")->everyMinute();
+        $schedule->call(fn() => Http::get('http://controlefinanceiro.bhcosta90.dev.br'))->everyTwoMinutes();
     }
 
     /**

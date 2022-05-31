@@ -82,6 +82,8 @@ class ChargeReceiveRepository implements ChargeRepositoryInterface
             'relationship_type' => $entity->customer?->type,
             'value_charge' => $entity->value->value,
             'recurrence_id' => $entity->recurrence,
+            'status' => $entity->status->value,
+            'value_pay' => $entity->payValue->value,
         ]);
 
         return $this->entity($obj);

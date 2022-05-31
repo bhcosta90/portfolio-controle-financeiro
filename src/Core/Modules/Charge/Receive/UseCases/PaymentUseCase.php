@@ -6,11 +6,14 @@ use Costa\Modules\Account\Repository\AccountRepositoryInterface;
 use Costa\Modules\Bank\Entity\BankEntity;
 use Costa\Modules\Charge\Receive\Entity\ChargeEntity;
 use Costa\Modules\Charge\Receive\Repository\ChargeRepositoryInterface;
+use Costa\Modules\Charge\Utils\Enums\ChargeStatusEnum;
 use Costa\Modules\Payment\Contracts\PaymentEventManagerContract;
 use Costa\Modules\Payment\Entity\PaymentEntity;
 use Costa\Modules\Payment\Repository\PaymentRepositoryInterface;
 use Costa\Modules\Payment\Shared\Enums\PaymentType;
+use Costa\Modules\Recurrence\Repository\RecurrenceRepositoryInterface;
 use Costa\Shared\Contracts\TransactionContract;
+use Costa\Shared\Utils\CalculateDate;
 use Costa\Shared\ValueObject\ModelObject;
 use Throwable;
 
@@ -21,7 +24,8 @@ class PaymentUseCase
         protected PaymentEventManagerContract $paymentEventManager,
         protected AccountRepositoryInterface $accountRepository,
         protected TransactionContract $transaction,
-        protected PaymentRepositoryInterface $payment
+        protected PaymentRepositoryInterface $payment,
+        protected RecurrenceRepositoryInterface $recurrence,
     ) {
         //
     }
@@ -51,6 +55,24 @@ class PaymentUseCase
             $this->payment->insert($objPayment);
             $this->paymentEventManager->dispatch($objPayment);
             $this->repo->update($objCharge);
+            
+            if ($objCharge->status == ChargeStatusEnum::COMPLETED && $objCharge->recurrence) {
+                /** @var RecurrenceEntity */
+                $objRecurrence = $this->recurrence->find($objCharge->recurrence);
+
+                $objNewCharge = new ChargeEntity(
+                    title: $objCharge->title,
+                    description: $objCharge->description,
+                    customer: $objCharge->customer,
+                    value: $objCharge->value,
+                    date: (new CalculateDate($objCharge->date, $objRecurrence->days->value))->handle(),
+                    base: $objCharge->base,
+                    recurrence: $objCharge->recurrence,
+                );
+
+                $this->repo->insert($objNewCharge);
+            }
+            
             $this->transaction->commit();
 
             return new DTO\Payment\Output(
