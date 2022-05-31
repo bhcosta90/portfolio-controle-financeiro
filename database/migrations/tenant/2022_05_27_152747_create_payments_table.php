@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('charge_id')->constrained('charges');
-            $table->foreignUuid('account_id')->constrained('accounts');
-            $table->foreignUuid('bank_id')->nullable()->constrained('banks');
+            $table->foreignUuid('account_from_id')->nullable()->constrained('accounts');
+            $table->foreignUuid('account_to_id')->nullable()->constrained('accounts');
             $table->foreignUuid('relationship_id')->nullable()->constrained('relationships');
             $table->date('date_schedule')->nullable();
             $table->unsignedTinyInteger('type');

@@ -82,7 +82,9 @@ class PaymentController extends Controller
         $resp = $uc->handle(new PaymentInput(
             id: $id,
             value: $request->value,
+            charge: $request->charge ?? $request->value,
             date: new DateTime($request->date),
+            bank: $request->bank
         ));
 
         return response()->json(['data' => $resp]);

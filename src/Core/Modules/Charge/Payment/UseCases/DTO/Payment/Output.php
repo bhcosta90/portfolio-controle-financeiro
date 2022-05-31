@@ -9,10 +9,11 @@ class Output
         public string $charge,
         public string $date,
         public float $value,
-        public array $accountFrom,
-        public array $accountTo,
+        public string $accountFrom,
+        public string $accountTo,
         public string $id,
-        public string $createdAt,
+        public string $created_at,
+        public bool $completed,
     ) {
         //
     }

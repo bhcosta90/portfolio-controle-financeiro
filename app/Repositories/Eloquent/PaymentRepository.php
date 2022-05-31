@@ -2,19 +2,23 @@
 
 namespace App\Repositories\Eloquent;
 
-use App\Models\Account;
+use App\Models\Payment;
 use App\Repositories\Presenters\PaginatorPresenter;
-use Costa\Modules\Account\Entity\AccountEntity;
-use Costa\Modules\Account\Repository\AccountRepositoryInterface;
+use Costa\Modules\Payment\Entity\PaymentEntity;
+use Costa\Modules\Payment\Repository\PaymentRepositoryInterface;
+use Costa\Modules\Payment\Shared\Enums\PaymentType;
 use Costa\Shared\Abstracts\EntityAbstract;
 use Costa\Shared\Contracts\PaginationInterface;
+use Costa\Shared\ValueObject\Input\InputIntObject;
+use Costa\Shared\ValueObject\Input\InputNameObject;
 use Costa\Shared\ValueObject\ModelObject;
 use Costa\Shared\ValueObject\UuidObject;
+use DateTime;
 
-class AccountRepository implements AccountRepositoryInterface
+class PaymentRepository implements PaymentRepositoryInterface
 {
     public function __construct(
-        protected Account $model,
+        protected Payment $model,
     ) {
         //  
     }
@@ -23,9 +27,15 @@ class AccountRepository implements AccountRepositoryInterface
     {
         $obj = $this->model->create([
             'id' => $entity->id(),
-            'entity_type' => $entity->entity->type,
-            'entity_id' => $entity->entity->id,
-            'value' => $entity->value,
+            'charge_id' => $entity->charge,
+            'account_from_id' => $entity->accountFrom,
+            'account_to_id' => $entity->accountTo,
+            'relationship_id' => $entity->relationship,
+            'date_schedule' => $entity->date->format('Y-m-d'),
+            'value_transaction' => $entity->value,
+            'value_payment' => $entity->value,
+            'completed' => $entity->completed,
+            'type' => $entity->type->value,
         ]);
 
         return $this->entity($obj);
@@ -36,7 +46,8 @@ class AccountRepository implements AccountRepositoryInterface
         $obj = $this->findDb($entity->id);
 
         $obj->update([
-            'value' => $entity->value,
+            'name' => $entity->name->value,
+            'days' => $entity->days->value,
         ]);
 
         return $this->entity($obj);
@@ -77,34 +88,18 @@ class AccountRepository implements AccountRepositoryInterface
         return $this->model->pluck('name', 'id')->toArray();
     }
 
-    public function findByEntity(ModelObject $entity): AccountEntity
-    {
-        $obj = $this->model->where('entity_type', $entity->type)
-            ->where('entity_id', $entity->id)
-            ->firstOrFail();
-        return $this->entity($obj);
-    }
-
-    public function incrementValue(int|string $entity, float $value): AccountEntity
-    {
-        $obj = $this->findDb($entity);
-        $obj->increment('value', (float) abs($value));
-        return $this->entity($obj);
-    }
-
-    public function decrementValue(int|string $entity, float $value): AccountEntity
-    {
-        $obj = $this->findDb($entity);
-        $obj->decrement('value', (float) abs($value));
-        return $this->entity($obj);
-    }
-
     protected function entity(object $entity)
     {
-        return new AccountEntity(
-            new ModelObject($entity->entity_id, $entity->entity_type),
-            $entity->value,
-            new UuidObject($entity->id)
+        return new PaymentEntity(
+            relationship: $entity->relationship_id,
+            charge: $entity->charge_id,
+            date: new DateTime($entity->date_schedule),
+            value: $entity->value_payment,
+            accountFrom: $entity->account_from_id,
+            accountTo: $entity->account_to_id,
+            id: new UuidObject($entity->id),
+            createdAt: new DateTime($entity->create_at),
+            type: PaymentType::from($entity->type)
         );
     }
 }
