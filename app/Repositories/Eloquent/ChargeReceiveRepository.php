@@ -94,7 +94,7 @@ class ChargeReceiveRepository implements ChargeRepositoryInterface
 
     public function findDb(string|int $key): object|array
     {
-        return $this->model->find($key);
+        return $this->model->where('entity', ChargeEntity::class)->where('id', $key)->first();
     }
 
     public function exist(string|int $key): bool

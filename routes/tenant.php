@@ -46,8 +46,9 @@ Route::middleware([
 
     Route::prefix('charge')->group(function () {
         Route::resource('receive', ReceiveController::class);
-        Route::resource('payment', PaymentController::class);
+        Route::post('receive/{id}/pay', [ReceiveController::class, 'pay']);
 
+        Route::resource('payment', PaymentController::class);
         Route::post('payment/{id}/pay', [PaymentController::class, 'pay']);
     });
 });

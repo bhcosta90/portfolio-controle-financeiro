@@ -5,6 +5,7 @@ namespace Costa\Modules\Charge\Receive\Entity;
 use Costa\Modules\Charge\Utils\Enums\ChargeStatusEnum;
 use Costa\Modules\Charge\Utils\Enums\ChargeTypeEnum;
 use Costa\Shared\Abstracts\EntityAbstract;
+use Costa\Shared\Validations\Exceptions\DomainValidationException;
 use Costa\Shared\ValueObject\Input\InputNameObject;
 use Costa\Shared\ValueObject\Input\InputValueObject;
 use Costa\Shared\ValueObject\ModelObject;
@@ -55,5 +56,24 @@ class ChargeEntity extends EntityAbstract
         $this->value = $value;
         $this->date = $date;
         $this->recurrence = $recurrence;
+    }
+
+    public function pay(float $transaction, $forceCompleted = false)
+    {
+        if ($this->status == ChargeStatusEnum::COMPLETED) {
+            throw new DomainValidationException("This charge is now complete.");
+        }
+
+        $varPayValue = $this->payValue->value + $transaction;
+
+        if ($varPayValue > $this->value->value) {
+            throw new DomainValidationException("Payment amount is higher than the billing amount");
+        }
+
+        $this->status = $varPayValue == $this->value->value || $forceCompleted
+            ? ChargeStatusEnum::COMPLETED
+            : ChargeStatusEnum::PARTIAL;
+
+        $this->payValue = new InputValueObject($varPayValue);
     }
 }

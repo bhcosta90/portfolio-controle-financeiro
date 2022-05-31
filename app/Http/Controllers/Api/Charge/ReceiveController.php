@@ -8,7 +8,8 @@ use Costa\Modules\Charge\Receive\UseCases\{
     UpdateUseCase,
     FindUseCase,
     DeleteUseCase,
-    ListUseCase
+    ListUseCase,
+    PaymentUseCase
 };
 
 use Costa\Modules\Charge\Receive\UseCases\DTO\{
@@ -16,6 +17,7 @@ use Costa\Modules\Charge\Receive\UseCases\DTO\{
     Update\Input as UpdateInput,
     Find\Input as FindInput,
     List\Input as ListInput,
+    Payment\Input as PaymentInput,
 };
 use DateTime;
 use Illuminate\Http\Request;
@@ -74,5 +76,17 @@ class ReceiveController extends Controller
     {
         $uc->handle(new FindInput($id));
         return response()->noContent();
+    }
+
+    public function pay(PaymentUseCase $uc, string $id, Request $request){
+        $resp = $uc->handle(new PaymentInput(
+            id: $id,
+            value: $request->value,
+            charge: $request->charge ?? $request->value,
+            date: new DateTime($request->date),
+            bank: $request->bank
+        ));
+
+        return response()->json(['data' => $resp]);
     }
 }

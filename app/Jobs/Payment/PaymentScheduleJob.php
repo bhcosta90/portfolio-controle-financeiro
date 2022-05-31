@@ -18,14 +18,19 @@ class PaymentScheduleJob implements ShouldQueue, ShouldBeUnique
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    private string $tenantId;
+
+    private PaymentEntity $payment;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(private string $tenantId, private PaymentEntity $payment)
+    public function __construct(string $tenantId, PaymentEntity $payment)
     {
-        // tenancy()->initialize($tenant);
+        $this->tenantId = $tenantId;
+        $this->payment = $payment;
     }
 
     /**
