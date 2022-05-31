@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events\Payment;
+namespace App\Events;
 
 use Costa\Modules\Account\Repository\AccountRepositoryInterface;
 use Costa\Modules\Payment\Contracts\PaymentEventManagerContract;

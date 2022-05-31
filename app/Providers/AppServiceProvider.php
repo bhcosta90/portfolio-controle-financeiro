@@ -2,9 +2,8 @@
 
 namespace App\Providers;
 
-use App\Events\Payment\{
-    PaymentEventManager as PaymentPaymentEventManager
-};
+use App\Events\PaymentEventManager;
+
 use App\Repositories\Eloquent\{
     AccountRepository,
     BankRepository,
@@ -53,7 +52,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(BankRepositoryInterface::class, BankRepository::class);
         $this->app->singleton(ReceiveRepositoryInterface::class, ChargeReceiveRepository::class);
         $this->app->singleton(PaymentRepositoryInterface::class, ChargePaymentRepository::class);
-        $this->app->singleton(PaymentEventManagerContract::class, PaymentPaymentEventManager::class);
+        $this->app->singleton(PaymentEventManagerContract::class, PaymentEventManager::class);
         $this->app->singleton(RepositoryPaymentRepositoryInterface::class, PaymentRepository::class);
     }
 
