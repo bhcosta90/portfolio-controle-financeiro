@@ -54,8 +54,8 @@ class PaymentScheduleCommand extends Command
                 createdAt: new DateTime($rs->created_at)
             );
             $payment->completed();
-
             dispatch(new PaymentScheduleJob((string) tenant()->id, $payment));
+            sleep(1);
         }
         return 0;
     }
