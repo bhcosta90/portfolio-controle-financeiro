@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs\Payment;
+namespace App\Jobs;
 
 use Costa\Modules\Payment\Contracts\PaymentEventManagerContract;
 use Illuminate\Bus\Queueable;

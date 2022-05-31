@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Console\Commands\Payment;
+namespace App\Console\Commands;
 
-use App\Jobs\Payment\PaymentScheduleJob;
+use App\Jobs\PaymentScheduleJob;
 use Costa\Modules\Payment\Entity\PaymentEntity;
 use Costa\Modules\Payment\Shared\Enums\PaymentType;
 use Costa\Shared\ValueObject\UuidObject;
