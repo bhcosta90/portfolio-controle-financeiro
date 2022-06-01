@@ -9,7 +9,6 @@ use Costa\Modules\Charge\Receive\Repository\ChargeRepositoryInterface;
 use Costa\Modules\Charge\Utils\Enums\ChargeStatusEnum;
 use Costa\Modules\Payment\Contracts\PaymentEventManagerContract;
 use Costa\Modules\Payment\Entity\PaymentEntity;
-use Costa\Modules\Payment\Events\PaymentEvent;
 use Costa\Modules\Payment\Repository\PaymentRepositoryInterface;
 use Costa\Modules\Payment\Shared\Enums\PaymentType;
 use Costa\Modules\Recurrence\Repository\RecurrenceRepositoryInterface;
@@ -53,9 +52,10 @@ class PaymentUseCase
         );
         
         try {
-            $this->payment->insert($objPayment);
-            $this->paymentEventManager->dispatch(new PaymentEvent($objPayment));
             $this->repo->update($objCharge);
+            
+            $this->payment->insert($objPayment);
+            $objPayment->dispatch($this->paymentEventManager);
             
             if ($objCharge->status == ChargeStatusEnum::COMPLETED && $objCharge->recurrence) {
                 /** @var RecurrenceEntity */

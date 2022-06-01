@@ -55,8 +55,10 @@ class PaymentUseCase
         
         try {
             $this->payment->insert($objPayment);
-            $this->paymentEventManager->dispatch(new PaymentEvent($objPayment));
             $this->repo->update($objCharge);
+            
+            $this->payment->insert($objPayment);
+            $objPayment->dispatch($this->paymentEventManager);
 
             if ($objCharge->status == ChargeStatusEnum::COMPLETED && $objCharge->recurrence) {
                 /** @var RecurrenceEntity */

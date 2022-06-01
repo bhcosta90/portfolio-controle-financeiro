@@ -2,6 +2,8 @@
 
 namespace Costa\Modules\Payment\Entity;
 
+use Costa\Modules\Payment\Contracts\PaymentEventManagerContract;
+use Costa\Modules\Payment\Events\PaymentEvent;
 use Costa\Modules\Payment\Shared\Enums\PaymentType;
 use Costa\Shared\Abstracts\EntityAbstract;
 use Costa\Shared\ValueObject\UuidObject;
@@ -29,5 +31,10 @@ class PaymentEntity extends EntityAbstract
     public function completed($completed = true)
     {
         $this->completed = $completed;
+    }
+
+    public function dispatch(PaymentEventManagerContract $event)
+    {
+        $event->dispatch(new PaymentEvent($this));
     }
 }
