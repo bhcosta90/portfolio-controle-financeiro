@@ -26,6 +26,7 @@ use Costa\Modules\Relationship\Customer\Repository\CustomerRepositoryInterface;
 use Costa\Modules\Relationship\Supplier\Repository\SupplierRepositoryInterface;
 use Costa\Shared\Contracts\TransactionContract;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
