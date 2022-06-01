@@ -54,7 +54,6 @@ class PaymentUseCase
         );
         
         try {
-            $this->payment->insert($objPayment);
             $this->repo->update($objCharge);
             
             $this->payment->insert($objPayment);
