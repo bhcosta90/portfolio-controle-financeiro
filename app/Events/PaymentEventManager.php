@@ -4,7 +4,7 @@ namespace App\Events;
 
 use Costa\Modules\Account\Repository\AccountRepositoryInterface;
 use Costa\Modules\Payment\Contracts\PaymentEventManagerContract;
-use Costa\Modules\Payment\Entity\PaymentEntity;
+use Costa\Modules\Payment\Events\PaymentEvent;
 
 class PaymentEventManager implements PaymentEventManagerContract
 {
@@ -14,12 +14,14 @@ class PaymentEventManager implements PaymentEventManagerContract
     {
         
     }
-    /** @param PaymentEntity $data */
+    /** @param PaymentEvent $data */
     public function dispatch(object $data): void
     {
-        if ($data->completed) {
-            $data->accountFrom ? $this->accountRepository->decrementValue($data->accountFrom, $data->value) : null;
-            $data->accountTo ? $this->accountRepository->incrementValue($data->accountTo, $data->value) : null;
+        $rs = $data->getPayload();
+
+        if ($rs['completed'] ?? false) {
+            $rs['account_from'] ? $this->accountRepository->decrementValue($rs['account_from'], $rs['value']) : null;
+            $rs['account_to'] ? $this->accountRepository->incrementValue($rs['account_to'], $rs['value']) : null;
         }
     }
 }

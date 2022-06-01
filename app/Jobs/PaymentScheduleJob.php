@@ -9,6 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Costa\Modules\Payment\Entity\PaymentEntity;
+use Costa\Modules\Payment\Events\PaymentEvent;
 use Costa\Modules\Payment\Repository\PaymentRepositoryInterface;
 use Costa\Modules\Payment\Shared\Enums\PaymentType;
 use Costa\Shared\Contracts\TransactionContract;
@@ -60,7 +61,7 @@ class PaymentScheduleJob implements ShouldQueue
                     createdAt: new DateTime($rs->created_at)
                 );
                 $objPayment->completed();
-                $paymentEventManager->dispatch($objPayment);
+                $paymentEventManager->dispatch(new PaymentEvent($objPayment));
                 $repo->update($objPayment);
                 $transaction->commit();
             }
