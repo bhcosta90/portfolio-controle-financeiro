@@ -10,10 +10,10 @@ class PaymentEventManager implements PaymentEventManagerContract
 {
     public function __construct(
         protected AccountRepositoryInterface $accountRepository
-    )
-    {
-        
+    ) {
+        //
     }
+
     /** @param PaymentEvent $data */
     public function dispatch(object $data): void
     {
