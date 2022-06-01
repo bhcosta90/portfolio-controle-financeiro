@@ -48,7 +48,7 @@ class PaymentUseCase
             value: $input->value,
             accountFrom: $account,
             accountTo: $bank ? $bank : null,
-            type: PaymentType::DEBIT,
+            type: PaymentType::CREDIT,
         );
         
         try {

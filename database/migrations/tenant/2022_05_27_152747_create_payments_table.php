@@ -28,6 +28,8 @@ return new class extends Migration
             $table->softDeletes();
 
             $table->index(['completed', 'date_schedule']);
+            $table->index(['completed', 'date_schedule', 'account_from_id']);
+            $table->index(['completed', 'date_schedule', 'account_to_id']);
         });
     }
 

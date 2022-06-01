@@ -4,30 +4,32 @@ namespace App\Jobs;
 
 use Costa\Modules\Payment\Contracts\PaymentEventManagerContract;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Costa\Modules\Payment\Entity\PaymentEntity;
 use Costa\Modules\Payment\Repository\PaymentRepositoryInterface;
+use Costa\Modules\Payment\Shared\Enums\PaymentType;
 use Costa\Shared\Contracts\TransactionContract;
+use Costa\Shared\ValueObject\UuidObject;
+use DateTime;
 use Throwable;
 
-class PaymentScheduleJob implements ShouldQueue, ShouldBeUnique
+class PaymentScheduleJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private string $tenantId;
 
-    private PaymentEntity $payment;
+    private object $payment;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(string $tenantId, PaymentEntity $payment)
+    public function __construct(string $tenantId, object $payment)
     {
         $this->tenantId = $tenantId;
         $this->payment = $payment;
@@ -45,18 +47,27 @@ class PaymentScheduleJob implements ShouldQueue, ShouldBeUnique
     ) {
         try {
             tenancy()->initialize($this->tenantId);
-            $paymentEventManager->dispatch($this->payment);
-            $repo->update($this->payment);
-            $transaction->commit();
+            foreach ($this->payment as $rs) {
+                $objPayment = new PaymentEntity(
+                    relationship: $rs->relationship_id,
+                    charge: $rs->charge_id,
+                    date: new DateTime($rs->date_schedule),
+                    value: $rs->value_payment,
+                    type: PaymentType::from($rs->type),
+                    accountFrom: $rs->account_from_id,
+                    accountTo: $rs->account_to_id,
+                    id: new UuidObject($rs->id),
+                    createdAt: new DateTime($rs->created_at)
+                );
+                $objPayment->completed();
+                $paymentEventManager->dispatch($objPayment);
+                $repo->update($objPayment);
+                $transaction->commit();
+            }
             tenancy()->end();
         } catch (Throwable $e) {
             $transaction->rollback();
             throw $e;
         }
-    }
-
-    public function uniqueId()
-    {
-        return $this->tenantId . $this->payment->id();
     }
 }

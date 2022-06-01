@@ -33,30 +33,68 @@ class PaymentScheduleCommand extends Command
      */
     public function handle()
     {
-        $date = (new DateTime(str_pad($this->option('date'),10, "01-", STR_PAD_LEFT)))->format('Y-m-d');
+        $date = (new DateTime(str_pad($this->option('date'), 10, "01-", STR_PAD_LEFT)))->format('Y-m-d');
+        $tenantId = tenant()->id;
 
-        $results = DB::table('payments')->where('completed', false)
-            ->where('date_schedule', $date)
-            ->select()
-            ->orderBy('created_at')
-            ->get();
+        $i = 0;
 
-        foreach ($results as $rs) {
-            $payment = new PaymentEntity(
-                relationship: $rs->relationship_id,
-                charge: $rs->charge_id,
-                date: new DateTime($rs->date_schedule),
-                value: $rs->value_payment,
-                type: PaymentType::from($rs->type),
-                accountFrom: $rs->account_from_id,
-                accountTo: $rs->account_to_id,
-                id: new UuidObject($rs->id),
-                createdAt: new DateTime($rs->created_at)
-            );
-            $payment->completed();
-            dispatch(new PaymentScheduleJob((string) tenant()->id, $payment));
-            sleep(1);
-        }
+        do {
+            tenancy()->initialize($tenantId);
+            $results = DB::table('payments')->where('completed', false)
+                ->where('date_schedule', '<=', $date)
+                ->select('account_from_id')
+                ->limit($total = 1000)
+                ->whereNotNull('account_from_id')
+                ->groupBy('account_from_id')
+                ->offset($i)
+                ->get();
+
+            foreach ($results as $rs) {
+                tenancy()->initialize($tenantId);
+                do {
+                    $results = DB::table('payments')->where('completed', false)
+                        ->where('date_schedule', '<=', $date)
+                        ->select()
+                        ->orderBy('created_at')
+                        ->limit($total)
+                        ->where('account_from_id', $rs->account_from_id)
+                        ->offset($i)
+                        ->get();
+
+                    dispatch(new PaymentScheduleJob((string) tenant()->id, $results));
+                } while ($results->count() == $total);
+            }
+        } while ($results->count() == $total);
+
+        $i = 0;
+        do {
+            tenancy()->initialize($tenantId);
+            $results = DB::table('payments')->where('completed', false)
+                ->where('date_schedule', '<=', $date)
+                ->select('account_to_id')
+                ->limit($total = 1000)
+                ->whereNotNull('account_to_id')
+                ->groupBy('account_to_id')
+                ->offset($i)
+                ->get();
+
+            foreach ($results as $rs) {
+                tenancy()->initialize($tenantId);
+                do {
+                    $results = DB::table('payments')->where('completed', false)
+                        ->where('date_schedule', '<=', $date)
+                        ->select()
+                        ->orderBy('created_at')
+                        ->limit($total)
+                        ->where('account_to_id', $rs->account_to_id)
+                        ->offset($i)
+                        ->get();
+
+                    dispatch(new PaymentScheduleJob((string) tenant()->id, $results));
+                } while ($results->count() == $total);
+            }
+        } while ($results->count() == $total);
+
         return 0;
     }
 }

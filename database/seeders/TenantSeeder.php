@@ -17,6 +17,7 @@ use Costa\Modules\Recurrence\UseCases\DTO\Create\Input as RecurrenceInput;
 use Costa\Modules\Bank\UseCases\DTO\Create\Input as BankInput;
 use DateTime;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class TenantSeeder extends Seeder
 {
@@ -63,7 +64,7 @@ class TenantSeeder extends Seeder
 
                 /** @var ReceiveCreateUseCase */
                 $objCharge = app(ReceiveCreateUseCase::class);
-                $objCharge->handle([
+                $ret = $objCharge->handle([
                     new ReceiveInput(
                         title: $rs['title'],
                         description: $data['description'] ?? null,
@@ -74,6 +75,11 @@ class TenantSeeder extends Seeder
                         recurrence: !empty($rs['recurrence']) ? $dataCache['recurrence'][$rs['recurrence']]->id : null,
                     )
                 ]);
+                
+                if (!empty($rs['id'])) {
+                    DB::table('charges')->where('id', $ret[0][0]->id)->update(['id' => $rs['id']]);
+                }
+
             }
 
             foreach (($data['payment'] ?? []) as $rs) {
@@ -91,7 +97,7 @@ class TenantSeeder extends Seeder
 
                 /** @var PaymentCreateUseCase */
                 $objCharge = app(PaymentCreateUseCase::class);
-                $objCharge->handle([
+                $ret = $objCharge->handle([
                     new PaymentInput(
                         title: $rs['title'],
                         description: $data['description'] ?? null,
@@ -102,12 +108,21 @@ class TenantSeeder extends Seeder
                         recurrence: !empty($rs['recurrence']) ? $dataCache['recurrence'][$rs['recurrence']]->id : null,
                     )
                 ]);
+
+                if (!empty($rs['id'])) {
+                    DB::table('charges')->where('id', $ret[0][0]->id)->update(['id' => $rs['id']]);
+                }
             }
 
             foreach (($data['bank'] ?? []) as $rs) {
                 /** @var BankCreateUseCase */
                 $objBank = app(BankCreateUseCase::class);
-                $objBank->handle(new BankInput(name: $rs['name'], value: $rs['value']));
+                $ret = $objBank->handle(new BankInput(name: $rs['name'], value: $rs['value']));
+
+                if (!empty($rs['id'])) {
+                    DB::table('banks')->where('id', $ret->id)->update(['id' => $rs['id']]);
+                    DB::table('accounts')->where('entity_id', $ret->id)->update(['entity_id' => $rs['id']]);
+                }
             }
         }
 

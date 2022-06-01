@@ -32,6 +32,8 @@ return new class extends Migration
             $table->unsignedFloat('value_pay');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->unique(['id', 'entity']);
         });
     }
 
