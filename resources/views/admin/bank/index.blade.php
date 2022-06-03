@@ -20,10 +20,10 @@
                 <td>
                     {!! links([
                         "edit" => [
-                            "link" => route('bank.edit', $rs->uuid)
+                            "link" => route('bank.edit', $rs->id)
                         ],
                         "delete" => [
-                            "link" => route('bank.destroy', $rs->uuid)
+                            "link" => route('bank.destroy', $rs->id)
                         ]
                     ]) !!}
                 </td>

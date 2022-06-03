@@ -20,10 +20,10 @@
                 <td>
                     {!! links([
                         "edit" => [
-                            "link" => route('recurrence.edit', $rs->uuid)
+                            "link" => route('recurrence.edit', $rs->id)
                         ],
                         "delete" => [
-                            "link" => route('recurrence.destroy', $rs->uuid)
+                            "link" => route('recurrence.destroy', $rs->id)
                         ]
                     ]) !!}
                 </td>

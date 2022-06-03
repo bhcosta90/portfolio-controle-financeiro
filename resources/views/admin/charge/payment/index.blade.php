@@ -29,15 +29,15 @@
                 <td>
                     {!! links([
                         [
-                            "link" => route('charge.payment.pay.show', $rs->uuid),
+                            "link" => route('charge.payment.pay.show', $rs->id),
                             'btn' => 'btn-outline-success',
                             'icon' => 'far fa-money-bill-alt',
                         ],
                         "edit" => [
-                            "link" => route('charge.payment.edit', $rs->uuid)
+                            "link" => route('charge.payment.edit', $rs->id)
                         ],
                         "delete" => [
-                            "link" => route('charge.payment.destroy', $rs->uuid)
+                            "link" => route('charge.payment.destroy', $rs->id)
                         ]
                     ]) !!}
                 </td>
