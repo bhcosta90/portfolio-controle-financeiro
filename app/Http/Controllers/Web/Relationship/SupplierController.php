@@ -37,7 +37,7 @@ class SupplierController extends Controller
     public function create(FormSupport $formSupport)
     {
         return view('admin.supplier.create', [
-            'form' => $formSupport->button('Cadastrar cliente')->run(
+            'form' => $formSupport->button('Cadastrar fornecedor')->run(
                 Form::class,
                 route('admin.supplier.store')
             )
@@ -52,7 +52,7 @@ class SupplierController extends Controller
         ));
 
         return redirect()->route($this->routeRedirect)
-            ->with('success', 'Cliente cadastrado com sucesso')
+            ->with('success', 'Fornecedor cadastrado com sucesso')
             ->with('model', $model);
     }
 
@@ -64,7 +64,7 @@ class SupplierController extends Controller
         $model = $useCase->handle(new FindInput($id));
 
         return view('admin.supplier.edit', [
-            'form' => $formSupport->button('Editar cliente')->run(
+            'form' => $formSupport->button('Editar fornecedor')->run(
                 Form::class,
                 route('admin.supplier.update', $model->id),
                 $model,
@@ -85,7 +85,7 @@ class SupplierController extends Controller
         ));
         
         return redirect()->route($this->routeRedirect)
-            ->with('success', 'Cliente editado com sucesso')
+            ->with('success', 'Fornecedor editado com sucesso')
             ->with('model', $model);
     }
 
@@ -96,6 +96,6 @@ class SupplierController extends Controller
         $useCase->handle(new FindInput($id));
 
         return redirect()->route($this->routeRedirect)
-            ->with('success', 'Cliente deletado com sucesso');
+            ->with('success', 'Fornecedor deletado com sucesso');
     }
 }

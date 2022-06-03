@@ -37,7 +37,7 @@ class RecurrenceController extends Controller
     public function create(FormSupport $formSupport)
     {
         return view('admin.recurrence.create', [
-            'form' => $formSupport->button('Cadastrar cliente')->run(
+            'form' => $formSupport->button('Cadastrar recorrência')->run(
                 Form::class,
                 route('admin.recurrence.store')
             )
@@ -53,7 +53,7 @@ class RecurrenceController extends Controller
         ));
 
         return redirect()->route($this->routeRedirect)
-            ->with('success', 'Cliente cadastrado com sucesso')
+            ->with('success', 'Recorrência cadastrado com sucesso')
             ->with('model', $model);
     }
 
@@ -65,7 +65,7 @@ class RecurrenceController extends Controller
         $model = $useCase->handle(new FindInput($id));
 
         return view('admin.recurrence.edit', [
-            'form' => $formSupport->button('Editar cliente')->run(
+            'form' => $formSupport->button('Editar recorrência')->run(
                 Form::class,
                 route('admin.recurrence.update', $model->id),
                 $model,
@@ -87,7 +87,7 @@ class RecurrenceController extends Controller
         ));
         
         return redirect()->route($this->routeRedirect)
-            ->with('success', 'Cliente editado com sucesso')
+            ->with('success', 'Recorrência editado com sucesso')
             ->with('model', $model);
     }
 
@@ -98,6 +98,6 @@ class RecurrenceController extends Controller
         $useCase->handle(new FindInput($id));
 
         return redirect()->route($this->routeRedirect)
-            ->with('success', 'Cliente deletado com sucesso');
+            ->with('success', 'Recorrência deletado com sucesso');
     }
 }

@@ -37,7 +37,7 @@ class BankAccountController extends Controller
     public function create(FormSupport $formSupport)
     {
         return view('admin.bank.create', [
-            'form' => $formSupport->button('Cadastrar cliente')->run(
+            'form' => $formSupport->button('Cadastrar conta bancária')->run(
                 Form::class,
                 route('admin.bank.store')
             )
@@ -53,7 +53,7 @@ class BankAccountController extends Controller
         ));
 
         return redirect()->route($this->routeRedirect)
-            ->with('success', 'Cliente cadastrado com sucesso')
+            ->with('success', 'Conta bancária cadastrada com sucesso')
             ->with('model', $model);
     }
 
@@ -65,7 +65,7 @@ class BankAccountController extends Controller
         $model = $useCase->handle(new FindInput($id));
 
         return view('admin.bank.edit', [
-            'form' => $formSupport->button('Editar cliente')->run(
+            'form' => $formSupport->button('Editar conta bancária')->run(
                 Form::class,
                 route('admin.bank.update', $model->id),
                 $model,
@@ -87,7 +87,7 @@ class BankAccountController extends Controller
         ));
         
         return redirect()->route($this->routeRedirect)
-            ->with('success', 'Cliente editado com sucesso')
+            ->with('success', 'Conta bancária editada com sucesso')
             ->with('model', $model);
     }
 
@@ -98,6 +98,6 @@ class BankAccountController extends Controller
         $useCase->handle(new FindInput($id));
 
         return redirect()->route($this->routeRedirect)
-            ->with('success', 'Cliente deletado com sucesso');
+            ->with('success', 'Conta bancária deletado com sucesso');
     }
 }
