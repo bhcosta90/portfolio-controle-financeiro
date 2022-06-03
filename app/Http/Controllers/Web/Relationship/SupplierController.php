@@ -5,21 +5,21 @@ namespace App\Http\Controllers\Web\Relationship;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Web\Presenters\PaginationPresenter;
 use App\Support\FormSupport;
-use App\Forms\CustomerForm as Form;
-use Costa\Modules\Relationship\Customer\UseCases\CreateUseCase;
-use Costa\Modules\Relationship\Customer\UseCases\DeleteUseCase;
-use Costa\Modules\Relationship\Customer\UseCases\ListUseCase;
-use Costa\Modules\Relationship\Customer\UseCases\DTO\List\Input as ListInput;
-use Costa\Modules\Relationship\Customer\UseCases\DTO\Find\Input as FindInput;
-use Costa\Modules\Relationship\Customer\UseCases\DTO\Update\Input as UpdateInput;
-use Costa\Modules\Relationship\Customer\UseCases\DTO\Create\Input as CreateInput;
-use Costa\Modules\Relationship\Customer\UseCases\FindUseCase;
-use Costa\Modules\Relationship\Customer\UseCases\UpdateUseCase;
+use App\Forms\SupplierForm as Form;
+use Costa\Modules\Relationship\Supplier\UseCases\CreateUseCase;
+use Costa\Modules\Relationship\Supplier\UseCases\DeleteUseCase;
+use Costa\Modules\Relationship\Supplier\UseCases\ListUseCase;
+use Costa\Modules\Relationship\Supplier\UseCases\DTO\List\Input as ListInput;
+use Costa\Modules\Relationship\Supplier\UseCases\DTO\Find\Input as FindInput;
+use Costa\Modules\Relationship\Supplier\UseCases\DTO\Update\Input as UpdateInput;
+use Costa\Modules\Relationship\Supplier\UseCases\DTO\Create\Input as CreateInput;
+use Costa\Modules\Relationship\Supplier\UseCases\FindUseCase;
+use Costa\Modules\Relationship\Supplier\UseCases\UpdateUseCase;
 use Illuminate\Http\Request;
 
-class CustomerController extends Controller
+class SupplierController extends Controller
 {
-    private $routeRedirect = 'admin.customer.index';
+    private $routeRedirect = 'admin.supplier.index';
     
     public function index(ListUseCase $uc, Request $request)
     {
@@ -31,15 +31,15 @@ class CustomerController extends Controller
 
         $data = PaginationPresenter::render($ret);
 
-        return view('admin.customer.index', compact('data'));
+        return view('admin.supplier.index', compact('data'));
     }
 
     public function create(FormSupport $formSupport)
     {
-        return view('admin.customer.create', [
+        return view('admin.supplier.create', [
             'form' => $formSupport->button('Cadastrar cliente')->run(
                 Form::class,
-                route('admin.customer.store')
+                route('admin.supplier.store')
             )
         ]);
     }
@@ -63,10 +63,10 @@ class CustomerController extends Controller
     ) {
         $model = $useCase->handle(new FindInput($id));
 
-        return view('admin.customer.edit', [
+        return view('admin.supplier.edit', [
             'form' => $formSupport->button('Editar cliente')->run(
                 Form::class,
-                route('admin.customer.update', $model->id),
+                route('admin.supplier.update', $model->id),
                 $model,
             )
         ]);

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Web\Relationship\CustomerController;
+use App\Http\Controllers\Web\Relationship\SupplierController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('relationship')->group(function () {

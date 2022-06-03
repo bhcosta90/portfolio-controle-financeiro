@@ -7,7 +7,7 @@
 <div class='card'>
     <div class='card-header'>
         <h1 class='float-left'>{{ __('Relatório de Recebimentos') }} <small class='text-muted'>R$ {{str()->numberEnToBr($total)}}</small></h1>
-        <div class='float-right'>{!! register(route('charge.receive.create'), __('Cadastrar Recebimento')) !!}</div>
+        <div class='float-right'>{!! register(route('admin.charge.receive.create'), __('Cadastrar Recebimento')) !!}</div>
     </div>
     <table class='table table-hover mb-0 table-report'>
         <tr>
@@ -29,15 +29,15 @@
                 <td>
                     {!! links([
                         [
-                            "link" => route('charge.receive.pay.show', $rs->id),
+                            "link" => route('admin.charge.receive.pay.show', $rs->id),
                             'btn' => 'btn-outline-success',
                             'icon' => 'far fa-money-bill-alt',
                         ],
                         "edit" => [
-                            "link" => route('charge.receive.edit', $rs->id)
+                            "link" => route('admin.charge.receive.edit', $rs->id)
                         ],
                         "delete" => [
-                            "link" => route('charge.receive.destroy', $rs->id)
+                            "link" => route('admin.charge.receive.destroy', $rs->id)
                         ]
                     ]) !!}
                 </td>

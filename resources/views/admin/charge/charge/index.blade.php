@@ -4,7 +4,7 @@
 <div class='card'>
     <div class='card-header'>
         <h1 class='float-left'>{{ __('Relatório de Cobranças') }}</h1>
-        <div class='float-right'>{!! register(route('charge.charge.create'), __('Cadastrar Cobrança')) !!}</div>
+        <div class='float-right'>{!! register(route('admin.charge.charge.create'), __('Cadastrar Cobrança')) !!}</div>
     </div>
     <table class='table table-hover mb-0 table-report'>
         <tr>
@@ -28,15 +28,15 @@
                 <td>
                     {!! links([
                         [
-                            "link" => route('charge.pay.show', $rs->id),
+                            "link" => route('admin.charge.pay.show', $rs->id),
                             'btn' => 'btn-outline-success',
                             'icon' => 'far fa-money-bill-alt',
                         ],
                         "edit" => [
-                            "link" => route('charge.charge.edit', $rs->id)
+                            "link" => route('admin.charge.charge.edit', $rs->id)
                         ],
                         "delete" => [
-                            "link" => route('charge.charge.destroy', $rs->id)
+                            "link" => route('admin.charge.charge.destroy', $rs->id)
                         ]
                     ]) !!}
                 </td>

@@ -124,7 +124,7 @@ return [
     'classes_body' => '',
     'classes_brand' => '',
     'classes_brand_text' => '',
-    'classes_content_wrapper' => '',
+    'classes_content_wrapper' => 'pt-3',
     'classes_content_header' => '',
     'classes_content' => '',
     'classes_sidebar' => 'sidebar-dark-primary elevation-4',
@@ -241,13 +241,13 @@ return [
             'text' => 'Cliente',
             'url'  => 'admin/relationship/customer',
             'icon' => 'fas fa-user-tie',
-            'active' => ['admin/customer*']
+            'active' => ['admin/relationship/customer*']
         ],
         [
             'text' => 'Fornecedor',
             'url'  => 'admin/relationship/supplier',
             'icon' => 'fas fa-industry',
-            'active' => ['admin/supplier*']
+            'active' => ['admin/relationship/supplier*']
         ],
         ['header' => 'Cadastros'],
         [
@@ -454,12 +454,12 @@ return [
             ],
         ],
         'Sweetalert2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
-                    'location' => '//cdn.jsdelivr.net/npm/sweetalert2@8',
+                    'asset' => true,
+                    'location' => 'js/sweetalert2@8.js',
                 ],
             ],
         ],
@@ -475,6 +475,21 @@ return [
                     'type' => 'js',
                     'asset' => false,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js',
+                ],
+            ],
+        ],
+        'Admin' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'css/admin.css',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'js/admin.js',
                 ],
             ],
         ],

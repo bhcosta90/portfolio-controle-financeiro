@@ -18,7 +18,11 @@ class TenantMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if(substr(Route::currentRouteName(), 0, 5) === 'admin'){
+        $admin = [
+            'login'
+        ];
+        
+        if(substr(Route::currentRouteName(), 0, 5) === 'admin' || in_array(Route::currentRouteName(), $admin)){
             Config::set('tenancy.filesystem.asset_helper_tenancy', false);
         }
 
