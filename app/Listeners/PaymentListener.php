@@ -2,7 +2,8 @@
 
 namespace App\Listeners;
 
-use Costa\Modules\Account\Repository\AccountRepositoryInterface;
+use Costa\Modules\Payment\UseCases\PaymentTransferUseCase;
+use Costa\Modules\Payment\UseCases\DTO\PaymentTransfer\Input;
 use Illuminate\Support\Facades\Log;
 
 class PaymentListener
@@ -12,7 +13,7 @@ class PaymentListener
      *
      * @return void
      */
-    public function __construct(private AccountRepositoryInterface $accountRepository)
+    public function __construct(private PaymentTransferUseCase $useCase)
     {
         //
     }
@@ -27,8 +28,7 @@ class PaymentListener
     {
         if ($rs['completed'] ?? false) {
             Log::info('Execute payment of event ' . $event);
-            $rs['account_from'] ? $this->accountRepository->decrementValue($rs['account_from'], $rs['value']) : null;
-            $rs['account_to'] ? $this->accountRepository->incrementValue($rs['account_to'], $rs['value']) : null;
+            $this->useCase->handle(new Input($rs['account_from'], $rs['account_to'], $rs['value']));
         }
     }
 }
