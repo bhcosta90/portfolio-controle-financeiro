@@ -10,7 +10,8 @@ use Costa\Modules\Charge\Receive\UseCases\{
     FindUseCase,
     DeleteUseCase,
     ListUseCase,
-    PaymentUseCase
+    PaymentUseCase,
+    ResumeUseCase,
 };
 
 use Costa\Modules\Charge\Receive\UseCases\DTO\{
@@ -19,6 +20,7 @@ use Costa\Modules\Charge\Receive\UseCases\DTO\{
     Find\Input as FindInput,
     List\Input as ListInput,
     Payment\Input as PaymentInput,
+    Resume\Input as ResumeInput,
 };
 use DateTime;
 use Illuminate\Http\Request;
@@ -99,5 +101,11 @@ class ReceiveController extends Controller
         ));
 
         return response()->json(['data' => $resp]);
+    }
+
+    public function resume(string $type, ResumeUseCase $uc, Request $request){
+        $resp = $uc->handle(new ResumeInput(type: $type, date: new DateTime($request->month)));
+        $resp->total_real = str()->numberEnToBr($resp->total);
+        return response()->json($resp);
     }
 }

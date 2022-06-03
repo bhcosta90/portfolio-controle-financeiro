@@ -9,7 +9,6 @@ use Costa\Modules\Charge\Payment\Repository\ChargeRepositoryInterface;
 use Costa\Modules\Charge\Utils\Enums\ChargeStatusEnum;
 use Costa\Modules\Payment\Contracts\PaymentEventManagerContract;
 use Costa\Modules\Payment\Entity\PaymentEntity;
-use Costa\Modules\Payment\Events\PaymentEvent;
 use Costa\Modules\Payment\Repository\PaymentRepositoryInterface;
 use Costa\Modules\Payment\Shared\Enums\PaymentType;
 use Costa\Modules\Recurrence\Entity\RecurrenceEntity;

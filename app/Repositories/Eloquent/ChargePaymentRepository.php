@@ -9,6 +9,7 @@ use Costa\Modules\Charge\Payment\Entity\ChargeEntity;
 use Costa\Modules\Charge\Payment\Repository\ChargeRepositoryInterface;
 use Costa\Modules\Charge\Utils\Enums\ChargeStatusEnum;
 use Costa\Modules\Charge\Utils\ValueObject\ParcelObject;
+use Costa\Modules\Charge\Utils\ValueObject\ResumeObject;
 use Costa\Modules\Relationship\Supplier\Entity\SupplierEntity;
 use Costa\Shared\Abstracts\EntityAbstract;
 use Costa\Shared\Contracts\PaginationInterface;
@@ -204,5 +205,25 @@ class ChargePaymentRepository implements ChargeRepositoryInterface
                 ->whereIn('charges.status', [ChargeStatusEnum::PENDING->value, ChargeStatusEnum::PARTIAL->value]),
             default => $q->whereNot('charges.status', ChargeStatusEnum::COMPLETED->value),
         };
+    }
+
+    public function getResumeToday(): ResumeObject
+    {
+        return new ResumeObject(0, 0);
+    }
+
+    public function getAccountPaymentToday(): ResumeObject
+    {
+        return new ResumeObject(0, 0);
+    }
+    
+    public function getResumeDueDate(): ResumeObject
+    {
+        return new ResumeObject(0, 0);
+    }
+
+    public function getResumeValue(DateTime $date): ResumeObject
+    {
+        return new ResumeObject(0, 0);
     }
 }
