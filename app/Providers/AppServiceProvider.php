@@ -26,8 +26,8 @@ use Costa\Modules\Relationship\Customer\Repository\CustomerRepositoryInterface;
 use Costa\Modules\Relationship\Supplier\Repository\SupplierRepositoryInterface;
 use Costa\Shared\Contracts\TransactionContract;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -38,6 +38,22 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        Str::macro('date', function ($date, $format = 'd/m/Y') {
+            return (new \Carbon\Carbon($date))->format($format);
+        });
+
+        Str::macro('numberEnToBr', function ($number, $onlyGreaterZero = false) {
+            if ($onlyGreaterZero == true && $number < 0) {
+                $number *= -1;
+            }
+            return number_format($number, 2, ',', '.');
+        });
+
+        Str::macro('numberBrToEn', function ($number) {
+            $value = str_replace('.', '', $number);
+            return (float)str_replace(',', '.', $value);
+        });
+
         if ($this->app->environment('local')) {
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);

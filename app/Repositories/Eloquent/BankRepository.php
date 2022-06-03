@@ -62,7 +62,13 @@ class BankRepository implements BankRepositoryInterface
 
     public function paginate(?array $filter = null, ?int $page = 1, ?int $totalPage = 15): PaginationInterface
     {
-        return new PaginatorPresenter($this->model->paginate());
+        $result = $this->model->select('banks.*', 'accounts.value')
+            ->join('accounts', function($q){
+                $q->on('accounts.entity_id', '=', 'banks.id')
+                    ->where('accounts.entity_type', BankEntity::class);
+            });
+        
+        return new PaginatorPresenter($result->paginate());
     }
 
     public function all(?array $filter = null): array|object

@@ -2,13 +2,16 @@
 
 namespace Costa\Modules\Bank\UseCases;
 
+use Costa\Modules\Account\Repository\AccountRepositoryInterface;
 use Costa\Modules\Bank\Entity\BankEntity;
 use Costa\Modules\Bank\Repository\BankRepositoryInterface;
+use Costa\Shared\ValueObject\ModelObject;
 
 class FindUseCase
 {
     public function __construct(
-        protected BankRepositoryInterface $repo
+        protected BankRepositoryInterface $repo,
+        protected AccountRepositoryInterface $accountRepository
     ) {
         //
     }
@@ -18,10 +21,12 @@ class FindUseCase
         /** @var BankEntity */
         $objEntity = $this->repo->find($input->id);
 
+        $objAccount = $this->accountRepository->findByEntity(new ModelObject($objEntity->id, $objEntity));
+
         return new DTO\Find\Output(
             id: $objEntity->id,
             name: $objEntity->name->value,
-            value: $objEntity->days->value,
+            value: $objAccount->value,
         );
     }
 }
