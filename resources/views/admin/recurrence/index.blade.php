@@ -4,7 +4,7 @@
 <div class='card'>
     <div class='card-header'>
         <h1 class='float-left'>{{ __('Relatório de Recorrências') }}</h1>
-        <div class='float-right'>{!! register(route('recurrence.create'), __('Cadastrar Recorrência')) !!}</div>
+        <div class='float-right'>{!! register(route('admin.recurrence.create'), __('Cadastrar Recorrência')) !!}</div>
     </div>
     <table class='table table-hover mb-0 table-report'>
         <tr>
@@ -20,10 +20,10 @@
                 <td>
                     {!! links([
                         "edit" => [
-                            "link" => route('recurrence.edit', $rs->uuid)
+                            "link" => route('admin.recurrence.edit', $rs->id)
                         ],
                         "delete" => [
-                            "link" => route('recurrence.destroy', $rs->uuid)
+                            "link" => route('admin.recurrence.destroy', $rs->id)
                         ]
                     ]) !!}
                 </td>

@@ -4,22 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Payment extends Model
 {
-    use HasFactory, Traits\TenantTrait, SoftDeletes;
+    use HasFactory, Traits\UuidTrait;
 
     public $fillable = [
-        'uuid',
+        'id',
         'charge_id',
-        'bank_id',
-        'type',
-        'account_id',
+        'account_from_id',
+        'account_to_id',
         'relationship_id',
         'date_schedule',
         'value_transaction',
         'value_payment',
+        'type',
         'completed',
     ];
 }

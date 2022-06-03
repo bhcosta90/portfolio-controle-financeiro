@@ -4,96 +4,86 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\Recurrence;
 use App\Repositories\Presenters\PaginatorPresenter;
-use Costa\Modules\Charge\Entities\RecurrenceEntity;
-use Costa\Modules\Charge\Repository\RecurrenceRepositoryInterface;
-use Costa\Shareds\Abstracts\EntityAbstract;
-use Costa\Shareds\Contracts\PaginationInterface;
-use Costa\Shareds\ValueObjects\Input\InputNameObject;
-use Costa\Shareds\ValueObjects\UuidObject;
-use Symfony\Component\Translation\Exception\NotFoundResourceException;
+use Costa\Modules\Recurrence\Entity\RecurrenceEntity;
+use Costa\Modules\Recurrence\Repository\RecurrenceRepositoryInterface;
+use Costa\Shared\Abstracts\EntityAbstract;
+use Costa\Shared\Contracts\PaginationInterface;
+use Costa\Shared\ValueObject\Input\InputIntObject;
+use Costa\Shared\ValueObject\Input\InputNameObject;
+use Costa\Shared\ValueObject\UuidObject;
 
 class RecurrenceRepository implements RecurrenceRepositoryInterface
 {
-    public function __construct(private Recurrence $model)
-    {
-        //
+    public function __construct(
+        protected Recurrence $model,
+    ) {
+        //  
     }
-    
-    public function insert(EntityAbstract $entity): RecurrenceEntity
+
+    public function insert(EntityAbstract $entity): EntityAbstract
     {
-        $model = $this->model->create([
-            'uuid' => $entity->id,
-            'name' => $entity->name,
-            'days' => $entity->days,
+        $obj = $this->model->create([
+            'id' => $entity->id(),
+            'name' => $entity->name->value,
+            'days' => $entity->days->value,
         ]);
 
-        return $this->toEntity($model);
+        return $this->entity($obj);
     }
 
-    public function find(int|string $id): RecurrenceEntity
+    public function update(EntityAbstract $entity): EntityAbstract
     {
-        return $this->toEntity($this->findByDb($id));
+        $obj = $this->findDb($entity->id);
+
+        $obj->update([
+            'name' => $entity->name->value,
+            'days' => $entity->days->value,
+        ]);
+
+        return $this->entity($obj);
     }
 
-    public function update(EntityAbstract $entity): RecurrenceEntity
+    public function find(string|int $key): EntityAbstract
     {
-        if ($model = $this->findByDb($entity->id())) {
-            $model->update([
-                'name' => $entity->name,
-                'days' => $entity->days,
-            ]);
-            return $this->toEntity($model);
-        }
+        return $this->entity($this->findDb($key));
     }
 
-    public function delete(int|string $id): bool
+    public function findDb(string|int $key): object|array
     {
-        return $this->findByDb($id)->delete();
+        return $this->model->find($key);
+    }
+
+    public function exist(string|int $key): bool
+    {
+        return $this->model->findDb($key)->count();
+    }
+
+    public function delete(EntityAbstract $entity): bool
+    {
+        return $this->findDb($entity->id)->delete();
+    }
+
+    public function paginate(?array $filter = null, ?int $page = 1, ?int $totalPage = 15): PaginationInterface
+    {
+        return new PaginatorPresenter($this->model->paginate());
+    }
+
+    public function all(?array $filter = null): array|object
+    {
+        return $this->model->get();
     }
 
     public function pluck(): array
     {
-        return $this->model->orderBy('name')->pluck('name', 'uuid')->toArray();
+        return $this->model->pluck('name', 'id')->toArray();
     }
 
-    protected function findByDb(string $id)
-    {
-        if ($model = $this->model->where('uuid', $id)->firstOrFail()) {
-            return $model;
-        }
-
-        throw new NotFoundResourceException(__('Recurrence not found'));
-    }
-
-    public function verify(int|string $id): bool
-    {
-        return (bool) $this->model->where('uuid', $id)->count();
-    }
-
-    public function toEntity(object $data): RecurrenceEntity
+    protected function entity(object $entity)
     {
         return new RecurrenceEntity(
-            id: new UuidObject($data->uuid),
-            name: new InputNameObject($data->name),
-            days: $data->days,
+            new InputNameObject($entity->name),
+            new InputIntObject($entity->days),
+            new UuidObject($entity->id)
         );
-    }
-
-    public function paginate(
-        ?array $filter = null,
-        ?array $order = null,
-        ?int $page = 1,
-        ?int $totalPage = 15
-    ): PaginationInterface {
-
-        $data = $this->model
-            ->orderBy('name', 'asc')
-            ->where(fn ($q) => ($f = $filter['name'] ?? null) ? $q->where('name', 'like', "%{$f}%") : null)
-            ->paginate(
-                perPage: $totalPage,
-                page: $page,
-            );
-
-        return new PaginatorPresenter($data);
     }
 }

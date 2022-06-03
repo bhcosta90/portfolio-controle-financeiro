@@ -1,14 +1,14 @@
 <?php
 
-use Costa\Modules\Charge\Shareds\Enums\Status;
+use Costa\Modules\Charge\Utils\Enums\ChargeStatusEnum;
 
 if (!function_exists('isExpired')) {
     function isExpired($status, $date, $value){
-        $status = Status::from($status);
+        $status = ChargeStatusEnum::from($status);
         $class = '';
         $dateStart = (new DateTime('first day of this month'))->format('Y-m-d');
 
-        if ($status == Status::COMPLETED) {
+        if ($status == ChargeStatusEnum::COMPLETED) {
             $class = 'text-success';
         } elseif ($date < $dateStart) {
             $class = 'text-danger';

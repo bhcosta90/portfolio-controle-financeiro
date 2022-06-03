@@ -2,12 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Tenant;
-use Costa\Modules\Account\Entities\AccountEntity;
-use Costa\Modules\Account\Repository\AccountRepositoryInterface;
-use Costa\Shareds\ValueObjects\ModelObject;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,25 +16,30 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\User::factory()->create([
-            'tenant_id' => $tenant = Tenant::factory()->create(),
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        if (!app()->isProduction()) {
+            $this->register('0b26c3fd-bb33-4419-867a-5aee383353f5', env('DB_DATABASE') . '_1', 'controlefinanceiro');
+            $this->register('62a91d51-e600-404d-b88d-a696d6e0b693', env('DB_DATABASE') . '_2', 'controlefinanceiro2');
+            Artisan::call('tenants:migrate-fresh');
+            Artisan::call('tenants:seed', [
+                '--class' => TenantSeeder::class,
+            ]);
+        }
+    }
+
+    private function register($id, $database, $url)
+    {
+        DB::table('tenants')->insert([
+            'id' => $id,
+            'data' => json_encode(['tenancy_db_name' => $database]),
+            'created_at' => $date = Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => $date,
         ]);
 
-        \App\Models\User::factory(10)->create([
-            'tenant_id' => $tenant->id,
+        DB::table('domains')->insert([
+            'domain' => $url . '.localhost',
+            'tenant_id' => $id,
+            'created_at' => $date,
+            'updated_at' => $date,
         ]);
-
-        /** @var AccountRepositoryInterface */
-        $account = app(AccountRepositoryInterface::class);
-
-        $account->insert(
-            new AccountEntity(
-                model: new ModelObject(id: $tenant->uuid, type: $tenant),
-                value: 0,
-                increment: $tenant->id
-            )
-        );
     }
 }

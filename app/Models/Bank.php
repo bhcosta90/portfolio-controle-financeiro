@@ -8,12 +8,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Bank extends Model
 {
-    use HasFactory, Traits\TenantTrait, SoftDeletes;
-
+    use HasFactory, Traits\UuidTrait, SoftDeletes;
+    
     public $fillable = [
-        'uuid',
-        'name',
-        'value',
-        'active',
+        'id',
+        'name'
     ];
 }

@@ -4,122 +4,97 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\Bank;
 use App\Repositories\Presenters\PaginatorPresenter;
-use Costa\Modules\Account\Entities\BankEntity;
-use Costa\Modules\Account\Repository\BankRepositoryInterface;
-use Costa\Shareds\Abstracts\EntityAbstract;
-use Costa\Shareds\Contracts\PaginationInterface;
-use Costa\Shareds\ValueObjects\Input\InputNameObject;
-use Costa\Shareds\ValueObjects\UuidObject;
-use Symfony\Component\Translation\Exception\NotFoundResourceException;
+use Costa\Modules\Bank\Entity\BankEntity;
+use Costa\Modules\Bank\Repository\BankRepositoryInterface;
+use Costa\Shared\Abstracts\EntityAbstract;
+use Costa\Shared\Contracts\PaginationInterface;
+use Costa\Shared\ValueObject\Input\InputNameObject;
+use Costa\Shared\ValueObject\UuidObject;
 
 class BankRepository implements BankRepositoryInterface
 {
-    public function __construct(private Bank $model)
-    {
-        //
+    public function __construct(
+        protected Bank $model,
+    ) {
+        //  
     }
-    
-    public function insert(EntityAbstract $entity): BankEntity
+
+    public function insert(EntityAbstract $entity): EntityAbstract
     {
-        $model = $this->model->create([
-            'uuid' => $entity->id,
+        $obj = $this->model->create([
+            'id' => $entity->id(),
             'name' => $entity->name->value,
-            'active' => $entity->active,
         ]);
 
-        return $this->toEntity($model);
+        return $this->entity($obj);
     }
 
-    public function find(int|string $id): BankEntity
+    public function update(EntityAbstract $entity): EntityAbstract
     {
-        return $this->toEntity($this->findByDb($id));
+        $obj = $this->findDb($entity->id);
+
+        $obj->update([
+            'name' => $entity->name->value,
+        ]);
+
+        return $this->entity($obj);
     }
 
-    public function update(EntityAbstract $entity): BankEntity
+    public function find(string|int $key): EntityAbstract
     {
-        if ($model = $this->findByDb($entity->id())) {
-            $model->update([
-                'name' => $entity->name->value,
-                'active' => $entity->active,
-            ]);
-            return $this->toEntity($model);
-        }
+        return $this->entity($this->findDb($key));
     }
 
-    public function delete(int|string $id): bool
+    public function findDb(string|int $key): object|array
     {
-        return $this->findByDb($id)->delete();
+        return $this->model->find($key);
     }
 
-    protected function findByDb(string $id)
+    public function exist(string|int $key): bool
     {
-        if ($model = $this->model
-            ->select('banks.*', 'accounts.value')
-            ->leftJoin('accounts', 'accounts.model_id', '=', 'banks.uuid')
-            ->where('uuid', $id)
-            ->firstOrFail()) {
-            return $model;
-        }
-
-        throw new NotFoundResourceException(__('Supplier not found'));
+        return $this->model->findDb($key)->count();
     }
 
-    public function addValue(string|int $id, float $value): BankEntity
+    public function delete(EntityAbstract $entity): bool
     {
-        $obj = $this->model->where('model_id', $id)->firstOrFail();
-        $obj->increment('value', $value);
-
-        return new BankEntity(
-            name: $obj->name
-        );
+        return $this->findDb($entity->id)->delete();
     }
 
-    public function subValue(string|int $id, float $value): BankEntity
+    public function paginate(?array $filter = null, ?int $page = 1, ?int $totalPage = 15): PaginationInterface
     {
-        $obj = $this->model->where('model_id', $id)->firstOrFail();
-        $obj->decrement('value', $value);
+        $result = $this->model->select('banks.*', 'accounts.value')
+            ->join('accounts', function($q){
+                $q->on('accounts.entity_id', '=', 'banks.id')
+                    ->where('accounts.entity_type', BankEntity::class);
+            });
+        
+        return new PaginatorPresenter($result->paginate());
+    }
 
-        return new BankEntity(
-            name: $obj->name
-        );
+    public function all(?array $filter = null): array|object
+    {
+        return $this->model->get();
     }
 
     public function pluck(): array
     {
-        return $this->model->orderBy('name')->where('active', true)->pluck('name', 'uuid')->toArray();
+        return $this->model->pluck('name', 'id')->toArray();
     }
 
     public function total(): float
     {
-        return $this->model
-            ->join('accounts', 'accounts.model_id', '=', 'banks.uuid')
-            ->sum('accounts.value');
+        return $this->model->select('accounts.value')
+        ->join('accounts', function ($q) {
+            $q->on('accounts.entity_id', '=', 'banks.id')
+            ->where('accounts.entity_type', BankEntity::class);
+        })->sum('value');
     }
 
-    public function toEntity(object $data): BankEntity
+    protected function entity(object $entity)
     {
         return new BankEntity(
-            id: new UuidObject($data->uuid),
-            name: new InputNameObject($data->name),
+            new InputNameObject($entity->name),
+            new UuidObject($entity->id),
         );
-    }
-
-    public function paginate(
-        ?array $filter = null,
-        ?array $order = null,
-        ?int $page = 1,
-        ?int $totalPage = 15
-    ): PaginationInterface {
-
-        $data = $this->model
-            ->orderBy('name', 'asc')
-            ->leftJoin('accounts', 'accounts.model_id', '=', 'banks.uuid')
-            ->where(fn ($q) => ($f = $filter['name'] ?? null) ? $q->where('name', 'like', "%{$f}%") : null)
-            ->paginate(
-                perPage: $totalPage,
-                page: $page,
-            );
-
-        return new PaginatorPresenter($data);
     }
 }

@@ -4,7 +4,7 @@
 <div class='card'>
     <div class='card-header'>
         <h1 class='float-left'>{{ __('Relatório de Fornecedor') }}</h1>
-        <div class='float-right'>{!! register(route('supplier.create'), __('Cadastrar Fornecedor')) !!}</div>
+        <div class='float-right'>{!! register(route('admin.supplier.create'), __('Cadastrar Fornecedor')) !!}</div>
     </div>
     <table class='table table-hover mb-0 table-report'>
         <tr>
@@ -18,10 +18,10 @@
                 <td>
                     {!! links([
                         "edit" => [
-                            "link" => route('supplier.edit', $rs->uuid)
+                            "link" => route('admin.supplier.edit', $rs->id)
                         ],
                         "delete" => [
-                            "link" => route('supplier.destroy', $rs->uuid)
+                            "link" => route('admin.supplier.destroy', $rs->id)
                         ]
                     ]) !!}
                 </td>

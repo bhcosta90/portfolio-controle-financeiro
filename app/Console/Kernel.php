@@ -2,9 +2,10 @@
 
 namespace App\Console;
 
-use Carbon\Carbon;
+use DateTime;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Http;
 
 class Kernel extends ConsoleKernel
 {
@@ -16,7 +17,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('payment:schedule --date=' . Carbon::now()->format('Y-m-d'))->dailyAt('10:00');
+        $date = (new DateTime())->format('Y-m-d');
+        $schedule->command("tenant:run payment:schedule --option='date={$date}'")->dailyAt('10:00:00');
+        $schedule->command("queue:work --stop-when-empty")->everyMinute();
+        $schedule->call(fn() => Http::get('http://controlefinanceiro.bhcosta90.dev.br'))->everyTwoMinutes();
     }
 
     /**
@@ -26,7 +30,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__ . '/Commands');
+        $this->load(__DIR__.'/Commands');
 
         require base_path('routes/console.php');
     }

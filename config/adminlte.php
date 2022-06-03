@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'Controle Financeiro',
+    'title' => 'AdminLTE 3',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -45,8 +45,8 @@ return [
     |
     */
 
-    'logo' => '<b>Controle</b>Financeiro',
-    'logo_img' => 'img/logo.png',
+    'logo' => '<b>Admin</b>LTE',
+    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
@@ -239,15 +239,15 @@ return [
         ['header' => 'Relação Comercial'],
         [
             'text' => 'Cliente',
-            'url'  => 'admin/customer',
+            'url'  => 'admin/relationship/customer',
             'icon' => 'fas fa-user-tie',
-            'active' => ['admin/customer*']
+            'active' => ['admin/relationship/customer*']
         ],
         [
             'text' => 'Fornecedor',
-            'url'  => 'admin/supplier',
+            'url'  => 'admin/relationship/supplier',
             'icon' => 'fas fa-industry',
-            'active' => ['admin/supplier*']
+            'active' => ['admin/relationship/supplier*']
         ],
         ['header' => 'Cadastros'],
         [
@@ -492,7 +492,7 @@ return [
                     'location' => 'js/admin.js',
                 ],
             ],
-        ]
+        ],
     ],
 
     /*

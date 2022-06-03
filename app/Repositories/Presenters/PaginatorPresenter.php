@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Presenters;
 
-use Costa\Shareds\Contracts\PaginationInterface;
+use Costa\Shared\Contracts\PaginationInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
 use stdClass;
 

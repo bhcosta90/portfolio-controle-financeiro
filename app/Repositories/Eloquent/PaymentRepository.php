@@ -2,118 +2,103 @@
 
 namespace App\Repositories\Eloquent;
 
-use App\Models\Account;
-use App\Models\Bank;
-use App\Models\Charge;
 use App\Models\Payment;
-use App\Models\Relationship;
-use Costa\Modules\Payment\PaymentEntity;
+use App\Repositories\Presenters\PaginatorPresenter;
+use Costa\Modules\Payment\Entity\PaymentEntity;
 use Costa\Modules\Payment\Repository\PaymentRepositoryInterface;
-use Costa\Modules\Payment\Shareds\Enums\Type;
-use Costa\Shareds\Contracts\EntityInterface;
-use Costa\Shareds\ValueObjects\Input\InputValueObject;
-use Costa\Shareds\ValueObjects\ModelObject;
-use Costa\Shareds\ValueObjects\UuidObject;
+use Costa\Modules\Payment\Shared\Enums\PaymentType;
+use Costa\Shared\Abstracts\EntityAbstract;
+use Costa\Shared\Contracts\PaginationInterface;
+use Costa\Shared\ValueObject\Input\InputIntObject;
+use Costa\Shared\ValueObject\Input\InputNameObject;
+use Costa\Shared\ValueObject\ModelObject;
+use Costa\Shared\ValueObject\UuidObject;
 use DateTime;
 
 class PaymentRepository implements PaymentRepositoryInterface
 {
     public function __construct(
-        private Payment $model,
-        private Charge $charge,
-        private Relationship $relationship,
-        private Account $account,
-        private Bank $bank,
+        protected Payment $model,
     ) {
-        //
+        //  
     }
 
-    public function find(string $uuid): EntityInterface
+    public function insert(EntityAbstract $entity): EntityAbstract
     {
-        return $this->toEntity($this->model->where('uuid', $uuid)->firstOrFail());
-    }
-
-    public function insert(PaymentEntity $entity): EntityInterface
-    {
-        $objCharge = $this->charge->where('uuid', $entity->charge->id)->first();
-        $objRelationship = $this->relationship->where('uuid', $entity->relationship->id)->first();
-        $idBank = $entity->bank ? $this->bank->where('uuid', $entity->bank)->first()->id : null;
-        $idAccount = $this->account->where('model_id', $entity->account)->first()->id;
-
-        $data = [
-            'charge_id' => $objCharge->id,
-            'bank_id' => null,
-            'relationship_id' => $objRelationship->id,
-            'date_schedule' => $entity->schedule->format('Y-m-d'),
-            'value_transaction' => $entity->value->value,
-            'value_payment' => $entity->value->value,
+        $obj = $this->model->create([
+            'id' => $entity->id(),
+            'charge_id' => $entity->charge,
+            'account_from_id' => $entity->accountFrom,
+            'account_to_id' => $entity->accountTo,
+            'relationship_id' => $entity->relationship,
+            'date_schedule' => $entity->date->format('Y-m-d'),
+            'value_transaction' => $entity->value,
+            'value_payment' => $entity->value,
             'completed' => $entity->completed,
             'type' => $entity->type->value,
-            'uuid' => $entity->id(),
-            'account_id' => $idAccount,
-            'bank_id' => $idBank,
-        ];
+        ]);
 
-        return $this->toEntity(
-            $this->model->create($data),
-            $entity->charge,
-            $entity->relationship,
-            $entity->account,
-            $entity->bank
-        );
+        return $this->entity($obj);
     }
 
-    public function update(PaymentEntity $entity): EntityInterface
+    public function update(EntityAbstract $entity): EntityAbstract
     {
-        $obj = $this->model->where('uuid', $entity->id())->firstOrFail();
-        $obj->update(['completed' => $entity->completed]);
+        $obj = $this->findDb($entity->id);
 
-        return $this->toEntity($obj);
+        $obj->update([
+            'completed' => $entity->completed,
+        ]);
+
+        return $this->entity($obj);
     }
 
-    private function toEntity(
-        object $data,
-        $objCharge = null,
-        $objRelationship = null,
-        $objAccount = null,
-        $objBank = null,
-    ) {
-        
-        $objCharge = $objCharge ?: new ModelObject(
-            type: $type = $this->charge->find($data->charge_id),
-            id: $type->id
-        );
+    public function find(string|int $key): EntityAbstract
+    {
+        return $this->entity($this->findDb($key));
+    }
 
-        $objRelationship = $objRelationship ?: new ModelObject(
-            type: $type = $this->relationship->find($data->relationship_id),
-            id: $type->id
-        );
+    public function findDb(string|int $key): object|array
+    {
+        return $this->model->find($key);
+    }
 
-        $objAccount = $objAccount ?: $this->getAccountEntity($data->account_id);
-        $objBank = $objBank ?: ($data->bank_id ? $this->getBankEntity($this->bank->find($data->bank_id)->id) : null);
+    public function exist(string|int $key): bool
+    {
+        return $this->model->findDb($key)->count();
+    }
 
+    public function delete(EntityAbstract $entity): bool
+    {
+        return $this->findDb($entity->id)->delete();
+    }
+
+    public function paginate(?array $filter = null, ?int $page = 1, ?int $totalPage = 15): PaginationInterface
+    {
+        return new PaginatorPresenter($this->model->paginate());
+    }
+
+    public function all(?array $filter = null): array|object
+    {
+        return $this->model->get();
+    }
+
+    public function pluck(): array
+    {
+        return $this->model->pluck('name', 'id')->toArray();
+    }
+
+    protected function entity(object $entity)
+    {
         return new PaymentEntity(
-            relationship: $objRelationship,
-            charge: $objCharge,
-            value: new InputValueObject($data->value_payment),
-            schedule: new DateTime($data->date_schedule),
-            id: new UuidObject($data->uuid),
-            type: Type::from($data->type),
-            createdAt: new DateTime($data->created_at),
-            account: $objAccount,
-            bank: $objBank
+            relationship: $entity->relationship_id,
+            charge: $entity->charge_id,
+            date: new DateTime($entity->date_schedule),
+            value: $entity->value_payment,
+            accountFrom: $entity->account_from_id,
+            accountTo: $entity->account_to_id,
+            id: new UuidObject($entity->id),
+            createdAt: new DateTime($entity->create_at),
+            type: PaymentType::from($entity->type)
         );
-    }
-
-    private function getAccountEntity(int $id)
-    {
-        $obj = $this->account->find($id);
-        return new UuidObject($obj->model_id);
-    }
-
-    private function getBankEntity(int $id)
-    {
-        $obj = $this->bank->find($id);
-        return new UuidObject($obj->uuid);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Transactions;
 
-use Costa\Shareds\Contracts\TransactionContract;
+use Costa\Shared\Contracts\TransactionContract;
 use Illuminate\Support\Facades\DB;
 
 class DatabaseTransaction implements TransactionContract

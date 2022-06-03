@@ -3,17 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\{Model, SoftDeletes};
 
 class Relationship extends Model
 {
-    use HasFactory, SoftDeletes, Traits\TenantTrait;
+    use HasFactory, Traits\UuidTrait, SoftDeletes;
 
     public $fillable = [
-        'uuid',
+        'id',
         'name',
-        'relationship_id',
-        'relationship_type',
+        'entity',
+        'document_type',
+        'document_value',
     ];
 }

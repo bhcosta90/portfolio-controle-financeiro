@@ -4,7 +4,7 @@
 <div class='card'>
     <div class='card-header'>
         <h1 class='float-left'>{{ __('Relatório de Conta Bancária') }}</h1>
-        <div class='float-right'>{!! register(route('bank.create'), __('Cadastrar Conta Bancária')) !!}</div>
+        <div class='float-right'>{!! register(route('admin.bank.create'), __('Cadastrar Conta Bancária')) !!}</div>
     </div>
     <table class='table table-hover mb-0 table-report'>
         <tr>
@@ -20,10 +20,10 @@
                 <td>
                     {!! links([
                         "edit" => [
-                            "link" => route('bank.edit', $rs->uuid)
+                            "link" => route('admin.bank.edit', $rs->id)
                         ],
                         "delete" => [
-                            "link" => route('bank.destroy', $rs->uuid)
+                            "link" => route('admin.bank.destroy', $rs->id)
                         ]
                     ]) !!}
                 </td>
