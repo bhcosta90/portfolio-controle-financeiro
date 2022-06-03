@@ -97,6 +97,8 @@ class CustomerRepository implements CustomerRepositoryInterface
 
     public function pluck(): array
     {
-        return $this->model->orderBy('name', 'asc')->pluck('name', 'id')->toArray();
+        return $this->model->orderBy('name', 'asc')
+            ->where('entity', CustomerEntity::class)
+            ->pluck('name', 'id')->toArray();
     }
 }

@@ -162,9 +162,10 @@ class ChargePaymentRepository implements ChargeRepositoryInterface
     private function toSql(?array $filter = null)
     {
         return $this->model
-            ->select('charges.*', 'relationships.name as relationship_name')
+            ->select('charges.*', 'relationships.name as relationship_name', 'recurrences.name as recurrence')
             ->join('relationships', fn ($q) => $q->on('relationships.id', '=', 'charges.relationship_id')
                 ->where('relationships.entity', SupplierEntity::class))
+            ->leftJoin('recurrences', 'recurrences.id', '=', 'charges.recurrence_id')
             ->where('charges.entity', ChargeEntity::class)
             ->where(fn ($q) => ($f = $filter['name'] ?? null) ? $q->where('relationships.name', 'like', "%{$f}%") : null)
             ->where(fn ($q) => $this->filterByDate($q, $filter));

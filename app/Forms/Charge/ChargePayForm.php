@@ -2,7 +2,7 @@
 
 namespace App\Forms\Charge;
 
-use Costa\Modules\Account\Repository\BankRepositoryInterface;
+use Costa\Modules\Bank\Repository\BankRepositoryInterface;
 use Kris\LaravelFormBuilder\Form;
 
 class ChargePayForm extends Form

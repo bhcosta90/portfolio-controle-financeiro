@@ -97,6 +97,8 @@ class SupplierRepository implements SupplierRepositoryInterface
 
     public function pluck(): array
     {
-        return $this->model->orderBy('name', 'asc')->pluck('name', 'id')->toArray();
+        return $this->model->orderBy('name', 'asc')
+            ->where('entity', SupplierEntity::class)
+            ->pluck('name', 'id')->toArray();
     }
 }

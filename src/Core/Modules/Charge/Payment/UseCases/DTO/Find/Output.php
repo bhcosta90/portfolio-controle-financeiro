@@ -9,7 +9,10 @@ class Output
         public string $title,
         public ?string $description,
         public float $value,
-        public string $customerId,
+        public float $pay,
+        public string $date,
+        public string $supplierId,
+        public string $supplierName,
         public ?string $recurrenceId,
     ) {
 

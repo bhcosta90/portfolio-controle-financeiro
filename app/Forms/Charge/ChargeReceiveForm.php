@@ -2,9 +2,8 @@
 
 namespace App\Forms\Charge;
 
-use Costa\Modules\Charge\Repository\RecurrenceRepositoryInterface;
-use Costa\Modules\Relationship\Entities\CustomerEntity;
-use Costa\Modules\Relationship\Repository\CustomerRepositoryInterface;
+use Costa\Modules\Recurrence\Repository\RecurrenceRepositoryInterface;
+use Costa\Modules\Relationship\Customer\Repository\CustomerRepositoryInterface;
 use Kris\LaravelFormBuilder\Form;
 
 class ChargeReceiveForm extends Form
@@ -55,7 +54,7 @@ class ChargeReceiveForm extends Form
         $this->add('date', 'date', [
             'rules' => ['required', 'date'],
             'label' => 'Vencimento',
-            'value' => $this->model?->dueDate ?? date('Y-m-d')
+            'value' => $this->model?->date ?? date('Y-m-d')
         ]);
 
         if (empty($verify)) {

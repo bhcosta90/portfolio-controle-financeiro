@@ -21,7 +21,7 @@
         <tbody>
             @foreach($data as $rs)
             <tr>
-                <td>{!! isExpired($rs->status, $rs->date_due, $rs->name) !!}</td>
+                <td>{!! isExpired($rs->status, $rs->date_due, $rs->relationship_name) !!}</td>
                 <td>{!! isExpired($rs->status, $rs->date_due, $rs->title) !!} @if($rs->parcel_total > 1)<small class='text-muted'>(Parcela {{$rs->parcel_actual}})</small>@endif</td>
                 <td style='white-space: nowrap;'>{!! isExpired($rs->status, $rs->date_due, $rs->recurrence ?: '-') !!}</td>
                 <td>{!! isExpired($rs->status, $rs->date_due, str()->date($rs->date_due)) !!}</td>
