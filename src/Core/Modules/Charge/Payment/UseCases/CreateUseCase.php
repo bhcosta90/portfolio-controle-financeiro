@@ -33,7 +33,6 @@ class CreateUseCase
     {
         $charges = [];
         $uuid = str()->uuid();
-        $create = [];
 
         $cacheRelationship = [];
         foreach ($input as $rs) {
