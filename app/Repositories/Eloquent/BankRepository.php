@@ -81,6 +81,15 @@ class BankRepository implements BankRepositoryInterface
         return $this->model->pluck('name', 'id')->toArray();
     }
 
+    public function total(): float
+    {
+        return $this->model->select('accounts.value')
+        ->join('accounts', function ($q) {
+            $q->on('accounts.entity_id', '=', 'banks.id')
+            ->where('accounts.entity_type', BankEntity::class);
+        })->sum('value');
+    }
+
     protected function entity(object $entity)
     {
         return new BankEntity(

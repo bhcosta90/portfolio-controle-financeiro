@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\BankController;
 use App\Http\Controllers\Api\Charge\{PaymentController, ReceiveController};
+use App\Http\Controllers\Api\PaymentController as ApiPaymentController;
 use App\Http\Controllers\Api\RecurrenceController;
 use App\Http\Controllers\Api\Relationship\{CustomerController, SupplierController};
 use Illuminate\Support\Facades\Route;
@@ -10,7 +11,16 @@ Route::prefix('relationship')->group(function () {
     Route::resource('customer', CustomerController::class);
     Route::resource('supplier', SupplierController::class);
 });
+
 Route::resource('recurrence', RecurrenceController::class);
+Route::resource('bank', BankController::class);
+
+Route::as('payment.')->group(function () {
+    Route::get('financialbalance', [ApiPaymentController::class, 'financialbalance'])->name('financialbalance');
+    Route::get('profitmonth', [ApiPaymentController::class, 'profitmonth'])->name('profitmonth');
+    Route::get('calcule', [ApiPaymentController::class, 'calcule'])->name('calcule');
+});
+
 Route::resource('bank', BankController::class);
 
 Route::prefix('charge')->as('charge.')->group(function () {
