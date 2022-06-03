@@ -225,6 +225,59 @@ return [
     */
 
     'menu' => [
+        [
+            'type'         => 'navbar-search',
+            'text'         => 'search',
+            'topnav_right' => false,
+        ],
+        [
+            'type'         => 'fullscreen-widget',
+            'topnav_right' => false,
+        ],
+
+        // Sidebar items:
+        ['header' => 'Relação Comercial'],
+        [
+            'text' => 'Cliente',
+            'url'  => 'admin/relationship/customer',
+            'icon' => 'fas fa-user-tie',
+            'active' => ['admin/customer*']
+        ],
+        [
+            'text' => 'Fornecedor',
+            'url'  => 'admin/relationship/supplier',
+            'icon' => 'fas fa-industry',
+            'active' => ['admin/supplier*']
+        ],
+        ['header' => 'Cadastros'],
+        [
+            'text' => 'Conta Bancária',
+            'url'  => 'admin/bank',
+            'icon' => 'fas fa-university',
+            'active' => ['admin/bank*']
+        ],
+        [
+            'text' => 'Recorrências',
+            'url'  => 'admin/recurrence',
+            'icon' => 'fas fa-undo',
+            'active' => ['admin/recurrence*']
+        ],
+        ['header' => 'Movimentações'],
+        [
+            'text' => 'Conta a Receber',
+            'url'  => 'admin/charge/receive',
+            'icon' => 'fas fa-money-bill-alt',
+            'active' => ['admin/charge/receive*']
+        ],
+        [
+            'text' => 'Conta a Pagar',
+            'url'  => 'admin/charge/payment',
+            'icon' => 'fas fa-cash-register',
+            'active' => ['admin/charge/payment*']
+        ]
+    ],
+
+    'menu2' => [
         // Navbar items:
         [
             'type'         => 'navbar-search',
