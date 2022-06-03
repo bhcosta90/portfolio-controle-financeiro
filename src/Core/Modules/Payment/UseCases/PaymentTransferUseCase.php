@@ -15,11 +15,11 @@ class PaymentTransferUseCase
     public function handle(DTO\PaymentTransfer\Input $input): DTO\PaymentTransfer\Output
     {
         if ($input->accountFrom) {
-            $this->accountRepository->decrementValue($input->accountFrom, $input->value);
+            $this->account->decrementValue($input->accountFrom, $input->value);
         }
 
         if ($input->accountTo) {
-            $this->accountRepository->incrementValue($input->accountTo, $input->value);
+            $this->account->incrementValue($input->accountTo, $input->value);
         }
 
         return new DTO\PaymentTransfer\Output(true);
