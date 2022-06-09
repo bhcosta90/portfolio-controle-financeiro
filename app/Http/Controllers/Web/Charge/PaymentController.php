@@ -77,7 +77,7 @@ class PaymentController extends Controller
         string $id
     ) {
         $model = $useCase->handle(new FindInput($id));
-        $model->relationship_id = $model->customerId;
+        $model->relationship_id = $model->supplierId;
         $model->recurrence_id = $model->recurrenceId;
 
         return view('admin.charge.payment.edit', [
