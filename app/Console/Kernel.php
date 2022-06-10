@@ -6,6 +6,7 @@ use DateTime;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {
@@ -21,6 +22,7 @@ class Kernel extends ConsoleKernel
         $schedule->command("tenant:run payment:schedule --option='date={$date}'")->dailyAt('10:00:00');
         $schedule->command("queue:work --stop-when-empty")->everyMinute();
         $schedule->call(fn() => Http::get('http://controlefinanceiro.bhcosta90.dev.br'))->everyTwoMinutes();
+        $schedule->call(fn() => Log::info('execute time: ' . time()))->everyTwoMinutes();
     }
 
     /**
