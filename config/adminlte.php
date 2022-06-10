@@ -274,7 +274,14 @@ return [
             'url'  => 'admin/charge/payment',
             'icon' => 'fas fa-cash-register',
             'active' => ['admin/charge/payment*']
-        ]
+        ],
+        ['header' => 'Relatório'],
+        [
+            'text' => 'Pagamento',
+            'url'  => 'admin/payment',
+            'icon' => 'fas fa-money-bill-alt',
+            'active' => ['admin/payment*']
+        ],
     ],
 
     'menu2' => [
