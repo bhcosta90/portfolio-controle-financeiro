@@ -54,7 +54,6 @@ class PaymentUseCase
         
         try {
             $this->repo->update($objCharge);
-            
             $this->payment->insert($objPayment);
             $objPayment->dispatch($this->paymentEventManager);
             

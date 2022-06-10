@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Charge;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Costa\Modules\Charge\Payment\Entity\ChargeEntity;
 use Costa\Modules\Charge\Payment\UseCases\{
     CreateUseCase,
@@ -22,6 +23,7 @@ use Costa\Modules\Charge\Payment\UseCases\DTO\{
 };
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
@@ -99,5 +101,29 @@ class PaymentController extends Controller
         ));
 
         return response()->json(['data' => $resp]);
+    }
+
+    public function resume(string $type, Request $request){
+        $action = "getResume".str_replace(' ', '', ucwords(str_replace('-', ' ', $type)));
+        $resp = $this->$action();
+        return response()->json([
+            'quantity' => $resp,
+            'total' => str()->numberEnToBr($resp),
+            'total_real' => $resp,
+        ]);
+    }
+
+    protected function getResumeDueDate(){
+        return DB::table('charges')
+            ->where('entity', ChargeEntity::class)
+            ->where('date_due', '<', Carbon::now()->format('Y-m-d'))
+            ->count();
+    }
+
+    protected function getResumeToday(){
+        return DB::table('charges')
+            ->where('entity', ChargeEntity::class)
+            ->where('date_due', Carbon::now()->format('Y-m-d'))
+            ->count();
     }
 }

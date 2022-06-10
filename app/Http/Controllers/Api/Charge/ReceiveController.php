@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Charge;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Costa\Modules\Charge\Receive\Entity\ChargeEntity;
 use Costa\Modules\Charge\Receive\UseCases\{
     CreateUseCase,
@@ -11,7 +12,6 @@ use Costa\Modules\Charge\Receive\UseCases\{
     DeleteUseCase,
     ListUseCase,
     PaymentUseCase,
-    ResumeUseCase,
 };
 
 use Costa\Modules\Charge\Receive\UseCases\DTO\{
@@ -20,10 +20,10 @@ use Costa\Modules\Charge\Receive\UseCases\DTO\{
     Find\Input as FindInput,
     List\Input as ListInput,
     Payment\Input as PaymentInput,
-    Resume\Input as ResumeInput,
 };
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ReceiveController extends Controller
 {
@@ -103,9 +103,27 @@ class ReceiveController extends Controller
         return response()->json(['data' => $resp]);
     }
 
-    public function resume(string $type, ResumeUseCase $uc, Request $request){
-        $resp = $uc->handle(new ResumeInput(type: $type, date: new DateTime($request->month)));
-        $resp->total_real = str()->numberEnToBr($resp->total);
-        return response()->json($resp);
+    public function resume(string $type, Request $request){
+        $action = "getResume".str_replace(' ', '', ucwords(str_replace('-', ' ', $type)));
+        $resp = $this->$action();
+        return response()->json([
+            'quantity' => $resp,
+            'total' => str()->numberEnToBr($resp),
+            'total_real' => $resp,
+        ]);
+    }
+
+    protected function getResumeDueDate(){
+        return DB::table('charges')
+            ->where('entity', ChargeEntity::class)
+            ->where('date_due', '<', Carbon::now()->format('Y-m-d'))
+            ->count();
+    }
+
+    protected function getResumeToday(){
+        return DB::table('charges')
+            ->where('entity', ChargeEntity::class)
+            ->where('date_due', Carbon::now()->format('Y-m-d'))
+            ->count();
     }
 }
