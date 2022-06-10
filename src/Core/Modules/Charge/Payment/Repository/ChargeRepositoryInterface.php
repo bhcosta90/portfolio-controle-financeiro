@@ -12,9 +12,7 @@ interface ChargeRepositoryInterface extends RepositoryInterface
 {
     public function insertWithParcel(ChargeEntity $entity, ParcelObject $parcel): ChargeEntity;
 
-    public function total(DateTime $dateStart, DateTime $dateFinish): float;
-
-    public function getTotalByFilter(?array $filter = null): float;
+    public function total(?array $filter = null): float;
     
     public function getResumeToday(): ResumeObject;
 
