@@ -2,31 +2,27 @@
 
 namespace Costa\Modules\Payment\UseCases;
 
-use App\Repositories\Eloquent\ChargePaymentRepository;
-use App\Repositories\Eloquent\ChargeReceiveRepository;
 use Costa\Modules\Bank\Repository\BankRepositoryInterface;
+use Costa\Modules\Charge\Payment\Repository\ChargeRepositoryInterface as PaymentInterface;
+use Costa\Modules\Charge\Receive\Repository\ChargeRepositoryInterface as ReceiveInterface;
 
 class FinancialBalanceUseCase
 {
     public function __construct(
-        private ChargeReceiveRepository $receive,
-        private ChargePaymentRepository $payment,
+        private PaymentInterface $receive,
+        private ReceiveInterface $payment,
         private BankRepositoryInterface $bank,
-    )
-    {
+    ) {
         //
     }
-    
+
     public function handle(DTO\FinancialBalance\Input $input): DTO\FinancialBalance\Output
     {
-        $filter = [
-            'type' => 1,
-            'date_start' => $input->date->modify('first day of this month')->format('Y-m-d'),
-            'date_finish' => $input->date->modify('last day of this month')->format('Y-m-d'),
-        ];
+        $dateStart = $input->date->modify('first day of this month');
+        $dateFinish = $input->date->modify('first day of this month');
 
-        $valueReceive = $this->receive->total($filter);
-        $valuePayment = $this->payment->total($filter);
+        $valueReceive = $this->receive->total($dateStart, $dateFinish);
+        $valuePayment = $this->payment->total($dateStart, $dateFinish);
         $totalBank = $this->bank->total();
 
         $valueTotal = $valueReceive - $valuePayment + $totalBank;

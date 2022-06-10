@@ -12,21 +12,17 @@ class CalculateUseCase
         private ChargeReceiveRepository $receive,
         private ChargePaymentRepository $payment,
         private BankRepositoryInterface $bank,
-    )
-    {
+    ) {
         //
     }
 
     public function handle(DTO\Calculate\Input $input)
     {
-        $filter = [
-            'type' => 1,
-            'date_start' => $input->date->modify('first day of this month')->format('Y-m-d'),
-            'date_finish' => $input->date->modify('last day of this month')->format('Y-m-d'),
-        ];
+        $dateStart = $input->date->modify('first day of this month');
+        $dateFinish = $input->date->modify('first day of this month');
 
-        $valueReceive = $this->receive->total($filter);
-        $valuePayment = $this->payment->total($filter);
+        $valueReceive = $this->receive->total($dateStart, $dateFinish);
+        $valuePayment = $this->payment->total($dateStart, $dateFinish);
 
         $valueTotal = $valueReceive - $valuePayment;
 

@@ -126,9 +126,13 @@ class ChargePaymentRepository implements ChargeRepositoryInterface
         return $this->toSql($filter)->get();
     }
 
-    public function total(?array $filter = null): float
+    public function total(DateTime $dateStart, DateTime $dateFinish): float
     {
-        return $this->toSql()->sum(DB::raw('charges.value_charge - charges.value_pay'));
+        return $this->toSql([
+            'type' => 1,
+            'date_start' => $dateStart->format('Y-m-d'),
+            'date_finish' => $dateFinish->format('Y-m-d'),
+        ])->sum(DB::raw('charges.value_charge - charges.value_pay'));
     }
 
     public function pluck(): array
