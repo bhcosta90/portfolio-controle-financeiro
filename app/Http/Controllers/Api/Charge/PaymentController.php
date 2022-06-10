@@ -21,6 +21,7 @@ use Costa\Modules\Charge\Payment\UseCases\DTO\{
     List\Input as ListInput,
     Payment\Input as PaymentInput,
 };
+use Costa\Modules\Charge\Utils\Enums\ChargeStatusEnum;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -117,6 +118,7 @@ class PaymentController extends Controller
         return DB::table('charges')
             ->where('entity', ChargeEntity::class)
             ->where('date_due', '<', Carbon::now()->format('Y-m-d'))
+            ->where('status', '!=', ChargeStatusEnum::COMPLETED)
             ->count();
     }
 
@@ -124,6 +126,7 @@ class PaymentController extends Controller
         return DB::table('charges')
             ->where('entity', ChargeEntity::class)
             ->where('date_due', Carbon::now()->format('Y-m-d'))
+            ->where('status', '!=', ChargeStatusEnum::COMPLETED)
             ->count();
     }
 }
