@@ -6,7 +6,8 @@ class Output
 {
     public function __construct(
         public string $relationship,
-        public string $charge,
+        public string $charge_id,
+        public string $charge_type,
         public string $date,
         public float $value,
         public ?string $accountFrom,

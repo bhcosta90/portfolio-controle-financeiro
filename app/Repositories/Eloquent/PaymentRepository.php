@@ -27,7 +27,8 @@ class PaymentRepository implements PaymentRepositoryInterface
     {
         $obj = $this->model->create([
             'id' => $entity->id(),
-            'charge_id' => $entity->charge,
+            'charge_id' => $entity->charge->id,
+            'charge_type' => $entity->charge->type,
             'account_from_id' => $entity->accountFrom,
             'account_to_id' => $entity->accountTo,
             'relationship_id' => $entity->relationship,
@@ -104,7 +105,7 @@ class PaymentRepository implements PaymentRepositoryInterface
     {
         return new PaymentEntity(
             relationship: $entity->relationship_id,
-            charge: $entity->charge_id,
+            charge: new ModelObject($entity->charge_id, $entity->charge_type),
             date: new DateTime($entity->date_schedule),
             value: $entity->value_payment,
             accountFrom: $entity->account_from_id,

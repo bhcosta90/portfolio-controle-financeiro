@@ -43,7 +43,7 @@ class PaymentUseCase
 
         $objPayment = new PaymentEntity(
             relationship: $objCharge->customer->id,
-            charge: $objCharge->id(),
+            charge: new ModelObject($objCharge->id(), $objCharge),
             date: $input->date,
             value: $input->value,
             accountFrom: $account,
@@ -79,7 +79,8 @@ class PaymentUseCase
 
             return new DTO\Payment\Output(
                 relationship: $objPayment->relationship,
-                charge: $objPayment->charge,
+                charge_id: $objPayment->charge->id,
+                charge_type: $objPayment->charge->type,
                 date: $objPayment->date->format('Y-m-d'),
                 value: $objPayment->value,
                 accountFrom: $objPayment->accountFrom,

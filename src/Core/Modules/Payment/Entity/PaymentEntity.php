@@ -7,6 +7,7 @@ use Costa\Modules\Payment\Events\PaymentEvent;
 use Costa\Modules\Payment\Shared\Enums\PaymentType;
 use Costa\Shared\Abstracts\EntityAbstract;
 use Costa\Shared\ValueObject\Input\InputNameObject;
+use Costa\Shared\ValueObject\ModelObject;
 use Costa\Shared\ValueObject\UuidObject;
 use DateTime;
 
@@ -16,7 +17,7 @@ class PaymentEntity extends EntityAbstract
 
     public function __construct(
         protected string $relationship,
-        protected string $charge,
+        protected ModelObject $charge,
         protected ?InputNameObject $title,
         protected DateTime $date,
         protected float $value,

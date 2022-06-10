@@ -12,6 +12,7 @@ class Payment extends Model
     public $fillable = [
         'id',
         'charge_id',
+        'charge_type',
         'account_from_id',
         'account_to_id',
         'relationship_id',
