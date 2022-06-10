@@ -20,5 +20,6 @@ class Payment extends Model
         'value_payment',
         'type',
         'completed',
+        'title',
     ];
 }

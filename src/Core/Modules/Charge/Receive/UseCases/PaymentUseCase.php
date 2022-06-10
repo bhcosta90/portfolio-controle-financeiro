@@ -49,6 +49,7 @@ class PaymentUseCase
             accountFrom: $account,
             accountTo: $bank ? $bank : null,
             type: PaymentType::CREDIT,
+            title: $objCharge->title,
         );
         
         try {

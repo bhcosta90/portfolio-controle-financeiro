@@ -14,6 +14,8 @@ interface ChargeRepositoryInterface extends RepositoryInterface
 
     public function total(DateTime $dateStart, DateTime $dateFinish): float;
 
+    public function getTotalByFilter(?array $filter = null): float;
+    
     public function getResumeToday(): ResumeObject;
 
     public function getAccountPaymentToday(): ResumeObject;

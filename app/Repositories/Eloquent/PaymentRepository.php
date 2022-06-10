@@ -34,6 +34,7 @@ class PaymentRepository implements PaymentRepositoryInterface
             'date_schedule' => $entity->date->format('Y-m-d'),
             'value_transaction' => $entity->value,
             'value_payment' => $entity->value,
+            'title' => $entity->title->value,
             'completed' => $entity->completed,
             'type' => $entity->type->value,
         ]);
@@ -74,7 +75,19 @@ class PaymentRepository implements PaymentRepositoryInterface
 
     public function paginate(?array $filter = null, ?int $page = 1, ?int $totalPage = 15): PaginationInterface
     {
-        return new PaginatorPresenter($this->model->paginate());
+        $result = $this->model
+            ->select(
+                'payments.id',
+                'payments.title',
+                'payments.value_payment',
+                'payments.created_at',
+                'relationships.name',
+            )
+            ->join('charges', 'payments.charge_id', '=', 'charges.id')
+            ->join('relationships', 'relationships.id', '=', 'charges.relationship_id')
+            ->orderBy('created_at', 'desc');
+
+        return new PaginatorPresenter($result->paginate());
     }
 
     public function all(?array $filter = null): array|object
@@ -98,7 +111,8 @@ class PaymentRepository implements PaymentRepositoryInterface
             accountTo: $entity->account_to_id,
             id: new UuidObject($entity->id),
             createdAt: new DateTime($entity->create_at),
-            type: PaymentType::from($entity->type)
+            type: PaymentType::from($entity->type),
+            title: new InputNameObject($entity->title, true)
         );
     }
 }

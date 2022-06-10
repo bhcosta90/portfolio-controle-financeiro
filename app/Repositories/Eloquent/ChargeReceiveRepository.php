@@ -135,6 +135,11 @@ class ChargeReceiveRepository implements ChargeRepositoryInterface
         ])->sum(DB::raw('charges.value_charge - charges.value_pay'));
     }
 
+    public function getTotalByFilter(?array $filter = null): float
+    {
+        return $this->toSql($filter)->sum(DB::raw('charges.value_charge - charges.value_pay'));
+    }
+
     public function pluck(): array
     {
         return $this->toSql([])->orderBy('name', 'asc')->pluck('name', 'id')->toArray();

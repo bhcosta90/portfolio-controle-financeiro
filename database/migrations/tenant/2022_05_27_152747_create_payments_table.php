@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignUuid('account_from_id')->nullable()->constrained('accounts');
             $table->foreignUuid('account_to_id')->nullable()->constrained('accounts');
             $table->foreignUuid('relationship_id')->nullable()->constrained('relationships');
+            $table->string('title')->nullable();
             $table->date('date_schedule')->nullable();
             $table->unsignedTinyInteger('type');
             $table->float('value_transaction');

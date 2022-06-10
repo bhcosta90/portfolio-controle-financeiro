@@ -1,13 +1,13 @@
 <?php
 
-namespace Costa\Modules\Charge\Receive\UseCases;
+namespace Costa\Modules\Payment\UseCases;
 
-use Costa\Modules\Charge\Receive\Repository\ChargeRepositoryInterface;
+use Costa\Modules\Payment\Repository\PaymentRepositoryInterface;
 
 class ListUseCase
 {
     public function __construct(
-        protected ChargeRepositoryInterface $repo,
+        protected PaymentRepositoryInterface $repo,
     ) {
         //
     }
@@ -29,7 +29,6 @@ class ListUseCase
             to: $result->to(),
             from: $result->from(),
             current_page: $result->currentPage(),
-            value: $this->repo->getTotalByFilter($input->filter),
         );
     }
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Web\BankAccountController;
 use App\Http\Controllers\Web\Charge\PaymentController;
 use App\Http\Controllers\Web\Charge\ReceiveController;
+use App\Http\Controllers\Web\PaymentController as WebPaymentController;
 use App\Http\Controllers\Web\RecurrenceController;
 use App\Http\Controllers\Web\Relationship\CustomerController;
 use App\Http\Controllers\Web\Relationship\SupplierController;
@@ -24,3 +25,5 @@ Route::prefix('charge')->as('charge.')->group(function () {
     Route::get('payment/{id}/pay', [PaymentController::class, 'payShow'])->name('payment.pay.show');
     Route::post('payment/{id}/pay', [PaymentController::class, 'payStore'])->name('payment.pay.store');
 });
+
+Route::resource('payment', WebPaymentController::class);
