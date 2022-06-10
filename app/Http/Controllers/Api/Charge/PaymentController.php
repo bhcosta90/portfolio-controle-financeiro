@@ -119,6 +119,7 @@ class PaymentController extends Controller
             ->where('entity', ChargeEntity::class)
             ->where('date_due', '<', Carbon::now()->format('Y-m-d'))
             ->where('status', '!=', ChargeStatusEnum::COMPLETED)
+            ->whereNull('deleted_at')
             ->count();
     }
 
@@ -127,6 +128,7 @@ class PaymentController extends Controller
             ->where('entity', ChargeEntity::class)
             ->where('date_due', Carbon::now()->format('Y-m-d'))
             ->where('status', '!=', ChargeStatusEnum::COMPLETED)
+            ->whereNull('deleted_at')
             ->count();
     }
 }
