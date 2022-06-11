@@ -18,7 +18,6 @@ use Costa\Modules\Bank\UseCases\DTO\Create\Input as BankInput;
 use DateTime;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 
 class TenantSeeder extends Seeder
 {
