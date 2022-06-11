@@ -17,8 +17,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         if (!app()->isProduction()) {
-            $this->register('0b26c3fd-bb33-4419-867a-5aee383353f5', env('DB_DATABASE') . '_1', 'controlefinanceiro');
-            $this->register('62a91d51-e600-404d-b88d-a696d6e0b693', env('DB_DATABASE') . '_2', 'controlefinanceiro2');
+            $this->register('0b26c3fd-bb33-4419-867a-5aee383353f5', env('DB_DATABASE') . '_1', 'localhost1');
+            $this->register('62a91d51-e600-404d-b88d-a696d6e0b693', env('DB_DATABASE') . '_2', 'localhost2');
             Artisan::call('tenants:migrate-fresh');
             Artisan::call('tenants:seed', [
                 '--class' => TenantSeeder::class,
