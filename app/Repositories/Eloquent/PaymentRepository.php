@@ -79,14 +79,15 @@ class PaymentRepository implements PaymentRepositoryInterface
         $result = $this->model
             ->select(
                 'payments.id',
+                'payments.completed',
                 'payments.title',
                 'payments.value_payment',
-                'payments.created_at',
+                'payments.date_schedule',
                 'relationships.name',
             )
             ->join('charges', 'payments.charge_id', '=', 'charges.id')
             ->join('relationships', 'relationships.id', '=', 'charges.relationship_id')
-            ->orderBy('created_at', 'desc');
+            ->orderBy('payments.date_schedule', 'desc');
 
         return new PaginatorPresenter($result->paginate());
     }

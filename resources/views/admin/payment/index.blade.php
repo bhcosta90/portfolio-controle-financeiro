@@ -7,6 +7,7 @@
     </div>
     <table class='table table-hover mb-0 table-report'>
         <tr>
+            <th style='width:1px'></th>
             <th>{{ __('Nome') }}</th>
             <th>{{ __('Descrição') }}</th>
             <th style='width:1px'>{{ __('Vencimento') }}</th>
@@ -16,9 +17,10 @@
         <tbody>
             @foreach($data as $rs)
             <tr>
+                <td><i class="{{ $rs->completed ? "fas fa-check text-success" : "far fa-clock text-warning" }}"></i></td>
                 <td>{{ $rs->name }}</td>
                 <td>{{ $rs->title }}</td>
-                <td>{{ str()->date($rs->created_at) }}</td>
+                <td>{{ str()->date($rs->date_schedule) }}</td>
                 <td style='white-space: nowrap;'>{{ str()->numberEnToBr($rs->value_payment) }}</td>
                 <td>
                     {!! links([
