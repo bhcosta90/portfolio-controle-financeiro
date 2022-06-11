@@ -68,7 +68,7 @@ class PaymentUseCase
                     description: $objCharge->description,
                     supplier: $objCharge->supplier,
                     value: $objCharge->value,
-                    date: (new CalculateDate($objCharge->date, $objRecurrence->days->value))->handle(),
+                    date: $objRecurrence->calculate($objCharge->date),
                     base: $objCharge->base,
                     recurrence: $objCharge->recurrence,
                 );
