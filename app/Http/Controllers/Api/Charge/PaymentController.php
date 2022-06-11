@@ -31,7 +31,7 @@ class PaymentController extends Controller
     public function index(ListUseCase $uc, Request $request)
     {
         return response()->json($uc->exec(new ListInput(
-            $request->all(), 
+            $request->all(),
             $request->limit,
             $request->page,
         )));
@@ -40,7 +40,7 @@ class PaymentController extends Controller
     public function store(Request $request, CreateUseCase $uc)
     {
         $input = [];
-        foreach($request->charges as $charge){
+        foreach ($request->charges as $charge) {
             $input[] = new CreateInput(
                 title: $charge['title'],
                 description: $charge['description'] ?? null,
@@ -72,7 +72,7 @@ class PaymentController extends Controller
             date: new DateTime($request->date),
             recurrence: $request->recurrence ?? null,
         ));
-        
+
         return response()->json(['data' => $resp]);
     }
 
@@ -82,7 +82,8 @@ class PaymentController extends Controller
         return response()->noContent();
     }
 
-    public function pay(PaymentUseCase $uc, string $id, Request $request){
+    public function pay(PaymentUseCase $uc, string $id, Request $request)
+    {
         $request->request->add(['id' => $id]);
 
         $data = $request->validate([
@@ -104,17 +105,19 @@ class PaymentController extends Controller
         return response()->json(['data' => $resp]);
     }
 
-    public function resume(string $type, Request $request){
-        $action = "getResume".str_replace(' ', '', ucwords(str_replace('-', ' ', $type)));
-        $resp = $this->$action();
+    public function resume(string $type, Request $request)
+    {
+        $action = "getResume" . str_replace(' ', '', ucwords(str_replace('-', ' ', $type)));
+        $resp = $this->$action($request->month);
         return response()->json([
             'quantity' => $resp,
-            'total' => str()->numberEnToBr($resp),
-            'total_real' => $resp,
+            'total_real' => str()->numberEnToBr($resp),
+            'total' => $resp,
         ]);
     }
 
-    protected function getResumeDueDate(){
+    protected function getResumeDueDate()
+    {
         return DB::table('charges')
             ->where('entity', ChargeEntity::class)
             ->where('date_due', '<', Carbon::now()->format('Y-m-d'))
@@ -123,12 +126,28 @@ class PaymentController extends Controller
             ->count();
     }
 
-    protected function getResumeToday(){
+    protected function getResumeToday()
+    {
         return DB::table('charges')
             ->where('entity', ChargeEntity::class)
             ->where('date_due', Carbon::now()->format('Y-m-d'))
             ->where('status', '!=', ChargeStatusEnum::COMPLETED)
             ->whereNull('deleted_at')
             ->count();
+    }
+
+    protected function getResumeValue($date)
+    {
+        $date = new Carbon($date);
+
+        return DB::table('charges')
+            ->where('entity', ChargeEntity::class)
+            ->whereBetween('date_due', [
+                $date->firstOfMonth()->format('Y-m-d'),
+                $date->lastOfMonth()->format('Y-m-d')
+            ])
+            ->where('status', '!=', ChargeStatusEnum::COMPLETED)
+            ->whereNull('deleted_at')
+            ->sum(DB::raw('value_charge - value_pay'));
     }
 }

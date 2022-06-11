@@ -106,11 +106,11 @@ class ReceiveController extends Controller
 
     public function resume(string $type, Request $request){
         $action = "getResume".str_replace(' ', '', ucwords(str_replace('-', ' ', $type)));
-        $resp = $this->$action();
+        $resp = $this->$action($request->month);
         return response()->json([
             'quantity' => $resp,
-            'total' => str()->numberEnToBr($resp),
-            'total_real' => $resp,
+            'total_real' => str()->numberEnToBr($resp),
+            'total' => $resp,
         ]);
     }
 
@@ -128,5 +128,20 @@ class ReceiveController extends Controller
             ->where('date_due', Carbon::now()->format('Y-m-d'))
             ->where('status', '!=', ChargeStatusEnum::COMPLETED)
             ->count();
+    }
+
+    protected function getResumeValue($date)
+    {
+        $date = new Carbon($date);
+
+        return DB::table('charges')
+            ->where('entity', ChargeEntity::class)
+            ->whereBetween('date_due', [
+                $date->firstOfMonth()->format('Y-m-d'),
+                $date->lastOfMonth()->format('Y-m-d')
+            ])
+            ->where('status', '!=', ChargeStatusEnum::COMPLETED)
+            ->whereNull('deleted_at')
+            ->sum(DB::raw('value_charge - value_pay'));
     }
 }

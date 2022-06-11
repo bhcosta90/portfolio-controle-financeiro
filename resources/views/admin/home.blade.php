@@ -63,7 +63,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-6 request" data-route1="{{ route('api.payment.financialbalance') }}">
+        <div class="col-6 request" data-route="{{ route('api.payment.financialbalance', ['month' => request('month')]) }}">
             <div class="small-box box bg-secondary" data-success="bg-success" data-danger="bg-danger">
                 <div class="inner">
                     <h3 class='total_real' data-prefix='R$'>...</h3>
@@ -75,7 +75,7 @@
             </div>
         </div>
 
-        <div class="col-6 request" data-route1="{{ route('api.payment.profitmonth') }}">
+        <div class="col-6 request" data-route="{{ route('api.payment.profitmonth', ['month' => request('month')]) }}">
             <div class="small-box box bg-secondary" data-success="bg-success" data-danger="bg-danger">
                 <div class="inner">
                     <h3 class='total_real' data-prefix='R$'>...</h3>
@@ -90,7 +90,7 @@
     </div>
     <hr />
     <div class='row'>
-        <div class="col-4 request" data-route1="{{ route('api.payment.calcule', ['month' => request('month')]) }}">
+        <div class="col-4 request" data-route="{{ route('api.payment.calcule', ['month' => request('month')]) }}">
             <div class="small-box box bg-secondary" data-success="bg-success" data-danger="bg-danger">
                 <div class="inner">
                     <h3 class='total_real' data-prefix='R$'>...</h3>
@@ -102,7 +102,7 @@
             </div>
         </div>
         
-        <div class="col-4 request" data-route1="{{ route('api.charge.payment.resume', ['type' => 'value', 'month' => request('month')]) }}">
+        <div class="col-4 request" data-route="{{ route('api.charge.payment.resume', ['type' => 'value', 'month' => request('month')]) }}">
             <div class="small-box box bg-secondary" data-success="bg-danger" data-danger="bg-success">
                 <div class="inner">
                     <h3 class='total_real' data-prefix='R$'>...</h3>
@@ -114,7 +114,7 @@
             </div>
         </div>
 
-        <div class="col-4 request" data-route1="{{ route('api.charge.receive.resume', ['type' => 'value', 'month' => request('month')]) }}">
+        <div class="col-4 request" data-route="{{ route('api.charge.receive.resume', ['type' => 'value', 'month' => request('month')]) }}">
             <div class="small-box box bg-secondary" data-success="bg-success" data-danger="bg-danger">
                 <div class="inner">
                     <h3 class='total_real' data-prefix='R$'>...</h3>
