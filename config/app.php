@@ -3,7 +3,10 @@
 use Illuminate\Support\Facades\Facade;
 
 return [
-
+    'user' => [
+        'login' => env('USER_LOGIN'),
+        'password' => env('USER_PASSWORD')
+    ],
     /*
     |--------------------------------------------------------------------------
     | Application Name

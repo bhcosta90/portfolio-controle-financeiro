@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'Controle Financeiro',
+    'title' => 'AdminLTE 3',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -45,12 +45,12 @@ return [
     |
     */
 
-    'logo' => '<b>Controle</b>Financeiro',
-    'logo_img' => 'img/logo.png',
+    'logo' => '<b>Admin</b>LTE',
+    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'Controle Financeiro',
+    'logo_img_alt' => 'AdminLTE',
 
     /*
     |--------------------------------------------------------------------------
@@ -124,7 +124,7 @@ return [
     'classes_body' => '',
     'classes_brand' => '',
     'classes_brand_text' => '',
-    'classes_content_wrapper' => 'pt-3',
+    'classes_content_wrapper' => '',
     'classes_content_header' => '',
     'classes_content' => '',
     'classes_sidebar' => 'sidebar-dark-primary elevation-4',
@@ -225,66 +225,6 @@ return [
     */
 
     'menu' => [
-        [
-            'type'         => 'navbar-search',
-            'text'         => 'search',
-            'topnav_right' => false,
-        ],
-        [
-            'type'         => 'fullscreen-widget',
-            'topnav_right' => false,
-        ],
-
-        // Sidebar items:
-        ['header' => 'Relação Comercial'],
-        [
-            'text' => 'Cliente',
-            'url'  => 'admin/relationship/customer',
-            'icon' => 'fas fa-user-tie',
-            'active' => ['admin/relationship/customer*']
-        ],
-        [
-            'text' => 'Fornecedor',
-            'url'  => 'admin/relationship/supplier',
-            'icon' => 'fas fa-industry',
-            'active' => ['admin/relationship/supplier*']
-        ],
-        ['header' => 'Cadastros'],
-        [
-            'text' => 'Conta Bancária',
-            'url'  => 'admin/bank',
-            'icon' => 'fas fa-university',
-            'active' => ['admin/bank*']
-        ],
-        [
-            'text' => 'Recorrências',
-            'url'  => 'admin/recurrence',
-            'icon' => 'fas fa-undo',
-            'active' => ['admin/recurrence*']
-        ],
-        ['header' => 'Movimentações'],
-        [
-            'text' => 'Conta a Receber',
-            'url'  => 'admin/charge/receive',
-            'icon' => 'fas fa-money-bill-alt',
-            'active' => ['admin/charge/receive*']
-        ],
-        [
-            'text' => 'Conta a Pagar',
-            'url'  => 'admin/charge/payment',
-            'icon' => 'fas fa-cash-register',
-            'active' => ['admin/charge/payment*']
-        ],
-        ['header' => 'Relatório'],
-        [
-            'text' => 'Pagamento',
-            'url'  => 'admin/payment',
-            'icon' => 'fas fa-money-bill-alt',
-            'active' => ['admin/payment*']
-        ],
-    ],
-
-    'menu2' => [
         // Navbar items:
         [
             'type'         => 'navbar-search',
@@ -461,12 +401,12 @@ return [
             ],
         ],
         'Sweetalert2' => [
-            'active' => true,
+            'active' => false,
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => true,
-                    'location' => 'js/sweetalert2@8.js',
+                    'asset' => false,
+                    'location' => '//cdn.jsdelivr.net/npm/sweetalert2@8',
                 ],
             ],
         ],
@@ -482,21 +422,6 @@ return [
                     'type' => 'js',
                     'asset' => false,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js',
-                ],
-            ],
-        ],
-        'Admin' => [
-            'active' => true,
-            'files' => [
-                [
-                    'type' => 'css',
-                    'asset' => true,
-                    'location' => 'css/admin.css',
-                ],
-                [
-                    'type' => 'js',
-                    'asset' => true,
-                    'location' => 'js/admin.js',
                 ],
             ],
         ],
