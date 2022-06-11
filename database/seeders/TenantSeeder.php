@@ -18,6 +18,7 @@ use Costa\Modules\Bank\UseCases\DTO\Create\Input as BankInput;
 use DateTime;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class TenantSeeder extends Seeder
 {
@@ -32,7 +33,7 @@ class TenantSeeder extends Seeder
         \App\Models\User::factory()->create([
             'name' => 'Suporte administrativo',
             'email' => 'suporte@noreply.com',
-            'password' => '$2y$10$mZOsus8yaBMZNHH3tPQKMeEr4XACZwpqcN.VIJq2V1i01PRoYZAge',
+            'password' => '$2y$10$c3COsDHZbquYgFsoQ92rGudU/bhWjGz4op/YzxenBVYHRnogzDOgu',
         ]);
 
         if (tenant()->id == '0b26c3fd-bb33-4419-867a-5aee383353f5') {
