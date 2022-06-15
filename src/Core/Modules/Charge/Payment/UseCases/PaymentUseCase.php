@@ -47,9 +47,9 @@ class PaymentUseCase
             charge: new ModelObject($objCharge->id(), $objCharge),
             date: $input->date,
             value: $input->value,
-            accountFrom: $account,
-            accountTo: $bank ? $bank : null,
-            type: PaymentType::CREDIT,
+            accountFrom: $bank ? $bank : null,
+            accountTo: $account,
+            type: PaymentType::DEBIT,
             title: $objCharge->title,
         );
         
