@@ -16,7 +16,7 @@ class PaymentController extends Controller
     public function financialbalance(Request $request)
     {
         $resp = $this->getBankValue()
-            - $this->getResumeValueReceiveEntity($request->month)
+            + $this->getResumeValueReceiveEntity($request->month)
             - $this->getResumeValuePaymentEntity($request->month);
 
         return response()->json([
