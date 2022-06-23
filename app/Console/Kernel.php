@@ -15,10 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $date = (new DateTime())->format('Y-m-d');
-        // $schedule->command("tenant:run payment:schedule --option='date={$date}'")->dailyAt('10:00:00');
-        // $schedule->command("queue:work --stop-when-empty")->everyMinute();
-        // $schedule->call(fn() => Http::get(config('app.url')))->everyTwoMinutes();
+        // $schedule->command('inspire')->hourly();
     }
 
     /**

@@ -71,14 +71,6 @@ return [
             'after_commit' => false,
         ],
 
-        'central' => [
-            'driver' => env('QUEUE_CONNECTION'),
-            'table' => 'jobs',
-            'queue' => 'default',
-            'retry_after' => 90,
-            'central' => true, // <---        
-        ]
-
     ],
 
     /*

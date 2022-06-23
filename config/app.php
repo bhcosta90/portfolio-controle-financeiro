@@ -3,10 +3,7 @@
 use Illuminate\Support\Facades\Facade;
 
 return [
-    'user' => [
-        'login' => env('USER_LOGIN'),
-        'password' => env('USER_PASSWORD')
-    ],
+
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -72,7 +69,7 @@ return [
     |
     */
 
-    'timezone' => 'America/Sao_Paulo',
+    'timezone' => 'UTC',
 
     /*
     |--------------------------------------------------------------------------
@@ -85,7 +82,7 @@ return [
     |
     */
 
-    'locale' => 'pt-br',
+    'locale' => 'en',
 
     /*
     |--------------------------------------------------------------------------
@@ -197,7 +194,6 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        App\Providers\TenancyServiceProvider::class,
 
     ],
 
