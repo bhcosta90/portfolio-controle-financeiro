@@ -2,7 +2,6 @@
 
 namespace Core\Financial\Relationship\Modules\Company\Domain;
 
-use Core\Financial\Account\Contracts\AccountInterface;
 use Core\Financial\Relationship\Shared\Enums\DocumentEnum;
 use Core\Financial\Relationship\Shared\ValueObject\DocumentObject;
 use Core\Shared\Abstracts\EntityAbstract;
@@ -10,7 +9,7 @@ use Core\Shared\ValueObjects\Input\NameInputObject;
 use Core\Shared\ValueObjects\UuidObject;
 use DateTime;
 
-class CompanyEntity extends EntityAbstract implements AccountInterface
+class CompanyEntity extends EntityAbstract
 {
     private function __construct(
         protected NameInputObject $name,
@@ -49,16 +48,5 @@ class CompanyEntity extends EntityAbstract implements AccountInterface
             : null;
 
         return $this;
-    }
-
-    public function getEntityAccount(object $input): EntityAbstract
-    {
-        return self::create(
-            name: $input->name,
-            document_type: $input->document_type,
-            document_value: $input->document_value,
-            id: $input->id,
-            createdAt: $input->created_at,
-        );
     }
 }

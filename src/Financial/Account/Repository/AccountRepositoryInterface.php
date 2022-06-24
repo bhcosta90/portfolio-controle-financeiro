@@ -14,4 +14,8 @@ interface AccountRepositoryInterface
     public function find(string $id, string $entity): AccountEntity;
 
     public function delete(AccountEntity $entity): bool;
+
+    public function add(AccountEntity $account, EntityAbstract $entity, float $value);
+
+    public function sub(AccountEntity $account, EntityAbstract $entity, float $value);
 }

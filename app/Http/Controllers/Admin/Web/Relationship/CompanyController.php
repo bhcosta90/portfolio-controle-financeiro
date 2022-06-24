@@ -46,7 +46,7 @@ class CompanyController extends Controller
             document_value: $data['document'] ?? null,
         ));
 
-        return redirect()->back()->with('success', __('Registro cadastrado com sucesso'));
+        return redirect()->route('admin.relationship.company.index')->with('success', __('Registro cadastrado com sucesso'));
     }
 
     public function edit(FormSupport $formSupport, FindUseCase $findUseCase, string $id)
@@ -71,12 +71,12 @@ class CompanyController extends Controller
             document_value: $data['document'] ?? null,
         ));
 
-        return redirect()->back()->with('success', __('Registro alterado com sucesso'));
+        return redirect()->route('admin.relationship.company.index')->with('success', __('Registro alterado com sucesso'));
     }
 
     public function destroy(DeleteUseCase $deleteUseCase, string $id)
     {
         $deleteUseCase->handle(new DeleteInput($id));
-        return redirect()->back()->with('success', __('Registro deletado com sucesso'));
+        return redirect()->route('admin.relationship.company.index')->with('success', __('Registro deletado com sucesso'));
     }
 }

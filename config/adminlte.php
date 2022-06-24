@@ -46,7 +46,7 @@ return [
     */
 
     'logo' => '<b>Controle</b>Financeiro',
-    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+    'logo_img' => 'img/logo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
@@ -494,11 +494,11 @@ return [
                     'asset' => true,
                     'location' => 'css/admin.css',
                 ],
-                // [
-                //     'type' => 'js',
-                //     'asset' => true,
-                //     'location' => 'js/admin.js',
-                // ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'js/admin.js',
+                ],
             ],
         ],
     ],

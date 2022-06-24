@@ -1,19 +1,17 @@
 <?php
 
-namespace Core\Financial\Relationship\Modules\Customer\Domain;
+namespace Core\Financial\BankAccount\Domain;
 
-use Core\Financial\Relationship\Shared\Enums\DocumentEnum;
-use Core\Financial\Relationship\Shared\ValueObject\DocumentObject;
 use Core\Shared\Abstracts\EntityAbstract;
 use Core\Shared\ValueObjects\Input\NameInputObject;
 use Core\Shared\ValueObjects\UuidObject;
 use DateTime;
 
-class CustomerEntity extends EntityAbstract
+class BankAccountEntity extends EntityAbstract
 {
     private function __construct(
         protected NameInputObject $name,
-        protected ?DocumentObject $document,
+        protected float $value,
         protected ?UuidObject $id = null,
         protected ?DateTime $createdAt = null,
     ) {
@@ -22,16 +20,13 @@ class CustomerEntity extends EntityAbstract
 
     public static function create(
         string $name,
-        ?string $document_type,
-        ?string $document_value,
+        float $value,
         ?string $id = null,
         ?string $createdAt = null,
     ): self {
         return new self(
             name: new NameInputObject($name),
-            document: $document_value && $document_type
-                ? new DocumentObject(DocumentEnum::from($document_type), $document_value)
-                : null,
+            value: $value,
             id: $id ? new UuidObject($id) : null,
             createdAt: $createdAt ? new DateTime($createdAt) : null,
         );
@@ -39,14 +34,8 @@ class CustomerEntity extends EntityAbstract
 
     public function update(
         string $name,
-        ?string $document_type,
-        ?string $document_value,
     ): self {
         $this->name = new NameInputObject($name);
-        $this->document = $document_value && $document_type
-            ? new DocumentObject(DocumentEnum::from($document_type), $document_value)
-            : null;
-
         return $this;
     }
 }

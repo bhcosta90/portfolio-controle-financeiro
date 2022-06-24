@@ -30,4 +30,5 @@ Route::middleware('auth')->prefix('admin')->as('admin.')->group(function(){
         Route::resource('company', Web\Relationship\CompanyController::class);
         Route::resource('customer', Web\Relationship\CustomerController::class);
     });
+    Route::resource('bank', Web\BankAccountController::class);
 });

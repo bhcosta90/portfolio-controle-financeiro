@@ -1,6 +1,6 @@
 .table-report {
     td, th {
-        &.action-column, &.action {
+        &.action-column, &.action, .action-column, .action {
             white-space: nowrap;
             display: inherit;
 

@@ -6,6 +6,8 @@ use App\Models\Account;
 use Core\Financial\Account\Contracts\AccountInterface;
 use Core\Financial\Account\Repository\AccountRepositoryInterface;
 use Core\Financial\Account\Domain\AccountEntity;
+use Core\Financial\BankAccount\Domain\BankAccountEntity;
+use Core\Financial\BankAccount\Repository\BankAccountRepositoryInterface;
 use Core\Financial\Relationship\Modules\Company\Domain\CompanyEntity;
 use Core\Financial\Relationship\Modules\Company\Repository\CompanyRepositoryInterface;
 use Core\Financial\Relationship\Modules\Customer\Domain\CustomerEntity;
@@ -19,6 +21,7 @@ class AccountEloquentRepository implements AccountRepositoryInterface
         protected Account $model,
         protected CompanyRepositoryInterface $company,
         protected CustomerRepositoryInterface $customer,
+        protected BankAccountRepositoryInterface $bank,
     ) {
         //  
     }
@@ -48,6 +51,7 @@ class AccountEloquentRepository implements AccountRepositoryInterface
         return match ($entityType) {
             CustomerEntity::class => $this->customer->find($entityId),
             CompanyEntity::class => $this->company->find($entityId),
+            BankAccountEntity::class => $this->bank->find($entityId),
             default => throw new Exception($entityType . " do not implemented"),
         };
     }
@@ -70,5 +74,19 @@ class AccountEloquentRepository implements AccountRepositoryInterface
             id: $input->id,
             createdAt: $input->create_at,
         );
+    }
+
+    public function add(AccountEntity $account, EntityAbstract $entity, float $value)
+    {
+        $obj = $this->model->find($account->id());
+        $obj->increment('value', (float) abs($value));
+        return $this->entity($obj, $entity);
+    }
+
+    public function sub(AccountEntity $account, EntityAbstract $entity, float $value)
+    {
+        $obj = $this->model->find($account->id());
+        $obj->decrement('value', (float) abs($value));
+        return $this->entity($obj, $entity);
     }
 }
