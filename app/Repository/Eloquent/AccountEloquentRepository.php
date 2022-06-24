@@ -45,17 +45,6 @@ class AccountEloquentRepository implements AccountRepositoryInterface
         return $this->entity($obj, $entity);
     }
 
-    /** @return EntityAbstract */
-    private function getEntity($entityType, $entityId): EntityAbstract
-    {
-        return match ($entityType) {
-            CustomerEntity::class => $this->customer->find($entityId),
-            CompanyEntity::class => $this->company->find($entityId),
-            BankAccountEntity::class => $this->bank->find($entityId),
-            default => throw new Exception($entityType . " do not implemented"),
-        };
-    }
-
     public function delete(AccountEntity $entity): bool
     {
         return $this->model->find($entity->id())->delete();
@@ -88,5 +77,16 @@ class AccountEloquentRepository implements AccountRepositoryInterface
         $obj = $this->model->find($account->id());
         $obj->decrement('value', (float) abs($value));
         return $this->entity($obj, $entity);
+    }
+
+    /** @return EntityAbstract */
+    private function getEntity($entityType, $entityId): EntityAbstract
+    {
+        return match ($entityType) {
+            CustomerEntity::class => $this->customer->find($entityId),
+            CompanyEntity::class => $this->company->find($entityId),
+            BankAccountEntity::class => $this->bank->find($entityId),
+            default => throw new Exception($entityType . " do not implemented"),
+        };
     }
 }
