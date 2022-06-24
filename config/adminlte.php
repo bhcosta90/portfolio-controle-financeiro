@@ -245,9 +245,9 @@ return [
         ],
         [
             'text' => 'Fornecedor',
-            'url'  => 'admin/relationship/supplier',
+            'url'  => 'admin/relationship/company',
             'icon' => 'fas fa-industry',
-            'active' => ['admin/relationship/supplier*']
+            'active' => ['admin/relationship/company*']
         ],
         ['header' => 'Cadastros'],
         [
@@ -484,6 +484,21 @@ return [
                     'asset' => false,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js',
                 ],
+            ],
+        ],
+        'Admin' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'css/admin.css',
+                ],
+                // [
+                //     'type' => 'js',
+                //     'asset' => true,
+                //     'location' => 'js/admin.js',
+                // ],
             ],
         ],
     ],

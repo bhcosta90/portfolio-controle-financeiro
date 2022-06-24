@@ -24,6 +24,7 @@ class CustomerController extends Controller
     {
         $ret = $listUseCase->handle(new ListInput(filter: $request->all()));
         $data = PaginationPresenter::render($ret);
+        return view('admin.relationship.customer.index', compact('data'));
     }
 
     public function create(FormSupport $formSupport)
