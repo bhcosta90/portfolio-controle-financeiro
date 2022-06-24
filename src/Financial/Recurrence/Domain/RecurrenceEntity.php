@@ -44,6 +44,34 @@ class RecurrenceEntity extends EntityAbstract
         return $this;
     }
 
+    public function calculate(string $date = null): DateTime
+    {
+        $objDateTime = new DateTime($date);
+        $objDateVerify = (new DateTime($date))->modify('last day of this month')->format('Y-m-d');
+
+        if ($lastDay = $objDateVerify == $date) {
+            $objDateTime = $objDateTime->modify('first day of this month');
+        }
+
+        $modify = $this->days . " days";
+
+        if ($this->days % 30 == 0) {
+            $modify = $this->days / 30 . " month";
+        }
+
+        if ($this->days % 365 == 0) {
+            $modify = $this->days / 365 . " year";
+        }
+
+        $objDateTime->modify("+{$modify}");
+
+        if ($lastDay) {
+            $objDateTime = $objDateTime->modify('last day of this month');
+        }
+
+        return $objDateTime;
+    }
+
     private function validated()
     {
         if ($this->days < 1) {
