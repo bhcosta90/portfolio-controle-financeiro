@@ -27,6 +27,7 @@ class UpdateProfile extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
+            'company_id' => ['required', 'exists:tenants,id'],
             'password' => ['required', 'string', 'min:8'],
         ];
     }

@@ -24,7 +24,6 @@ return new class extends Migration
             $table->dropUnique('users_email_unique');
             $table->foreignUuid('tenant_id')
                 ->comment('Tenant active in user')
-                ->nullable()
                 ->after('id')
                 ->constrained('tenants');
             $table->unique(['email', 'tenant_id']);

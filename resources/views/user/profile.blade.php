@@ -33,14 +33,14 @@
             <label for="company_id" class="col-form-label">{{ __('Company') }}</label>
 
             <div>
-                <select name="company_id" class="form-control @error('company_id') is-invalid @enderror">
-                    <option value="">{{ __('All') }}...</option>
+                <select name="company_id" required class="form-control @error('company_id') is-invalid @enderror">
+                    <option value="">{{ __('Select') }}...</option>
                     @foreach($model->tenants as $tenant)
                         <option value="{{ $tenant->id }}" {{ $tenant->id == $model->tenant_id ? "selected" : "" }}>{{ $tenant->name }}</option>
                     @endforeach
                 </select>
 
-                @error('email')
+                @error('company_id')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
                 </span>
