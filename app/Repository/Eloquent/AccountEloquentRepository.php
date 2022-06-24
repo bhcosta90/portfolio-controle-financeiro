@@ -13,6 +13,7 @@ use Core\Financial\Relationship\Modules\Company\Repository\CompanyRepositoryInte
 use Core\Financial\Relationship\Modules\Customer\Domain\CustomerEntity;
 use Core\Financial\Relationship\Modules\Customer\Repository\CustomerRepositoryInterface;
 use Core\Shared\Abstracts\EntityAbstract;
+use Core\Shared\ValueObjects\EntityObject;
 use Exception;
 
 class AccountEloquentRepository implements AccountRepositoryInterface
@@ -31,7 +32,7 @@ class AccountEloquentRepository implements AccountRepositoryInterface
         $obj = $this->model->create([
             'id' => $entity->id(),
             'value' => $entity->value,
-            'entity_id' => $entity->entity->id(),
+            'entity_id' => $entity->entity->id,
             'entity_type' => get_class($entity->entity),
         ]);
 
@@ -55,28 +56,28 @@ class AccountEloquentRepository implements AccountRepositoryInterface
      * @param EntityAbstract $entity
      * @return AccountEntity
      */
-    public function entity(object $input, EntityAbstract $entity): AccountEntity
+    public function entity(object $input): AccountEntity
     {
         return AccountEntity::create(
-            entity: $entity,
+            entity: new EntityObject($input->entity_id, $input->entity_type),
             value: $input->value,
             id: $input->id,
             createdAt: $input->create_at,
         );
     }
 
-    public function add(AccountEntity $account, EntityAbstract $entity, float $value)
+    public function add(AccountEntity $account, float $value)
     {
         $obj = $this->model->find($account->id());
         $obj->increment('value', (float) abs($value));
-        return $this->entity($obj, $entity);
+        return $this->entity($obj);
     }
 
-    public function sub(AccountEntity $account, EntityAbstract $entity, float $value)
+    public function sub(AccountEntity $account, float $value)
     {
         $obj = $this->model->find($account->id());
         $obj->decrement('value', (float) abs($value));
-        return $this->entity($obj, $entity);
+        return $this->entity($obj);
     }
 
     /** @return EntityAbstract */

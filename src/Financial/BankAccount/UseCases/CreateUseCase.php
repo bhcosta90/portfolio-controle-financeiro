@@ -7,6 +7,7 @@ use Core\Financial\Account\Repository\AccountRepositoryInterface;
 use Core\Financial\BankAccount\Repository\BankAccountRepositoryInterface;
 use Core\Financial\BankAccount\Domain\BankAccountEntity as Entity;
 use Core\Shared\Interfaces\TransactionInterface;
+use Core\Shared\ValueObjects\EntityObject;
 use Throwable;
 
 class CreateUseCase
@@ -27,7 +28,7 @@ class CreateUseCase
         );
 
         $account = AccountEntity::create(
-            entity: $obj,
+            entity: new EntityObject($obj->id(), $obj, $obj->name->value),
             value: $input->value,
         );
 

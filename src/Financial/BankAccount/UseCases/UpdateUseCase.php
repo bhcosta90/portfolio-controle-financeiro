@@ -32,9 +32,9 @@ class UpdateUseCase
             $objAccount = $this->account->find($obj->id(), get_class($obj));
 
             if (($value = ($input->value - $objAccount->value)) < 0) {
-                $this->account->sub($objAccount, $obj, abs($value));
+                $this->account->sub($objAccount, abs($value));
             } else if (($value = ($input->value - $objAccount->value)) > 0) {
-                $this->account->add($objAccount, $obj, abs($value));
+                $this->account->add($objAccount, abs($value));
             }
 
             $this->transaction->commit();
