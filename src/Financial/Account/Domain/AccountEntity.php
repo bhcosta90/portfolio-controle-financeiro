@@ -6,11 +6,10 @@ use Core\Shared\Abstracts\EntityAbstract;
 use Core\Shared\ValueObjects\UuidObject;
 use DateTime;
 
-class AccountEntity extends EntityAbstract 
+class AccountEntity extends EntityAbstract
 {
     private function __construct(
-        protected string $entity_type,
-        protected string $entity_id,
+        protected EntityAbstract $entity,
         protected float $value,
         protected ?UuidObject $id = null,
         protected ?DateTime $createdAt = null,
@@ -19,15 +18,13 @@ class AccountEntity extends EntityAbstract
     }
 
     public static function create(
-        string $entity_type,
-        string $entity_id,
+        EntityAbstract $entity,
         float $value = 0,
         ?string $id = null,
         ?string $createdAt = null,
     ): self {
         return new self(
-            entity_id: $entity_id,
-            entity_type: $entity_type,
+            entity: $entity,
             value: $value,
             id: $id ? new UuidObject($id) : null,
             createdAt: $createdAt ? new DateTime($createdAt) : null,

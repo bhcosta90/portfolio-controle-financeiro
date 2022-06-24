@@ -3,8 +3,10 @@
 namespace App\Repository\Eloquent;
 
 use App\Models\Account;
+use Core\Financial\Account\Contracts\AccountInterface;
 use Core\Financial\Account\Repository\AccountRepositoryInterface;
 use Core\Financial\Account\Domain\AccountEntity;
+use Core\Shared\Abstracts\EntityAbstract;
 
 class AccountEloquentRepository implements AccountRepositoryInterface
 {
@@ -19,18 +21,22 @@ class AccountEloquentRepository implements AccountRepositoryInterface
         $obj = $this->model->create([
             'id' => $entity->id(),
             'value' => $entity->value,
-            'entity_id' => $entity->entity_id,
-            'entity_type' => $entity->entity_type,
+            'entity_id' => $entity->entity->id(),
+            'entity_type' => get_class($entity->entity),
         ]);
 
-        return $this->entity($obj);
+        return $this->entity($obj, $entity->entity);
     }
 
-    public function entity(object $input): AccountEntity
+    /**
+     * @param object $input
+     * @param EntityAbstract $entity
+     * @return AccountEntity
+     */
+    public function entity(object $input, AccountInterface $entity): AccountEntity
     {
         return AccountEntity::create(
-            entity_type: $input->entity_type,
-            entity_id: $input->entity_id,
+            entity: $entity,
             value: $input->value,
         );
     }

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Transactions\DatabaseTransaction;
+use Core\Shared\Interfaces\TransactionInterface;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
@@ -23,6 +25,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(\Faker\Generator::class, function () {
             return \Faker\Factory::create('pt_BR');
         });
+
+        $this->app->singleton(TransactionInterface::class, DatabaseTransaction::class);
     }
 
     /**
