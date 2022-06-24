@@ -33,7 +33,7 @@ class AccountEloquentRepository implements AccountRepositoryInterface
             'id' => $entity->id(),
             'value' => $entity->value,
             'entity_id' => $entity->entity->id,
-            'entity_type' => get_class($entity->entity),
+            'entity_type' => $entity->entity->type,
         ]);
 
         return $this->entity($obj, $entity->entity);
