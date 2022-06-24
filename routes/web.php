@@ -31,4 +31,5 @@ Route::middleware('auth')->prefix('admin')->as('admin.')->group(function(){
         Route::resource('customer', Web\Relationship\CustomerController::class);
     });
     Route::resource('bank', Web\BankAccountController::class);
+    Route::resource('recurrence', Web\RecurrenceController::class);
 });

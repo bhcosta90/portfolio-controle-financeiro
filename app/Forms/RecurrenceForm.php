@@ -4,7 +4,7 @@ namespace App\Forms;
 
 use Kris\LaravelFormBuilder\Form;
 
-class BankAccountForm extends Form
+class RecurrenceForm extends Form
 {
     public function buildForm()
     {
@@ -17,13 +17,10 @@ class BankAccountForm extends Form
         );
 
         $this->add(
-            name: 'value',
+            name: 'days',
             options: [
-                'label' => __('Valor'),
-                'rules' => 'required|numeric',
-                'attr' => [
-                    'step' => '0.01'
-                ]
+                'label' => __('Quantidade de Dias'),
+                'rules' => 'required|numeric'
             ]
         );
     }

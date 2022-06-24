@@ -2,17 +2,18 @@
 
 namespace App\Repository\Eloquent;
 
-use App\Models\BankAccount;
+use App\Models\Recurrence;
 use App\Repository\Presenters\PaginatorPresenter;
 use Core\Financial\BankAccount\Domain\BankAccountEntity;
-use Core\Financial\BankAccount\Repository\BankAccountRepositoryInterface;
+use Core\Financial\Recurrence\Domain\RecurrenceEntity;
+use Core\Financial\Recurrence\Repository\RecurrenceRepositoryInterface;
 use Core\Shared\Abstracts\EntityAbstract;
 use Core\Shared\Interfaces\PaginationInterface;
 
-class BankAccountEloquentRepository implements BankAccountRepositoryInterface
+class RecurrenceEloquentRepository implements RecurrenceRepositoryInterface
 {
     public function __construct(
-        protected BankAccount $model,
+        protected Recurrence $model,
     ) {
         //  
     }
@@ -22,9 +23,9 @@ class BankAccountEloquentRepository implements BankAccountRepositoryInterface
         $obj = $this->model->create([
             'id' => $entity->id(),
             'name' => $entity->name->value,
+            'days' => $entity->days,
         ]);
 
-        $obj->value = $entity->value;
         return $this->entity($obj);
     }
 
@@ -34,6 +35,7 @@ class BankAccountEloquentRepository implements BankAccountRepositoryInterface
 
         $obj->update([
             'name' => $entity->name->value,
+            'days' => $entity->days,
         ]);
 
         return $this->entity($obj);
@@ -46,13 +48,7 @@ class BankAccountEloquentRepository implements BankAccountRepositoryInterface
 
     public function findDb(string|int $key): object|array
     {
-        return $this->model
-            ->select('bank_accounts.*', 'accounts.value')
-            ->join('accounts', function ($q) {
-                $q->on('accounts.entity_id', '=', 'bank_accounts.id')
-                    ->where('accounts.entity_type', BankAccountEntity::class);
-            })
-            ->where('bank_accounts.id', $key)->first();
+        return $this->model->where('id', $key)->first();
     }
 
     public function exist(string|int $key): bool
@@ -67,13 +63,7 @@ class BankAccountEloquentRepository implements BankAccountRepositoryInterface
 
     public function paginate(?array $filter = null, ?int $page = 1, ?int $totalPage = 15): PaginationInterface
     {
-        $result = $this->model
-            ->select('bank_accounts.*', 'accounts.value')
-            ->join('accounts', function ($q) {
-                $q->on('accounts.entity_id', '=', 'bank_accounts.id')
-                    ->where('accounts.entity_type', BankAccountEntity::class);
-            })
-            ->orderBy('name', 'asc');
+        $result = $this->model->orderBy('days', 'asc');
 
         return new PaginatorPresenter($result->paginate(
             page: $page,
@@ -95,9 +85,9 @@ class BankAccountEloquentRepository implements BankAccountRepositoryInterface
 
     public function entity(object $input): EntityAbstract
     {
-        return BankAccountEntity::create(
+        return RecurrenceEntity::create(
             name: $input->name,
-            value: $input->value,
+            days: $input->days,
             id: $input->id,
             createdAt: $input->created_at
         );

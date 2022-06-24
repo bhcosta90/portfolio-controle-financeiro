@@ -22,27 +22,27 @@ class UpdateUseCase
     {
         try {
             /** @var Entity */
-        $obj = $this->repo->find($input->id);
+            $obj = $this->repo->find($input->id);
 
-        $obj->update(
-            name: $input->name,
-        );
+            $obj->update(
+                name: $input->name,
+            );
 
-        $this->repo->update($obj);
-        $objAccount = $this->account->find($obj->id(), get_class($obj));
+            $this->repo->update($obj);
+            $objAccount = $this->account->find($obj->id(), get_class($obj));
 
-        if(($value = ($input->value - $objAccount->value)) < 0) {
-            $this->account->sub($objAccount, $obj, abs($value));
-        } else if(($value = ($input->value - $objAccount->value)) > 0) {
-            $this->account->add($objAccount, $obj, abs($value));
-        }
+            if (($value = ($input->value - $objAccount->value)) < 0) {
+                $this->account->sub($objAccount, $obj, abs($value));
+            } else if (($value = ($input->value - $objAccount->value)) > 0) {
+                $this->account->add($objAccount, $obj, abs($value));
+            }
 
-        $this->transaction->commit();
-        return new DTO\Update\UpdateOutput(
-            id: $obj->id(),
-            name: $obj->name->value,
-        );
-        }catch(Throwable $e) {
+            $this->transaction->commit();
+            return new DTO\Update\UpdateOutput(
+                id: $obj->id(),
+                name: $obj->name->value,
+            );
+        } catch (Throwable $e) {
             $this->transaction->rollback();
             throw $e;
         }

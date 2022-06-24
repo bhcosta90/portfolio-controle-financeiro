@@ -6,10 +6,12 @@ use App\Repository\Eloquent\{
     AccountEloquentRepository,
     BankAccountEloquentRepository,
     CompanyEloquentRepository,
-    CustomerEloquentRepository
+    CustomerEloquentRepository,
+    RecurrenceEloquentRepository
 };
 use Core\Financial\Account\Repository\AccountRepositoryInterface;
 use Core\Financial\BankAccount\Repository\BankAccountRepositoryInterface;
+use Core\Financial\Recurrence\Repository\RecurrenceRepositoryInterface;
 use Core\Financial\Relationship\Modules\Company\Repository\CompanyRepositoryInterface;
 use Core\Financial\Relationship\Modules\Customer\Repository\CustomerRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
@@ -27,6 +29,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(CustomerRepositoryInterface::class, CustomerEloquentRepository::class);
         $this->app->singleton(AccountRepositoryInterface::class, AccountEloquentRepository::class);
         $this->app->singleton(BankAccountRepositoryInterface::class, BankAccountEloquentRepository::class);
+        $this->app->singleton(RecurrenceRepositoryInterface::class, RecurrenceEloquentRepository::class);
     }
 
     /**
