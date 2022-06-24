@@ -22,7 +22,7 @@ class BankAccountController extends Controller
 {
     public function index(ListUseCase $listUseCase, Request $request)
     {
-        $ret = $listUseCase->handle(new ListInput(filter: $request->all()));
+        $ret = $listUseCase->handle(new ListInput(filter: $request->all(), page: $request->page));
         $data = PaginationPresenter::render($ret);
         return view('admin.bank.index', compact('data'));
     }

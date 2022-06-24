@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Transactions\DatabaseTransaction;
 use Core\Shared\Interfaces\TransactionInterface;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 
@@ -26,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
             return \Faker\Factory::create('pt_BR');
         });
 
+        Paginator::useBootstrap();
         $this->app->singleton(TransactionInterface::class, DatabaseTransaction::class);
     }
 
