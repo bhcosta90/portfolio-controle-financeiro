@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Account extends Model
 {
-    use HasFactory;
+    use HasFactory, Traits\UuidTrait;
 
     public $fillable = [
         'id',

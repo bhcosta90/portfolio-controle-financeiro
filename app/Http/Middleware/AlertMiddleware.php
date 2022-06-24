@@ -18,7 +18,7 @@ class AlertMiddleware
     {
         if($session = session('success')){
             // toast(__($session), 'success');
-            alert()->success('Success', __($session));
+            alert()->success(__('Success'), __($session));
         }
         return $next($request);
     }
