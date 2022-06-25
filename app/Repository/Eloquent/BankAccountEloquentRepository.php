@@ -17,7 +17,7 @@ class BankAccountEloquentRepository implements BankAccountRepositoryInterface
         //  
     }
 
-    public function insert(EntityAbstract $entity): EntityAbstract
+    public function insert(EntityAbstract $entity): bool
     {
         $obj = $this->model->create([
             'id' => $entity->id(),
@@ -25,18 +25,17 @@ class BankAccountEloquentRepository implements BankAccountRepositoryInterface
         ]);
 
         $obj->value = $entity->value;
-        return $this->entity($obj);
+        return $obj;
     }
 
-    public function update(EntityAbstract $entity): EntityAbstract
+    public function update(EntityAbstract $entity): bool
     {
         $obj = $this->findDb($entity->id);
 
-        $obj->update([
+        return $obj->update([
             'name' => $entity->name->value,
         ]);
 
-        return $this->entity($obj);
     }
 
     public function find(string|int $key): EntityAbstract

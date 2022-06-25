@@ -16,30 +16,26 @@ class CompanyEloquentRepository implements CompanyRepositoryInterface {
         //  
     }
 
-    public function insert(EntityAbstract $entity): EntityAbstract
+    public function insert(EntityAbstract $entity): bool
     {
-        $obj = $this->model->create([
+        return (bool) $this->model->create([
             'id' => $entity->id(),
             'entity' => get_class($entity),
             'name' => $entity->name->value,
             'document_type' => $entity->document?->type->value,
             'document_value' => $entity->document?->document,
         ]);
-
-        return $this->entity($obj);
     }
 
-    public function update(EntityAbstract $entity): EntityAbstract
+    public function update(EntityAbstract $entity): bool
     {
         $obj = $this->findDb($entity->id);
 
-        $obj->update([
+        return $obj->update([
             'name' => $entity->name->value,
             'document_type' => $entity->document?->type->value,
             'document_value' => $entity->document?->document,
         ]);
-
-        return $this->entity($obj);
     }
 
     public function find(string|int $key): EntityAbstract

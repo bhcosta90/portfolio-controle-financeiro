@@ -18,27 +18,23 @@ class RecurrenceEloquentRepository implements RecurrenceRepositoryInterface
         //  
     }
 
-    public function insert(EntityAbstract $entity): EntityAbstract
+    public function insert(EntityAbstract $entity): bool
     {
-        $obj = $this->model->create([
+        return (bool) $this->model->create([
             'id' => $entity->id(),
             'name' => $entity->name->value,
             'days' => $entity->days,
         ]);
-
-        return $this->entity($obj);
     }
 
-    public function update(EntityAbstract $entity): EntityAbstract
+    public function update(EntityAbstract $entity): bool
     {
         $obj = $this->findDb($entity->id);
 
-        $obj->update([
+        return $obj->update([
             'name' => $entity->name->value,
             'days' => $entity->days,
         ]);
-
-        return $this->entity($obj);
     }
 
     public function find(string|int $key): EntityAbstract

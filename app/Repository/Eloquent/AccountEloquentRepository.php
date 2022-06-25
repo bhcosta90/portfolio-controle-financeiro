@@ -27,16 +27,14 @@ class AccountEloquentRepository implements AccountRepositoryInterface
         //  
     }
 
-    public function insert(AccountEntity $entity): AccountEntity
+    public function insert(AccountEntity $entity): bool
     {
-        $obj = $this->model->create([
+        return (bool) $this->model->create([
             'id' => $entity->id(),
             'value' => $entity->value,
             'entity_id' => $entity->entity->id,
             'entity_type' => $entity->entity->type,
         ]);
-
-        return $this->entity($obj, $entity->entity);
     }
 
     public function find(string $id, string $entity): AccountEntity

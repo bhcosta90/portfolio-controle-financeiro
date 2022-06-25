@@ -2,11 +2,8 @@
 
 namespace Core\Financial\Recurrence\UseCases;
 
-use Core\Financial\Account\Repository\AccountRepositoryInterface;
 use Core\Financial\Recurrence\Repository\RecurrenceRepositoryInterface;
 use Core\Financial\Recurrence\Domain\RecurrenceEntity as Entity;
-use Core\Shared\Interfaces\TransactionInterface;
-use Throwable;
 
 class UpdateUseCase
 {

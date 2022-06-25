@@ -6,7 +6,7 @@ use Core\Financial\Account\Domain\AccountEntity;
 
 interface AccountRepositoryInterface
 {
-    public function insert(AccountEntity $entity): AccountEntity;
+    public function insert(AccountEntity $entity): bool;
 
     public function entity(object $input): AccountEntity;
 
