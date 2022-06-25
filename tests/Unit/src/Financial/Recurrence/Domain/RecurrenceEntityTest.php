@@ -36,7 +36,6 @@ class RecurrenceEntityTest extends TestCase
 
     public function testCalculateDays()
     {
-
         $objEntity = $this->getEntity(days: 30);
         $date = $objEntity->calculate("2022-05-31");
         $this->assertEquals('2022-06-30', $date->format('Y-m-d'));
@@ -49,10 +48,13 @@ class RecurrenceEntityTest extends TestCase
         $date = $objEntity->calculate("2022-06-24");
         $this->assertEquals('2022-07-24', $date->format('Y-m-d'));
 
-
         $objEntity = $this->getEntity(days: 90);
         $date = $objEntity->calculate("2022-05-31");
         $this->assertEquals('2022-08-31', $date->format('Y-m-d'));
+
+        $objEntity = $this->getEntity(days: 365);
+        $date = $objEntity->calculate("2022-05-31");
+        $this->assertEquals('2023-05-31', $date->format('Y-m-d'));
     }
 
     private function getEntity(
