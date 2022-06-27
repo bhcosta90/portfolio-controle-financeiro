@@ -2,6 +2,7 @@
 
 namespace Core\Financial\Charge\Modules\Payment\Domain;
 
+use Core\Financial\Charge\Modules\Payment\Events\{PaymentPayEvent, PaymentCancelEvent};
 use Core\Financial\Charge\Shared\Enums\ChargeStatusEnum;
 use Core\Financial\Charge\Shared\Enums\ChargeTypeEnum;
 use Core\Financial\Recurrence\Domain\RecurrenceEntity;
@@ -15,6 +16,7 @@ use Exception;
 class PaymentEntity extends EntityAbstract
 {
     protected ChargeStatusEnum $status;
+    protected array $events = [];
     
     private function __construct(
         protected UuidObject $group,
@@ -79,6 +81,7 @@ class PaymentEntity extends EntityAbstract
         }
 
         $this->status = ($this->pay + $value) == $this->value ? ChargeStatusEnum::COMPLETED : ChargeStatusEnum::PARTIAL;
+        $this->events[] = new PaymentPayEvent($this, $value);
         return $this;
     }
 
@@ -89,6 +92,7 @@ class PaymentEntity extends EntityAbstract
         }
 
         $this->status = ($this->pay - $value) == 0 ? ChargeStatusEnum::PENDING : ChargeStatusEnum::PARTIAL;
+        $this->events[] = new PaymentCancelEvent($this, $value);
 
         return $this;
     }

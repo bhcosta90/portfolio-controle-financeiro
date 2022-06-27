@@ -3,6 +3,7 @@
 namespace Tests\Unit\src\Financial\Charge\Modules\Payment\Domain;
 
 use Core\Financial\Charge\Modules\Payment\Domain\PaymentEntity as Entity;
+use Core\Financial\Charge\Modules\Payment\Events\{PaymentPayEvent, PaymentCancelEvent};
 use Core\Financial\Relationship\Modules\Company\Domain\CompanyEntity;
 use Core\Shared\ValueObjects\UuidObject;
 use PHPUnit\Framework\TestCase;
@@ -76,6 +77,30 @@ class PaymentEntityTest extends TestCase
         $obj = $this->getEntity(value: 50, pay: 50, status: 3);
         $obj->cancel(10);
         $this->assertEquals(2, $obj->status->value);
+    }
+
+    public function testChargePayEvent(){
+        $obj = $this->getEntity(value: 50);
+        $obj->pay(25);
+        $this->assertCount(1, $obj->events);
+        $this->assertInstanceOf(PaymentPayEvent::class, $obj->events[0]);
+        $this->assertEquals('charge.payment.pay.' . $obj->id(), $obj->events[0]->name());
+        $this->assertEquals([
+            'id' => $obj->id(),
+            'value' => 25,
+        ], $obj->events[0]->payload());
+    }
+
+    public function testChargeCancelEvent(){
+        $obj = $this->getEntity(value: 50, pay: 50);
+        $obj->cancel(25);
+        $this->assertCount(1, $obj->events);
+        $this->assertInstanceOf(PaymentCancelEvent::class, $obj->events[0]);
+        $this->assertEquals('charge.payment.cancel.' . $obj->id(), $obj->events[0]->name());
+        $this->assertEquals([
+            'id' => $obj->id(),
+            'value' => 25,
+        ], $obj->events[0]->payload());
     }
 
     private function getEntity(
