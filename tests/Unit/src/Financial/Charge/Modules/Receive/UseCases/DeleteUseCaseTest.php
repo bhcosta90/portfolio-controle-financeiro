@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Unit\src\Financial\Charge\Modules\Payment\UseCases;
+namespace Tests\Unit\src\Financial\Charge\Modules\Receive\UseCases;
 
 use PHPUnit\Framework\TestCase;
-USE Core\Financial\Charge\Modules\Payment\Domain\PaymentEntity as Entity;
+USE Core\Financial\Charge\Modules\Receive\Domain\ReceiveEntity as Entity;
 use Core\Financial\Charge\Shared\Enums\ChargeTypeEnum;
-use Core\Financial\Charge\Modules\Payment\UseCases\DeleteUseCase;
-use Core\Financial\Relationship\Modules\Company\Domain\CompanyEntity;
-use Core\Financial\Charge\Modules\Payment\Repository\PaymentRepositoryInterface as Repo;
+use Core\Financial\Charge\Modules\Receive\UseCases\DeleteUseCase;
+use Core\Financial\Charge\Modules\Receive\Repository\ReceiveRepositoryInterface as Repo;
+use Core\Financial\Relationship\Modules\Customer\Domain\CustomerEntity;
 use Core\Shared\UseCases\Delete\{DeleteInput, DeleteOutput};
 use Mockery;
 use Ramsey\Uuid\Uuid;
@@ -22,7 +22,7 @@ class DeleteUseCaseTest extends TestCase
         $entity = Entity::create(
             $group,
             50,
-            CompanyEntity::create('teste', null, null),
+            CustomerEntity::create('teste', null, null),
             ChargeTypeEnum::CREDIT->value,
             '2022-01-01',
             null,
@@ -57,7 +57,7 @@ class DeleteUseCaseTest extends TestCase
         $entity = Entity::create(
             $group,
             50,
-            CompanyEntity::create('teste', null, null),
+            CustomerEntity::create('teste', null, null),
             ChargeTypeEnum::CREDIT->value,
             '2022-01-01',
             null,
