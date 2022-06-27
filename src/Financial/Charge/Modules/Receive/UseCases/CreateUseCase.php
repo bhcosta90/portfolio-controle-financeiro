@@ -56,7 +56,8 @@ class CreateUseCase
                 $input->groupId,
                 $data->value,
                 $objEntity->date->format('Y-m-d'),
-                $input->customerId
+                $input->customerId,
+                $input->recurrenceId,
             );
         }
 

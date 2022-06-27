@@ -9,6 +9,7 @@ class UpdateOutput
         public float $value,
         public string $customerId,
         public string $date,
+        public ?string $recurrenceId,
     ) {
         //
     }

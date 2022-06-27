@@ -10,6 +10,7 @@ class CreateOutput
         public float $value,
         public string $date,
         public string $customerId,
+        public ?string $recurrenceId,
     ) {
         //
     }

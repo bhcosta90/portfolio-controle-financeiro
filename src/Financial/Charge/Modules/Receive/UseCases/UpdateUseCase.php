@@ -34,7 +34,8 @@ class UpdateUseCase
             id: $obj->id(),
             value: $input->value,
             customerId: $input->customerId,
-            date: $input->date
+            date: $input->date,
+            recurrenceId: $input->recurrenceId,
         );
     }
 }
