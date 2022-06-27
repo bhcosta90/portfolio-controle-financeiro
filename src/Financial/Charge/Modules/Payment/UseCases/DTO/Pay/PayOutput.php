@@ -8,6 +8,8 @@ class PayOutput
         public string $id,
         public float $value,
         public float $pay,
+        public bool $completed,
+        public int $status,
     ) {
         //
     }

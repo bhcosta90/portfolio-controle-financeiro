@@ -8,6 +8,7 @@ class PayInput
         public string $id,
         public float $value,
         public float $pay,
+        public string $date,
     ) {
         //
     }

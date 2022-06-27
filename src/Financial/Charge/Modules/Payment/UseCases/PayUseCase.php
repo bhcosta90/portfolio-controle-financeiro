@@ -4,11 +4,14 @@ namespace Core\Financial\Charge\Modules\Payment\UseCases;
 
 use Core\Financial\Charge\Modules\Payment\Domain\PaymentEntity as Entity;
 use Core\Financial\Charge\Modules\Payment\Repository\PaymentRepositoryInterface;
+use Core\Financial\Payment\Domain\PaymentEntity;
+use Core\Financial\Payment\Repository\PaymentRepositoryInterface as RepositoryPaymentRepositoryInterface;
 
 class PayUseCase
 {
     public function __construct(
         private PaymentRepositoryInterface $repo,
+        private RepositoryPaymentRepositoryInterface $payment,
     ) {
         //
     }
@@ -20,10 +23,18 @@ class PayUseCase
         $obj->pay($input->pay, $input->value);
         $this->repo->update($obj);
 
+        $objPayment = PaymentEntity::create(
+            $input->pay,
+            $input->date,
+        );
+        $this->payment->insert($objPayment);
+
         return new DTO\Pay\PayOutput(
             id: $obj->id(),
             value: $input->value,
             pay: $input->pay,
+            completed: $objPayment->completed,
+            status: $objPayment->status->value,
         );
     }
 }
