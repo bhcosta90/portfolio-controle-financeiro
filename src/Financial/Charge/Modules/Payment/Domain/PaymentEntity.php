@@ -49,7 +49,7 @@ class PaymentEntity extends EntityAbstract
             $id ? new UuidObject($id) : null,
             $createdAt
         );
-        
+
         $obj->status = $status ? ChargeStatusEnum::from($status) : ChargeStatusEnum::PENDING;
         $obj->validate();
         return $obj;
