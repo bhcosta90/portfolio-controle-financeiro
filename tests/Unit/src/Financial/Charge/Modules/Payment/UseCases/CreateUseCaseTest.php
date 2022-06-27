@@ -74,8 +74,8 @@ class CreateUseCaseTest extends TestCase
         );
 
         $handle = $uc->handle(new $mockInput($group, 50, $id, '2022-06-27', 7));
+        $mockCompany->shouldHaveReceived('find')->times(1);
         $mock->shouldHaveReceived('insert')->times(7);
-        $mockCompany->shouldHaveReceived('find')->times(7);
         $this->assertInstanceOf(CreateOutput::class, $handle[0]);
         $this->assertEquals('2022-06-27', $handle[0]->date);
         $this->assertEquals(7.14, $handle[0]->value);
