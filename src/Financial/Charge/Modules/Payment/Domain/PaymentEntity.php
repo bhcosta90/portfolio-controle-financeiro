@@ -35,7 +35,7 @@ class PaymentEntity extends EntityAbstract
         int $type,
         string $date,
         ?RecurrenceEntity $recurrence,
-        int $status = 1,
+        ?int $status = null,
         ?string $id = null,
         ?string $createdAt = null,
     ) {
@@ -50,8 +50,7 @@ class PaymentEntity extends EntityAbstract
             $createdAt
         );
         
-        $obj->status = ChargeStatusEnum::from($status);
-        $obj->date = new DateTime($date);
+        $obj->status = $status ? ChargeStatusEnum::from($status) : ChargeStatusEnum::PENDING;
         $obj->validate();
         return $obj;
     }
