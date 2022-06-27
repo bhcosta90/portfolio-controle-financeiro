@@ -21,7 +21,8 @@ class ReceivePayEvent extends EventAbstract
     {
         return [
             'id' => $this->receiveEntity->id(),
-            'value' => $this->value,
+            'value' => $this->receiveEntity->value,
+            'pay' => $this->value,
         ];
     }
 }

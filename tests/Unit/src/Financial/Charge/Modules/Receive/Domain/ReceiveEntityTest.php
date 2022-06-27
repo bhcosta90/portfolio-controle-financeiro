@@ -88,7 +88,8 @@ class ReceiveEntityTest extends TestCase
         $this->assertEquals('charge.receive.pay.' . $obj->id(), $obj->events[0]->name());
         $this->assertEquals([
             'id' => $obj->id(),
-            'value' => 25,
+            'value' => 50,
+            'pay' => 25,
         ], $obj->events[0]->payload());
     }
 

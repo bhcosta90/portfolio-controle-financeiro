@@ -21,7 +21,8 @@ class PaymentPayEvent extends EventAbstract
     {
         return [
             'id' => $this->paymentEntity->id(),
-            'value' => $this->value,
+            'value' => $this->paymentEntity->value,
+            'pay' => $this->value,
         ];
     }
 }
