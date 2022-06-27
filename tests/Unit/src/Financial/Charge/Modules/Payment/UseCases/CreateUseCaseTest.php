@@ -6,6 +6,7 @@ use Core\Financial\Charge\Modules\Payment\UseCases\CreateUseCase;
 use Core\Financial\Charge\Modules\Payment\UseCases\DTO\Create\{CreateInput, CreateOutput};
 use Core\Financial\Relationship\Modules\Company\Domain\CompanyEntity;
 use Core\Financial\Charge\Modules\Payment\Repository\PaymentRepositoryInterface as Repo;
+use Core\Financial\Recurrence\Domain\RecurrenceEntity;
 use Core\Financial\Relationship\Modules\Company\Repository\CompanyRepositoryInterface;
 use Core\Financial\Recurrence\Repository\RecurrenceRepositoryInterface;
 use Core\Shared\Interfaces\TransactionInterface;
@@ -19,6 +20,7 @@ class CreateUseCaseTest extends TestCase
     {
         $id = Uuid::uuid4();
         $group = Uuid::uuid4();
+        $recurrence = Uuid::uuid4();
 
         /** @var Repo|Mockery\MockInterface */
         $mock = Mockery::mock(stdClass::class, Repo::class);
@@ -30,6 +32,7 @@ class CreateUseCaseTest extends TestCase
 
         /** @var RecurrenceRepositoryInterface|Mockery\MockInterface */
         $mockRecurrence = Mockery::mock(stdClass::class, RecurrenceRepositoryInterface::class);
+        $mockRecurrence->shouldReceive('find')->andReturn(RecurrenceEntity::create('bruno costa', 30));
 
         /** @var CreateInput|Mockery\MockInterface */
         $mockInput = $this->getMockClass(originalClassName: CreateInput::class);
@@ -46,9 +49,10 @@ class CreateUseCaseTest extends TestCase
             transaction: $mockTransaction,
         );
 
-        $handle = $uc->handle(new $mockInput($group, 50, $id, '2022-06-27', null));
+        $handle = $uc->handle(new $mockInput($group, 50, $id, '2022-06-27', $recurrence));
         $mock->shouldHaveReceived('insert')->times(1);
         $mockCompany->shouldHaveReceived('find')->times(1);
+        $mockRecurrence->shouldHaveReceived('find')->times(1);
         $this->assertInstanceOf(CreateOutput::class, $handle[0]);
     }
 
@@ -125,6 +129,7 @@ class CreateUseCaseTest extends TestCase
 
         $handle = $uc->handle(new $mockInput($group, 50, $id, '2022-05-31', null, 7));
         $mockCompany->shouldHaveReceived('find')->times(1);
+        $mockRecurrence->shouldNotHaveReceived('find');
         $mock->shouldHaveReceived('insert')->times(7);
         $this->assertInstanceOf(CreateOutput::class, $handle[0]);
         $this->assertEquals('2022-05-31', $handle[0]->date);

@@ -7,6 +7,7 @@ use Core\Financial\Charge\Modules\Receive\Repository\ReceiveRepositoryInterface 
 use Core\Financial\Relationship\Modules\Customer\Repository\CustomerRepositoryInterface;
 use Core\Financial\Charge\Modules\Receive\UseCases\CreateUseCase;
 use Core\Financial\Charge\Modules\Receive\UseCases\DTO\Create\{CreateInput, CreateOutput};
+use Core\Financial\Recurrence\Domain\RecurrenceEntity;
 use Core\Financial\Recurrence\Repository\RecurrenceRepositoryInterface;
 use Core\Financial\Relationship\Modules\Customer\Domain\CustomerEntity;
 use Core\Shared\Interfaces\TransactionInterface;
@@ -19,6 +20,7 @@ class CreateUseCaseTest extends TestCase
     {
         $id = Uuid::uuid4();
         $group = Uuid::uuid4();
+        $recurrence = Uuid::uuid4();
 
         /** @var Repo|Mockery\MockInterface */
         $mock = Mockery::mock(stdClass::class, Repo::class);
@@ -26,6 +28,7 @@ class CreateUseCaseTest extends TestCase
 
         /** @var RecurrenceRepositoryInterface|Mockery\MockInterface */
         $mockRecurrence = Mockery::mock(stdClass::class, RecurrenceRepositoryInterface::class);
+        $mockRecurrence->shouldReceive('find')->andReturn(RecurrenceEntity::create('bruno costa', 30));
 
         /** @var CustomerRepositoryInterface|Mockery\MockInterface */
         $mockCustomer = Mockery::mock(stdClass::class, CustomerRepositoryInterface::class);
@@ -46,9 +49,10 @@ class CreateUseCaseTest extends TestCase
             transaction: $mockTransaction,
         );
 
-        $handle = $uc->handle(new $mockInput($group, 50, $id, '2022-06-27', null));
+        $handle = $uc->handle(new $mockInput($group, 50, $id, '2022-06-27', $recurrence));
         $mock->shouldHaveReceived('insert')->times(1);
         $mockCustomer->shouldHaveReceived('find')->times(1);
+        $mockRecurrence->shouldHaveReceived('find')->times(1);
         $this->assertInstanceOf(CreateOutput::class, $handle[0]);
     }
 
