@@ -10,10 +10,12 @@ use Core\Shared\Abstracts\EntityAbstract;
 use Core\Shared\ValueObjects\UuidObject;
 use DateTime;
 use DomainException;
+use Exception;
 
 class PaymentEntity extends EntityAbstract
 {
     protected ChargeStatusEnum $status;
+    protected float $valuePay = 0;
 
     private function __construct(
         protected UuidObject $group,
@@ -66,6 +68,31 @@ class PaymentEntity extends EntityAbstract
         $this->recurrence = $recurrence;
         $this->date = new DateTime($date);
         $this->validate();
+    }
+
+    public function addValuePayment(float $value)
+    {
+        $this->valuePay += $value;
+    }
+
+    public function pay(float $value)
+    {
+        if ($value + $this->valuePay > $this->value) {
+            throw new Exception('This payment is greater than the amount charged');
+        }
+
+        $this->addValuePayment($value);
+        $this->status = $this->valuePay == $this->value ? ChargeStatusEnum::COMPLETED : ChargeStatusEnum::PARTIAL;
+        return $this;
+    }
+
+    public function cancel(float $value)
+    {
+        if ($this->valuePay <= 0) {
+            throw new Exception('This charge has not been paid');
+        }
+        
+        return $this;
     }
 
     protected function validate()
