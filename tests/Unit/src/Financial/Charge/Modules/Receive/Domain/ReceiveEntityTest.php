@@ -33,32 +33,32 @@ class ReceiveEntityTest extends TestCase
     {
         $this->expectExceptionMessage('This payment is greater than the amount charged');
         $obj = $this->getEntity(value: 50);
-        $obj->pay(100);
+        $obj->pay(100, 50);
     }
 
     public function testPaymentChargePartial()
     {
         $obj = $this->getEntity(value: 50);
-        $obj->pay(25);
+        $obj->pay(25, 50);
         $this->assertEquals(2, $obj->status->value);
     }
 
     public function testPaymentChargeComplete()
     {
         $obj = $this->getEntity(value: 50);
-        $obj->pay(50);
+        $obj->pay(50, 50);
         $this->assertEquals(3, $obj->status->value);
     }
 
     public function testPaymentChargeWithValuePayError(){
         $this->expectExceptionMessage('This payment is greater than the amount charged');
         $obj = $this->getEntity(value: 50, pay: 10);
-        $obj->pay(50);
+        $obj->pay(50, 50);
     }
 
     public function testPaymentChargeWithValuePay(){
         $obj = $this->getEntity(value: 50, pay: 10);
-        $obj->pay(40);
+        $obj->pay(40, 50);
         $this->assertEquals(3, $obj->status->value);
     }
 
@@ -78,31 +78,6 @@ class ReceiveEntityTest extends TestCase
         $obj = $this->getEntity(value: 50, pay: 50, status: 3);
         $obj->cancel(10);
         $this->assertEquals(2, $obj->status->value);
-    }
-
-    public function testChargePayEvent(){
-        $obj = $this->getEntity(value: 50);
-        $obj->pay(25);
-        $this->assertCount(1, $obj->events);
-        $this->assertInstanceOf(ReceivePayEvent::class, $obj->events[0]);
-        $this->assertEquals('charge.receive.pay.' . $obj->id(), $obj->events[0]->name());
-        $this->assertEquals([
-            'id' => $obj->id(),
-            'value' => 50,
-            'pay' => 25,
-        ], $obj->events[0]->payload());
-    }
-
-    public function testChargeCancelEvent(){
-        $obj = $this->getEntity(value: 50, pay: 50);
-        $obj->cancel(25);
-        $this->assertCount(1, $obj->events);
-        $this->assertInstanceOf(ReceiveCancelEvent::class, $obj->events[0]);
-        $this->assertEquals('charge.receive.cancel.' . $obj->id(), $obj->events[0]->name());
-        $this->assertEquals([
-            'id' => $obj->id(),
-            'value' => 25,
-        ], $obj->events[0]->payload());
     }
 
     private function getEntity(

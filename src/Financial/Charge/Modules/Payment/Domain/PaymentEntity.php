@@ -2,13 +2,11 @@
 
 namespace Core\Financial\Charge\Modules\Payment\Domain;
 
-use Core\Financial\Charge\Modules\Payment\Events\{PaymentPayEvent, PaymentCancelEvent};
 use Core\Financial\Charge\Shared\Enums\ChargeStatusEnum;
 use Core\Financial\Charge\Shared\Enums\ChargeTypeEnum;
 use Core\Financial\Recurrence\Domain\RecurrenceEntity;
 use Core\Financial\Relationship\Modules\Company\Domain\CompanyEntity;
 use Core\Shared\Abstracts\EntityAbstract;
-use Core\Shared\Abstracts\EventAbstract;
 use Core\Shared\ValueObjects\UuidObject;
 use DateTime;
 use DomainException;
@@ -17,9 +15,6 @@ use Exception;
 class PaymentEntity extends EntityAbstract
 {
     protected ChargeStatusEnum $status;
-    
-    /** @var EventAbstract */
-    protected array $events = [];
     
     private function __construct(
         protected UuidObject $group,
@@ -77,14 +72,13 @@ class PaymentEntity extends EntityAbstract
         $this->validate();
     }
 
-    public function pay(float $value)
+    public function pay(float $pay, float $value)
     {
-        if ($value + $this->pay > $this->value) {
+        if ($pay + $this->pay > $value) {
             throw new Exception('This payment is greater than the amount charged');
         }
 
-        $this->status = ($this->pay + $value) == $this->value ? ChargeStatusEnum::COMPLETED : ChargeStatusEnum::PARTIAL;
-        $this->events[] = new PaymentPayEvent($this, $value);
+        $this->status = ($this->pay + $pay) == $value ? ChargeStatusEnum::COMPLETED : ChargeStatusEnum::PARTIAL;
         return $this;
     }
 
@@ -95,7 +89,6 @@ class PaymentEntity extends EntityAbstract
         }
 
         $this->status = ($this->pay - $value) == 0 ? ChargeStatusEnum::PENDING : ChargeStatusEnum::PARTIAL;
-        $this->events[] = new PaymentCancelEvent($this, $value);
 
         return $this;
     }
