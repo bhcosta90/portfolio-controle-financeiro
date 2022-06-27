@@ -17,7 +17,7 @@ class PayUseCase
     public function __construct(
         private PaymentRepositoryInterface $repo,
         private RepositoryPaymentRepositoryInterface $payment,
-        private BankAccountRepositoryInterface $account,
+        private BankAccountRepositoryInterface $bankAccount,
         private TransactionInterface $transaction,
     ) {
         //

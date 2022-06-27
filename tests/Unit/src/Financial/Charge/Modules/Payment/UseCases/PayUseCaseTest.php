@@ -53,7 +53,7 @@ class PayUseCaseTest extends TestCase
         $uc = new PayUseCase(
             repo: $mock,
             payment: $mockPayment,
-            account: $mockBankAccount,
+            bankAccount: $mockBankAccount,
             transaction: $mockTransaction,
         );
 
@@ -101,7 +101,7 @@ class PayUseCaseTest extends TestCase
         $uc = new PayUseCase(
             repo: $mock,
             payment: $mockPayment,
-            account: $mockBankAccount,
+            bankAccount: $mockBankAccount,
             transaction: $mockTransaction
         );
 
