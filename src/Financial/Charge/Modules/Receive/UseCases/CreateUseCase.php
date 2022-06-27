@@ -7,6 +7,7 @@ use Core\Financial\Relationship\Modules\Customer\Repository\CustomerRepositoryIn
 use Core\Financial\Charge\Modules\Receive\Domain\ReceiveEntity as Entity;
 use Core\Financial\Charge\Shared\Enums\ChargeStatusEnum;
 use Core\Financial\Charge\Shared\Enums\ChargeTypeEnum;
+use Core\Financial\Recurrence\Repository\RecurrenceRepositoryInterface;
 use Core\Shared\Interfaces\TransactionInterface;
 use Core\Shared\Support\ParcelCalculate;
 use Core\Shared\Support\DTO\ParcelCalculate\Input as ParcelCalculateInput;
@@ -17,6 +18,7 @@ class CreateUseCase
     public function __construct(
         private ReceiveRepositoryInterface $repo,
         private CustomerRepositoryInterface $customer,
+        private RecurrenceRepositoryInterface $recurrence,
         private TransactionInterface $transaction,
     ) {
         //
@@ -30,6 +32,7 @@ class CreateUseCase
     {
         $ret = [];
         $objCustomer = $this->customer->find($input->customerId);
+        $objRecurrence = $input->recurrenceId ? $this->recurrence->find($input->recurrenceId) : null;
 
         $objParcels = new ParcelCalculate();
         $dataParcels = $objParcels->handle(new ParcelCalculateInput(

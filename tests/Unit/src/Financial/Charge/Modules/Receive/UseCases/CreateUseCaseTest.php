@@ -7,6 +7,7 @@ use Core\Financial\Charge\Modules\Receive\Repository\ReceiveRepositoryInterface 
 use Core\Financial\Relationship\Modules\Customer\Repository\CustomerRepositoryInterface;
 use Core\Financial\Charge\Modules\Receive\UseCases\CreateUseCase;
 use Core\Financial\Charge\Modules\Receive\UseCases\DTO\Create\{CreateInput, CreateOutput};
+use Core\Financial\Recurrence\Repository\RecurrenceRepositoryInterface;
 use Core\Financial\Relationship\Modules\Customer\Domain\CustomerEntity;
 use Core\Shared\Interfaces\TransactionInterface;
 use PHPUnit\Framework\TestCase;
@@ -23,6 +24,9 @@ class CreateUseCaseTest extends TestCase
         $mock = Mockery::mock(stdClass::class, Repo::class);
         $mock->shouldReceive('insert')->andReturn(true);
 
+        /** @var RecurrenceRepositoryInterface|Mockery\MockInterface */
+        $mockRecurrence = Mockery::mock(stdClass::class, RecurrenceRepositoryInterface::class);
+
         /** @var CustomerRepositoryInterface|Mockery\MockInterface */
         $mockCustomer = Mockery::mock(stdClass::class, CustomerRepositoryInterface::class);
         $mockCustomer->shouldReceive('find')->andReturn(CustomerEntity::create('bruno costa', null, null));
@@ -38,10 +42,11 @@ class CreateUseCaseTest extends TestCase
         $uc = new CreateUseCase(
             repo: $mock,
             customer: $mockCustomer,
+            recurrence: $mockRecurrence,
             transaction: $mockTransaction,
         );
 
-        $handle = $uc->handle(new $mockInput($group, 50, $id, '2022-06-27'));
+        $handle = $uc->handle(new $mockInput($group, 50, $id, '2022-06-27', null));
         $mock->shouldHaveReceived('insert')->times(1);
         $mockCustomer->shouldHaveReceived('find')->times(1);
         $this->assertInstanceOf(CreateOutput::class, $handle[0]);
@@ -56,6 +61,9 @@ class CreateUseCaseTest extends TestCase
         $mock = Mockery::mock(stdClass::class, Repo::class);
         $mock->shouldReceive('insert')->andReturn(true);
 
+        /** @var RecurrenceRepositoryInterface|Mockery\MockInterface */
+        $mockRecurrence = Mockery::mock(stdClass::class, RecurrenceRepositoryInterface::class);
+
         /** @var CustomerRepositoryInterface|Mockery\MockInterface */
         $mockCustomer = Mockery::mock(stdClass::class, CustomerRepositoryInterface::class);
         $mockCustomer->shouldReceive('find')->andReturn(CustomerEntity::create('bruno costa', null, null));
@@ -71,10 +79,11 @@ class CreateUseCaseTest extends TestCase
         $uc = new CreateUseCase(
             repo: $mock,
             customer: $mockCustomer,
+            recurrence: $mockRecurrence,
             transaction: $mockTransaction,
         );
 
-        $handle = $uc->handle(new $mockInput($group, 50, $id, '2022-06-27', 7));
+        $handle = $uc->handle(new $mockInput($group, 50, $id, '2022-06-27', null, 7));
         $mockCustomer->shouldHaveReceived('find')->times(1);
         $mock->shouldHaveReceived('insert')->times(7);
         $this->assertInstanceOf(CreateOutput::class, $handle[0]);
@@ -94,6 +103,9 @@ class CreateUseCaseTest extends TestCase
         $mock = Mockery::mock(stdClass::class, Repo::class);
         $mock->shouldReceive('insert')->andReturn(true);
 
+        /** @var RecurrenceRepositoryInterface|Mockery\MockInterface */
+        $mockRecurrence = Mockery::mock(stdClass::class, RecurrenceRepositoryInterface::class);
+
         /** @var CustomerRepositoryInterface|Mockery\MockInterface */
         $mockCustomer = Mockery::mock(stdClass::class, CustomerRepositoryInterface::class);
         $mockCustomer->shouldReceive('find')->andReturn(CustomerEntity::create('bruno costa', null, null));
@@ -109,10 +121,11 @@ class CreateUseCaseTest extends TestCase
         $uc = new CreateUseCase(
             repo: $mock,
             customer: $mockCustomer,
+            recurrence: $mockRecurrence,
             transaction: $mockTransaction,
         );
 
-        $handle = $uc->handle(new $mockInput($group, 50, $id, '2022-05-31', 7));
+        $handle = $uc->handle(new $mockInput($group, 50, $id, '2022-05-31', null, 7));
         $mockCustomer->shouldHaveReceived('find')->times(1);
         $mock->shouldHaveReceived('insert')->times(7);
         $this->assertInstanceOf(CreateOutput::class, $handle[0]);
