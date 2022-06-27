@@ -41,7 +41,7 @@ class CreateUseCaseTest extends TestCase
             transaction: $mockTransaction,
         );
 
-        $handle = $uc->handle(new $mockInput($group, 50, $id, '2022-06-27'));
+        $handle = $uc->handle(new $mockInput($group, 50, $id, '2022-06-27', null));
         $mock->shouldHaveReceived('insert')->times(1);
         $mockCompany->shouldHaveReceived('find')->times(1);
         $this->assertInstanceOf(CreateOutput::class, $handle[0]);
@@ -73,7 +73,7 @@ class CreateUseCaseTest extends TestCase
             transaction: $mockTransaction,
         );
 
-        $handle = $uc->handle(new $mockInput($group, 50, $id, '2022-06-27', 7));
+        $handle = $uc->handle(new CreateInput($group, 50, $id, '2022-06-27', null, 7));
         $mockCompany->shouldHaveReceived('find')->times(1);
         $mock->shouldHaveReceived('insert')->times(7);
         $this->assertInstanceOf(CreateOutput::class, $handle[0]);
@@ -110,7 +110,7 @@ class CreateUseCaseTest extends TestCase
             transaction: $mockTransaction,
         );
 
-        $handle = $uc->handle(new $mockInput($group, 50, $id, '2022-05-31', 7));
+        $handle = $uc->handle(new $mockInput($group, 50, $id, '2022-05-31', null, 7));
         $mockCompany->shouldHaveReceived('find')->times(1);
         $mock->shouldHaveReceived('insert')->times(7);
         $this->assertInstanceOf(CreateOutput::class, $handle[0]);

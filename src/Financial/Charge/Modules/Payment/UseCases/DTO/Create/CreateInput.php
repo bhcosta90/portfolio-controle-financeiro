@@ -11,6 +11,7 @@ class CreateInput
         public float $value,
         public string $companyId,
         public string $date,
+        public ?string $recurrenceId,
         public int $parcels = 1,
     ) {
         if ($this->parcels < 1) {

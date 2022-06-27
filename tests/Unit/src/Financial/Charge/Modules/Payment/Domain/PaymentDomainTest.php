@@ -21,7 +21,7 @@ class PaymentDomainTest extends TestCase
         $company = CompanyEntity::create('bruno costa 1234', null, null);
         $obj = $this->getEntity();
         $companyOld = $obj->company;
-        $obj->update(50, $company);
+        $obj->update(50, $company, date('Y-m-d'), null);
         $this->assertEquals('bruno costa 1234', $obj->company->name->value);
         $this->assertEquals(50, $obj->value);
         $this->assertNotEquals($companyOld->id(), $obj->company->id());
@@ -46,6 +46,7 @@ class PaymentDomainTest extends TestCase
             type: $type,
             date: $date ?: date('Y-m-d'),
             createdAt: $createdAt,
+            recurrence: null,
         );
     }
 }

@@ -43,6 +43,7 @@ class CreateUseCase
                 $objCompany,
                 ChargeTypeEnum::CREDIT->value,
                 $data->date->format('Y-m-d'),
+                null,
             );
             $this->repo->insert($objEntity);
             $ret[] = new DTO\Create\CreateOutput(

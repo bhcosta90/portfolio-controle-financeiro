@@ -4,6 +4,7 @@ namespace Core\Financial\Charge\Modules\Payment\Domain;
 
 use Core\Financial\Charge\Shared\Enums\ChargeStatusEnum;
 use Core\Financial\Charge\Shared\Enums\ChargeTypeEnum;
+use Core\Financial\Recurrence\Domain\RecurrenceEntity;
 use Core\Financial\Relationship\Modules\Company\Domain\CompanyEntity;
 use Core\Shared\Abstracts\EntityAbstract;
 use Core\Shared\ValueObjects\UuidObject;
@@ -20,6 +21,7 @@ class PaymentEntity extends EntityAbstract
         protected CompanyEntity $company,
         protected ChargeTypeEnum $type,
         protected DateTime $date,
+        protected ?RecurrenceEntity $recurrence = null,
         protected ?UuidObject $id = null,
         protected ?DateTime $createdAt = null,
     ) {
@@ -32,6 +34,7 @@ class PaymentEntity extends EntityAbstract
         CompanyEntity $company,
         int $type,
         string $date,
+        ?RecurrenceEntity $recurrence,
         int $status = 1,
         ?string $id = null,
         ?string $createdAt = null,
@@ -42,7 +45,8 @@ class PaymentEntity extends EntityAbstract
             $company,
             ChargeTypeEnum::from($type),
             new DateTime($date),
-            $id,
+            $recurrence,
+            $id ? new UuidObject($id) : null,
             $createdAt
         );
         
@@ -55,9 +59,13 @@ class PaymentEntity extends EntityAbstract
     public function update(
         float $value,
         CompanyEntity $company,
+        string $date,
+        ?RecurrenceEntity $recurrence,
     ) {
         $this->value = $value;
         $this->company = $company;
+        $this->recurrence = $recurrence;
+        $this->date = new DateTime($date);
         $this->validate();
     }
 
