@@ -15,8 +15,7 @@ use Exception;
 class PaymentEntity extends EntityAbstract
 {
     protected ChargeStatusEnum $status;
-    protected float $valuePay = 0;
-
+    
     private function __construct(
         protected UuidObject $group,
         protected float $value,
@@ -24,6 +23,7 @@ class PaymentEntity extends EntityAbstract
         protected ChargeTypeEnum $type,
         protected DateTime $date,
         protected ?RecurrenceEntity $recurrence,
+        protected float $pay = 0,
         protected ?UuidObject $id = null,
         protected ?DateTime $createdAt = null,
     ) {
@@ -37,6 +37,7 @@ class PaymentEntity extends EntityAbstract
         int $type,
         string $date,
         ?RecurrenceEntity $recurrence,
+        float $pay = 0,
         ?int $status = null,
         ?string $id = null,
         ?string $createdAt = null,
@@ -48,6 +49,7 @@ class PaymentEntity extends EntityAbstract
             ChargeTypeEnum::from($type),
             new DateTime($date),
             $recurrence,
+            $pay,
             $id ? new UuidObject($id) : null,
             $createdAt
         );
@@ -70,19 +72,13 @@ class PaymentEntity extends EntityAbstract
         $this->validate();
     }
 
-    public function addValuePayment(float $value)
-    {
-        $this->valuePay += $value;
-    }
-
     public function pay(float $value)
     {
-        if ($value + $this->valuePay > $this->value) {
+        if ($value + $this->pay > $this->value) {
             throw new Exception('This payment is greater than the amount charged');
         }
 
-        $this->addValuePayment($value);
-        $this->status = $this->valuePay == $this->value ? ChargeStatusEnum::COMPLETED : ChargeStatusEnum::PARTIAL;
+        $this->status = ($this->pay + $value) == $this->value ? ChargeStatusEnum::COMPLETED : ChargeStatusEnum::PARTIAL;
         return $this;
     }
 
@@ -91,7 +87,7 @@ class PaymentEntity extends EntityAbstract
         if ($this->valuePay <= 0) {
             throw new Exception('This charge has not been paid');
         }
-        
+
         return $this;
     }
 

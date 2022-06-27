@@ -50,14 +50,12 @@ class PaymentEntityTest extends TestCase
 
     public function testPaymentChargeWithValuePayError(){
         $this->expectExceptionMessage('This payment is greater than the amount charged');
-        $obj = $this->getEntity(value: 50);
-        $obj->addValuePayment(10);
+        $obj = $this->getEntity(value: 50, pay: 10);
         $obj->pay(50);
     }
 
     public function testPaymentChargeWithValuePay(){
-        $obj = $this->getEntity(value: 50);
-        $obj->addValuePayment(10);
+        $obj = $this->getEntity(value: 50, pay: 10);
         $obj->pay(40);
         $this->assertEquals(3, $obj->status->value);
     }
@@ -69,6 +67,7 @@ class PaymentEntityTest extends TestCase
         int $type = 1,
         string $date = null,
         $createdAt = null,
+        float $pay = 0,
     ) {
         if (empty($company)) {
             $company = CompanyEntity::create('bruno costa', null, null);
@@ -82,6 +81,7 @@ class PaymentEntityTest extends TestCase
             date: $date ?: date('Y-m-d'),
             createdAt: $createdAt,
             recurrence: null,
+            pay: $pay,
         );
     }
 }
