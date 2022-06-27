@@ -2,6 +2,7 @@
 
 namespace App\Models\Traits;
 
+use App\Models\User;
 use Exception;
 
 trait TenantTrait
@@ -27,6 +28,13 @@ trait TenantTrait
 
     private static function getUser()
     {
+        if (app()->environment('testing')) {
+            if (empty($user = User::first())) {
+                $user = User::factory()->create();
+            }
+            return $user;
+        }
+
         if ($user = request()->user()) {
             return $user;
         }
