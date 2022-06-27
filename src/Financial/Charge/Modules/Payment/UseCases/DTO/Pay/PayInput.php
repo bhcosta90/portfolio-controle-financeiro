@@ -9,6 +9,7 @@ class PayInput
         public float $value,
         public float $pay,
         public string $date,
+        public ?string $bankAccountId = null,
     ) {
         //
     }

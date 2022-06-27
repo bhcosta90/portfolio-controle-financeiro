@@ -2,6 +2,7 @@
 
 namespace Core\Financial\Payment\Domain;
 
+use Core\Financial\BankAccount\Domain\BankAccountEntity;
 use Core\Financial\Payment\Enums\ChargeStatusEnum;
 use Core\Shared\Abstracts\EntityAbstract;
 use Core\Shared\ValueObjects\UuidObject;
@@ -15,6 +16,7 @@ class PaymentEntity extends EntityAbstract
     private function __construct(
         protected float $value,
         protected DateTime $date,
+        protected ?BankAccountEntity $bankAccount,
         protected ?UuidObject $id = null,
         protected ?DateTime $createdAt = null,
     ) {
@@ -24,12 +26,14 @@ class PaymentEntity extends EntityAbstract
     public static function create(
         float $value,
         string $date,
+        ?BankAccountEntity $bankAccount,
         ?string $id = null,
         ?string $createdAt = null,
     ) {
         $entity = new self(
             $value,
             new DateTime($date),
+            $bankAccount,
             $id ? new UuidObject($id) : UuidObject::random(),
             new DateTime($createdAt),
         );

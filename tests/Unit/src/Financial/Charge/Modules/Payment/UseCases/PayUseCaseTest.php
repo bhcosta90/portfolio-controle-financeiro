@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\src\Financial\Charge\Modules\Payment\UseCases;
 
+use Core\Financial\BankAccount\Repository\BankAccountRepositoryInterface;
 use Core\Financial\Charge\Modules\Payment\Domain\PaymentEntity;
 use Mockery;
 use PHPUnit\Framework\TestCase;
@@ -10,6 +11,7 @@ use Core\Financial\Charge\Modules\Payment\UseCases\DTO\Pay\{PayInput, PayOutput}
 use Core\Financial\Charge\Modules\Payment\Repository\PaymentRepositoryInterface as Repo;
 use Core\Financial\Payment\Repository\PaymentRepositoryInterface;
 use Core\Financial\Relationship\Modules\Company\Domain\CompanyEntity;
+use Core\Shared\Interfaces\TransactionInterface;
 use Ramsey\Uuid\Uuid;
 
 class PayUseCaseTest extends TestCase
@@ -40,9 +42,19 @@ class PayUseCaseTest extends TestCase
         $mockPayment = Mockery::mock(stdClass::class, PaymentRepositoryInterface::class);
         $mockPayment->shouldReceive('insert')->andReturn(true);
 
+        /** @var BankAccountRepositoryInterface|Mockery\MockInterface */
+        $mockBankAccount = Mockery::mock(stdClass::class, BankAccountRepositoryInterface::class);
+
+        /** @var TransactionInterface|Mockery\MockInterface */
+        $mockTransaction = Mockery::mock(stdClass::class, TransactionInterface::class);
+        $mockTransaction->shouldReceive('commit');
+        $mockTransaction->shouldReceive('rollback');
+
         $uc = new PayUseCase(
             repo: $mock,
             payment: $mockPayment,
+            account: $mockBankAccount,
+            transaction: $mockTransaction,
         );
 
         $ret = $uc->handle(new PayInput($id, 50, 25, date('Y-m-d')));
@@ -78,9 +90,19 @@ class PayUseCaseTest extends TestCase
         $mockPayment = Mockery::mock(stdClass::class, PaymentRepositoryInterface::class);
         $mockPayment->shouldReceive('insert')->andReturn(true);
 
+        /** @var BankAccountRepositoryInterface|Mockery\MockInterface */
+        $mockBankAccount = Mockery::mock(stdClass::class, BankAccountRepositoryInterface::class);
+
+        /** @var TransactionInterface|Mockery\MockInterface */
+        $mockTransaction = Mockery::mock(stdClass::class, TransactionInterface::class);
+        $mockTransaction->shouldReceive('commit');
+        $mockTransaction->shouldReceive('rollback');
+
         $uc = new PayUseCase(
             repo: $mock,
             payment: $mockPayment,
+            account: $mockBankAccount,
+            transaction: $mockTransaction
         );
 
         $ret = $uc->handle(new PayInput($id, 50, 25, date('Y-m-d', strtotime('+1 day'))));
