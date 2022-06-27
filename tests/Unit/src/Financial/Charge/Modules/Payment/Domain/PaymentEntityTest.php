@@ -60,6 +60,24 @@ class PaymentEntityTest extends TestCase
         $this->assertEquals(3, $obj->status->value);
     }
 
+    public function testCancelError(){
+        $this->expectExceptionMessage('This charge has not been paid');
+        $obj = $this->getEntity(value: 50);
+        $obj->cancel(10);
+    }
+
+    public function testCancel(){
+        $obj = $this->getEntity(value: 50, pay: 50, status: 3);
+        $obj->cancel(50);
+        $this->assertEquals(1, $obj->status->value);
+    }
+
+    public function testCancelPartial(){
+        $obj = $this->getEntity(value: 50, pay: 50, status: 3);
+        $obj->cancel(10);
+        $this->assertEquals(2, $obj->status->value);
+    }
+
     private function getEntity(
         $group = null,
         $value = 0.01,
@@ -68,6 +86,7 @@ class PaymentEntityTest extends TestCase
         string $date = null,
         $createdAt = null,
         float $pay = 0,
+        int $status = 1,
     ) {
         if (empty($company)) {
             $company = CompanyEntity::create('bruno costa', null, null);
@@ -82,6 +101,7 @@ class PaymentEntityTest extends TestCase
             createdAt: $createdAt,
             recurrence: null,
             pay: $pay,
+            status: $status,
         );
     }
 }

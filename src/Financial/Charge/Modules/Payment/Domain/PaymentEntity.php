@@ -84,9 +84,11 @@ class PaymentEntity extends EntityAbstract
 
     public function cancel(float $value)
     {
-        if ($this->valuePay <= 0) {
+        if ($this->pay <= 0) {
             throw new Exception('This charge has not been paid');
         }
+
+        $this->status = ($this->pay - $value) == 0 ? ChargeStatusEnum::PENDING : ChargeStatusEnum::PARTIAL;
 
         return $this;
     }
