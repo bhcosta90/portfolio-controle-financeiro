@@ -7,6 +7,7 @@ use Core\Financial\Charge\Modules\Payment\UseCases\DTO\Create\{CreateInput, Crea
 use Core\Financial\Relationship\Modules\Company\Domain\CompanyEntity;
 use Core\Financial\Charge\Modules\Payment\Repository\PaymentRepositoryInterface as Repo;
 use Core\Financial\Relationship\Modules\Company\Repository\CompanyRepositoryInterface;
+use Core\Financial\Recurrence\Repository\RecurrenceRepositoryInterface;
 use Core\Shared\Interfaces\TransactionInterface;
 use Mockery;
 use PHPUnit\Framework\TestCase;
@@ -27,6 +28,9 @@ class CreateUseCaseTest extends TestCase
         $mockCompany = Mockery::mock(stdClass::class, CompanyRepositoryInterface::class);
         $mockCompany->shouldReceive('find')->andReturn(CompanyEntity::create('bruno costa', null, null));
 
+        /** @var RecurrenceRepositoryInterface|Mockery\MockInterface */
+        $mockRecurrence = Mockery::mock(stdClass::class, RecurrenceRepositoryInterface::class);
+
         /** @var CreateInput|Mockery\MockInterface */
         $mockInput = $this->getMockClass(originalClassName: CreateInput::class);
 
@@ -38,6 +42,7 @@ class CreateUseCaseTest extends TestCase
         $uc = new CreateUseCase(
             repo: $mock,
             company: $mockCompany,
+            recurrence: $mockRecurrence,
             transaction: $mockTransaction,
         );
 
@@ -59,6 +64,9 @@ class CreateUseCaseTest extends TestCase
         $mockCompany = Mockery::mock(stdClass::class, CompanyRepositoryInterface::class);
         $mockCompany->shouldReceive('find')->andReturn(CompanyEntity::create('bruno costa', null, null));
 
+        /** @var RecurrenceRepositoryInterface|Mockery\MockInterface */
+        $mockRecurrence = Mockery::mock(stdClass::class, RecurrenceRepositoryInterface::class);
+
         /** @var CreateInput|Mockery\MockInterface */
         $mockInput = $this->getMockClass(originalClassName: CreateInput::class);
 
@@ -70,10 +78,11 @@ class CreateUseCaseTest extends TestCase
         $uc = new CreateUseCase(
             repo: $mock,
             company: $mockCompany,
+            recurrence: $mockRecurrence,
             transaction: $mockTransaction,
         );
 
-        $handle = $uc->handle(new CreateInput($group, 50, $id, '2022-06-27', null, 7));
+        $handle = $uc->handle(new $mockInput($group, 50, $id, '2022-06-27', null, 7));
         $mockCompany->shouldHaveReceived('find')->times(1);
         $mock->shouldHaveReceived('insert')->times(7);
         $this->assertInstanceOf(CreateOutput::class, $handle[0]);
@@ -96,6 +105,9 @@ class CreateUseCaseTest extends TestCase
         $mockCompany = Mockery::mock(stdClass::class, CompanyRepositoryInterface::class);
         $mockCompany->shouldReceive('find')->andReturn(CompanyEntity::create('bruno costa', null, null));
 
+        /** @var RecurrenceRepositoryInterface|Mockery\MockInterface */
+        $mockRecurrence = Mockery::mock(stdClass::class, RecurrenceRepositoryInterface::class);
+
         /** @var CreateInput|Mockery\MockInterface */
         $mockInput = $this->getMockClass(originalClassName: CreateInput::class);
 
@@ -107,6 +119,7 @@ class CreateUseCaseTest extends TestCase
         $uc = new CreateUseCase(
             repo: $mock,
             company: $mockCompany,
+            recurrence: $mockRecurrence,
             transaction: $mockTransaction,
         );
 

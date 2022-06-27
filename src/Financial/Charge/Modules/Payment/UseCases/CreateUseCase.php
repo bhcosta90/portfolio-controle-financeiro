@@ -5,6 +5,7 @@ namespace Core\Financial\Charge\Modules\Payment\UseCases;
 use Core\Financial\Charge\Modules\Payment\Repository\PaymentRepositoryInterface;
 use Core\Financial\Charge\Modules\Payment\Domain\PaymentEntity as Entity;
 use Core\Financial\Charge\Shared\Enums\ChargeTypeEnum;
+use Core\Financial\Recurrence\Repository\RecurrenceRepositoryInterface;
 use Core\Financial\Relationship\Modules\Company\Repository\CompanyRepositoryInterface;
 use Core\Shared\Interfaces\TransactionInterface;
 use Core\Shared\Support\ParcelCalculate;
@@ -16,6 +17,7 @@ class CreateUseCase
     public function __construct(
         private PaymentRepositoryInterface $repo,
         private CompanyRepositoryInterface $company,
+        private RecurrenceRepositoryInterface $recurrence,
         private TransactionInterface $transaction,
     ) {
         //
@@ -29,6 +31,7 @@ class CreateUseCase
     {
         $ret = [];
         $objCompany = $this->company->find($input->companyId);
+        $objRecurrence = $input->recurrenceId ? $this->recurrence->find($input->recurrenceId) : null;
 
         $objParcels = new ParcelCalculate();
         $dataParcels = $objParcels->handle(new ParcelCalculateInput(
@@ -43,7 +46,7 @@ class CreateUseCase
                 $objCompany,
                 ChargeTypeEnum::CREDIT->value,
                 $data->date->format('Y-m-d'),
-                null,
+                $objRecurrence,
             );
             $this->repo->insert($objEntity);
             $ret[] = new DTO\Create\CreateOutput(
