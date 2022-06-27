@@ -55,12 +55,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/bhcosta90/package-domain.git",
-                "reference": "1e8079e82d9b4c6da38162939003aab9d984ecef"
+                "reference": "b0c7f629c74f8035ac31191d6ecbebe97bf6d780"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bhcosta90/package-domain/zipball/1e8079e82d9b4c6da38162939003aab9d984ecef",
-                "reference": "1e8079e82d9b4c6da38162939003aab9d984ecef",
+                "url": "https://api.github.com/repos/bhcosta90/package-domain/zipball/b0c7f629c74f8035ac31191d6ecbebe97bf6d780",
+                "reference": "b0c7f629c74f8035ac31191d6ecbebe97bf6d780",
                 "shasum": ""
             },
             "require": {
@@ -83,7 +83,7 @@
                 "source": "https://github.com/bhcosta90/package-domain/tree/master",
                 "issues": "https://github.com/bhcosta90/package-domain/issues"
             },
-            "time": "2022-06-27T13:57:08+00:00"
+            "time": "2022-06-27T14:17:45+00:00"
         },
         {
             "name": "brick/math",
