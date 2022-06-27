@@ -7,6 +7,9 @@ use Core\Financial\Charge\Modules\Payment\Domain\PaymentEntity as Entity;
 use Core\Financial\Charge\Shared\Enums\ChargeTypeEnum;
 use Core\Financial\Relationship\Modules\Company\Repository\CompanyRepositoryInterface;
 use Core\Shared\Interfaces\TransactionInterface;
+use Core\Shared\Support\ParcelCalculate;
+use Core\Shared\Support\DTO\ParcelCalculate\Input as ParcelCalculateInput;
+use DateTime;
 
 class CreateUseCase
 {
@@ -25,12 +28,26 @@ class CreateUseCase
     public function handle(DTO\Create\CreateInput $input): array
     {
         $ret = [];
+        $objCompany = $this->company->find($input->companyId);
 
-        for ($i = 0; $i < $input->parcels; $i++) {
-            $objCompany = $this->company->find($input->companyId);
-            $objEntity = Entity::create($input->groupId, $input->value, $objCompany, ChargeTypeEnum::CREDIT->value);
+        $objParcels = new ParcelCalculate();
+        $dataParcels = $objParcels->handle(new ParcelCalculateInput($input->parcels, $input->value, new DateTime()));
+        foreach($dataParcels as $data){
+            $objEntity = Entity::create(
+                $input->groupId,
+                $data->value,
+                $objCompany,
+                ChargeTypeEnum::CREDIT->value,
+                $data->date->format('Y-m-d'),
+            );
             $this->repo->insert($objEntity);
-            $ret[] = new DTO\Create\CreateOutput($objEntity->id(), $input->groupId, $input->value, $input->companyId);
+            $ret[] = new DTO\Create\CreateOutput(
+                $objEntity->id(),
+                $input->groupId,
+                $data->value,
+                $objEntity->date->format('Y-m-d'),
+                $input->companyId
+            );
         }
 
         return $ret;

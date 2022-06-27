@@ -8,6 +8,7 @@ class CreateOutput
         public string $id,
         public string $groupId,
         public float $value,
+        public string $date,
         public string $customerId,
     ) {
         //

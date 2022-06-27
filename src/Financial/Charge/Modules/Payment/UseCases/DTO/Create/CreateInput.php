@@ -10,6 +10,7 @@ class CreateInput
         public string $groupId,
         public float $value,
         public string $companyId,
+        public string $date,
         public int $parcels = 1,
     ) {
         if ($this->parcels < 1) {

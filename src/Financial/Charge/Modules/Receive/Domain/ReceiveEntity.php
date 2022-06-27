@@ -20,6 +20,7 @@ class ReceiveEntity extends EntityAbstract
         protected float $value,
         protected CustomerEntity $customer,
         protected ChargeTypeEnum $type,
+        protected DateTime $date,
         protected ?RecurrenceEntity $recurrence = null,
         protected ?UuidObject $id = null,
         protected ?DateTime $createdAt = null,
@@ -32,14 +33,25 @@ class ReceiveEntity extends EntityAbstract
         float $value,
         CustomerEntity $customer,
         int $type,
+        string $date,
         int $status = null,
         ?RecurrenceEntity $recurrence = null,
         ?string $id = null,
         ?string $createdAt = null,
     ) {
-        $obj = new self(new UuidObject($group), $value, $customer, ChargeTypeEnum::from($type), $id, $createdAt);
+        $obj = new self(
+            new UuidObject($group),
+            $value,
+            $customer,
+            ChargeTypeEnum::from($type),
+            new DateTime($date),
+            $id,
+            $createdAt
+        );
+        
         $obj->status = $status ? ChargeStatusEnum::from($status) : ChargeStatusEnum::PENDING;
         $obj->recurrence = $recurrence;
+        $obj->date = new DateTime($date);
         $obj->validate();
         return $obj;
     }

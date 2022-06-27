@@ -19,6 +19,7 @@ class PaymentEntity extends EntityAbstract
         protected float $value,
         protected CompanyEntity $company,
         protected ChargeTypeEnum $type,
+        protected DateTime $date,
         protected ?UuidObject $id = null,
         protected ?DateTime $createdAt = null,
     ) {
@@ -30,11 +31,23 @@ class PaymentEntity extends EntityAbstract
         float $value,
         CompanyEntity $company,
         int $type,
+        string $date,
+        int $status = 1,
         ?string $id = null,
         ?string $createdAt = null,
     ) {
-        $obj = new self(new UuidObject($group), $value, $company, ChargeTypeEnum::from($type), $id, $createdAt);
-        $obj->status = ChargeStatusEnum::PENDING;
+        $obj = new self(
+            new UuidObject($group),
+            $value,
+            $company,
+            ChargeTypeEnum::from($type),
+            new DateTime($date),
+            $id,
+            $createdAt
+        );
+        
+        $obj->status = ChargeStatusEnum::from($status);
+        $obj->date = new DateTime($date);
         $obj->validate();
         return $obj;
     }
