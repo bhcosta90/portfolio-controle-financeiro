@@ -21,7 +21,7 @@ class PaymentEntity extends EntityAbstract
         protected CompanyEntity $company,
         protected ChargeTypeEnum $type,
         protected DateTime $date,
-        protected ?RecurrenceEntity $recurrence = null,
+        protected ?RecurrenceEntity $recurrence,
         protected ?UuidObject $id = null,
         protected ?DateTime $createdAt = null,
     ) {

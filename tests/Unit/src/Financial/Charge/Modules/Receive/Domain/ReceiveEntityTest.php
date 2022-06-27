@@ -21,7 +21,7 @@ class ReceiveEntityTest extends TestCase
         $customer = CustomerEntity::create('bruno costa 1234', null, null);
         $obj = $this->getEntity();
         $customerOld = $obj->customer;
-        $obj->update(50, $customer);
+        $obj->update(50, $customer, '2022-01-01', null);
         $this->assertEquals('bruno costa 1234', $obj->customer->name->value);
         $this->assertEquals(50, $obj->value);
         $this->assertNotEquals($customerOld->id(), $obj->customer->id());
@@ -46,6 +46,7 @@ class ReceiveEntityTest extends TestCase
             type: $type,
             date: $date ?: date('Y-m-d'),
             createdAt: $createdAt,
+            recurrence: null,
         );
     }
 }

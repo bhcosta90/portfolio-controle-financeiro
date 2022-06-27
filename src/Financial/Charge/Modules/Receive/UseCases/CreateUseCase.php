@@ -47,6 +47,7 @@ class CreateUseCase
                 $objCustomer,
                 ChargeTypeEnum::DEBIT->value,
                 $data->date->format('Y-m-d'),
+                $objRecurrence,
                 ChargeStatusEnum::PENDING->value
             );
             $this->repo->insert($objEntity);

@@ -21,7 +21,7 @@ class ReceiveEntity extends EntityAbstract
         protected CustomerEntity $customer,
         protected ChargeTypeEnum $type,
         protected DateTime $date,
-        protected ?RecurrenceEntity $recurrence = null,
+        protected ?RecurrenceEntity $recurrence,
         protected ?UuidObject $id = null,
         protected ?DateTime $createdAt = null,
     ) {
@@ -34,8 +34,8 @@ class ReceiveEntity extends EntityAbstract
         CustomerEntity $customer,
         int $type,
         string $date,
-        int $status = null,
-        ?RecurrenceEntity $recurrence = null,
+        ?RecurrenceEntity $recurrence,
+        ?int $status = null,
         ?string $id = null,
         ?string $createdAt = null,
     ) {
@@ -45,13 +45,12 @@ class ReceiveEntity extends EntityAbstract
             $customer,
             ChargeTypeEnum::from($type),
             new DateTime($date),
-            $id,
+            $recurrence,
+            $id ? new UuidObject($id) : null,
             $createdAt
         );
-        
+
         $obj->status = $status ? ChargeStatusEnum::from($status) : ChargeStatusEnum::PENDING;
-        $obj->recurrence = $recurrence;
-        $obj->date = new DateTime($date);
         $obj->validate();
         return $obj;
     }
@@ -59,9 +58,13 @@ class ReceiveEntity extends EntityAbstract
     public function update(
         float $value,
         CustomerEntity $customer,
+        string $date,
+        ?RecurrenceEntity $recurrence,
     ) {
         $this->value = $value;
         $this->customer = $customer;
+        $this->recurrence = $recurrence;
+        $this->date = new DateTime($date);
         $this->validate();
     }
 
