@@ -8,6 +8,7 @@ use Core\Financial\Charge\Shared\Enums\ChargeTypeEnum;
 use Core\Financial\Recurrence\Domain\RecurrenceEntity;
 use Core\Financial\Relationship\Modules\Customer\Domain\CustomerEntity;
 use Core\Shared\Abstracts\EntityAbstract;
+use Core\Shared\Abstracts\EventAbstract;
 use Core\Shared\ValueObjects\UuidObject;
 use DateTime;
 use DomainException;
@@ -16,6 +17,8 @@ use Exception;
 class ReceiveEntity extends EntityAbstract
 {
     protected ChargeStatusEnum $status;
+    
+    /** @var EventAbstract */
     protected array $events = [];
 
     private function __construct(
