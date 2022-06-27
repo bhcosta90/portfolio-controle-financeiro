@@ -2,6 +2,7 @@
 
 namespace Core\Financial\Charge\Modules\Payment\UseCases;
 
+use Core\Financial\Account\Domain\AccountEntity;
 use Core\Financial\BankAccount\Repository\BankAccountRepositoryInterface;
 use Core\Financial\Charge\Modules\Payment\Domain\PaymentEntity as Entity;
 use Core\Financial\Charge\Modules\Payment\Repository\PaymentRepositoryInterface;
@@ -32,7 +33,8 @@ class PayUseCase
         $objPayment = PaymentEntity::create(
             $input->pay,
             $input->date,
-            new EntityObject($obj->id, $obj),
+            $model = new EntityObject($obj->id, $obj),
+            AccountEntity::create($model, 50),
             $objBankAccount
         );
 

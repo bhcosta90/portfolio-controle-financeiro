@@ -2,6 +2,7 @@
 
 namespace Core\Financial\Payment\Domain;
 
+use Core\Financial\Account\Domain\AccountEntity;
 use Core\Financial\BankAccount\Domain\BankAccountEntity;
 use Core\Financial\Payment\Enums\ChargeStatusEnum;
 use Core\Financial\Payment\Events\PayEvent;
@@ -22,6 +23,7 @@ class PaymentEntity extends EntityAbstract
         protected float $value,
         protected DateTime $date,
         protected EntityObject $entity,
+        protected AccountEntity $account,
         protected ?BankAccountEntity $bankAccount,
         protected ?UuidObject $id = null,
         protected ?DateTime $createdAt = null,
@@ -33,6 +35,7 @@ class PaymentEntity extends EntityAbstract
         float $value,
         string $date,
         EntityObject $entity,
+        AccountEntity $account,
         ?BankAccountEntity $bankAccount,
         ?string $id = null,
         ?string $createdAt = null,
@@ -41,6 +44,7 @@ class PaymentEntity extends EntityAbstract
             $value,
             new DateTime($date),
             $entity,
+            $account,
             $bankAccount,
             $id ? new UuidObject($id) : UuidObject::random(),
             new DateTime($createdAt),

@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\src\Financial\Payment\Domain;
 
+use Core\Financial\Account\Domain\AccountEntity;
 use Core\Financial\Payment\Domain\PaymentEntity;
 use Core\Financial\Payment\Events\PayEvent;
 use Core\Shared\ValueObjects\EntityObject;
@@ -29,7 +30,8 @@ class PaymentEntityTest extends TestCase
         return PaymentEntity::create(
             $value,
             $date ?: date('Y-m-d'),
-            new EntityObject($id ?: Uuid::uuid4(), 'teste'),
+            $model = new EntityObject($id ?: Uuid::uuid4(), 'teste'),
+            AccountEntity::create($model, 50),
             null,
         );
     }
