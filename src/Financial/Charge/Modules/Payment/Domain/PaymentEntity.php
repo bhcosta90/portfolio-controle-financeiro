@@ -23,7 +23,7 @@ class PaymentEntity extends EntityAbstract
         protected ChargeTypeEnum $type,
         protected DateTime $date,
         protected ?RecurrenceEntity $recurrence,
-        protected float $pay = 0,
+        protected float $pay,
         protected ?UuidObject $id = null,
         protected ?DateTime $createdAt = null,
     ) {
