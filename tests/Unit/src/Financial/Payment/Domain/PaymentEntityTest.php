@@ -3,6 +3,7 @@
 namespace Tests\Unit\src\Financial\Payment\Domain;
 
 use Core\Financial\Payment\Domain\PaymentEntity;
+use Core\Financial\Payment\Events\PayEvent;
 use Core\Shared\ValueObjects\EntityObject;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
@@ -16,6 +17,8 @@ class PaymentEntityTest extends TestCase
         $this->assertNotEmpty($obj->createdAt());
         $this->assertTrue($obj->completed);
         $this->assertEquals(1, $obj->status->value);
+        $this->assertCount(1, $obj->events);
+        $this->assertInstanceOf(PayEvent::class, $obj->events[0]);
     }
 
     private function getEntity(
