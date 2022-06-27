@@ -27,6 +27,7 @@ class UpdateUseCaseTest extends TestCase
             ChargeTypeEnum::CREDIT->value,
             '2022-01-01',
             null,
+            0,
             1,
             $id,
         );

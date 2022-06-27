@@ -22,6 +22,7 @@ class ReceiveEntity extends EntityAbstract
         protected ChargeTypeEnum $type,
         protected DateTime $date,
         protected ?RecurrenceEntity $recurrence,
+        protected float $pay,
         protected ?UuidObject $id = null,
         protected ?DateTime $createdAt = null,
     ) {
@@ -35,6 +36,7 @@ class ReceiveEntity extends EntityAbstract
         int $type,
         string $date,
         ?RecurrenceEntity $recurrence,
+        float $pay = 0,
         ?int $status = null,
         ?string $id = null,
         ?string $createdAt = null,
@@ -46,6 +48,7 @@ class ReceiveEntity extends EntityAbstract
             ChargeTypeEnum::from($type),
             new DateTime($date),
             $recurrence,
+            $pay,
             $id ? new UuidObject($id) : null,
             $createdAt
         );
