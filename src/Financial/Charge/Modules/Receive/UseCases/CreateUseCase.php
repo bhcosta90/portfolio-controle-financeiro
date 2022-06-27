@@ -32,7 +32,11 @@ class CreateUseCase
         $objCustomer = $this->customer->find($input->customerId);
 
         $objParcels = new ParcelCalculate();
-        $dataParcels = $objParcels->handle(new ParcelCalculateInput($input->parcels, $input->value, new DateTime()));
+        $dataParcels = $objParcels->handle(new ParcelCalculateInput(
+            $input->parcels,
+            $input->value,
+            new DateTime($input->date)
+        ));
         foreach($dataParcels as $data){
             $objEntity = Entity::create(
                 $input->groupId,

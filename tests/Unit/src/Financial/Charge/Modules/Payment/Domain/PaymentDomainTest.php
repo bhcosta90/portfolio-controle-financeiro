@@ -32,6 +32,7 @@ class PaymentDomainTest extends TestCase
         $value = 0.01,
         $company = null,
         int $type = 1,
+        string $date = null,
         $createdAt = null,
     ) {
         if (empty($company)) {
@@ -43,6 +44,7 @@ class PaymentDomainTest extends TestCase
             value: $value,
             company: $company,
             type: $type,
+            date: $date ?: date('Y-m-d'),
             createdAt: $createdAt,
         );
     }

@@ -32,6 +32,7 @@ class ReceiveEntityTest extends TestCase
         $value = 0.01,
         $customer = null,
         int $type = 1,
+        string $date = null,
         $createdAt = null,
     ) {
         if (empty($customer)) {
@@ -43,6 +44,7 @@ class ReceiveEntityTest extends TestCase
             value: $value,
             customer: $customer,
             type: $type,
+            date: $date ?: date('Y-m-d'),
             createdAt: $createdAt,
         );
     }
