@@ -1,12 +1,12 @@
 <?php
 
-namespace Core\Financial\Charge\Modules\Payment\UseCases;
+namespace Core\Financial\Charge\Modules\Receive\UseCases;
 
 use Core\Financial\BankAccount\Repository\BankAccountRepositoryInterface;
-use Core\Financial\Charge\Modules\Payment\Domain\PaymentEntity as Entity;
-use Core\Financial\Charge\Modules\Payment\Repository\PaymentRepositoryInterface;
+use Core\Financial\Charge\Modules\Receive\Domain\ReceiveEntity as Entity;
+use Core\Financial\Charge\Modules\Receive\Repository\ReceiveRepositoryInterface;
 use Core\Financial\Payment\Domain\PaymentEntity;
-use Core\Financial\Payment\Repository\PaymentRepositoryInterface as RepositoryPaymentRepositoryInterface;
+use Core\Financial\Payment\Repository\PaymentRepositoryInterface;
 use Core\Shared\Interfaces\TransactionInterface;
 use Core\Shared\ValueObjects\EntityObject;
 use Throwable;
@@ -14,8 +14,8 @@ use Throwable;
 class PayUseCase
 {
     public function __construct(
-        private PaymentRepositoryInterface $repo,
-        private RepositoryPaymentRepositoryInterface $payment,
+        private ReceiveRepositoryInterface $repo,
+        private PaymentRepositoryInterface $payment,
         private BankAccountRepositoryInterface $account,
         private TransactionInterface $transaction,
     ) {
@@ -33,7 +33,7 @@ class PayUseCase
             $input->pay,
             $input->date,
             new EntityObject($obj->id, $obj),
-            $objBankAccount
+            $objBankAccount,
         );
 
         try {
