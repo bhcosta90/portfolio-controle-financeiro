@@ -74,9 +74,7 @@ class RecurrenceEloquentRepository implements RecurrenceRepositoryInterface
 
     public function pluck(?array $filter = null): array
     {
-        return $this->model->orderBy('name', 'asc')
-            ->where('entity', CompanyEntity::class)
-            ->pluck('name', 'id')->toArray();
+        return $this->model->orderBy('name', 'asc')->pluck('name', 'id')->toArray();
     }
 
     public function entity(object $input): EntityAbstract

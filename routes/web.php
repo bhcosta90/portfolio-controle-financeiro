@@ -25,11 +25,16 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('profile', [ProfileController::class, 'index']);
 Route::post('profile/data', [ProfileController::class, 'profile'])->name('profile.data');
 
-Route::middleware('auth')->prefix('admin')->as('admin.')->group(function(){
-    Route::prefix('relationship')->as('relationship.')->group(function(){
+Route::middleware('auth')->prefix('admin')->as('admin.')->group(function () {
+    Route::prefix('relationship')->as('relationship.')->group(function () {
         Route::resource('company', Web\Relationship\CompanyController::class);
         Route::resource('customer', Web\Relationship\CustomerController::class);
     });
     Route::resource('bank', Web\BankAccountController::class);
     Route::resource('recurrence', Web\RecurrenceController::class);
+
+    Route::prefix('charge')->as('charge.')->group(function () {
+        Route::resource('receive', Web\Charge\ReceiveController::class);
+        Route::resource('payment', Web\Charge\PaymentController::class);
+    });
 });
