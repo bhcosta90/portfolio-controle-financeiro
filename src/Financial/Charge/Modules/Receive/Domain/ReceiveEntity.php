@@ -51,7 +51,7 @@ class ReceiveEntity extends EntityAbstract
             $recurrence,
             $pay,
             $id ? new UuidObject($id) : null,
-            $createdAt
+            new DateTime($createdAt)
         );
 
         $obj->status = $status ? ChargeStatusEnum::from($status) : ChargeStatusEnum::PENDING;

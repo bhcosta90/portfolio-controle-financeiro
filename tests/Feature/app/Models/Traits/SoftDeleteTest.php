@@ -3,10 +3,10 @@
 namespace Tests\Feature\app\Models\Traits;
 
 use App\Models\{Account, Tenant, User};
-use App\Models\Traits\TenantTrait;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Tests\TestCase;
 
-class TenantTraitTest extends TestCase
+class SoftDeleteTest extends TestCase
 {
     /**
      * A basic feature test example.
@@ -16,9 +16,9 @@ class TenantTraitTest extends TestCase
     public function test_example()
     {
         $except = [
-            Tenant::class,
-            User::class,
-            Account::class,
+            // Tenant::class,
+            // User::class,
+            // Account::class,
         ];
 
         foreach (glob(app_path("Models/*.php")) as $filename) {
@@ -30,7 +30,7 @@ class TenantTraitTest extends TestCase
             }
 
             $objClass = app($fileClass);
-            $this->assertArrayHasKey(TenantTrait::class, class_uses($objClass), 'Model ' . $fileModel . ' do not implemented TenantTrait');
+            $this->assertArrayHasKey(SoftDeletes::class, class_uses($objClass), 'Model ' . $fileModel . ' do not implemented SoftDeletes');
         }
     }
 }

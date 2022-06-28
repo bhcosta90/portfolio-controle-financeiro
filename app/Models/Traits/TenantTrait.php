@@ -10,7 +10,9 @@ trait TenantTrait
     public static function bootTenantTrait()
     {
         static::addGlobalScope('tenant_id', function ($builder) {
-            $builder->whereIn('tenant_id', (array) self::getTenantId());
+            $table = with(new static)->getTable();
+
+            $builder->whereIn($table . '.tenant_id', (array) self::getTenantId());
         });
 
         static::creating(fn ($model) => $model->tenant_id = $model->tenant_id ?: self::getTenantId());

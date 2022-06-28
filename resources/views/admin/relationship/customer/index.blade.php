@@ -11,6 +11,7 @@
             <tr>
                 <th>{{ __('Name') }}</th>
                 <th>{{ __('Documento') }}</th>
+                <th style='width:1px'>{{ __('Ações') }}</th>
             </tr>
         </thead>
 
@@ -19,6 +20,16 @@
             <tr>
                 <td>{{ $rs->name->value }}</td>
                 <td>{{ $rs->document?->document ?: '-' }}</td>
+                <td>
+                    {!! links([
+                        "edit" => [
+                            "link" => route('admin.relationship.customer.edit', $rs->id)
+                        ],
+                        "delete" => [
+                            "link" => route('admin.relationship.customer.destroy', $rs->id)
+                        ]
+                    ]) !!}
+                </td>
             </tr>
             @endforeach
         </tbody>

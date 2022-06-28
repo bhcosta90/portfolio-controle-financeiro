@@ -13,17 +13,21 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('relationships', function (Blueprint $table) {
+        Schema::create('charges', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('tenant_id')->constrained('tenants');
-            $table->string('name');
+            $table->foreignUuid('recurrence_id')->nullable()->constrained('recurrences');
+            $table->foreignUuid('relationship_id')->constrained('relationships');
+            $table->string('relationship_type');
             $table->string('entity')->index();
-            $table->string('document_type')->nullable();
-            $table->string('document_value')->nullable();
+            $table->uuid('group_id')->index();
+            $table->unsignedTinyInteger('status');
+            $table->unsignedTinyInteger('type');
+            $table->unsignedDouble('value_charge');
+            $table->unsignedDouble('value_pay')->nullable();
+            $table->date('date');
             $table->timestamps();
             $table->softDeletes();
-
-            $table->index(['tenant_id', 'entity']);
         });
     }
 
@@ -34,6 +38,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('relationships');
+        Schema::dropIfExists('charges');
     }
 };

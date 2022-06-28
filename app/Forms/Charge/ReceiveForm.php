@@ -38,6 +38,7 @@ class ReceiveForm extends Form
         $this->add('date', 'date', [
             'rules' => ['required', 'date'],
             'label' => __('Data Vencimento'),
+            'value' => $this->model?->date ?? date('Y-m-d')
         ]);
 
         $this->add('parcel', 'select', [
