@@ -2,6 +2,8 @@
 
 namespace Tests\Unit\src\Financial\Charge\Modules\Payment\UseCases;
 
+use Core\Financial\Account\Domain\AccountEntity;
+use Core\Financial\Account\Repository\AccountRepositoryInterface;
 use Core\Financial\BankAccount\Repository\BankAccountRepositoryInterface;
 use Core\Financial\Charge\Modules\Payment\Domain\PaymentEntity;
 use Mockery;
@@ -12,6 +14,7 @@ use Core\Financial\Charge\Modules\Payment\Repository\PaymentRepositoryInterface 
 use Core\Financial\Payment\Repository\PaymentRepositoryInterface;
 use Core\Financial\Relationship\Modules\Company\Domain\CompanyEntity;
 use Core\Shared\Interfaces\TransactionInterface;
+use Core\Shared\ValueObjects\EntityObject;
 use Ramsey\Uuid\Uuid;
 
 class PayUseCaseTest extends TestCase
@@ -45,6 +48,10 @@ class PayUseCaseTest extends TestCase
         /** @var BankAccountRepositoryInterface|Mockery\MockInterface */
         $mockBankAccount = Mockery::mock(stdClass::class, BankAccountRepositoryInterface::class);
 
+        /** @var AccountRepositoryInterface|Mockery\MockInterface */
+        $mockAccount = Mockery::mock(stdClass::class, AccountRepositoryInterface::class);
+        $mockAccount->shouldReceive('find')->andReturn(AccountEntity::create(new EntityObject($id, $objEntity), 0));
+
         /** @var TransactionInterface|Mockery\MockInterface */
         $mockTransaction = Mockery::mock(stdClass::class, TransactionInterface::class);
         $mockTransaction->shouldReceive('commit');
@@ -55,6 +62,7 @@ class PayUseCaseTest extends TestCase
             payment: $mockPayment,
             bankAccount: $mockBankAccount,
             transaction: $mockTransaction,
+            account: $mockAccount,
         );
 
         $ret = $uc->handle(new PayInput($id, 50, 25, date('Y-m-d')));
@@ -93,6 +101,10 @@ class PayUseCaseTest extends TestCase
         /** @var BankAccountRepositoryInterface|Mockery\MockInterface */
         $mockBankAccount = Mockery::mock(stdClass::class, BankAccountRepositoryInterface::class);
 
+        /** @var AccountRepositoryInterface|Mockery\MockInterface */
+        $mockAccount = Mockery::mock(stdClass::class, AccountRepositoryInterface::class);
+        $mockAccount->shouldReceive('find')->andReturn(AccountEntity::create(new EntityObject($id, $objEntity), 0));
+
         /** @var TransactionInterface|Mockery\MockInterface */
         $mockTransaction = Mockery::mock(stdClass::class, TransactionInterface::class);
         $mockTransaction->shouldReceive('commit');
@@ -102,7 +114,8 @@ class PayUseCaseTest extends TestCase
             repo: $mock,
             payment: $mockPayment,
             bankAccount: $mockBankAccount,
-            transaction: $mockTransaction
+            transaction: $mockTransaction,
+            account: $mockAccount,
         );
 
         $ret = $uc->handle(new PayInput($id, 50, 25, date('Y-m-d', strtotime('+1 day'))));
