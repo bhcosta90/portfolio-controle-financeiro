@@ -12,9 +12,11 @@ interface AccountRepositoryInterface
 
     public function find(string $id, string $entity): AccountEntity;
 
+    public function getById(string $id): AccountEntity;
+
     public function delete(AccountEntity $entity): bool;
 
-    public function add(AccountEntity $account, float $value);
+    public function add(AccountEntity $account, float $value): bool;
 
-    public function sub(AccountEntity $account, float $value);
+    public function sub(AccountEntity $account, float $value): bool;
 }

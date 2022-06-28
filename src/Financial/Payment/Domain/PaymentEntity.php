@@ -3,7 +3,6 @@
 namespace Core\Financial\Payment\Domain;
 
 use Core\Financial\Account\Domain\AccountEntity;
-use Core\Financial\BankAccount\Domain\BankAccountEntity;
 use Core\Financial\Payment\Enums\ChargeStatusEnum;
 use Core\Financial\Payment\Events\PayEvent;
 use Core\Shared\Abstracts\EntityAbstract;
@@ -52,10 +51,16 @@ class PaymentEntity extends EntityAbstract
 
         $entity->completed = date('Y-m-d') >= $entity->date->format('Y-m-d');
 
-        if ($entity->completed) {
+        if ($entity->completed && empty($id)) {
             $entity->events[] = new PayEvent($entity);
         }
 
         return $entity;
+    }
+
+    public function completed()
+    {
+        $this->status = ChargeStatusEnum::PROCESSED;
+        return $this->completed;
     }
 }

@@ -64,18 +64,18 @@ class AccountEloquentRepository implements AccountRepositoryInterface
         );
     }
 
-    public function add(AccountEntity $account, float $value)
+    public function add(AccountEntity $account, float $value): bool
     {
         $obj = $this->model->find($account->id());
         $obj->increment('value', (float) abs($value));
-        return $this->entity($obj);
+        return (bool) $obj;
     }
 
-    public function sub(AccountEntity $account, float $value)
+    public function sub(AccountEntity $account, float $value): bool
     {
         $obj = $this->model->find($account->id());
         $obj->decrement('value', (float) abs($value));
-        return $this->entity($obj);
+        return (bool) $obj;
     }
 
     /** @return EntityAbstract */
