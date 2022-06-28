@@ -3,13 +3,13 @@
 namespace App\Forms\Charge;
 
 use Core\Financial\Recurrence\Repository\RecurrenceRepositoryInterface;
-use Core\Financial\Relationship\Modules\Customer\Repository\CustomerRepositoryInterface;
+use Core\Financial\Relationship\Modules\Company\Repository\CompanyRepositoryInterface;
 use Kris\LaravelFormBuilder\Form;
 
-class ReceiveForm extends Form
+class PaymentForm extends Form
 {
     public function __construct(
-        private CustomerRepositoryInterface $relationship,
+        private CompanyRepositoryInterface $relationship,
         private RecurrenceRepositoryInterface $recurrence,
     ) {
         //

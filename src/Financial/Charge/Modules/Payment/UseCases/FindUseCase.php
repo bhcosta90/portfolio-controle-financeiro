@@ -1,15 +1,15 @@
 <?php
 
-namespace Core\Financial\Charge\Modules\Receive\UseCases;
+namespace Core\Financial\Charge\Modules\Payment\UseCases;
 
 use Core\Financial\BankAccount\Domain\BankAccountEntity as Entity;
-use Core\Financial\Charge\Modules\Receive\Repository\ReceiveRepositoryInterface;
+use Core\Financial\Charge\Modules\Payment\Repository\PaymentRepositoryInterface;
 use Core\Shared\UseCases\Find\FindInput;
 
 class FindUseCase
 {
     public function __construct(
-        private ReceiveRepositoryInterface $repo,
+        private PaymentRepositoryInterface $repo,
     ) {
         //
     }
@@ -22,7 +22,7 @@ class FindUseCase
         return new DTO\Find\FindOutput(
             id: $obj->id(),
             value: $obj->value,
-            customerId: $obj->customer->id(),
+            companyId: $obj->company->id(),
             date: $obj->date->format('Y-m-d'),
             recurrenceId: $obj->recurrence?->id(),
         );

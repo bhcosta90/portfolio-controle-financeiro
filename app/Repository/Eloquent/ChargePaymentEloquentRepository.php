@@ -4,15 +4,15 @@ namespace App\Repository\Eloquent;
 
 use App\Models\Charge;
 use App\Repository\Presenters\PaginatorPresenter;
-use Core\Financial\Charge\Modules\Receive\Domain\ReceiveEntity;
-use Core\Financial\Charge\Modules\Receive\Repository\ReceiveRepositoryInterface;
-use Core\Financial\Relationship\Modules\Customer\Domain\CustomerEntity;
+use Core\Financial\Charge\Modules\Payment\Domain\PaymentEntity;
+use Core\Financial\Charge\Modules\Payment\Repository\PaymentRepositoryInterface;
+use Core\Financial\Relationship\Modules\Company\Domain\CompanyEntity;
 use Core\Shared\Abstracts\EntityAbstract;
 use Core\Shared\Interfaces\PaginationInterface;
 use DateTime;
 use Exception;
 
-class ReceiveEloquentRepository implements ReceiveRepositoryInterface
+class ChargePaymentEloquentRepository implements PaymentRepositoryInterface
 {
     public function __construct(private Charge $model)
     {
@@ -24,9 +24,9 @@ class ReceiveEloquentRepository implements ReceiveRepositoryInterface
         return (bool) $this->model->create([
             'id' => $entity->id(),
             'entity' => get_class($entity),
-            'relationship_type' => get_class($entity->customer),
+            'relationship_type' => get_class($entity->company),
             'recurrence_id' => $entity->recurrence?->id(),
-            'relationship_id' => $entity->customer->id(),
+            'relationship_id' => $entity->company->id(),
             'group_id' => (string) $entity->group,
             'status' => $entity->status->value,
             'type' => $entity->type->value,
@@ -40,7 +40,7 @@ class ReceiveEloquentRepository implements ReceiveRepositoryInterface
         $obj = $this->model->find($entity->id());
         return $obj->update([
             'recurrence_id' => $entity->recurrence?->id(),
-            'relationship_id' => $entity->customer->id(),
+            'relationship_id' => $entity->company->id(),
             'group_id' => (string) $entity->group,
             'status' => $entity->status->value,
             'type' => $entity->type->value,
@@ -79,7 +79,7 @@ class ReceiveEloquentRepository implements ReceiveRepositoryInterface
                 'relationships.name as relationship_name'
             )
             ->join('relationships', 'relationships.id', '=', 'charges.relationship_id')
-            ->where('charges.entity', ReceiveEntity::class)
+            ->where('charges.entity', PaymentEntity::class)
             ->orderBy('charges.date', 'asc');
 
         return new PaginatorPresenter($result->paginate(
@@ -95,10 +95,10 @@ class ReceiveEloquentRepository implements ReceiveRepositoryInterface
 
     public function entity(object $input): EntityAbstract
     {
-        return ReceiveEntity::create(
+        return PaymentEntity::create(
             group: $input->group_id,
             value: $input->value_charge,
-            customer: CustomerEntity::create($input->relationship_name, null, null, $input->relationship_id),
+            company: CompanyEntity::create($input->relationship_name, null, null, $input->relationship_id),
             type: $input->type,
             date: $input->date,
             recurrence: null,

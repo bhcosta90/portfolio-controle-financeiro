@@ -11,6 +11,7 @@ use Core\Shared\Interfaces\TransactionInterface;
 use Core\Shared\Support\ParcelCalculate;
 use Core\Shared\Support\DTO\ParcelCalculate\Input as ParcelCalculateInput;
 use DateTime;
+use Throwable;
 
 class CreateUseCase
 {
@@ -39,24 +40,30 @@ class CreateUseCase
             $input->value,
             new DateTime($input->date)
         ));
-        foreach($dataParcels as $data){
-            $objEntity = Entity::create(
-                $input->groupId,
-                $data->value,
-                $objCompany,
-                ChargeTypeEnum::CREDIT->value,
-                $data->date->format('Y-m-d'),
-                $objRecurrence,
-            );
-            $this->repo->insert($objEntity);
-            $ret[] = new DTO\Create\CreateOutput(
-                $objEntity->id(),
-                $input->groupId,
-                $data->value,
-                $objEntity->date->format('Y-m-d'),
-                $input->companyId,
-                $input->recurrenceId,
-            );
+        try {
+            foreach ($dataParcels as $data) {
+                $objEntity = Entity::create(
+                    $input->groupId,
+                    $data->value,
+                    $objCompany,
+                    ChargeTypeEnum::CREDIT->value,
+                    $data->date->format('Y-m-d'),
+                    $objRecurrence,
+                );
+                $this->repo->insert($objEntity);
+                $ret[] = new DTO\Create\CreateOutput(
+                    $objEntity->id(),
+                    $input->groupId,
+                    $data->value,
+                    $objEntity->date->format('Y-m-d'),
+                    $input->companyId,
+                    $input->recurrenceId,
+                );
+            }
+            $this->transaction->commit();
+        } catch (Throwable $e) {
+            $this->transaction->rollback();
+            throw $e;
         }
 
         return $ret;

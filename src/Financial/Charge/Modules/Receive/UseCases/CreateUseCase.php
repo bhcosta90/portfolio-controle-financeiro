@@ -54,7 +54,6 @@ class CreateUseCase
                     ChargeStatusEnum::PENDING->value
                 );
                 $this->repo->insert($objEntity);
-                $this->transaction->commit();
                 $ret[] = new DTO\Create\CreateOutput(
                     $objEntity->id(),
                     $input->groupId,
@@ -64,6 +63,7 @@ class CreateUseCase
                     $input->recurrenceId,
                 );
             }
+            $this->transaction->commit();
         } catch (Throwable $e) {
             $this->transaction->rollback();
             throw $e;
