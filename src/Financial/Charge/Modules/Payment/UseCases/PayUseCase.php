@@ -7,6 +7,7 @@ use Core\Financial\Account\Repository\AccountRepositoryInterface;
 use Core\Financial\BankAccount\Repository\BankAccountRepositoryInterface;
 use Core\Financial\Charge\Modules\Payment\Domain\PaymentEntity as Entity;
 use Core\Financial\Charge\Modules\Payment\Repository\PaymentRepositoryInterface;
+use Core\Financial\Charge\Shared\Enums\ChargeStatusEnum;
 use Core\Financial\Payment\Domain\PaymentEntity;
 use Core\Financial\Payment\Repository\PaymentRepositoryInterface as RepositoryPaymentRepositoryInterface;
 use Core\Shared\Interfaces\PublishManagerInterface;
@@ -32,8 +33,8 @@ class PayUseCase
         /** @var Entity */
         $obj = $this->repo->find($input->id);
         $obj->pay($input->pay, $input->value);
-        
-        $objBankAccount = $input->bankAccountId 
+
+        $objBankAccount = $input->bankAccountId
             ? $this->account->find(($o = $this->bankAccount->find($input->bankAccountId))->id(), get_class($o))
             : null;
 
@@ -48,6 +49,20 @@ class PayUseCase
         try {
             $this->repo->update($obj);
             $this->payment->insert($objPayment);
+
+            if ($obj->status == ChargeStatusEnum::COMPLETED && $obj->recurrence) {
+                $objNewCharge = Entity::create(
+                    (string) $obj->group,
+                    $obj->value,
+                    $obj->company,
+                    $obj->type->value,
+                    $obj->recurrence->calculate($obj->date->format('Y-m-d'))->format('Y-m-d'),
+                    $obj->recurrence
+                );
+
+                $this->repo->insert($objNewCharge);
+            }
+
             $this->transaction->commit();
             $this->event->dispatch($objPayment->events);
             return new DTO\Pay\PayOutput(
