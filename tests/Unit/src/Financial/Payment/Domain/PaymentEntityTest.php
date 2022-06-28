@@ -13,26 +13,37 @@ class PaymentEntityTest extends TestCase
 {
     public function testCreate()
     {
-        $obj = $this->getEntity();
+        $obj = $this->getEntity(
+            accountFrom: $accountFrom = Uuid::uuid4(),
+            accountTo: $accountTo = Uuid::uuid4()
+        );
         $this->assertNotEmpty($obj->id());
         $this->assertNotEmpty($obj->createdAt());
         $this->assertTrue($obj->completed);
         $this->assertEquals(1, $obj->status->value);
         $this->assertCount(1, $obj->events);
         $this->assertInstanceOf(PayEvent::class, $obj->events[0]);
+        $this->assertEquals([
+            'id' => $obj->id(),
+            'value' => 50,
+            'account_from' => $accountFrom,
+            'account_to' => $accountTo,
+        ], $obj->events[0]->payload());
     }
 
     private function getEntity(
         $value = 50,
         $date = null,
         $id = null,
+        $accountFrom = null,
+        $accountTo = null,
     ) {
         return PaymentEntity::create(
             $value,
             $date ?: date('Y-m-d'),
-            $model = new EntityObject($id ?: Uuid::uuid4(), 'teste'),
-            AccountEntity::create($model, 50),
-            null,
+            $n = new EntityObject($id ?: Uuid::uuid4(), 'teste'),
+            $accountFrom ? AccountEntity::create($n, 0, $accountFrom) : null,
+            $accountTo ? AccountEntity::create($n, 0, $accountTo) : null,
         );
     }
 }
