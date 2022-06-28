@@ -28,7 +28,8 @@ class PaymentEntityTest extends TestCase
             'value' => 50,
             'account_from' => $accountFrom,
             'account_to' => $accountTo,
-        ], $obj->events[0]->payload());
+        ], $obj->events[0]->publish());
+        $this->assertEquals('payment.execute.' . $obj->id(), $obj->events[0]->name());
     }
 
     private function getEntity(

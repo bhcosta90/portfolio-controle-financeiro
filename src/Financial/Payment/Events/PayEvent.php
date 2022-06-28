@@ -3,9 +3,9 @@
 namespace Core\Financial\Payment\Events;
 
 use Core\Financial\Payment\Domain\PaymentEntity;
-use Core\Shared\Abstracts\EventAbstract;
+use Core\Shared\Abstracts\PublishAbstract;
 
-class PayEvent extends EventAbstract
+class PayEvent extends PublishAbstract
 {
     public function __construct(
         private PaymentEntity $entity,
@@ -18,7 +18,7 @@ class PayEvent extends EventAbstract
         return 'payment.execute.' . $this->entity->id();
     }
 
-    public function payload(): array
+    public function publish(): array
     {
         return [
             'id' => $this->entity->id(),

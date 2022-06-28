@@ -9,6 +9,7 @@ use Core\Financial\Charge\Modules\Payment\Domain\PaymentEntity as Entity;
 use Core\Financial\Charge\Modules\Payment\Repository\PaymentRepositoryInterface;
 use Core\Financial\Payment\Domain\PaymentEntity;
 use Core\Financial\Payment\Repository\PaymentRepositoryInterface as RepositoryPaymentRepositoryInterface;
+use Core\Shared\Interfaces\PublishManagerInterface;
 use Core\Shared\Interfaces\TransactionInterface;
 use Core\Shared\ValueObjects\EntityObject;
 use Throwable;
@@ -21,6 +22,7 @@ class PayUseCase
         private BankAccountRepositoryInterface $bankAccount,
         private TransactionInterface $transaction,
         private AccountRepositoryInterface $account,
+        private PublishManagerInterface $event,
     ) {
         //
     }
@@ -47,7 +49,7 @@ class PayUseCase
             $this->repo->update($obj);
             $this->payment->insert($objPayment);
             $this->transaction->commit();
-
+            $this->event->dispatch($objPayment->events);
             return new DTO\Pay\PayOutput(
                 id: $obj->id(),
                 value: $input->value,

@@ -13,6 +13,7 @@ use Core\Financial\Charge\Modules\Receive\UseCases\DTO\Pay\{PayInput, PayOutput}
 use Core\Financial\Charge\Modules\Receive\Repository\ReceiveRepositoryInterface as Repo;
 use Core\Financial\Payment\Repository\PaymentRepositoryInterface;
 use Core\Financial\Relationship\Modules\Customer\Domain\CustomerEntity;
+use Core\Shared\Interfaces\PublishManagerInterface;
 use Core\Shared\Interfaces\TransactionInterface;
 use Core\Shared\ValueObjects\EntityObject;
 use Ramsey\Uuid\Uuid;
@@ -57,18 +58,24 @@ class PayUseCaseTest extends TestCase
         $mockTransaction->shouldReceive('commit');
         $mockTransaction->shouldReceive('rollback');
 
+        /** @var PublishManagerInterface|Mockery\MockInterface */
+        $mockEvent = Mockery::mock(stdClass::class, PublishManagerInterface::class);
+        $mockEvent->shouldReceive('dispatch');
+
         $uc = new PayUseCase(
             repo: $mock,
             payment: $mockPayment,
             bankAccount: $mockBankAccount,
             transaction: $mockTransaction,
             account: $mockAccount,
+            event: $mockEvent
         );
 
         $ret = $uc->handle(new PayInput($id, 50, 25, date('Y-m-d')));
         $this->assertInstanceOf(PayOutput::class, $ret);
         $mock->shouldHaveReceived('update')->times(1);
         $mockPayment->shouldHaveReceived('insert')->times(1);
+        $mockEvent->shouldHaveReceived('dispatch')->times(1);
         $this->assertTrue($ret->completed);
     }
 
@@ -110,12 +117,17 @@ class PayUseCaseTest extends TestCase
         $mockTransaction->shouldReceive('commit');
         $mockTransaction->shouldReceive('rollback');
 
+        /** @var PublishManagerInterface|Mockery\MockInterface */
+        $mockEvent = Mockery::mock(stdClass::class, PublishManagerInterface::class);
+        $mockEvent->shouldReceive('dispatch');
+
         $uc = new PayUseCase(
             repo: $mock,
             payment: $mockPayment,
             bankAccount: $mockBankAccount,
             transaction: $mockTransaction,
             account: $mockAccount,
+            event: $mockEvent,
         );
 
         $ret = $uc->handle(new PayInput($id, 50, 25, date('Y-m-d', strtotime('+1 day'))));
@@ -123,6 +135,7 @@ class PayUseCaseTest extends TestCase
         $this->assertInstanceOf(PayOutput::class, $ret);
         $mock->shouldHaveReceived('update')->times(1);
         $mockPayment->shouldHaveReceived('insert')->times(1);
+        $mockEvent->shouldHaveReceived('dispatch')->times(1);
         $this->assertFalse($ret->completed);
     }
 }
