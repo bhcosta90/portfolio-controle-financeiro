@@ -8,6 +8,7 @@ use Core\Financial\Payment\Domain\PaymentEntity;
 use Core\Financial\Payment\Repository\PaymentRepositoryInterface;
 use Core\Financial\Payment\UseCases\ExecuteUseCase;
 use Core\Financial\Payment\UseCases\DTO\Execute\{ExecuteInput, ExecuteOutput};
+use Core\Shared\Interfaces\EventManagerInterface;
 use Core\Shared\Interfaces\TransactionInterface;
 use Core\Shared\ValueObjects\EntityObject;
 use Mockery;
@@ -23,16 +24,12 @@ class ExecuteUseCaseTest extends TestCase
         $mockPayment = Mockery::mock(stdClass::class, PaymentRepositoryInterface::class);
         $mockPayment->shouldReceive('findPaymentExecuteByDate')->andReturn([]);
 
-        /** @var AccountRepositoryInterface|Mockery\MockInterface */
-        $mockAccount = Mockery::mock(stdClass::class, AccountRepositoryInterface::class);
-
-        /** @var TransactionInterface|Mockery\MockInterface */
-        $mockTransaction = Mockery::mock(stdClass::class, TransactionInterface::class);
+        /** @var EventManagerInterface|Mockery\MockInterface */
+        $mockEvent = Mockery::mock(stdClass::class, EventManagerInterface::class);
 
         $uc = new ExecuteUseCase(
             payment: $mockPayment,
-            account: $mockAccount,
-            transaction: $mockTransaction
+            event: $mockEvent
         );
 
         $ret = $uc->handle(new ExecuteInput(date('Y-m-d')));
@@ -45,52 +42,17 @@ class ExecuteUseCaseTest extends TestCase
         /** @var PaymentRepositoryInterface|Mockery\MockInterface */
         $mockPayment = Mockery::mock(stdClass::class, PaymentRepositoryInterface::class);
         $mockPayment->shouldReceive('findPaymentExecuteByDate')->andReturn([
-            $objEntity = $this->getEntity(date: date('Y-m-d')),
-        ]);
-        $mockPayment->shouldReceive('update')->andReturn(true);
-
-        /** @var AccountRepositoryInterface|Mockery\MockInterface */
-        $mockAccount = Mockery::mock(stdClass::class, AccountRepositoryInterface::class);
-
-        /** @var TransactionInterface|Mockery\MockInterface */
-        $mockTransaction = Mockery::mock(stdClass::class, TransactionInterface::class);
-        $mockTransaction->shouldReceive('rollback');
-        $mockTransaction->shouldReceive('commit');
-
-        $uc = new ExecuteUseCase(
-            payment: $mockPayment,
-            account: $mockAccount,
-            transaction: $mockTransaction
-        );
-
-        $ret = $uc->handle(new ExecuteInput(date('Y-m-d')));
-        $this->assertInstanceOf(ExecuteOutput::class, $ret);
-        $this->assertCount(1, $ret->data);
-        $this->assertEquals(2, $objEntity->status->value);
-    }
-
-    public function testHandleOnePaymentTwoCharges()
-    {
-        /** @var PaymentRepositoryInterface|Mockery\MockInterface */
-        $mockPayment = Mockery::mock(stdClass::class, PaymentRepositoryInterface::class);
-        $mockPayment->shouldReceive('findPaymentExecuteByDate')->andReturn([
             $this->getEntity(date: date('Y-m-d')),
-            $this->getEntity(date: date('Y-m-d', strtotime('+1 day'))),
         ]);
         $mockPayment->shouldReceive('update')->andReturn(true);
 
-        /** @var AccountRepositoryInterface|Mockery\MockInterface */
-        $mockAccount = Mockery::mock(stdClass::class, AccountRepositoryInterface::class);
-
-        /** @var TransactionInterface|Mockery\MockInterface */
-        $mockTransaction = Mockery::mock(stdClass::class, TransactionInterface::class);
-        $mockTransaction->shouldReceive('rollback');
-        $mockTransaction->shouldReceive('commit');
+        /** @var EventManagerInterface|Mockery\MockInterface */
+        $mockEvent = Mockery::mock(stdClass::class, EventManagerInterface::class);
+        $mockEvent->shouldReceive('dispatch');
 
         $uc = new ExecuteUseCase(
             payment: $mockPayment,
-            account: $mockAccount,
-            transaction: $mockTransaction
+            event: $mockEvent
         );
 
         $ret = $uc->handle(new ExecuteInput(date('Y-m-d')));
@@ -98,7 +60,7 @@ class ExecuteUseCaseTest extends TestCase
         $this->assertCount(1, $ret->data);
     }
 
-    public function testHandleTwoPayments()
+    public function testHandleTwoPayment()
     {
         /** @var PaymentRepositoryInterface|Mockery\MockInterface */
         $mockPayment = Mockery::mock(stdClass::class, PaymentRepositoryInterface::class);
@@ -108,18 +70,13 @@ class ExecuteUseCaseTest extends TestCase
         ]);
         $mockPayment->shouldReceive('update')->andReturn(true);
 
-        /** @var AccountRepositoryInterface|Mockery\MockInterface */
-        $mockAccount = Mockery::mock(stdClass::class, AccountRepositoryInterface::class);
-
-        /** @var TransactionInterface|Mockery\MockInterface */
-        $mockTransaction = Mockery::mock(stdClass::class, TransactionInterface::class);
-        $mockTransaction->shouldReceive('rollback');
-        $mockTransaction->shouldReceive('commit');
+        /** @var EventManagerInterface|Mockery\MockInterface */
+        $mockEvent = Mockery::mock(stdClass::class, EventManagerInterface::class);
+        $mockEvent->shouldReceive('dispatch');
 
         $uc = new ExecuteUseCase(
             payment: $mockPayment,
-            account: $mockAccount,
-            transaction: $mockTransaction
+            event: $mockEvent
         );
 
         $ret = $uc->handle(new ExecuteInput(date('Y-m-d')));

@@ -24,11 +24,11 @@ class PaymentUseCase
         $rs = $this->payment->find($input->id);
         if ($rs->completed()) {
             try {
-                if (!empty($rs->accountFrom) && $rs->accountFrom) {
+                if ($rs->accountFrom && $rs->accountFrom->id() == $input->accountFromId) {
                     $this->account->sub($rs->accountFrom, $input->value);
                 }
 
-                if (!empty($rs->accountTo) && $rs->accountTo) {
+                if ($rs->accountTo && $rs->accountTo->id() == $input->accountToId) {
                     $this->account->add($rs->accountTo, $input->value);
                 }
 
