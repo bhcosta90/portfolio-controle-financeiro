@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Web\Charge;
 
+use App\Forms\Charge\PayForm;
 use App\Http\Controllers\Controller;
 use App\Support\FormSupport;
 use App\Forms\Charge\ReceiveForm as Form;
@@ -77,5 +78,16 @@ class ReceiveController extends Controller
     {
         $deleteUseCase->handle(new DeleteInput($id));
         return redirect()->back()->with('success', __('Registro deletado com sucesso'));
+    }
+
+    public function payShow(FormSupport $formSupport, FindUseCase $findUseCase, string $id)
+    {
+        $form = $formSupport
+            ->button(__('Editar'))
+            ->run(PayForm::class, route('admin.charge.receive.update', $id));
+
+        $data = $findUseCase->handle(new FindInput($id));
+
+        return view('admin.charge.receive.pay', compact('form', 'data'));
     }
 }

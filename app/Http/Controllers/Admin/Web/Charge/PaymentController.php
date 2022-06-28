@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Web\Charge;
 
+use App\Forms\Charge\PayForm;
 use App\Http\Controllers\Controller;
 use App\Support\FormSupport;
 use App\Forms\Charge\PaymentForm as Form;
@@ -12,6 +13,7 @@ use Core\Shared\UseCases\Delete\DeleteInput;
 use Core\Shared\UseCases\Find\FindInput;
 use Core\Shared\UseCases\List\ListInput;
 use Illuminate\Http\Request;
+
 class PaymentController extends Controller
 {
     public function index(ListUseCase $listUseCase, Request $request)
@@ -30,7 +32,8 @@ class PaymentController extends Controller
         return view('admin.charge.payment.create', compact('form'));
     }
 
-    public function store(FormSupport $formSupport, CreateUseCase $createUseCase){
+    public function store(FormSupport $formSupport, CreateUseCase $createUseCase)
+    {
         $data = $formSupport->data(Form::class);
         $id = str()->uuid();
 
@@ -58,7 +61,8 @@ class PaymentController extends Controller
         return view('admin.charge.payment.edit', compact('form'));
     }
 
-    public function update(FormSupport $formSupport, UpdateUseCase $updateUseCase, string $id){
+    public function update(FormSupport $formSupport, UpdateUseCase $updateUseCase, string $id)
+    {
         $data = $formSupport->data(Form::class);
 
         $updateUseCase->handle(new UpdateInput(
@@ -76,5 +80,16 @@ class PaymentController extends Controller
     {
         $deleteUseCase->handle(new DeleteInput($id));
         return redirect()->back()->with('success', __('Registro deletado com sucesso'));
+    }
+
+    public function payShow(FormSupport $formSupport, FindUseCase $findUseCase, string $id)
+    {
+        $form = $formSupport
+            ->button(__('Editar'))
+            ->run(PayForm::class, route('admin.charge.payment.update', $id));
+
+        $data = $findUseCase->handle(new FindInput($id));
+
+        return view('admin.charge.payment.pay', compact('form', 'data'));
     }
 }

@@ -25,7 +25,7 @@ class BankAccountEloquentRepository implements BankAccountRepositoryInterface
         ]);
 
         $obj->value = $entity->value;
-        return $obj;
+        return (bool) $obj;
     }
 
     public function update(EntityAbstract $entity): bool
@@ -87,9 +87,7 @@ class BankAccountEloquentRepository implements BankAccountRepositoryInterface
 
     public function pluck(?array $filter = null): array
     {
-        return $this->model->orderBy('name', 'asc')
-            ->where('entity', CompanyEntity::class)
-            ->pluck('name', 'id')->toArray();
+        return $this->model->orderBy('name', 'asc')->pluck('name', 'id')->toArray();
     }
 
     public function entity(object $input): EntityAbstract

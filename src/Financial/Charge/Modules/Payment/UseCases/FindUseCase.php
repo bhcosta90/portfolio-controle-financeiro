@@ -22,7 +22,9 @@ class FindUseCase
         return new DTO\Find\FindOutput(
             id: $obj->id(),
             value: $obj->value,
+            pay: $obj->pay,
             companyId: $obj->company->id(),
+            companyName: $obj->company->name->value,
             date: $obj->date->format('Y-m-d'),
             recurrenceId: $obj->recurrence?->id(),
         );

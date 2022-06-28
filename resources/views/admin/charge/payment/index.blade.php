@@ -24,6 +24,11 @@
                 <td>{{ $rs->date->format('d/m/Y') }}</td>
                 <td>
                     {!! links([
+                        [
+                            "link" => route('admin.charge.payment.pay.show', $rs->id),
+                            'btn' => 'btn-outline-success',
+                            'icon' => 'far fa-money-bill-alt',
+                        ],
                         "edit" => [
                             "link" => route('admin.charge.payment.edit', $rs->id)
                         ],
