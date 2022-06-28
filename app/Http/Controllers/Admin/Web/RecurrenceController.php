@@ -75,6 +75,6 @@ class RecurrenceController extends Controller
     public function destroy(DeleteUseCase $deleteUseCase, string $id)
     {
         $deleteUseCase->handle(new DeleteInput($id));
-        return redirect()->route('admin.recurrence.index')->with('success', __('Registro deletado com sucesso'));
+        return redirect()->back()->with('success', __('Registro deletado com sucesso'));
     }
 }
