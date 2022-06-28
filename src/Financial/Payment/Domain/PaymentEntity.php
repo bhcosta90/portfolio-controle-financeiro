@@ -23,8 +23,8 @@ class PaymentEntity extends EntityAbstract
         protected float $value,
         protected DateTime $date,
         protected EntityObject $entity,
-        protected AccountEntity $account,
-        protected ?BankAccountEntity $bankAccount,
+        protected AccountEntity $accountFrom,
+        protected ?AccountEntity $accountTo,
         protected ?UuidObject $id = null,
         protected ?DateTime $createdAt = null,
     ) {
@@ -35,8 +35,8 @@ class PaymentEntity extends EntityAbstract
         float $value,
         string $date,
         EntityObject $entity,
-        AccountEntity $account,
-        ?BankAccountEntity $bankAccount,
+        AccountEntity $accountFrom,
+        ?AccountEntity $accountTo,
         ?string $id = null,
         ?string $createdAt = null,
     ) {
@@ -44,8 +44,8 @@ class PaymentEntity extends EntityAbstract
             $value,
             new DateTime($date),
             $entity,
-            $account,
-            $bankAccount,
+            $accountFrom,
+            $accountTo,
             $id ? new UuidObject($id) : UuidObject::random(),
             new DateTime($createdAt),
         );

@@ -3,6 +3,7 @@
 namespace Core\Financial\Charge\Modules\Receive\UseCases;
 
 use Core\Financial\Account\Domain\AccountEntity;
+use Core\Financial\Account\Repository\AccountRepositoryInterface;
 use Core\Financial\BankAccount\Repository\BankAccountRepositoryInterface;
 use Core\Financial\Charge\Modules\Receive\Domain\ReceiveEntity as Entity;
 use Core\Financial\Charge\Modules\Receive\Repository\ReceiveRepositoryInterface;
@@ -17,8 +18,9 @@ class PayUseCase
     public function __construct(
         private ReceiveRepositoryInterface $repo,
         private PaymentRepositoryInterface $payment,
-        private BankAccountRepositoryInterface $account,
+        private BankAccountRepositoryInterface $bankAccount,
         private TransactionInterface $transaction,
+        private AccountRepositoryInterface $account,
     ) {
         //
     }
@@ -28,13 +30,15 @@ class PayUseCase
         /** @var Entity */
         $obj = $this->repo->find($input->id);
         $obj->pay($input->pay, $input->value);
-        $objBankAccount = $input->bankAccountId ? $this->account->find($input->bankAccountId) : null;
+        $objBankAccount = $input->bankAccountId 
+            ? $this->account->find(($o = $this->bankAccount->find($input->bankAccountId))->id(), get_class($o))
+            : null;
 
         $objPayment = PaymentEntity::create(
             $input->pay,
             $input->date,
-            $model = new EntityObject($obj->id, $obj),
-            AccountEntity::create($model, 50),
+            new EntityObject($obj->id, $obj),
+            $this->account->find($obj->id(), get_class($obj)),
             $objBankAccount,
         );
 
