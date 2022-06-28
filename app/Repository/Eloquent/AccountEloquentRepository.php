@@ -78,6 +78,11 @@ class AccountEloquentRepository implements AccountRepositoryInterface
         return (bool) $obj;
     }
 
+    public function getById(int|string $id): AccountEntity
+    {
+        return $this->entity($this->model->find($id));
+    }
+
     /** @return EntityAbstract */
     private function getEntity($entityType, $entityId): EntityAbstract
     {
