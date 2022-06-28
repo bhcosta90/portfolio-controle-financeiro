@@ -2,7 +2,6 @@
 
 namespace Core\Financial\Charge\Modules\Receive\UseCases;
 
-use Core\Financial\Account\Domain\AccountEntity;
 use Core\Financial\Account\Repository\AccountRepositoryInterface;
 use Core\Financial\BankAccount\Repository\BankAccountRepositoryInterface;
 use Core\Financial\Charge\Modules\Receive\Domain\ReceiveEntity as Entity;
@@ -70,6 +69,7 @@ class PayUseCase
                 pay: $input->pay,
                 completed: $objPayment->completed,
                 status: $objPayment->status->value,
+                charge: $objNewCharge ?? null,
             );
         } catch (Throwable $e) {
             $this->transaction->rollback();

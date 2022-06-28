@@ -2,6 +2,8 @@
 
 namespace Core\Financial\Charge\Modules\Payment\UseCases\DTO\Pay;
 
+use Core\Financial\Charge\Modules\Payment\Domain\PaymentEntity;
+
 class PayOutput
 {
     public function __construct(
@@ -10,6 +12,8 @@ class PayOutput
         public float $pay,
         public bool $completed,
         public int $status,
+        public ?PaymentEntity $charge,
+
     ) {
         //
     }

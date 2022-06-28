@@ -195,6 +195,7 @@ class PayUseCaseTest extends TestCase
         $ret = $uc->handle(new PayInput($id, 50, 50, date('Y-m-d', strtotime('+1 day'))));
         $this->assertEquals(1, $ret->status);
         $this->assertInstanceOf(PayOutput::class, $ret);
+        $this->assertEquals('2022-01-08', $ret->charge->date->format('Y-m-d'));
         $mock->shouldHaveReceived('update')->times(1);
         $mock->shouldHaveReceived('insert')->times(1);
         $mockPayment->shouldHaveReceived('insert')->times(1);

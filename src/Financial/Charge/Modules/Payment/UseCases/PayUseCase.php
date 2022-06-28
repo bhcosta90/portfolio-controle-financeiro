@@ -71,6 +71,7 @@ class PayUseCase
                 pay: $input->pay,
                 completed: $objPayment->completed,
                 status: $objPayment->status->value,
+                charge: $objNewCharge ?? null,
             );
         } catch (Throwable $e) {
             $this->transaction->rollback();
