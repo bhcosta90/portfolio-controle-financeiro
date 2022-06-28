@@ -7,8 +7,15 @@ use App\Http\Controllers\Controller;
 use App\Support\FormSupport;
 use App\Forms\Charge\ReceiveForm as Form;
 use App\Http\Controllers\Admin\Web\Presenters\PaginationPresenter;
-use Core\Financial\Charge\Modules\Receive\UseCases\{CreateUseCase, ListUseCase, FindUseCase, UpdateUseCase, DeleteUseCase};
-use Core\Financial\Charge\Modules\Receive\UseCases\DTO\{Create\CreateInput, Update\UpdateInput};
+use Core\Financial\Charge\Modules\Receive\UseCases\{
+    CreateUseCase,
+    ListUseCase,
+    FindUseCase,
+    UpdateUseCase,
+    DeleteUseCase,
+    PayUseCase,
+};
+use Core\Financial\Charge\Modules\Receive\UseCases\DTO\{Create\CreateInput, Update\UpdateInput, Pay\PayInput};
 use Core\Shared\UseCases\Delete\DeleteInput;
 use Core\Shared\UseCases\Find\FindInput;
 use Core\Shared\UseCases\List\ListInput;
@@ -84,10 +91,24 @@ class ReceiveController extends Controller
     {
         $form = $formSupport
             ->button(__('Editar'))
-            ->run(PayForm::class, route('admin.charge.receive.update', $id));
+            ->run(PayForm::class, route('admin.charge.receive.pay.store', $id));
 
         $data = $findUseCase->handle(new FindInput($id));
 
         return view('admin.charge.receive.pay', compact('form', 'data'));
+    }
+
+    public function payStore(FormSupport $formSupport, PayUseCase $payUseCase, string $id)
+    {
+        $data = $formSupport->data(PayForm::class);
+        $payUseCase->handle(new PayInput(
+            id: $id,
+            value: $data['value_charge'],
+            pay: $data['value_pay'],
+            date: $data['date_scheduled'],
+            bankAccountId: $data['bank_id'] > 0 ? $data['bank_id'] : null,
+        ));
+
+        return redirect()->route('admin.charge.receive.index')->with('success', __('Cobrança paga com sucesso'));
     }
 }

@@ -36,8 +36,10 @@ Route::middleware('auth')->prefix('admin')->as('admin.')->group(function () {
     Route::prefix('charge')->as('charge.')->group(function () {
         Route::resource('receive', Web\Charge\ReceiveController::class);
         Route::get('receive/{id}/pay', [Web\Charge\ReceiveController::class, 'payShow'])->name('receive.pay.show');
+        Route::post('receive/{id}/pay', [Web\Charge\ReceiveController::class, 'payStore'])->name('receive.pay.store');
 
         Route::resource('payment', Web\Charge\PaymentController::class);
         Route::get('payment/{id}/pay', [Web\Charge\PaymentController::class, 'payShow'])->name('payment.pay.show');
+        Route::post('payment/{id}/pay', [Web\Charge\PaymentController::class, 'payStore'])->name('payment.pay.store');
     });
 });

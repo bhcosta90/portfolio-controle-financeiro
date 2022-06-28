@@ -18,6 +18,7 @@ return new class extends Migration
             $table->uuidMorphs('entity');
             $table->double('value');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

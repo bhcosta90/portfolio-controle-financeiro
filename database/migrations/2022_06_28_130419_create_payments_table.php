@@ -13,9 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('{{ table }}', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('tenant_id')->constrained('tenants');
+            $table->foreignUuid('entity_id')->nullable()->constrained('charges');
+            $table->string('entity_type')->nullable()->constrained('charges');
+            $table->foreignUuid('account_from_id')->nullable()->constrained('accounts');
+            $table->foreignUuid('account_to_id')->nullable()->constrained('accounts');
+            $table->unsignedFloat('value');
+            $table->unsignedTinyInteger('status');
+            $table->date('date');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -28,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('{{ table }}');
+        Schema::dropIfExists('payments');
     }
 };

@@ -40,7 +40,7 @@ class PayUseCase
             $input->pay,
             $input->date,
             new EntityObject($obj->id, $obj),
-            $this->account->find($obj->id(), get_class($obj)),
+            $this->account->find($obj->customer->id(), get_class($obj->customer)),
             $objBankAccount,
         );
 
