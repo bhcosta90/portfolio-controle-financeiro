@@ -46,7 +46,6 @@ class PayUseCase
             $this->repo->update($obj);
             $this->payment->insert($objPayment);
             $this->transaction->commit();
-
             return new DTO\Pay\PayOutput(
                 id: $obj->id(),
                 value: $input->value,
