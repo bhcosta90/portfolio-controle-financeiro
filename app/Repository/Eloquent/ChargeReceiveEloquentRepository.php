@@ -3,10 +3,12 @@
 namespace App\Repository\Eloquent;
 
 use App\Models\Charge;
+use App\Models\Recurrence;
 use App\Repository\Presenters\PaginatorPresenter;
 use Core\Financial\Charge\Modules\Receive\Domain\ReceiveEntity;
 use Core\Financial\Charge\Modules\Receive\Repository\ReceiveRepositoryInterface;
 use Core\Financial\Charge\Shared\Enums\ChargeStatusEnum;
+use Core\Financial\Recurrence\Domain\RecurrenceEntity;
 use Core\Financial\Relationship\Modules\Customer\Domain\CustomerEntity;
 use Core\Shared\Abstracts\EntityAbstract;
 use Core\Shared\Interfaces\PaginationInterface;
@@ -46,19 +48,23 @@ class ChargeReceiveEloquentRepository implements ReceiveRepositoryInterface
             'status' => $entity->status->value,
             'type' => $entity->type->value,
             'value_charge' => $entity->value,
+            'value_pay' => $entity->pay,
             'date' => $entity->date->format('Y-m-d'),
         ]);
     }
 
     public function find(string|int $key): EntityAbstract
     {
-        $obj = $this->model->where('charges.id', $key)
+        $obj = $this->model
             ->select(
                 'charges.*',
-                'relationships.name as relationship_name'
+                'relationships.name as relationship_name',
+                'recurrences.name as recurrence_name',
+                'recurrences.days as recurrence_days',
             )
             ->join('relationships', 'relationships.id', '=', 'charges.relationship_id')
-            ->first();
+            ->leftJoin('recurrences', 'recurrences.id', '=', 'charges.recurrence_id')
+            ->where('charges.id', $key)->first();
         return $this->entity($obj);
     }
 
@@ -77,9 +83,12 @@ class ChargeReceiveEloquentRepository implements ReceiveRepositoryInterface
         $result = $this->model
             ->select(
                 'charges.*',
-                'relationships.name as relationship_name'
+                'relationships.name as relationship_name',
+                'recurrences.name as recurrence_name',
+                'recurrences.days as recurrence_days',
             )
             ->join('relationships', 'relationships.id', '=', 'charges.relationship_id')
+            ->leftJoin('recurrences', 'recurrences.id', '=', 'charges.recurrence_id')
             ->where('charges.entity', ReceiveEntity::class)
             ->whereIn('charges.status', [ChargeStatusEnum::PENDING, ChargeStatusEnum::PARTIAL])
             ->orderBy('charges.date', 'asc');
@@ -100,10 +109,19 @@ class ChargeReceiveEloquentRepository implements ReceiveRepositoryInterface
         return ReceiveEntity::create(
             group: $input->group_id,
             value: $input->value_charge,
-            customer: CustomerEntity::create($input->relationship_name, null, null, $input->relationship_id),
+            customer: CustomerEntity::create(
+                $input->relationship_name,
+                null,
+                null,
+                $input->relationship_id
+            ),
             type: $input->type,
             date: $input->date,
-            recurrence: null,
+            recurrence: $input->recurrence_id ? RecurrenceEntity::create(
+                $input->recurrence_name,
+                $input->recurrence_days,
+                $input->recurrence_id,
+            ) : null,
             pay: $input->value_pay ?: 0,
             status: $input->status,
             id: $input->id,

@@ -74,11 +74,12 @@ class PaymentEntity extends EntityAbstract
 
     public function pay(float $pay, float $value)
     {
-        if ($pay + $this->pay > $value) {
+        if ($pay + $this->pay > $this->value) {
             throw new Exception('This payment is greater than the amount charged');
         }
 
-        $this->status = ($this->pay + $pay) == $value ? ChargeStatusEnum::COMPLETED : ChargeStatusEnum::PARTIAL;
+        $this->status = ($this->pay + $pay) == $this->value ? ChargeStatusEnum::COMPLETED : ChargeStatusEnum::PARTIAL;
+        $this->pay += $pay;
         return $this;
     }
 

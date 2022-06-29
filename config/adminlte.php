@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'AdminLTE 3',
+    'title' => 'Controle Financeiro',
     'title_prefix' => '',
     'title_postfix' => '',
 

@@ -6,6 +6,8 @@ use App\Models\Charge;
 use App\Repository\Presenters\PaginatorPresenter;
 use Core\Financial\Charge\Modules\Payment\Domain\PaymentEntity;
 use Core\Financial\Charge\Modules\Payment\Repository\PaymentRepositoryInterface;
+use Core\Financial\Charge\Shared\Enums\ChargeStatusEnum;
+use Core\Financial\Recurrence\Domain\RecurrenceEntity;
 use Core\Financial\Relationship\Modules\Company\Domain\CompanyEntity;
 use Core\Shared\Abstracts\EntityAbstract;
 use Core\Shared\Interfaces\PaginationInterface;
@@ -45,19 +47,23 @@ class ChargePaymentEloquentRepository implements PaymentRepositoryInterface
             'status' => $entity->status->value,
             'type' => $entity->type->value,
             'value_charge' => $entity->value,
+            'value_pay' => $entity->pay,
             'date' => $entity->date->format('Y-m-d'),
         ]);
     }
 
     public function find(string|int $key): EntityAbstract
     {
-        $obj = $this->model->where('charges.id', $key)
+        $obj = $this->model
             ->select(
                 'charges.*',
-                'relationships.name as relationship_name'
+                'relationships.name as relationship_name',
+                'recurrences.name as recurrence_name',
+                'recurrences.days as recurrence_days',
             )
             ->join('relationships', 'relationships.id', '=', 'charges.relationship_id')
-            ->first();
+            ->leftJoin('recurrences', 'recurrences.id', '=', 'charges.recurrence_id')
+            ->where('charges.id', $key)->first();
         return $this->entity($obj);
     }
 
@@ -76,10 +82,14 @@ class ChargePaymentEloquentRepository implements PaymentRepositoryInterface
         $result = $this->model
             ->select(
                 'charges.*',
-                'relationships.name as relationship_name'
+                'relationships.name as relationship_name',
+                'recurrences.name as recurrence_name',
+                'recurrences.days as recurrence_days',
             )
             ->join('relationships', 'relationships.id', '=', 'charges.relationship_id')
+            ->leftJoin('recurrences', 'recurrences.id', '=', 'charges.recurrence_id')
             ->where('charges.entity', PaymentEntity::class)
+            ->whereIn('charges.status', [ChargeStatusEnum::PENDING, ChargeStatusEnum::PARTIAL])
             ->orderBy('charges.date', 'asc');
 
         return new PaginatorPresenter($result->paginate(
@@ -101,7 +111,11 @@ class ChargePaymentEloquentRepository implements PaymentRepositoryInterface
             company: CompanyEntity::create($input->relationship_name, null, null, $input->relationship_id),
             type: $input->type,
             date: $input->date,
-            recurrence: null,
+            recurrence: $input->recurrence_id ? RecurrenceEntity::create(
+                $input->recurrence_name,
+                $input->recurrence_days,
+                $input->recurrence_id,
+            ) : null,
             pay: $input->value_pay ?: 0,
             status: $input->status,
             id: $input->id,

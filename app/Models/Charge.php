@@ -23,4 +23,14 @@ class Charge extends Model
         'value_pay',
         'date',
     ];
+
+    public function relationship()
+    {
+        return $this->belongsTo(Relationship::class);
+    }
+
+    public function recurrence()
+    {
+        return $this->belongsTo(Recurrence::class);
+    }
 }

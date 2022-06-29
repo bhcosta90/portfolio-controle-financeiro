@@ -20,7 +20,12 @@
             @foreach($data as $rs)
             <tr>
                 <td>{{ $rs->company->name->value }}</td>
-                <td>R$&nbsp;{{ str()->numberBr($rs->value) }}</td>
+                <td>
+                    R$&nbsp;{{ str()->numberBr($rs->value - $rs->pay) }}
+                    @if($rs->pay)
+                    <small class='text-mutex'>(R$&nbsp;{{ str()->numberBr($rs->pay) }})</small>
+                    @endif
+                </td>
                 <td>{{ $rs->date->format('d/m/Y') }}</td>
                 <td>
                     {!! links([
