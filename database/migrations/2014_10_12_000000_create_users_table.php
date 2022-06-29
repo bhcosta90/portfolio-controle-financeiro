@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->foreignUuid('tenant_id')->comment('Tenant active in user')->nullable()->constrained('tenants');
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
@@ -22,6 +23,11 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
+        });
+
+        Schema::create('tenant_user', function(Blueprint $table){
+            $table->foreignUuid('tenant_id')->constrained('tenants');
+            $table->foreignUuid('user_id')->constrained('users');
         });
     }
 
@@ -32,6 +38,7 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('tenant_user');
         Schema::dropIfExists('users');
     }
 };

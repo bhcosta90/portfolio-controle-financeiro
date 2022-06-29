@@ -6,6 +6,7 @@ use App\Models\Charge;
 use App\Repository\Presenters\PaginatorPresenter;
 use Core\Financial\Charge\Modules\Receive\Domain\ReceiveEntity;
 use Core\Financial\Charge\Modules\Receive\Repository\ReceiveRepositoryInterface;
+use Core\Financial\Charge\Shared\Enums\ChargeStatusEnum;
 use Core\Financial\Relationship\Modules\Customer\Domain\CustomerEntity;
 use Core\Shared\Abstracts\EntityAbstract;
 use Core\Shared\Interfaces\PaginationInterface;
@@ -80,6 +81,7 @@ class ChargeReceiveEloquentRepository implements ReceiveRepositoryInterface
             )
             ->join('relationships', 'relationships.id', '=', 'charges.relationship_id')
             ->where('charges.entity', ReceiveEntity::class)
+            ->whereIn('charges.status', [ChargeStatusEnum::PENDING, ChargeStatusEnum::PARTIAL])
             ->orderBy('charges.date', 'asc');
 
         return new PaginatorPresenter($result->paginate(

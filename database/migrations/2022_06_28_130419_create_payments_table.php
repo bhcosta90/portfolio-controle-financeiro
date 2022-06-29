@@ -19,7 +19,9 @@ return new class extends Migration
             $table->foreignUuid('entity_id')->nullable()->constrained('charges');
             $table->string('entity_type')->nullable()->constrained('charges');
             $table->foreignUuid('account_from_id')->nullable()->constrained('accounts');
+            $table->double('account_from_value')->nullable();
             $table->foreignUuid('account_to_id')->nullable()->constrained('accounts');
+            $table->double('account_to_value')->nullable();
             $table->unsignedFloat('value');
             $table->unsignedTinyInteger('status');
             $table->date('date');

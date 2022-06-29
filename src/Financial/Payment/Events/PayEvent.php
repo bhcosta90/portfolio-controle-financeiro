@@ -7,6 +7,8 @@ use Core\Shared\Abstracts\PublishAbstract;
 
 class PayEvent extends PublishAbstract
 {
+    const CACHE_PAY_EVENT = 'v2.';
+
     public function __construct(
         private PaymentEntity $entity,
     ) {
@@ -15,7 +17,7 @@ class PayEvent extends PublishAbstract
 
     public function name(): string
     {
-        return 'payment.execute.' . $this->entity->id();
+        return 'payment.execute.' . self::CACHE_PAY_EVENT . '.' . $this->entity->id();
     }
 
     public function publish(): array

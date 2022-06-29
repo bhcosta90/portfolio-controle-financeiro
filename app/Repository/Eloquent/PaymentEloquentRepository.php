@@ -44,7 +44,21 @@ class PaymentEloquentRepository implements PaymentRepositoryInterface
 
     public function find(string|int $key): EntityAbstract
     {
-        return $this->entity($this->model->find($key));
+        return $this->entity($this->model
+            ->select(
+                'payments.*',
+                'from.id as account_from_id',
+                'from.value as account_from_value',
+                'from.entity_id as account_from_entity_id',
+                'from.entity_type as account_from_entity_type',
+                'to.id as account_to_id',
+                'to.value as account_to_value',
+                'to.entity_id as account_to_entity_id',
+                'to.entity_type as account_to_entity_type',
+            )
+            ->leftJoin('accounts as from', 'from.id', '=', 'payments.account_from_id')
+            ->leftJoin('accounts as to', 'to.id', '=', 'payments.account_to_id')
+            ->where('payments.id', $key)->first());
     }
 
     public function exist(string|int $key): bool
@@ -78,23 +92,32 @@ class PaymentEloquentRepository implements PaymentRepositoryInterface
         return PaymentEntity::create(
             value: $input->value,
             date: $input->date,
-            entity: new EntityObject($input->entity_id, $input->entity_type),
-            accountFrom: $input->account_from_id
-                ? AccountEntity::create(
-                    new EntityObject($input->account_from_id, $input->account_from_type),
-                    $input->account_from_value
-                )
-                : null,
-            accountTo: $input->account_to_id
-                ? AccountEntity::create(
-                    new EntityObject($input->account_to_id, $input->account_to_type),
-                    $input->account_to_value
-                ) : null,
+            entity: $input->entity_id ? new EntityObject($input->entity_id, $input->entity_type) : null,
+            accountFrom: $this->generateAccountEntity(
+                $input->account_from_id,
+                $input->account_from_value,
+                $input->account_from_entity_id,
+                $input->account_from_entity_type,
+            ),
+            accountTo: $this->generateAccountEntity(
+                $input->account_to_id,
+                $input->account_to_value,
+                $input->account_to_entity_id,
+                $input->account_to_entity_type,
+            ),
             id: $input->id,
             createdAt: $input->created_at,
         );
     }
 
+    private function generateAccountEntity($id, $value, $idEntity, $typeEntity)
+    {
+        if ($id) {
+            return AccountEntity::create(new EntityObject($idEntity, $typeEntity), $value, $id);
+        }
+
+        return null;
+    }
 
     public function findPaymentExecuteByDate(string $date)
     {

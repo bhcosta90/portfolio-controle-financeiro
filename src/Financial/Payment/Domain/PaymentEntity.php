@@ -21,7 +21,7 @@ class PaymentEntity extends EntityAbstract
     private function __construct(
         protected float $value,
         protected DateTime $date,
-        protected EntityObject $entity,
+        protected ?EntityObject $entity,
         protected ?AccountEntity $accountFrom,
         protected ?AccountEntity $accountTo,
         protected ?UuidObject $id = null,
@@ -33,7 +33,7 @@ class PaymentEntity extends EntityAbstract
     public static function create(
         float $value,
         string $date,
-        EntityObject $entity,
+        ?EntityObject $entity,
         ?AccountEntity $accountFrom,
         ?AccountEntity $accountTo,
         ?string $id = null,
