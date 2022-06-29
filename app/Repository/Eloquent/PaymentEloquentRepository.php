@@ -30,7 +30,9 @@ class PaymentEloquentRepository implements PaymentRepositoryInterface
             'status' => $entity->status->value,
             'date' => $entity->date->format('Y-m-d'),
             'account_from_id' => $entity->accountFrom?->id(),
+            'account_from_value' => $entity->accountFrom?->value,
             'account_to_id' => $entity->accountTo?->id(),
+            'account_to_value' => $entity->accountTo?->value,
         ]);
     }
 

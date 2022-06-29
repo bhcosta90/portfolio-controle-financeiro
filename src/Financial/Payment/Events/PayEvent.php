@@ -7,7 +7,7 @@ use Core\Shared\Abstracts\PublishAbstract;
 
 class PayEvent extends PublishAbstract
 {
-    const CACHE_PAY_EVENT = 'v2.';
+    const CACHE_PAY_EVENT = 'v2';
 
     public function __construct(
         private PaymentEntity $entity,
