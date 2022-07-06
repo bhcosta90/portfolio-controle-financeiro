@@ -14,6 +14,7 @@ $ cp .env.example .env
 $ composer install
 $ sail up -d
 $ sail php artisan migrate --seed
+$ sail php artisan key:generate
 ```
 
 -----
