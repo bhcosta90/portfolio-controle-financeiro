@@ -92,6 +92,7 @@ class PaymentService
             }
 
             $objPayment = PaymentEntity::create(
+                tenant: $objCharge->tenant,
                 relationship: $objCharge->customer,
                 bank: $input->idAccountBank,
                 value: $input->valuePayment,
