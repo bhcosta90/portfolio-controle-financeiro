@@ -28,6 +28,7 @@ class PaymentEloquent extends EloquentAbstract implements PaymentRepository
     {
         $obj = $this->model->create([
             'id' => $entity->id(),
+            'tenant_id' => $entity->tenant,
             'value' => $entity->value->value,
             'value_bank' => $entity->bankValue ?? null,
             'status' => $entity->status->value,

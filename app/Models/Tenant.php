@@ -11,6 +11,7 @@ class Tenant extends Model
     use HasFactory, Traits\UuidTrait, SoftDeletes;
 
     public $fillable = [
-        'id'
+        'id',
+        'tenant_id',
     ];
 }

@@ -12,6 +12,7 @@ class Recurrence extends Model
 
     public $fillable = [
         'id',
+        'tenant_id',
         'days',
         'name',
     ];

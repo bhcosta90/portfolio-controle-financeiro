@@ -12,6 +12,7 @@ class Charge extends Model
 
     public $fillable = [
         'id',
+        'tenant_id',
         'group_id',
         'recurrence_id',
         'relationship_id',

@@ -16,12 +16,6 @@ trait TenantTrait
                 $builder->whereIn($table . '.tenant_id', (array) $id);
             }
         });
-
-        static::creating(function ($model) {
-            if (empty($model->tenant_id)) {
-                $model->tenant_id = self::getTenantId();
-            }
-        });
     }
 
     private static function getTenantId()

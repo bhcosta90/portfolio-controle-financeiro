@@ -22,6 +22,7 @@ class RecurrenceEloquent extends EloquentAbstract implements RecurrenceRepositor
     {
         $obj = $this->model->create([
             'id' => $entity->id(),
+            'tenant_id' => $entity->tenant,
             'name' => $entity->name->value,
             'days' => $entity->days->value,
         ]);
