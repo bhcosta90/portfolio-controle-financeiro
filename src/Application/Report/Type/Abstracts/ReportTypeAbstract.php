@@ -6,7 +6,7 @@ abstract class ReportTypeAbstract
 {
     protected array $columns = [];
 
-    protected array $report = [];
+    public array $report = [];
 
     protected array $column = [];
 

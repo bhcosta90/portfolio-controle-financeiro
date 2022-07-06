@@ -5,29 +5,25 @@ namespace Core\Application\Report\Domain;
 use Core\Application\Report\Type\Abstracts\ReportTypeAbstract;
 use Core\Application\Report\Type as ReportType;
 use Core\Shared\Abstracts\EntityAbstract;
+use Core\Shared\ValueObjects\UuidObject;
+use DateTime;
 use DomainException;
 
 class ReportDomain extends EntityAbstract
 {
     private function __construct(
-        protected ReportTypeAbstract $report,
         protected string $title,
         protected ?string $resume,
+        protected ?UuidObject $id = null,
+        protected ?DateTime $createdAt = null,
     ) {
-        //
+        parent::__construct();
     }
 
     public static function create(
-        string $report,
         string $title,
         ?string $resume,
     ) {
-        $report = match ($report) {
-            'html' => new ReportType\Html(),
-            default => throw new DomainException('Type do not implemented'),
-        };
-
-        /** @var ReportTypeAbstract $report */
-        return new self($report, $title, $resume);
+        return new self($title, $resume);
     }
 }

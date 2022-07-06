@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Relationship;
+use Core\Application\Payment\Shared\Enums\PaymentTypeEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,7 +22,7 @@ class PaymentFactory extends Factory
             'id' => str()->uuid(),
             'value' => rand(100, 1000),
             'status' => 1,
-            'type' => 1,
+            'type' => $this->faker->randomElement(PaymentTypeEnum::toArray()),
             'relationship_id' => Relationship::factory(),
             'relationship_type' => 'Relationship',
             'date' => $this->faker->dateTime(),

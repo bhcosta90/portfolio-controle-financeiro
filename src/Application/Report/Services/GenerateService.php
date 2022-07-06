@@ -22,9 +22,9 @@ class GenerateService
             'html' => new ReportType\Html(),
             default => throw new DomainException('Type do not implemented'),
         };
-
-        $this->report->$render($report);
         
-        return $report->render();
+        $this->report->$render($report);
+
+        return $report;
     }
 }

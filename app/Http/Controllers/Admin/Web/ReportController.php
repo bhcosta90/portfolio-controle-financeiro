@@ -45,6 +45,10 @@ class ReportController extends Controller
             $request->render ?? "html",
             $request->all()
         ));
+        $title = $ret->report['title'] ?: "";
+        $render = $ret->render();
+
+        return view('admin.report.index', compact('render', 'title'));
     }
 
     private function getMonth(?string $month)

@@ -20,6 +20,7 @@ class R00001
     {
         $limit = 30;
         $page = 1;
+        $report->title = 'Relatório de Pagamento';
 
         do {
             $result = $this->repository->report([], $page, $limit)->items();
