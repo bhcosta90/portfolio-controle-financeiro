@@ -51,7 +51,7 @@ class ExecutePaymentServiceTest extends TestCase
 
     public function testExecuteOnlyPaymentCustomer()
     {
-        $objRelationship = CustomerEntity::create('name');
+        $objRelationship = CustomerEntity::create(Uuid::uuid4(), 'name');
 
         $uc = new ExecutePaymentService(
             repository: $mockRepository = $this->mockPaymentRepository(),

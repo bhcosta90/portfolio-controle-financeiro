@@ -17,7 +17,7 @@ class DeleteServiceTest extends TestCase
         $uc = new DeleteService(
             repository: $mockRepository = $this->mockRepository()
         );
-        $objEntity = CustomerEntity::create(name: 'test', id: $id = Uuid::uuid4());
+        $objEntity = CustomerEntity::create(tenant: Uuid::uuid4(), name: 'test', id: $id = Uuid::uuid4());
 
         $mockRepository->shouldReceive('find')->andReturn($objEntity);
         $mockRepository->shouldReceive('delete')->andReturn(true);

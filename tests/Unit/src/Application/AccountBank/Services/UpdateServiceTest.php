@@ -19,7 +19,7 @@ class UpdateServiceTest extends TestCase
             repository: $mockRepository = $this->mockRepository(),
             payment: $mockPayment = $this->mockPaymentRepository(),
         );
-        $objEntity = CustomerEntity::create(name:  'test', id: $id = Uuid::uuid4());
+        $objEntity = CustomerEntity::create(tenant: Uuid::uuid4(), name:  'test', id: $id = Uuid::uuid4());
 
         $mockRepository->shouldReceive('find')->andReturn($objEntity);
         $mockRepository->shouldReceive('update')->andReturn(true);
