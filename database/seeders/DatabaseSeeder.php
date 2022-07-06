@@ -20,9 +20,8 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::factory(1)->create([
             'id' => 'dacaad78-b292-4f98-adf8-d8cd1a010003',
             'tenant_id' => $tenant->id,
-            'email' => 'bhcosta90@gmail.com',
-            'name' => 'Bruno Henrique da Costa',
-            'password' => '$2y$10$/HyXfJXLWfIzDsvPLT/x5u6alaPnzG0/FSqKpp4J0ubvrYFXzg4lW',
+            'email' => config('user.email'),
+            'password' => config('user.password'),
         ]);
     }
 }
