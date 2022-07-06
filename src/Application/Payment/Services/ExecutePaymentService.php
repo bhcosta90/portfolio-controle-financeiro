@@ -32,13 +32,13 @@ class ExecutePaymentService
     public function handle(DTO\ExecutePayment\Input $input): DTO\ExecutePayment\Output
     {
         $ret = [];
-        $limit = 100;
         $this->repository->updateStatus(
             $input->date->format('Y-m-d H:i:s'),
             PaymentStatusEnum::PENDING->value,
             PaymentStatusEnum::PROCESSING->value
         );
 
+        $limit = 100;
         do {
             $data = $this->repository->getListStatus(PaymentStatusEnum::PROCESSING->value, $limit)->items();
             try {
@@ -57,8 +57,6 @@ class ExecutePaymentService
 
     private function executePayment(PaymentEntity $objPayment)
     {
-        $objPayment->complete();
-
         match ($objPayment->relationship->type) {
             CustomerEntity::class => $objRelationship = $this->customer->find($objPayment->relationship->id),
             CompanyEntity::class => $objRelationship = $this->company->find($objPayment->relationship->id),
@@ -95,7 +93,7 @@ class ExecutePaymentService
         if ($objBank) {
             $this->account->update($objBank);
         }
-
+        $objPayment->complete();
         $this->repository->update($objPayment);
         return $objPayment->id();
     }
