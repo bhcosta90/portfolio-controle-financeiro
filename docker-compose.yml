@@ -78,6 +78,12 @@ services:
             test: ["CMD", "redis-cli", "ping"]
             retries: 3
             timeout: 5s
+    memcached:
+        image: 'memcached:alpine'
+        ports:
+            - '11212:11211'
+        networks:
+            - sail
 networks:
     sail:
         driver: bridge
