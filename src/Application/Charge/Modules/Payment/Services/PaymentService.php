@@ -62,7 +62,7 @@ class PaymentService
             }
 
             if ($rest > 0) {
-                $objRecurrenceRest = $objRecurrence ?? RecurrenceEntity::create('teste', 30);
+                $objRecurrenceRest = $objRecurrence ?? RecurrenceEntity::create($objCharge->tenant, 'teste', 30);
                 $objChargeNew = Entity::create(
                     tenant: $objCharge->tenant,
                     title: $objCharge->title->value,

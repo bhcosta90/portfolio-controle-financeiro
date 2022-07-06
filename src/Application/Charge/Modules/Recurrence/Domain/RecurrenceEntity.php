@@ -11,6 +11,7 @@ use DateTime;
 class RecurrenceEntity extends EntityAbstract
 {
     protected function __construct(
+        protected UuidObject $tenant,
         protected NameInputObject $name,
         protected IntInputObject $days,
         protected ?UuidObject $id = null,
@@ -20,12 +21,14 @@ class RecurrenceEntity extends EntityAbstract
     }
 
     public static function create(
+        string $tenant,
         string $name,
         int $days,
         ?string $id = null,
         ?string $createdAt = null,
     ) {
         return new self(
+            tenant: new UuidObject($tenant),
             name: new NameInputObject($name),
             days: new IntInputObject($days, false, 'days'),
             id: $id ? new UuidObject($id) : UuidObject::random(),

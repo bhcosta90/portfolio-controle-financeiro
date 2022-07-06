@@ -44,6 +44,7 @@ class RecurrenceEloquent extends EloquentAbstract implements RecurrenceRepositor
         $obj = $this->model->find($key);
 
         return RecurrenceEntity::create(
+            tenant: $obj->tenant_id,
             name: $obj->name,
             days: $obj->days,
             id: $obj->id,

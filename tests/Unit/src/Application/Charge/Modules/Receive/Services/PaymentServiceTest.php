@@ -49,7 +49,7 @@ class PaymentServiceTest extends TestCase
         );
 
         $objRelationship = CompanyEntity::create(tenant: Uuid::uuid4(), name: 'teste', id: Uuid::uuid4());
-        $objRecurrence = RecurrenceEntity::create(name: 'teste', days: 30, id: Uuid::uuid4());
+        $objRecurrence = RecurrenceEntity::create(tenant: Uuid::uuid4(), name: 'teste', days: 30, id: Uuid::uuid4());
         $objAccountBank = AccountBankEntity::create(Uuid::uuid4(), 'teste', 0);
 
         $mockRepository->shouldReceive('find')->andReturn($objEntity);

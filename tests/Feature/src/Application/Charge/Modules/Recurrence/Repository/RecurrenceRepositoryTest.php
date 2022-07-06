@@ -7,6 +7,7 @@ use App\Repository\Eloquent\RecurrenceEloquent as Eloquent;
 use Core\Application\Charge\Modules\Recurrence\Repository\RecurrenceRepository as Repository;
 use Core\Application\Charge\Modules\Recurrence\Domain\RecurrenceEntity as Entity;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Ramsey\Uuid\Uuid;
 use Tests\TestCase;
 
 class RecurrenceRepositoryTest extends TestCase
@@ -15,7 +16,7 @@ class RecurrenceRepositoryTest extends TestCase
     
     public function testInsert()
     {
-        $obj = Entity::create('teste', 50);
+        $obj = Entity::create(Uuid::uuid4(), 'teste', 50);
         $this->assertTrue($this->getRecurrenceRepository()->insert($obj));
         $this->assertDatabaseHas('recurrences', [
             'id' => $obj->id(),

@@ -17,7 +17,7 @@ class DeleteServiceTest extends TestCase
         $uc = new DeleteService(
             repository: $mockRepository = $this->mockRepository()
         );
-        $objEntity = RecurrenceEntity::create(name: 'test', days: 50, id: $id = Uuid::uuid4());
+        $objEntity = RecurrenceEntity::create(tenant: Uuid::uuid4(), name: 'test', days: 50, id: $id = Uuid::uuid4());
 
         $mockRepository->shouldReceive('find')->andReturn($objEntity);
         $mockRepository->shouldReceive('delete')->andReturn(true);
