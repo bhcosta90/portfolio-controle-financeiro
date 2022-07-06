@@ -9,7 +9,7 @@ Projeto consiste em um gerenciador de contas a pagar e a receber, está totalmen
 Para instalar o projeto, você precisa ter o PHP:8.0.2
 
 ```bash
-$ git clone https://github.com/bhcosta90/portfolio-controle-financeiro.git
+$ git clone https://github.com/bhcosta90/portfolio-controle-financeiro.git && cd portfolio-controle-financeiro
 $ cp .env.example .env
 $ composer install
 $ php artisan key:generate
