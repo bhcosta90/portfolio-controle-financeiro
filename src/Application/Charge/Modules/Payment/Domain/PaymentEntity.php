@@ -4,7 +4,6 @@ namespace Core\Application\Charge\Modules\Payment\Domain;
 
 use Core\Application\Charge\Shared\Contracts\ChargePayInterface;
 use Core\Application\Charge\Shared\Enums\ChargeStatusEnum;
-use Core\Application\Charge\Shared\Enums\ChargeTypeEnum;
 use Core\Application\Charge\Modules\Payment\Events\{AddPayEvent, RemovePayEvent};
 use Core\Application\Relationship\Modules\Company\Domain\CompanyEntity;
 use Core\Shared\Abstracts\EntityAbstract;
@@ -20,6 +19,7 @@ class PaymentEntity extends EntityAbstract implements ChargePayInterface
     protected array $events = [];
 
     protected function __construct(
+        protected UuidObject $tenant,
         protected NameInputObject $title,
         protected ?NameInputObject $resume,
         protected EntityObject $company,
@@ -36,6 +36,7 @@ class PaymentEntity extends EntityAbstract implements ChargePayInterface
     }
 
     public static function create(
+        string $tenant,
         string $title,
         ?string $resume,
         string $company,
@@ -49,6 +50,7 @@ class PaymentEntity extends EntityAbstract implements ChargePayInterface
         ?string $createdAt = null,
     ) {
         return new self(
+            tenant: new UuidObject($tenant),
             title: new NameInputObject($title),
             resume: new NameInputObject($resume, true),
             company: new EntityObject($company, CompanyEntity::class),

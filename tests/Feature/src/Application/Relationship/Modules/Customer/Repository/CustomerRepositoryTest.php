@@ -7,6 +7,7 @@ use App\Repository\Eloquent\CustomerEloquent as Eloquent;
 use Core\Application\Relationship\Modules\Customer\Repository\CustomerRepository as Repository;
 use Core\Application\Relationship\Modules\Customer\Domain\CustomerEntity as Entity;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Ramsey\Uuid\Uuid;
 use Tests\TestCase;
 
 class CustomerRepositoryTest extends TestCase
@@ -15,7 +16,7 @@ class CustomerRepositoryTest extends TestCase
 
     public function testInsert()
     {
-        $obj = Entity::create('teste', 50);
+        $obj = Entity::create(Uuid::uuid4(), 'teste', 50);
         $this->assertTrue($this->getCustomerRepository()->insert($obj));
         $this->assertDatabaseHas('relationships', [
             'id' => $obj->id(),

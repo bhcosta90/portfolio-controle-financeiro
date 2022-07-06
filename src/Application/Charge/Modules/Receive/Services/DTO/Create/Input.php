@@ -7,6 +7,7 @@ use DomainException;
 class Input
 {
     public function __construct(
+        public string $tenant,
         public string $title,
         public ?string $resume,
         public string $customer,

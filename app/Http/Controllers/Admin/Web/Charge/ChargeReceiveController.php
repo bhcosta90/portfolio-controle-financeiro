@@ -33,17 +33,18 @@ class ChargeReceiveController extends Controller
         return view('admin.charge.receive.create', compact('form'));
     }
 
-    public function store(FormSupport $formSupport, Services\CreateService $createService)
+    public function store(FormSupport $formSupport, Services\CreateService $createService, Request $request)
     {
         $data = $formSupport->data(Form::class);
         $ret = $createService->handle(new Services\DTO\Create\Input(
+            $request->user()->tenant_id,
             $data['title'],
             $data['resume'] ?? null,
             $data['relationship_id'],
             $data['recurrence_id'],
             $data['value'],
             $data['date'],
-            $data['parcel'],
+            $data['parcel'] ?: 1,
         ));
         return redirect()->route('admin.charge.receive.index')
             ->with('success', __('Conta a Receber cadastrada com sucesso'))

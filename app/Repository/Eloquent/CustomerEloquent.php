@@ -22,6 +22,7 @@ class CustomerEloquent extends EloquentAbstract implements CustomerRepository
     {
         $obj = $this->model->create([
             'id' => $entity->id(),
+            'tenant_id' => $entity->tenant,
             'name' => $entity->name->value,
             'entity' => get_class($entity),
         ]);
@@ -43,6 +44,7 @@ class CustomerEloquent extends EloquentAbstract implements CustomerRepository
         $obj = $this->model->find($key);
 
         return CustomerEntity::create(
+            tenant: $obj->tenant_id,
             name: $obj->name,
             value: $obj->value,
             id: $obj->id,

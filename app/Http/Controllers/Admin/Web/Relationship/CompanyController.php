@@ -27,10 +27,10 @@ class CompanyController extends Controller
         return view('admin.relationship.company.create', compact('form'));
     }
 
-    public function store(FormSupport $formSupport, Services\CreateService $createService)
+    public function store(FormSupport $formSupport, Services\CreateService $createService, Request $request)
     {
         $data = $formSupport->data(Form::class);
-        $ret = $createService->handle(new Services\DTO\Create\Input($data['name']));
+        $ret = $createService->handle(new Services\DTO\Create\Input($request->user()->tenant_id, $data['name']));
         return redirect()->route('admin.relationship.company.index')
             ->with('success', __('Empresa cadastrada com sucesso'))
             ->with('service', $ret);

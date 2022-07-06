@@ -28,10 +28,14 @@ class RecurrenceController extends Controller
         return view('admin.charge.recurrence.create', compact('form'));
     }
 
-    public function store(FormSupport $formSupport, Services\CreateService $createService)
+    public function store(FormSupport $formSupport, Services\CreateService $createService, Request $request)
     {
         $data = $formSupport->data(Form::class);
-        $ret = $createService->handle(new Services\DTO\Create\Input($data['name'], $data['days']));
+        $ret = $createService->handle(new Services\DTO\Create\Input(
+            $request->user()->tenant_id,
+            $data['name'],
+            $data['days']
+        ));
         return redirect()->route('admin.charge.recurrence.index')
             ->with('success', __('Recorrência cadastrada com sucesso'))
             ->with('service', $ret);

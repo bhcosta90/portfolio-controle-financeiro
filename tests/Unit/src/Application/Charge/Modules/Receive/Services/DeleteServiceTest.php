@@ -21,6 +21,7 @@ class DeleteServiceTest extends TestCase
             recurrence: $this->mockRecurrenceRepository(),
         );
         $objEntity = Entity::create(
+            tenant: Uuid::uuid4(),
             title: 'teste',
             resume: null,
             customer: Uuid::uuid4(),
@@ -52,6 +53,7 @@ class DeleteServiceTest extends TestCase
             recurrence: $this->mockRecurrenceRepository(),
         );
         $objEntity = Entity::create(
+            tenant: Uuid::uuid4(),
             title: 'teste',
             resume: null,
             customer: Uuid::uuid4(),
@@ -86,7 +88,7 @@ class DeleteServiceTest extends TestCase
     {
         /** @var Mockery\MockInterface */
         $mock = Mockery::mock(RecurrenceRepository::class);
-        $mock->shouldReceive('find')->andReturn(RecurrenceEntity::create('teste', 30));
+        $mock->shouldReceive('find')->andReturn(RecurrenceEntity::create(Uuid::uuid4(), 'teste', 30));
         return $mock;
     }
 }

@@ -15,7 +15,7 @@ class CreateService
 
     public function handle(DTO\Create\Input $input): DTO\Create\Output
     {
-        $entity = Entity::create(name: $input->name);
+        $entity = Entity::create(tenant: $input->tenant, name: $input->name);
         $this->repository->insert($entity);
         return new DTO\Create\Output(
             name: $entity->name->value,

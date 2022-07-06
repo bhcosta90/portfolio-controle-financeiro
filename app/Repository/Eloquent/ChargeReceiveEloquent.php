@@ -25,6 +25,7 @@ class ChargeReceiveEloquent extends EloquentAbstract implements ChargeReceiveRep
     {
         $obj = $this->model->create([
             'id' => $entity->id(),
+            'tenant_id' => $entity->tenant,
             'group_id' => $entity->group,
             'title' => $entity->title->value,
             'resume' => $entity->resume?->value,
@@ -47,6 +48,7 @@ class ChargeReceiveEloquent extends EloquentAbstract implements ChargeReceiveRep
     {
         $obj = $this->model->create([
             'id' => $entity->id(),
+            'tenant_id' => $entity->tenant,
             'group_id' => $entity->group,
             'title' => $entity->title->value,
             'resume' => $entity->resume?->value,
@@ -85,6 +87,7 @@ class ChargeReceiveEloquent extends EloquentAbstract implements ChargeReceiveRep
         $obj = $this->model->find($key);
 
         return ReceiveEntity::create(
+            tenant: $obj->tenant_id,
             title: $obj->title,
             resume: $obj->resume,
             customer: $obj->relationship_id,

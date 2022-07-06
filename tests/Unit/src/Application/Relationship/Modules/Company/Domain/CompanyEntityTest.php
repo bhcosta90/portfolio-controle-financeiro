@@ -12,7 +12,7 @@ class CompanyEntityTest extends TestCase
 {
     public function testCreate()
     {
-        $objRelationship = Entity::create('teste');
+        $objRelationship = Entity::create(Uuid::uuid4(), 'teste');
 
         $this->assertNotEmpty($objRelationship->id());
         $this->assertNotEmpty($objRelationship->createdAt());
@@ -20,7 +20,7 @@ class CompanyEntityTest extends TestCase
 
     public function testUpdate()
     {
-        $objRelationship = Entity::create('teste', 0, $id = Uuid::uuid4());
+        $objRelationship = Entity::create(Uuid::uuid4(), 'teste', 0, $id = Uuid::uuid4());
 
         $objRelationship->update(
             name: 'teste 2',
@@ -32,7 +32,7 @@ class CompanyEntityTest extends TestCase
 
     public function testAddValue()
     {
-        $objRelationship = Entity::create('teste');
+        $objRelationship = Entity::create(Uuid::uuid4(), 'teste');
         $objRelationship->addValue(100, $idPayment = Uuid::uuid4());
         $this->assertEquals(100, $objRelationship->value);
         $this->assertCount(1, $objRelationship->events);
@@ -47,7 +47,7 @@ class CompanyEntityTest extends TestCase
 
     public function testRemoveValue()
     {
-        $objRelationship = Entity::create('teste');
+        $objRelationship = Entity::create(Uuid::uuid4(), 'teste');
         $objRelationship->removeValue(100, $idPayment = Uuid::uuid4());
         $this->assertEquals(-100, $objRelationship->value);
         $this->assertCount(1, $objRelationship->events);

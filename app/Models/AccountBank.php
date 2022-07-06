@@ -12,6 +12,7 @@ class AccountBank extends Model
 
     public $fillable = [
         'id',
+        'tenant_id',
         'entity',
         'name',
         'value',

@@ -18,6 +18,7 @@ class PaymentEntity extends EntityAbstract
     protected float $bankValue = 0;
 
     private function __construct(
+        protected UuidObject $tenant,
         protected ?EntityObject $relationship,
         protected NameInputObject $title,
         protected ?NameInputObject $resume,
@@ -35,6 +36,7 @@ class PaymentEntity extends EntityAbstract
     }
 
     public static function create(
+        string $tenant,
         ?EntityObject $relationship,
         ?EntityObject $charge,
         string $title,
@@ -56,6 +58,7 @@ class PaymentEntity extends EntityAbstract
         }
 
         return new self(
+            tenant: new UuidObject($tenant),
             relationship: $relationship,
             charge: $charge,
             title: new NameInputObject($title),

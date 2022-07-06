@@ -18,11 +18,11 @@ class ChargePaymentRepositoryTest extends TestCase
     
     public function testInsert()
     {
-        $idRelationship = Relationship::factory()->create()->id;
+        $idRelationship = ($objRelationship = Relationship::factory()->create())->id;
         $idRecurrence = Recurrence::factory()->create()->id;
         $date = date('Y-m-d');
 
-        $obj = Entity::create('teste', 'teste', $idRelationship, $idRecurrence, 100, 0, str()->uuid(), $date);
+        $obj = Entity::create($objRelationship->tenant_id, 'teste', 'teste', $idRelationship, $idRecurrence, 100, 0, str()->uuid(), $date);
         $this->assertTrue($this->getChargeRepository()->insert($obj));
         $this->assertDatabaseHas('charges', [
             'id' => $obj->id(),

@@ -5,6 +5,7 @@ namespace Tests\Unit\src\Application\Charge\Modules\Recurrence\Domain;
 use DateTime;
 use PHPUnit\Framework\TestCase;
 use Core\Application\Charge\Modules\Recurrence\Domain\RecurrenceEntity as Entity;
+use Ramsey\Uuid\Uuid;
 
 class RecurrenceEntityTest extends TestCase
 {
@@ -64,6 +65,7 @@ class RecurrenceEntityTest extends TestCase
         $createdAt = null,
     ) {
         return Entity::create(
+            tenant: Uuid::uuid4(),
             name: $name,
             days: $days,
             id: $id,

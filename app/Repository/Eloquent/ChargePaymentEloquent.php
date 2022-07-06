@@ -25,6 +25,7 @@ class ChargePaymentEloquent extends EloquentAbstract implements ChargePaymentRep
     {
         $obj = $this->model->create([
             'id' => $entity->id(),
+            'tenant_id' => $entity->tenant,
             'group_id' => $entity->group,
             'title' => $entity->title->value,
             'resume' => $entity->resume?->value,
@@ -47,6 +48,7 @@ class ChargePaymentEloquent extends EloquentAbstract implements ChargePaymentRep
     {
         $obj = $this->model->create([
             'id' => $entity->id(),
+            'tenant_id' => $entity->tenant,
             'group_id' => $entity->group,
             'title' => $entity->title->value,
             'resume' => $entity->resume?->value,
@@ -85,6 +87,7 @@ class ChargePaymentEloquent extends EloquentAbstract implements ChargePaymentRep
         $obj = $this->model->find($key);
 
         return PaymentEntity::create(
+            tenant: $obj->tenant_id,
             title: $obj->title,
             resume: $obj->resume,
             company: $obj->relationship_id,

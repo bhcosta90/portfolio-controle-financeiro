@@ -22,6 +22,7 @@ class AccountBankEloquent extends EloquentAbstract implements AccountBankReposit
     {
         $obj = $this->model->create([
             'id' => $entity->id(),
+            'tenant_id' => $entity->tenant,
             'value' => $entity->value,
             'name' => $entity->name->value,
             'bank_code' => $entity->bank?->code,
@@ -55,6 +56,7 @@ class AccountBankEloquent extends EloquentAbstract implements AccountBankReposit
         return AccountBankEntity::create(
             name: $obj->name,
             value: $obj->value,
+            tenant: $obj->tenant_id,
             bankCode: $obj->bank_code,
             agency: $obj->bank_agency,
             agencyDigit: $obj->bank_agency_digit,

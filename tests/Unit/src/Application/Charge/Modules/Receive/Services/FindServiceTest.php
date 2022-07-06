@@ -23,6 +23,7 @@ class FindServiceTest extends TestCase
         );
         
         $objEntity = Entity::create(
+            tenant: Uuid::uuid4(),
             title: 'teste',
             resume: null,
             customer: Uuid::uuid4(),
@@ -57,7 +58,7 @@ class FindServiceTest extends TestCase
     {
         /** @var Mockery\MockInterface */
         $mock = Mockery::mock(CustomerRepository::class);
-        $mock->shouldReceive('find')->andReturn(CustomerEntity::create('teste'));
+        $mock->shouldReceive('find')->andReturn(CustomerEntity::create(Uuid::uuid4(), 'teste'));
         return $mock;
     }
 }

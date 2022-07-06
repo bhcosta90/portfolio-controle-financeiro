@@ -19,6 +19,7 @@ class ReceiveEntity extends EntityAbstract implements ChargePayInterface
     protected array $events = [];
 
     protected function __construct(
+        protected UuidObject $tenant,
         protected NameInputObject $title,
         protected ?NameInputObject $resume,
         protected EntityObject $customer,
@@ -35,6 +36,7 @@ class ReceiveEntity extends EntityAbstract implements ChargePayInterface
     }
 
     public static function create(
+        string $tenant,
         string $title,
         ?string $resume,
         string $customer,
@@ -48,6 +50,7 @@ class ReceiveEntity extends EntityAbstract implements ChargePayInterface
         ?string $createdAt = null,
     ) {
         return new self(
+            tenant: new UuidObject($tenant),
             title: new NameInputObject($title),
             resume: new NameInputObject($resume, true),
             customer: new EntityObject($customer, CustomerEntity::class),
