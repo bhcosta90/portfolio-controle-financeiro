@@ -48,6 +48,7 @@ class CreateService
             foreach ($dataParcel as $k => $rs) {
 
                 $entity = Entity::create(
+                    tenant: $input->tenant,
                     title: $input->title,
                     resume: $input->resume,
                     company: $input->company,

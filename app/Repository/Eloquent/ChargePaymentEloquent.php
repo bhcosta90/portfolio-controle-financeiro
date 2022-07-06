@@ -85,6 +85,7 @@ class ChargePaymentEloquent extends EloquentAbstract implements ChargePaymentRep
         $obj = $this->model->find($key);
 
         return PaymentEntity::create(
+            tenant: $obj->tenant_id,
             title: $obj->title,
             resume: $obj->resume,
             company: $obj->relationship_id,

@@ -12,6 +12,7 @@ class PaymentEntityTest extends TestCase
     public function testCreate()
     {
         $objCharge = Entity::create(
+            tenant: Uuid::uuid4(),
             title: 'teste',
             resume: null,
             company: Uuid::uuid4(),
@@ -30,6 +31,7 @@ class PaymentEntityTest extends TestCase
     public function testUpdate()
     {
         $objCharge = Entity::create(
+            tenant: Uuid::uuid4(),
             title: 'teste',
             resume: null,
             company: $customer = Uuid::uuid4(),
@@ -68,6 +70,7 @@ class PaymentEntityTest extends TestCase
         $this->expectExceptionMessage('This payment is greater than the amount charged');
 
         $objCharge = Entity::create(
+            tenant: Uuid::uuid4(),
             title: 'teste',
             resume: null,
             company: Uuid::uuid4(),
@@ -88,6 +91,7 @@ class PaymentEntityTest extends TestCase
         $this->expectExceptionMessage('This payment is greater than the amount charged');
 
         $objCharge = Entity::create(
+            tenant: Uuid::uuid4(),
             title: 'teste',
             resume: null,
             company: Uuid::uuid4(),
@@ -106,6 +110,7 @@ class PaymentEntityTest extends TestCase
     public function testPayPartial()
     {
         $objCharge = Entity::create(
+            tenant: Uuid::uuid4(),
             title: 'teste',
             resume: null,
             company: Uuid::uuid4(),
@@ -132,6 +137,7 @@ class PaymentEntityTest extends TestCase
     public function testPayComplete()
     {
         $objCharge = Entity::create(
+            tenant: Uuid::uuid4(),
             title: 'teste',
             resume: null,
             company: Uuid::uuid4(),
@@ -152,6 +158,7 @@ class PaymentEntityTest extends TestCase
         $this->expectExceptionMessage('This payment cannot be canceled as it leaves the charge amount less than 0');
 
         $objCharge = Entity::create(
+            tenant: Uuid::uuid4(),
             title: 'teste',
             resume: null,
             company: Uuid::uuid4(),
@@ -170,6 +177,7 @@ class PaymentEntityTest extends TestCase
     public function testCancelPartial()
     {
         $objCharge = Entity::create(
+            tenant: Uuid::uuid4(),
             title: 'teste',
             resume: null,
             company: Uuid::uuid4(),
@@ -190,6 +198,7 @@ class PaymentEntityTest extends TestCase
     public function testCancelComplete()
     {
         $objCharge = Entity::create(
+            tenant: Uuid::uuid4(),
             title: 'teste',
             resume: null,
             company: Uuid::uuid4(),
