@@ -21,7 +21,7 @@ $ sail php artisan migrate --seed
 
 #### Para acessar o sistema, entra no link abaixo
 
-`http://localhost:8888/`
+http://localhost:8888
 ```bash
 user: local@localhost.com
 pass: password
