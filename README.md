@@ -12,9 +12,9 @@ Para instalar o projeto, você precisa ter o PHP:8.0.2
 $ git clone https://github.com/bhcosta90/portfolio-controle-financeiro.git
 $ cp .env.example .env
 $ composer install
+$ php artisan key:generate
 $ sail up -d
 $ sail php artisan migrate --seed
-$ sail php artisan key:generate
 ```
 
 -----
