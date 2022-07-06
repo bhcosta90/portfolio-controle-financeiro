@@ -32,7 +32,7 @@ class UpdateService
             $objPayment = PaymentEntity::create(
                 relationship: null,
                 charge: null,
-                title: $valueOld > $input->value ? "Saque bancário" : "Depósito bancário",
+                title: $valueOld > $input->value ? "Saque" : "Depósito",
                 resume: null,
                 name: null,
                 bank: $input->id,
