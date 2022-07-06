@@ -27,6 +27,7 @@ class UpdateServiceTest extends TestCase
         $mockRelationship->shouldReceive('exist')->andReturn(true);
 
         $objEntity = Entity::create(
+            tenant: Uuid::uuid4(),
             title: 'teste',
             resume: null,
             customer: Uuid::uuid4(),
@@ -73,6 +74,7 @@ class UpdateServiceTest extends TestCase
         $mockRelationship->shouldReceive('exist')->andReturn(true);
 
         $objEntity = Entity::create(
+            tenant: Uuid::uuid4(),
             title: 'teste',
             resume: null,
             customer: $idCompany = Uuid::uuid4(),
@@ -119,6 +121,7 @@ class UpdateServiceTest extends TestCase
         $mockRelationship->shouldReceive('exist')->andReturn(true);
 
         $objEntity = Entity::create(
+            tenant: Uuid::uuid4(),
             title: 'teste',
             resume: null,
             customer: Uuid::uuid4(),
@@ -168,6 +171,7 @@ class UpdateServiceTest extends TestCase
         $mockRelationship->shouldReceive('exist')->andReturn(false);
 
         $objEntity = Entity::create(
+            tenant: Uuid::uuid4(),
             title: 'teste',
             resume: null,
             customer: Uuid::uuid4(),
@@ -215,6 +219,7 @@ class UpdateServiceTest extends TestCase
         $mockRelationship->shouldReceive('exist')->andReturn(true);
 
         $objEntity = Entity::create(
+            tenant: Uuid::uuid4(),
             title: 'teste',
             resume: null,
             customer: Uuid::uuid4(),

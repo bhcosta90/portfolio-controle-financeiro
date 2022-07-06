@@ -30,6 +30,7 @@ class CreateServiceTest extends TestCase
 
         /** @var Input */
         $mockInput = Mockery::mock(Input::class, [
+            Uuid::uuid4(),
             'test',
             null,
             Uuid::uuid4(),
@@ -64,6 +65,7 @@ class CreateServiceTest extends TestCase
 
         /** @var Input */
         $mockInput = Mockery::mock(Input::class, [
+            Uuid::uuid4(),
             'test',
             null,
             Uuid::uuid4(),
@@ -91,6 +93,7 @@ class CreateServiceTest extends TestCase
 
         /** @var Input */
         $mockInput = Mockery::mock(Input::class, [
+            Uuid::uuid4(),
             'test',
             null,
             Uuid::uuid4(),

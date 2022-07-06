@@ -36,6 +36,7 @@ class PaymentServiceTest extends TestCase
         );
 
         $objEntity = Entity::create(
+            tenant: Uuid::uuid4(),
             title: 'teste',
             resume: null,
             customer: Uuid::uuid4(),
@@ -79,6 +80,7 @@ class PaymentServiceTest extends TestCase
         );
 
         $objEntity = Entity::create(
+            tenant: Uuid::uuid4(),
             title: 'teste',
             resume: null,
             customer: Uuid::uuid4(),

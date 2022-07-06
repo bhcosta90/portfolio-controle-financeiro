@@ -85,6 +85,7 @@ class ChargeReceiveEloquent extends EloquentAbstract implements ChargeReceiveRep
         $obj = $this->model->find($key);
 
         return ReceiveEntity::create(
+            tenant: $obj->tenant_id,
             title: $obj->title,
             resume: $obj->resume,
             customer: $obj->relationship_id,
