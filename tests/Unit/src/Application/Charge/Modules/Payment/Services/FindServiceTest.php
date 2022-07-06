@@ -57,7 +57,7 @@ class FindServiceTest extends TestCase
     {
         /** @var Mockery\MockInterface */
         $mock = Mockery::mock(CompanyRepository::class);
-        $mock->shouldReceive('find')->andReturn(CompanyEntity::create('teste'));
+        $mock->shouldReceive('find')->andReturn(CompanyEntity::create(Uuid::uuid4(), 'teste'));
         return $mock;
     }
 }

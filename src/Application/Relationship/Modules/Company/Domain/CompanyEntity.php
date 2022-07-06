@@ -16,6 +16,7 @@ class CompanyEntity extends EntityAbstract implements ValueInterface
     protected array $events;
 
     private function __construct(
+        protected UuidObject $tenant,
         protected NameInputObject $name,
         protected float $value,
         protected ?UuidObject $id = null,
@@ -25,12 +26,14 @@ class CompanyEntity extends EntityAbstract implements ValueInterface
     }
 
     public static function create(
+        string $tenant,
         string $name,
         float $value = 0,
         ?string $id = null,
         ?string $createdAt = null,
     ): self {
         return new self(
+            new UuidObject($tenant),
             new NameInputObject($name, false, 'name'),
             $value,
             $id ? new UuidObject($id) : null,

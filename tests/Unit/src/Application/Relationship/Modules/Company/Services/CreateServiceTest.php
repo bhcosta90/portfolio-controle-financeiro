@@ -7,6 +7,7 @@ use Core\Application\Relationship\Modules\Company\Services\CreateService;
 use Core\Application\Relationship\Modules\Company\Services\DTO\Create\{Input, Output};
 use Mockery;
 use PHPUnit\Framework\TestCase;
+use Ramsey\Uuid\Uuid;
 
 class CreateServiceTest extends TestCase
 {
@@ -18,7 +19,7 @@ class CreateServiceTest extends TestCase
         $mockRepository->shouldReceive('insert')->andReturn(true);
 
         /** @var Input */
-        $mockInput = Mockery::mock(Input::class, ['test']);
+        $mockInput = Mockery::mock(Input::class, [Uuid::uuid4(), 'test']);
 
         $ret = $uc->handle($mockInput);
         $this->assertInstanceOf(Output::class, $ret);

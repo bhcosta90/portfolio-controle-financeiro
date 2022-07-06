@@ -100,7 +100,7 @@ class ExecutePaymentServiceTest extends TestCase
 
     public function testExecuteOnlyPaymentCompany()
     {
-        $objRelationship = CompanyEntity::create('name');
+        $objRelationship = CompanyEntity::create(Uuid::uuid4(), 'name');
 
         $uc = new ExecutePaymentService(
             repository: $mockRepository = $this->mockPaymentRepository(),
@@ -149,7 +149,7 @@ class ExecutePaymentServiceTest extends TestCase
 
     public function testExecuteOnlyPaymentBank()
     {
-        $objRelationship = CompanyEntity::create('name');
+        $objRelationship = CompanyEntity::create(Uuid::uuid4(), 'name');
         $objAccount = AccountBankEntity::create(Uuid::uuid4(), 'teste', 0);
 
         $uc = new ExecutePaymentService(
