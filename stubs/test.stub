@@ -1,0 +1,18 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\TestCase;
+
+class {{ class }} extends TestCase
+{
+    use DatabaseMigrations;
+    
+    public function test_example()
+    {
+        $response = $this->get('/');
+
+        $response->assertStatus(200);
+    }
+}

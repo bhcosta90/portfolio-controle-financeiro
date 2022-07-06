@@ -1,0 +1,1 @@
+$((function(){$("body").on("click",".btn-form-delete",(function(){const t=$(this);Swal.fire({title:t.data("title"),text:t.data("body"),icon:"warning",showCancelButton:!0,confirmButtonColor:"#3085d6",cancelButtonColor:"#d33",confirmButtonText:t.data("yes"),cancelButtonText:t.data("not")}).then((function(n){n.value&&$(t).parent().find("form")[0].submit()}))}))}));
