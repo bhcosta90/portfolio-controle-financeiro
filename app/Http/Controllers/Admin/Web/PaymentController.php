@@ -23,14 +23,4 @@ class PaymentController extends Controller
         $deleteService->handle(new DeleteInput($id));
         return redirect()->back()->with('success', __('Pagamento removido com sucesso'));
     }
-
-    public function print(Services\Report\PaymentReport $paymentReport, Request $request)
-    {
-        $result = $paymentReport->handle(
-            new Services\Report\DTO\Report\Header(__('Cliente / Empresa'), _('Título'), __('Banco'), __('Valor')),
-            new Services\Report\DTO\Report\Input($request->all(), __('Relatório de pagamento'), $request->render)
-        );
-
-        return view('admin.payment.report', compact('result'));
-    }
 }

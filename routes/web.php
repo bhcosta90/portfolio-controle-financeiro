@@ -59,6 +59,5 @@ Route::as('admin.')->prefix('admin')->middleware('auth')->group(function () {
         Route::get('month', [Web\ReportController::class, 'month'])->name('month');
     });
 
-    Route::get('payment/print', [Web\PaymentController::class, 'print'])->name('payment.print');
     Route::resource('payment', Web\PaymentController::class)->only('index', 'destroy');
 });

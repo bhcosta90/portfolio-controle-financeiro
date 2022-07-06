@@ -4,7 +4,7 @@
 <div class='card'>
     <div class='card-header'>
         <h1 class='float-left'>{{ __('Relatório de Pagamento') }}</h1>
-        <div class='float-right'>{!! printOut(route('admin.payment.print', request()->all()), __('Imprimir')) !!}</div>
+        {{-- <div class='float-right'>{!! printOut(route('admin.payment.print', request()->all()), __('Imprimir')) !!}</div> --}}
     </div>
     <table class='table table-report table-striped table-hover table-responsive-md mb-0'>
         <thead>
