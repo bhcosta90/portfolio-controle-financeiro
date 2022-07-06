@@ -49,7 +49,7 @@ class PaymentServiceTest extends TestCase
 
         $objRelationship = CompanyEntity::create(name: 'teste', id: Uuid::uuid4());
         $objRecurrence = RecurrenceEntity::create(name: 'teste', days: 30, id: Uuid::uuid4());
-        $objAccountBank = AccountBankEntity::create('teste', 0);
+        $objAccountBank = AccountBankEntity::create(Uuid::uuid4(), 'teste', 0);
 
         $mockRepository->shouldReceive('find')->andReturn($objEntity);
         $mockRepository->shouldReceive('update')->andReturn(true);
@@ -91,7 +91,7 @@ class PaymentServiceTest extends TestCase
         );
 
         $objRelationship = CompanyEntity::create(name: 'teste', id: Uuid::uuid4());
-        $objAccountBank = AccountBankEntity::create('teste', 0);
+        $objAccountBank = AccountBankEntity::create(Uuid::uuid4(), 'teste', 0);
 
         $mockRepository->shouldReceive('find')->andReturn($objEntity);
         $mockRepository->shouldReceive('update')->andReturn(true);

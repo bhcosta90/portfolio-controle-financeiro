@@ -7,6 +7,7 @@ use App\Repository\Eloquent\AccountBankEloquent as Eloquent;
 use Core\Application\AccountBank\Domain\AccountBankEntity as Entity;
 use Core\Application\AccountBank\Repository\AccountBankRepository as Repository;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Ramsey\Uuid\Uuid;
 use Tests\TestCase;
 
 class AccountBankRepositoryTest extends TestCase
@@ -15,7 +16,7 @@ class AccountBankRepositoryTest extends TestCase
 
     public function testInsert()
     {
-        $obj = Entity::create('teste', 50);
+        $obj = Entity::create(Uuid::uuid4(), 'teste', 50);
         $this->assertTrue($this->getAccountBankRepository()->insert($obj));
         $this->assertDatabaseHas('account_banks', [
             'id' => $obj->id(),
@@ -68,7 +69,7 @@ class AccountBankRepositoryTest extends TestCase
 
     public function testInsertWithBank()
     {
-        $obj = Entity::create('teste', 50, 301, '500', '1', '600', 2);
+        $obj = Entity::create(Uuid::uuid4(), 'teste', 50, 301, '500', '1', '600', 2);
         $this->getAccountBankRepository()->insert($obj);
         $this->assertDatabaseHas('account_banks', [
             'id' => $obj->id(),

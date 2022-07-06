@@ -12,7 +12,7 @@ class AccountBankEntityTest extends TestCase
 {
     public function testCreate()
     {
-        $objAccountBank = Entity::create(name: 'teste', value: 0, bankCode: 341);
+        $objAccountBank = Entity::create(name: 'teste', value: 0, tenant: Uuid::uuid4(),bankCode: 341);
 
         $this->assertNotEmpty($objAccountBank->id());
         $this->assertNotEmpty($objAccountBank->createdAt());
@@ -23,7 +23,8 @@ class AccountBankEntityTest extends TestCase
     {
         $objAccountBank = Entity::create(
             name: 'teste', 
-            value: 0, 
+            value: 0,
+            tenant: Uuid::uuid4(), 
             bankCode: 341,
             agency: '66556',
             agencyDigit: '4',
@@ -42,7 +43,12 @@ class AccountBankEntityTest extends TestCase
 
     public function testUpdate()
     {
-        $objAccountBank = Entity::create(name: 'teste', value: 0, id: $id = Uuid::uuid4());
+        $objAccountBank = Entity::create(
+            name: 'teste',
+            value: 0,
+            tenant: Uuid::uuid4(),
+            id: $id = Uuid::uuid4()
+        );
 
         $objAccountBank->update(
             name: 'teste 2',
@@ -68,6 +74,7 @@ class AccountBankEntityTest extends TestCase
         $objAccountBank = Entity::create(
             name: 'teste',
             value: 0,
+            tenant: Uuid::uuid4(),
             bankCode: 341,
             agency: '12366',
             account: '66655',
@@ -87,6 +94,7 @@ class AccountBankEntityTest extends TestCase
         $objAccountBank = Entity::create(
             name: 'teste',
             value: 0,
+            tenant: Uuid::uuid4(),
             bankCode: 341,
             agency: '12366',
             agencyDigit: '1',
@@ -108,6 +116,7 @@ class AccountBankEntityTest extends TestCase
         $objAccountBank = Entity::create(
             name: 'teste',
             value: 0,
+            tenant: Uuid::uuid4(),
             bankCode: 341,
             agency: '12366',
             agencyDigit: '1',
@@ -121,7 +130,7 @@ class AccountBankEntityTest extends TestCase
 
     public function testAddValue()
     {
-        $objAccountBank = Entity::create('teste', 0);
+        $objAccountBank = Entity::create(Uuid::uuid4(), 'teste', 0);
         $objAccountBank->addValue(100, $idPayment = Uuid::uuid4());
         $this->assertEquals(100, $objAccountBank->value);
         $this->assertCount(1, $objAccountBank->events);
@@ -136,7 +145,7 @@ class AccountBankEntityTest extends TestCase
 
     public function testRemoveValue()
     {
-        $objAccountBank = Entity::create('teste', 0);
+        $objAccountBank = Entity::create(Uuid::uuid4(), 'teste', 0);
         $objAccountBank->removeValue(100, $idPayment = Uuid::uuid4());
         $this->assertEquals(-100, $objAccountBank->value);
         $this->assertCount(1, $objAccountBank->events);

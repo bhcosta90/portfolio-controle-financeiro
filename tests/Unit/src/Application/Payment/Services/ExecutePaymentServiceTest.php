@@ -19,6 +19,7 @@ use Core\Shared\ValueObjects\EntityObject;
 use DateTime;
 use Mockery;
 use PHPUnit\Framework\TestCase;
+use Ramsey\Uuid\Uuid;
 
 class ExecutePaymentServiceTest extends TestCase
 {
@@ -149,7 +150,7 @@ class ExecutePaymentServiceTest extends TestCase
     public function testExecuteOnlyPaymentBank()
     {
         $objRelationship = CompanyEntity::create('name');
-        $objAccount = AccountBankEntity::create('teste', 0);
+        $objAccount = AccountBankEntity::create(Uuid::uuid4(), 'teste', 0);
 
         $uc = new ExecutePaymentService(
             repository: $mockRepository = $this->mockPaymentRepository(),

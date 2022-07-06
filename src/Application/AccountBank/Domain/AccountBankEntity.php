@@ -20,6 +20,7 @@ class AccountBankEntity extends EntityAbstract implements ValueInterface
     private function __construct(
         protected NameInputObject $name,
         protected float $value,
+        protected ?UuidObject $tenant,
         protected ?BankObject $bank = null,
         protected ?UuidObject $id = null,
         protected ?DateTime $createdAt = null,
@@ -28,6 +29,7 @@ class AccountBankEntity extends EntityAbstract implements ValueInterface
     }
 
     public static function create(
+        string $tenant,
         string $name,
         float $value,
         ?string $bankCode = null,
@@ -48,6 +50,7 @@ class AccountBankEntity extends EntityAbstract implements ValueInterface
         return new self(
             new NameInputObject($name, false, 'name'),
             $value,
+            new UuidObject($tenant),
             $bank ?? null,
             $id ? new UuidObject($id) : null,
             $createdAt ? new DateTime($createdAt) : null,
