@@ -56,6 +56,7 @@ Route::as('admin.')->prefix('admin')->middleware('auth')->group(function () {
     });
 
     Route::as('report.')->prefix('report')->group(function () {
+        Route::get('/{report}', [Web\ReportController::class, 'index'])->name('index');
         Route::get('month', [Web\ReportController::class, 'month'])->name('month');
     });
 

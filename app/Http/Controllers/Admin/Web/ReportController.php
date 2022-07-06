@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Core\Application\Charge\Modules;
 use Core\Application\Charge\Shared\Enums\ChargeStatusEnum;
+use Core\Application\Report\Services;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -31,6 +32,19 @@ class ReportController extends Controller
             'total' => ($receive - $payment) ?? 0,
             'total_real' => str()->numberBr(($receive - $payment) ?? 0),
         ]);
+    }
+
+    public function index(string $report, Request $request)
+    {
+        $letter = substr($report, -1);
+        $report = substr($report, 0, -1);
+        $reportClass = app('Core\\Application\\Report\\Reports\\R' . $report);
+
+        $objService = new Services\GenerateService($reportClass, $letter);
+        $ret = $objService->handle(new Services\DTO\Generate\Input(
+            $request->render ?? "html",
+            $request->all()
+        ));
     }
 
     private function getMonth(?string $month)

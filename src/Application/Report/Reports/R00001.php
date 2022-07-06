@@ -1,5 +1,7 @@
 <?php
 
+namespace Core\Application\Report\Reports;
+
 use Core\Application\Payment\Repository\PaymentRepository;
 use Core\Application\Payment\Shared\Enums\PaymentTypeEnum;
 use Core\Application\Report\Contracts\PriceInterface;
@@ -8,7 +10,7 @@ use Core\Application\Report\Type\Abstracts\ReportTypeAbstract;
 class R00001
 {
     public function __construct(
-        private PaymentRepository $repo,
+        private PaymentRepository $repository,
         private PriceInterface $price,
     ) {
         //
