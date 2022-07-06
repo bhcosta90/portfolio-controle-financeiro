@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Relationship;
+use App\Models\Tenant;
 use Core\Application\Payment\Shared\Enums\PaymentTypeEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -20,6 +21,7 @@ class PaymentFactory extends Factory
     {
         return [
             'id' => str()->uuid(),
+            'tenant_id' => Tenant::factory(),
             'value' => rand(100, 1000),
             'status' => 1,
             'type' => $this->faker->randomElement(PaymentTypeEnum::toArray()),

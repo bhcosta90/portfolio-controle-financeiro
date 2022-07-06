@@ -62,6 +62,7 @@ class ExecutePaymentServiceTest extends TestCase
         );
 
         $entity = PaymentEntity::create(
+            tenant: Uuid::uuid4(),
             relationship: new EntityObject($objRelationship->id(), $objRelationship),
             charge: new EntityObject(1, 'teste'),
             bank: null,
@@ -111,6 +112,7 @@ class ExecutePaymentServiceTest extends TestCase
         );
 
         $entity = PaymentEntity::create(
+            tenant: Uuid::uuid4(),
             relationship: new EntityObject(1, CompanyEntity::class),
             charge: new EntityObject($objRelationship->id(), $objRelationship),
             bank: null,
@@ -161,6 +163,7 @@ class ExecutePaymentServiceTest extends TestCase
         );
 
         $entity = PaymentEntity::create(
+            tenant: Uuid::uuid4(),
             relationship: new EntityObject(1, CompanyEntity::class),
             charge: new EntityObject($objRelationship->id(), $objRelationship),
             bank: $objAccount->id(),

@@ -25,6 +25,7 @@ class PaymentRepositoryTest extends TestCase
         $objCharge = Charge::factory()->create();
 
         $obj = Entity::create(
+            tenant: $objRelationship->tenant_id,
             relationship: new EntityObject($objRelationship->id, $objRelationship->entity),
             charge: new EntityObject($objCharge->id, $objCharge->entity),
             bank: null,
@@ -53,6 +54,7 @@ class PaymentRepositoryTest extends TestCase
         $objAccountBank = AccountBank::factory()->create();
 
         $obj = Entity::create(
+            tenant: $objRelationship->tenant_id,
             relationship: new EntityObject($objRelationship->id, $objRelationship->entity),
             charge: new EntityObject($objCharge->id, $objCharge->entity),
             bank: $objAccountBank->id,
@@ -79,6 +81,7 @@ class PaymentRepositoryTest extends TestCase
         $objCharge = Charge::factory()->create();
 
         $obj = Entity::create(
+            tenant: $objRelationship->tenant_id,
             relationship: new EntityObject($objRelationship->id, $objRelationship->entity),
             charge: new EntityObject($objCharge->id, $objCharge->entity),
             bank: null,

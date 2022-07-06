@@ -3,6 +3,7 @@
 namespace Tests\Feature\src\Application\AccountBank\Repository;
 
 use App\Models\AccountBank as Model;
+use App\Models\Tenant;
 use App\Repository\Eloquent\AccountBankEloquent as Eloquent;
 use Core\Application\AccountBank\Domain\AccountBankEntity as Entity;
 use Core\Application\AccountBank\Repository\AccountBankRepository as Repository;
@@ -16,7 +17,9 @@ class AccountBankRepositoryTest extends TestCase
 
     public function testInsert()
     {
-        $obj = Entity::create(Uuid::uuid4(), 'teste', 50);
+        $tenant = Tenant::factory()->create();
+        $obj = Entity::create($tenant->id, 'teste', 50);
+
         $this->assertTrue($this->getAccountBankRepository()->insert($obj));
         $this->assertDatabaseHas('account_banks', [
             'id' => $obj->id(),
@@ -69,7 +72,8 @@ class AccountBankRepositoryTest extends TestCase
 
     public function testInsertWithBank()
     {
-        $obj = Entity::create(Uuid::uuid4(), 'teste', 50, 301, '500', '1', '600', 2);
+        $tenant = Tenant::factory()->create();
+        $obj = Entity::create($tenant->id, 'teste', 50, 301, '500', '1', '600', 2);
         $this->getAccountBankRepository()->insert($obj);
         $this->assertDatabaseHas('account_banks', [
             'id' => $obj->id(),

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Tenant;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,6 +19,7 @@ class AccountBankFactory extends Factory
     {
         return [
             'id' => str()->uuid(),
+            'tenant_id' => Tenant::factory(),
             'name' => $this->faker->name(),
         ];
     }

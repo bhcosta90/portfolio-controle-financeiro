@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Tenant;
 use Core\Application\Relationship\Modules\Company\Domain\CompanyEntity;
 use Core\Application\Relationship\Modules\Customer\Domain\CustomerEntity;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -20,6 +21,7 @@ class RelationshipFactory extends Factory
     {
         return [
             'id' => str()->uuid(),
+            'tenant_id' => Tenant::factory(),
             'name' => $this->faker->name(),
             'entity' => $this->faker->randomElement([CustomerEntity::class, CompanyEntity::class]),
         ];

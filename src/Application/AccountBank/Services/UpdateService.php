@@ -30,6 +30,7 @@ class UpdateService
 
         if($valueOld !== $input->value) {
             $objPayment = PaymentEntity::create(
+                tenant: $entity->tenant,
                 relationship: null,
                 charge: null,
                 title: $valueOld > $input->value ? "Saque" : "Depósito",

@@ -3,6 +3,7 @@
 namespace Tests\Feature\src\Application\Charge\Modules\Recurrence\Repository;
 
 use App\Models\Recurrence as Model;
+use App\Models\Tenant;
 use App\Repository\Eloquent\RecurrenceEloquent as Eloquent;
 use Core\Application\Charge\Modules\Recurrence\Repository\RecurrenceRepository as Repository;
 use Core\Application\Charge\Modules\Recurrence\Domain\RecurrenceEntity as Entity;
@@ -16,7 +17,8 @@ class RecurrenceRepositoryTest extends TestCase
     
     public function testInsert()
     {
-        $obj = Entity::create(Uuid::uuid4(), 'teste', 50);
+        $tenant = Tenant::factory()->create();
+        $obj = Entity::create($tenant->id, 'teste', 50);
         $this->assertTrue($this->getRecurrenceRepository()->insert($obj));
         $this->assertDatabaseHas('recurrences', [
             'id' => $obj->id(),

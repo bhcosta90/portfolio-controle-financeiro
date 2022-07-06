@@ -3,11 +3,11 @@
 namespace Tests\Feature\src\Application\Relationship\Modules\Company\Repository;
 
 use App\Models\Relationship as Model;
+use App\Models\Tenant;
 use App\Repository\Eloquent\CompanyEloquent as Eloquent;
 use Core\Application\Relationship\Modules\Company\Repository\CompanyRepository as Repository;
 use Core\Application\Relationship\Modules\Company\Domain\CompanyEntity as Entity;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Ramsey\Uuid\Uuid;
 use Tests\TestCase;
 
 class CompanyRepositoryTest extends TestCase
@@ -16,7 +16,8 @@ class CompanyRepositoryTest extends TestCase
 
     public function testInsert()
     {
-        $obj = Entity::create(Uuid::uuid4(), 'teste', 50);
+        $tenant = Tenant::factory()->create();
+        $obj = Entity::create($tenant->id, 'teste', 50);
         $this->assertTrue($this->getCompanyRepository()->insert($obj));
         $this->assertDatabaseHas('relationships', [
             'id' => $obj->id(),

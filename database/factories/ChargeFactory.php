@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Relationship;
+use App\Models\Tenant;
 use Core\Application\Charge\Modules\Payment\Domain\PaymentEntity;
 use Core\Application\Charge\Modules\Receive\Domain\ReceiveEntity;
 use Core\Application\Charge\Shared\Enums\ChargeStatusEnum;
@@ -23,6 +24,7 @@ class ChargeFactory extends Factory
     {
         return [
             'id' => str()->uuid(),
+            'tenant_id' => Tenant::factory(),
             'group_id' => str()->uuid(),
             'relationship_id' => Relationship::factory(),
             'relationship_type' => 'Relationship',

@@ -6,12 +6,14 @@ use PHPUnit\Framework\TestCase;
 use Core\Application\Payment;
 use Core\Shared\ValueObjects\EntityObject;
 use DateTime;
+use Ramsey\Uuid\Uuid;
 
 class PaymentEntityTest extends TestCase
 {
     public function testCreateWithDate()
     {
         $entity = Payment\Domain\PaymentEntity::create(
+            tenant: Uuid::uuid4(),
             relationship: new EntityObject(1, 'teste'),
             charge: new EntityObject(1, 'teste'),
             bank: null,
@@ -32,6 +34,7 @@ class PaymentEntityTest extends TestCase
     public function testCreateWithoutDate()
     {
         $entity = Payment\Domain\PaymentEntity::create(
+            tenant: Uuid::uuid4(),
             relationship: new EntityObject(1, 'teste'),
             charge: new EntityObject(1, 'teste'),
             bank: null,
