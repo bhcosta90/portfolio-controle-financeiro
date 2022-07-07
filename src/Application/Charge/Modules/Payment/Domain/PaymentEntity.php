@@ -107,7 +107,7 @@ class PaymentEntity extends EntityAbstract implements ChargePayInterface
         }
 
         $this->pay = new FloatInputObject($this->pay->value - $value, true);
-        $this->status = $this->pay->value == 0 ? ChargeStatusEnum::PENDING : ChargeStatusEnum::PARTIAL;
+        $this->status = ChargeStatusEnum::PENDING;
         $this->events[] = new RemovePayEvent($this, new FloatInputObject($value));
         return $this;
     }

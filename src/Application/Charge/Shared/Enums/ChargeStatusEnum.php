@@ -9,6 +9,5 @@ enum ChargeStatusEnum: int
     use EnumTrait;
 
     case PENDING = 1;
-    case PARTIAL = 2;
-    case COMPLETED = 3;
+    case COMPLETED = 2;
 }

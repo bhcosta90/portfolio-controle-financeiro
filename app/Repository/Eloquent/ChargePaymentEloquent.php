@@ -139,7 +139,7 @@ class ChargePaymentEloquent extends EloquentAbstract implements ChargePaymentRep
             ->where(fn($q) => ($f = $filter['title'] ?? null)
                 ? $q->where('charges.title', 'like', "%{$f}%")
                 : null)
-            ->whereIn('charges.status', [ChargeStatusEnum::PENDING, ChargeStatusEnum::PARTIAL])
+            ->whereIn('charges.status', [ChargeStatusEnum::PENDING])
             ->orderBy('charges.date')
             ->orderBy('relationships.name')
             ->orderBy('recurrences.name');

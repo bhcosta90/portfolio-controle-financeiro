@@ -139,7 +139,7 @@ class ChargeReceiveEloquent extends EloquentAbstract implements ChargeReceiveRep
             ->where(fn($q) => ($f = $filter['title'] ?? null)
                 ? $q->where('charges.title', 'like', "%{$f}%")
                 : null)
-            ->whereIn('charges.status', [ChargeStatusEnum::PENDING, ChargeStatusEnum::PARTIAL])
+            ->whereIn('charges.status', [ChargeStatusEnum::PENDING])
             ->orderBy('charges.date')
             ->orderBy('relationships.name');
 

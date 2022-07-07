@@ -17,14 +17,14 @@ class ReportController extends Controller
         $receive = DB::table('charges')
             ->where('tenant_id', $request->user()->tenant_id)
             ->where('entity', Modules\Receive\Domain\ReceiveEntity::class)
-            ->whereIn('status', [ChargeStatusEnum::PENDING, ChargeStatusEnum::PARTIAL])
+            ->whereIn('status', [ChargeStatusEnum::PENDING])
             ->whereBetween('date', $this->getMonth($request->month))
             ->sum(DB::raw('value_charge', 'value_pay'));
 
         $payment = DB::table('charges')
             ->where('tenant_id', $request->user()->tenant_id)
             ->where('entity', Modules\Payment\Domain\PaymentEntity::class)
-            ->whereIn('status', [ChargeStatusEnum::PENDING, ChargeStatusEnum::PARTIAL])
+            ->whereIn('status', [ChargeStatusEnum::PENDING])
             ->whereBetween('date', $this->getMonth($request->month))
             ->sum(DB::raw('value_charge', 'value_pay'));
 

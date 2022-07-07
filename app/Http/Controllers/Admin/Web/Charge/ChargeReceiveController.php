@@ -145,7 +145,7 @@ class ChargeReceiveController extends Controller
         $ret = DB::table('charges')
             ->where('tenant_id', $request->user()->tenant_id)
             ->where('entity', Entity::class)
-            ->whereIn('status', [ChargeStatusEnum::PENDING, ChargeStatusEnum::PARTIAL])
+            ->whereIn('status', [ChargeStatusEnum::PENDING])
             ->whereBetween('date', $this->getMonth($request->month))
             ->count();
 
@@ -165,7 +165,7 @@ class ChargeReceiveController extends Controller
         $ret = DB::table('charges')
             ->where('tenant_id', $request->user()->tenant_id)
             ->where('entity', Entity::class)
-            ->whereIn('status', [ChargeStatusEnum::PENDING, ChargeStatusEnum::PARTIAL])
+            ->whereIn('status', [ChargeStatusEnum::PENDING])
             ->where('date', (new Carbon())->format('Y-m-d'))
             ->count();
 
@@ -179,7 +179,7 @@ class ChargeReceiveController extends Controller
         $ret = DB::table('charges')
             ->where('tenant_id', $request->user()->tenant_id)
             ->where('entity', Entity::class)
-            ->whereIn('status', [ChargeStatusEnum::PENDING, ChargeStatusEnum::PARTIAL])
+            ->whereIn('status', [ChargeStatusEnum::PENDING])
             ->whereBetween('date', $this->getMonth($request->month))
             ->sum(DB::raw('value_charge', 'value_pay'));
 
@@ -194,7 +194,7 @@ class ChargeReceiveController extends Controller
         $ret = DB::table('charges')
             ->where('tenant_id', $request->user()->tenant_id)
             ->where('entity', Entity::class)
-            ->whereIn('status', [ChargeStatusEnum::PENDING, ChargeStatusEnum::PARTIAL])
+            ->whereIn('status', [ChargeStatusEnum::PENDING])
             ->sum(DB::raw('value_charge', 'value_pay'));
 
         return response()->json([
@@ -208,7 +208,7 @@ class ChargeReceiveController extends Controller
         $ret = DB::table('charges')
             ->where('tenant_id', $request->user()->tenant_id)
             ->where('entity', Entity::class)
-            ->whereIn('status', [ChargeStatusEnum::PENDING, ChargeStatusEnum::PARTIAL])
+            ->whereIn('status', [ChargeStatusEnum::PENDING])
             ->where('date', '<', $this->getMonth($request->month)[0])
             ->count();
 

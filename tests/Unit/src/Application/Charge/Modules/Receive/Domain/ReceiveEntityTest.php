@@ -124,7 +124,7 @@ class ReceiveEntityTest extends TestCase
         );
 
         $objCharge->pay(30, 30);
-        $this->assertEquals(3, $objCharge->status->value);
+        $this->assertEquals(2, $objCharge->status->value);
         $this->assertCount(1, $objCharge->events);
         $this->assertInstanceOf(AddPayEvent::class, $objCharge->events[0]);
         $this->assertEquals('charge.receive.pay.add.' . $objCharge->id(), $objCharge->events[0]->name());
@@ -152,7 +152,7 @@ class ReceiveEntityTest extends TestCase
         );
 
         $objCharge->pay(50, 50);
-        $this->assertEquals(3, $objCharge->status->value);
+        $this->assertEquals(2, $objCharge->status->value);
     }
 
     public function testCancelException()
@@ -194,7 +194,7 @@ class ReceiveEntityTest extends TestCase
 
         $objCharge->cancel(10);
         $this->assertEquals(30, $objCharge->pay->value);
-        $this->assertEquals(2, $objCharge->status->value);
+        $this->assertEquals(1, $objCharge->status->value);
     }
 
     public function testCancelComplete()

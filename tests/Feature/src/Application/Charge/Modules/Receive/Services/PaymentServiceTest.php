@@ -45,7 +45,7 @@ class PaymentServiceTest extends TestCase
 
         $this->assertDatabaseHas('charges', [
             'id' => $objCharge->id,
-            'status' => 3,
+            'status' => 2,
             'value_charge' => 500,
             'value_pay' => 50,
         ]);
@@ -82,7 +82,7 @@ class PaymentServiceTest extends TestCase
 
         $this->assertDatabaseHas('charges', [
             'id' => $objCharge->id,
-            'status' => 3,
+            'status' => 2,
         ]);
     }
 
@@ -127,7 +127,7 @@ class PaymentServiceTest extends TestCase
         ));
         $this->assertDatabaseHas('charges', [
             'id' => $idCharge,
-            'status' => 3,
+            'status' => 2,
         ]);
 
         $this->assertDatabaseHas('charges', [
