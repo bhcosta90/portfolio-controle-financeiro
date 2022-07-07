@@ -11,8 +11,7 @@ class Input
         public ?string $dateNewPayment,
         public ?string $idAccountBank,
         public ?string $date = null,
-    )
-    {
+    ) {
         //
     }
 }

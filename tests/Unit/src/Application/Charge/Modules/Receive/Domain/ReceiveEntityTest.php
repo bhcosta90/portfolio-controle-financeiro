@@ -67,7 +67,7 @@ class ReceiveEntityTest extends TestCase
 
     public function testPayExceptionV01()
     {
-        $this->expectExceptionMessage('This payment is greater than the amount charged');
+        $this->expectExceptionMessage('The payment is greater than the amount of the account receivable');
 
         $objCharge = Entity::create(
             tenant: Uuid::uuid4(),
@@ -88,7 +88,7 @@ class ReceiveEntityTest extends TestCase
 
     public function testPayExceptionV02()
     {
-        $this->expectExceptionMessage('This payment is greater than the amount charged');
+        $this->expectExceptionMessage('The payment is greater than the amount of the account receivable');
 
         $objCharge = Entity::create(
             tenant: Uuid::uuid4(),

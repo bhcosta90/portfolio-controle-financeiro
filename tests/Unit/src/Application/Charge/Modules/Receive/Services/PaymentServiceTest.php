@@ -56,7 +56,13 @@ class PaymentServiceTest extends TestCase
         $mockRecurrence->shouldReceive('find')->andReturn($objRecurrence);
         $mockBank->shouldReceive('find')->andReturn($objAccountBank);
 
-        $ret = $uc->handle(new Input(id: $objEntity->id(), valuePayment: 50, valueCharge: 50, idAccountBank: $objAccountBank->id()));
+        $ret = $uc->handle(new Input(
+            id: $objEntity->id(),
+            valuePayment: 50,
+            idAccountBank: $objAccountBank->id(),
+            newPayment: false,
+            dateNewPayment: null,
+        ));
         $this->assertNotEmpty($ret->idCharge);
         $mockRepository->shouldHaveReceived('find')->times(1);
         $mockRepository->shouldHaveReceived('insert')->times(1);
@@ -132,7 +138,13 @@ class PaymentServiceTest extends TestCase
         $mockRelationship->shouldReceive('find')->andReturn($objRelationship);
         $mockBank->shouldReceive('find')->andReturn($objAccountBank);
 
-        $ret = $uc->handle(new Input(id: $objEntity->id(), valuePayment: 50, valueCharge: 50, idAccountBank: $objAccountBank->id()));
+        $ret = $uc->handle(new Input(
+            id: $objEntity->id(),
+            valuePayment: 50,
+            idAccountBank: $objAccountBank->id(),
+            newPayment: false,
+            dateNewPayment: null,
+        ));
         $this->assertNull($ret->idCharge);
         $mockRepository->shouldHaveReceived('find')->times(1);
         $mockRepository->shouldNotHaveReceived('insert');

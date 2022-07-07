@@ -34,7 +34,13 @@ class PaymentServiceTest extends TestCase
         $objCharge = Charge::factory()->create(['value_charge' => 500]);
         $objBank = AccountBank::factory()->create();
 
-        $ret = $uc->handle(new Input($objCharge->id, 50, $objBank->id, 50));
+        $ret = $uc->handle(new Input(
+            $objCharge->id,
+            50,
+            true,
+            null,
+            $objBank->id
+        ));
         $this->assertInstanceOf(Output::class, $ret);
 
         $this->assertDatabaseHas('charges', [
@@ -66,7 +72,13 @@ class PaymentServiceTest extends TestCase
         $objCharge = Charge::factory()->create(['value_charge' => 500]);
         $objBank = AccountBank::factory()->create();
 
-        $uc->handle(new Input($objCharge->id, 500, $objBank->id, 500));
+        $uc->handle(new Input(
+            $objCharge->id,
+            500,
+            false,
+            null,
+            $objBank->id
+        ));
 
         $this->assertDatabaseHas('charges', [
             'id' => $objCharge->id,
@@ -93,14 +105,26 @@ class PaymentServiceTest extends TestCase
         ]);
         $objBank = AccountBank::factory()->create();
 
-        $ret = $uc->handle(new Input($objCharge->id, 500, $objBank->id, 500));
+        $ret = $uc->handle(new Input(
+            $objCharge->id,
+            500,
+            false,
+            null,
+            $objBank->id            
+        ));
         $this->assertDatabaseHas('charges', [
             'id' => $ret->idCharge,
             'status' => 1,
             'date' => '2022-02-01'
         ]);
 
-        $ret = $uc->handle(new Input($idCharge = $ret->idCharge, 500, $objBank->id, 500));
+        $ret = $uc->handle(new Input(
+            $idCharge = $ret->idCharge,
+            500,
+            false,
+            null,
+            $objBank->id            
+        ));
         $this->assertDatabaseHas('charges', [
             'id' => $idCharge,
             'status' => 3,
