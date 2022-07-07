@@ -32,6 +32,10 @@ class PaymentService
         //
     }
 
+    /**
+     * @throws ChargeException
+     * @throws Throwable
+     */
     public function handle(DTO\Payment\Input $input): DTO\Payment\Output
     {
         /** @var Entity */
@@ -95,15 +99,15 @@ class PaymentService
             $objPayment = PaymentEntity::create(
                 tenant: $objCharge->tenant,
                 relationship: $objCharge->customer,
+                charge: new EntityObject($input->id, get_class($objCharge)),
+                title: $objCharge->title->value,
+                resume: $objCharge->resume->value,
+                name: $objRelationship->name->value,
                 bank: $input->idAccountBank,
                 value: $input->valuePayment,
                 status: null,
                 type: PaymentTypeEnum::CREDIT->value,
                 date: $input->date,
-                charge: new EntityObject($input->id, get_class($objCharge)),
-                title: $objCharge->title->value,
-                resume: $objCharge->resume->value,
-                name: $objRelationship->name->value,
             );
             $this->payment->insert($objPayment);
             $this->transaction->commit();
