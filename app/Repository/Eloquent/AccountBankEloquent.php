@@ -38,7 +38,7 @@ class AccountBankEloquent extends EloquentAbstract implements AccountBankReposit
 
     public function update(EntityAbstract $entity): bool
     {
-        $obj = $this->model->findOrFail($entity->id());
+        $obj = $this->getModel($entity->id());
         return $obj->update([
             'name' => $entity->name->value,
             'value' => $entity->value,
@@ -102,7 +102,7 @@ class AccountBankEloquent extends EloquentAbstract implements AccountBankReposit
     public function pluck(?array $filter = null): array
     {
         return $this->model
-            ->where(fn($q) => ($f = $filter['remove_id_account']) ? $q->whereNotIn('id', $f) : null)
+            ->where(fn($q) => ($f = $filter['remove_id_account'] ?? null) ? $q->whereNotIn('id', $f) : null)
             ->pluck($this->getValuePluck(), 'id')->toArray();
     }
 }

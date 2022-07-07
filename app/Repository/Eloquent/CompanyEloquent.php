@@ -33,7 +33,7 @@ class CompanyEloquent extends EloquentAbstract implements CompanyRepository
 
     public function update(EntityAbstract $entity): bool
     {
-        $obj = $this->model->findOrFail($entity->id());
+        $obj = $this->getModel($entity->id());
         return $obj->update([
             'name' => $entity->name->value,
             'value' => $entity->value,

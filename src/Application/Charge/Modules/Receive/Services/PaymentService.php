@@ -44,7 +44,7 @@ class PaymentService
         }
 
         /** @var RecurrenceEntity */
-        if ($objCharge->recurrence && !$objRecurrence = $this->recurrence->find($objCharge->recurrence)) {
+        if ($objCharge->recurrence && !$objRecurrence = $this->recurrence->get($objCharge->recurrence)) {
             throw new Exception('Recurrence not found');
         }
 
