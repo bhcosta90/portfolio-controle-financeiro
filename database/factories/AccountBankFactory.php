@@ -20,7 +20,7 @@ class AccountBankFactory extends Factory
         return [
             'id' => str()->uuid(),
             'tenant_id' => Tenant::factory(),
-            'name' => $this->faker->name(),
+            'name' => $this->faker->company(),
             'value' => rand(0, 100) < 80 ? (rand(10000, 100000) / 100) : 0,
         ];
     }

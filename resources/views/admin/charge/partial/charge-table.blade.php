@@ -13,7 +13,10 @@
     <tbody>
     @foreach($data as $rs)
         <tr class='{{ \Carbon\Carbon::now()->firstOfMonth()->format('Y-m-d') > $rs->date ? 'due-date' : '' }}'>
-            <td>{{ $rs->relationship_name }}</td>
+            <td>
+                <div><small>{{ $rs->relationship_name }}</small></div>
+                <div>{!! $rs->title !!}</div>
+            </td>
             <td class='due-date'>
                 R$&nbsp;{{ str()->numberBr($rs->value_charge) }}
                 @if($rs->value_pay)
