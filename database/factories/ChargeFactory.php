@@ -30,7 +30,7 @@ class ChargeFactory extends Factory
             'relationship_type' => 'Relationship',
             'entity' => $this->faker->randomElement([PaymentEntity::class, ReceiveEntity::class]),
             'title' => $this->faker->name(),
-            'value_charge' => rand(100, 1000),
+            'value_charge' => rand(10000, 100000) / 100,
             'type' => $this->faker->randomElement(ChargeTypeEnum::toArray()),
             'status' => ChargeStatusEnum::PENDING,
             'date' => $this->faker->date(),

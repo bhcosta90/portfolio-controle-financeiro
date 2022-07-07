@@ -21,6 +21,7 @@ class AccountBankFactory extends Factory
             'id' => str()->uuid(),
             'tenant_id' => Tenant::factory(),
             'name' => $this->faker->name(),
+            'value' => rand(0, 100) < 80 ? (rand(10000, 100000) / 100) : 0,
         ];
     }
 }

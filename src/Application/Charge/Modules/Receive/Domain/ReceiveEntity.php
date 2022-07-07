@@ -5,6 +5,7 @@ namespace Core\Application\Charge\Modules\Receive\Domain;
 use Core\Application\Charge\Modules\Receive\Events\{AddPayEvent, RemovePayEvent};
 use Core\Application\Charge\Shared\Contracts\ChargePayInterface;
 use Core\Application\Charge\Shared\Enums\ChargeStatusEnum;
+use Core\Application\Charge\Shared\Exceptions\ChargeException;
 use Core\Application\Relationship\Modules\Customer\Domain\CustomerEntity;
 use Core\Shared\Abstracts\EntityAbstract;
 use Core\Shared\ValueObjects\EntityObject;
@@ -85,12 +86,12 @@ class ReceiveEntity extends EntityAbstract implements ChargePayInterface
     }
 
     /**
-     * @throws Exception
+     * @throws ChargeException
      */
     public function pay(float $value): self
     {
         if ($value + $this->pay->value > $this->value->value) {
-            throw new Exception('The payment is greater than the amount of the account receivable');
+            throw new ChargeException('The payment is greater than the amount of the account receivable');
         }
 
         $this->status = ChargeStatusEnum::COMPLETED;
@@ -103,7 +104,7 @@ class ReceiveEntity extends EntityAbstract implements ChargePayInterface
     {
         $calc = $this->pay->value - $value;
         if ($calc < 0) {
-            throw new Exception('This payment cannot be canceled as it leaves the charge amount less than 0');
+            throw new ChargeException('This payment cannot be canceled as it leaves the charge amount less than 0');
         }
 
         $this->pay = new FloatInputObject($this->pay->value - $value, true);

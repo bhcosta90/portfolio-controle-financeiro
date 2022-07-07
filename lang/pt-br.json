@@ -125,5 +125,7 @@
     "Disable": "Desabilitar",
     "Month": "Mensal",
     "Success": "Sucesso",
-    "Error": "Erro"
+    "Error": "Erro",
+    "The payment is greater than the amount of the account receivable": "O pagamento é maior que o valor da conta a receber",
+    "The payment is greater than the amount of the account payable": "O pagamento é maior que o valor da conta a pagar"
 }

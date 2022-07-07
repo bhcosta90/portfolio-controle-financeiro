@@ -25,20 +25,20 @@
             <hr/>
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                    <a class="nav-link {{ ($route = session('route')) != 'admin.charge.payment.pay.partial.store' ? "active" : ""}}" id="home-tab" data-toggle="tab" href="#home" role="tab"
                        aria-controls="home" aria-selected="true">
                         {!! __('Pagamento total') !!}
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                    <a class="nav-link {{ $route == 'admin.charge.payment.pay.partial.store' ? "active" : ""}}" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
                        aria-controls="profile" aria-selected="false">
-                        {{ __('Pagamento Parcial') }}
+                        {{ __('Pagamento Parcial') }} 
                     </a>
                 </li>
             </ul>
             <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <div class="tab-pane fade {{ $route != 'admin.charge.payment.pay.partial.store' ? "show active" : ""}}" id="home" role="tabpanel" aria-labelledby="home-tab">
                     <div class="card">
                         <div class="card-body">
                             <h4><small>Você vai pagar o valor total de</small> R$ {{ str()->numberBr($model->value - $model->pay) }}</h4>
@@ -53,7 +53,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="tab-pane fade {{ $route == 'admin.charge.payment.pay.partial.store' ? "show active" : ""}}" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                     <div class="card">
                         <div class="card-body">
                             {!! form_start($formPartial) !!}

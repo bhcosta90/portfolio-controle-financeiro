@@ -5,6 +5,7 @@ namespace Core\Application\Charge\Modules\Payment\Domain;
 use Core\Application\Charge\Modules\Payment\Events\{AddPayEvent, RemovePayEvent};
 use Core\Application\Charge\Shared\Contracts\ChargePayInterface;
 use Core\Application\Charge\Shared\Enums\ChargeStatusEnum;
+use Core\Application\Charge\Shared\Exceptions\ChargeException;
 use Core\Application\Relationship\Modules\Company\Domain\CompanyEntity;
 use Core\Shared\Abstracts\EntityAbstract;
 use Core\Shared\ValueObjects\EntityObject;
@@ -12,7 +13,6 @@ use Core\Shared\ValueObjects\Input\FloatInputObject;
 use Core\Shared\ValueObjects\Input\NameInputObject;
 use Core\Shared\ValueObjects\UuidObject;
 use DateTime;
-use Exception;
 
 class PaymentEntity extends EntityAbstract implements ChargePayInterface
 {
@@ -85,12 +85,12 @@ class PaymentEntity extends EntityAbstract implements ChargePayInterface
     }
 
     /**
-     * @throws Exception
+     * @throws ChargeException
      */
     public function pay(float $value): self
     {
         if ($value + $this->pay->value > $this->value->value) {
-            throw new Exception('The payment is greater than the amount of the account payable');
+            throw new ChargeException('The payment is greater than the amount of the account payable');
         }
 
         $this->status = ChargeStatusEnum::COMPLETED;
@@ -103,7 +103,7 @@ class PaymentEntity extends EntityAbstract implements ChargePayInterface
     {
         $calc = $this->pay->value - $value;
         if ($calc < 0) {
-            throw new Exception('This payment cannot be canceled as it leaves the charge amount less than 0');
+            throw new ChargeException('This payment cannot be canceled as it leaves the charge amount less than 0');
         }
 
         $this->pay = new FloatInputObject($this->pay->value - $value, true);

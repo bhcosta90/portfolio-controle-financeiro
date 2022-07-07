@@ -20,6 +20,10 @@ class AlertMiddleware
             // toast(__($session), 'success');
             alert()->success(__('Success'), __($session));
         }
+        if ($session = session('error')) {
+            // toast(__($session), 'error');
+            alert()->error(__('Error'), __($session));
+        }
         return $next($request);
     }
 }
