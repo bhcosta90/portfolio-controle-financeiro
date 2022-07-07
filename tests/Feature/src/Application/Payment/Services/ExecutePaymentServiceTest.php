@@ -83,7 +83,7 @@ class ExecutePaymentServiceTest extends TestCase
     public function testPaymentBank()
     {
         $objRelationship = Relationship::factory()->create(['entity' => CustomerEntity::class, 'value' => 0]);
-        $objAccount = AccountBank::factory()->create();
+        $objAccount = AccountBank::factory()->create(['value' => 0]);
 
         $basePayment = [
             'relationship_id' => $objRelationship->id,
@@ -191,7 +191,7 @@ class ExecutePaymentServiceTest extends TestCase
     public function testReceiveBank()
     {
         $objRelationship = Relationship::factory()->create(['entity' => CustomerEntity::class, 'value' => 0]);
-        $objAccount = AccountBank::factory()->create();
+        $objAccount = AccountBank::factory()->create(['value' => 0]);
 
         $basePayment = [
             'relationship_id' => $objRelationship->id,
