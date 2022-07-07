@@ -53,7 +53,7 @@ class PaymentServiceTest extends TestCase
         $mockRepository->shouldReceive('insert')->andReturn(true);
         $mockPayment->shouldReceive('insert')->andReturn(true);
         $mockRelationship->shouldReceive('find')->andReturn($objRelationship);
-        $mockRecurrence->shouldReceive('find')->andReturn($objRecurrence);
+        $mockRecurrence->shouldReceive('get')->andReturn($objRecurrence);
         $mockBank->shouldReceive('find')->andReturn($objAccountBank);
 
         $ret = $uc->handle(new Input(
@@ -67,7 +67,7 @@ class PaymentServiceTest extends TestCase
         $mockRepository->shouldHaveReceived('find')->times(1);
         $mockRepository->shouldHaveReceived('insert')->times(1);
         $mockPayment->shouldHaveReceived('insert')->times(1);
-        $mockRecurrence->shouldHaveReceived('find')->times(1);
+        $mockRecurrence->shouldHaveReceived('get')->times(1);
     }
 
     private function mockRepository(): string|ChargeRepo|Mockery\MockInterface
