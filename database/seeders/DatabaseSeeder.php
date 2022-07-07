@@ -25,16 +25,19 @@ class DatabaseSeeder extends Seeder
             'password' => config('user.password'),
         ]);
 
-        $recurrence = Recurrence::factory()->create(['days' => 30, 'name' => "Mensal"]);
+        $recurrence = Recurrence::factory()->create([
+            'tenant_id' => $tenant->id,
+            'days' => 30, 
+            'name' => "Mensal"
+        ]);
 
         \App\Models\Relationship::factory(5)->create([
             'tenant_id' => $tenant->id,
-        ])->each(fn ($obj) => Charge::factory(rand(3, 10))->create([
+        ])->each(fn ($obj) => Charge::factory(rand(8, 15))->create([
             'tenant_id' => $obj->tenant_id,
             'relationship_type' => $obj->entity,
             'relationship_id' => $obj->id,
             'recurrence_id' => rand(0, 100) > 70 ? $recurrence->id : null,
-            'date' => date('Y-m-d', strtotime((rand(0, 100) > 80 ? '-' : '+') . rand(1, 10) . ' days'))
         ]));
 
         \App\Models\AccountBank::factory(rand(3, 7))->create([

@@ -33,7 +33,7 @@ class ChargeFactory extends Factory
             'value_charge' => rand(10000, 100000) / 100,
             'type' => $this->faker->randomElement(ChargeTypeEnum::toArray()),
             'status' => ChargeStatusEnum::PENDING,
-            'date' => $this->faker->date(),
+            'date' => date('Y-m-d', strtotime((rand(0, 100) > 80 ? '-' : '+') . rand(10, 50) . ' days')),
             'parcel_actual' => 1,
             'parcel_total' => 1,
         ];

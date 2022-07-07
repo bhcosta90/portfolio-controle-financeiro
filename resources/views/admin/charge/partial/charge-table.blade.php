@@ -15,7 +15,7 @@
         <tr class='{{ \Carbon\Carbon::now()->firstOfMonth()->format('Y-m-d') > $rs->date ? 'due-date' : '' }}'>
             <td>{{ $rs->relationship_name }}</td>
             <td class='due-date'>
-                {{ str()->numberBr($rs->value_charge) }}
+                R$&nbsp;{{ str()->numberBr($rs->value_charge) }}
                 @if($rs->value_pay)
                     <small class='text-mutex'>(R$&nbsp;{{ str()->numberBr($rs->value_pay) }})</small>
                 @endif
