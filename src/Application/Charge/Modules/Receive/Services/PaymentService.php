@@ -53,7 +53,10 @@ class PaymentService
             throw new Exception('Bank account not found');
         }
 
-        $valuePayment = $input->newPayment ? $input->valuePayment : $objCharge->value->value;
+        $valuePayment = $input->newPayment || !empty($input->valuePayment) 
+            ? $input->valuePayment 
+            : $objCharge->value->value;
+
         $objCharge->pay($valuePayment);
 
         $objRelationship = $this->relationship->find($objCharge->customer->id);

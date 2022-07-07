@@ -55,7 +55,10 @@ class PaymentService
 
         $objRelationship = $this->relationship->find($objCharge->company->id);
 
-        $valuePayment = $input->newPayment ? $input->valuePayment : $objCharge->value->value;
+        $valuePayment = $input->newPayment || !empty($input->valuePayment) 
+            ? $input->valuePayment 
+            : $objCharge->value->value;
+
         $objCharge->pay($valuePayment);
 
         try {
