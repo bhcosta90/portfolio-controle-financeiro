@@ -45,7 +45,7 @@
                     <td>
                         {{ $rs->bank_name ?: "-" }}
                         @if($rs->bank_name && $rs->value_bank)
-                            <small class='text-muted'>(R$ {{ str()->numberBr($rs->value_bank) }})</small>
+                            <small class='text-muted'>(R$ {{ str()->numberBr($rs->value_bank + $rs->value) }})</small>
                         @endif
                     </td>
                     <td>{{ str()->numberBr($rs->value) }}</td>
