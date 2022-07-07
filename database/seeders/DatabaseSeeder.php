@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
             'name' => "Mensal"
         ]);
 
-        \App\Models\Relationship::factory(5)->create([
+        \App\Models\Relationship::factory(rand(7, 15))->create([
             'tenant_id' => $tenant->id,
         ])->each(fn ($obj) => Charge::factory(rand(8, 15))->create([
             'tenant_id' => $obj->tenant_id,
