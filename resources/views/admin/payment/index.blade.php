@@ -45,10 +45,10 @@
                     <td>
                         {{ $rs->bank_name ?: "-" }}
                         @if($rs->bank_name && $rs->value_bank)
-                            <small class='text-muted'>(R$ {{ str()->numberBr($rs->value_bank + $rs->value) }})</small>
+                            <small class='text-muted'>(R$ {{ str()->numberBr($rs->type == 2 ? $rs->value_bank - $rs->value : $rs->value_bank + $rs->value) }})</small>
                         @endif
                     </td>
-                    <td>{{ str()->numberBr($rs->value) }}</td>
+                    <td>{{$rs->type == 2 ? "-" : ""}}{{ str()->numberBr($rs->value) }}</td>
                     <td>
                         {!! links([
                             "delete" => [

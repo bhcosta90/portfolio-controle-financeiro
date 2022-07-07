@@ -53,6 +53,18 @@ class CompanyEloquent extends EloquentAbstract implements CompanyRepository
         );
     }
 
+    public function get(string|int $key): EntityAbstract
+    {
+        $obj = $this->getModel($key);
+        return CompanyEntity::create(
+            tenant: $obj->tenant_id,
+            name: $obj->name,
+            value: $obj->value,
+            id: $obj->id,
+            createdAt: $obj->created_at,
+        );
+    }
+
     public function paginate(?array $filter = null, ?int $page = 1, ?int $totalPage = 15): PaginationInterface
     {
         $result = $this->model

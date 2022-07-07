@@ -23,6 +23,11 @@
                     <td>R$ {{ str()->numberBr($rs->value) }}</td>
                     <td>
                         {!! links([
+                            [
+                                "link" => route('admin.bank.account.transfer.create', $rs->id),
+                                'btn' => 'btn-outline-secondary',
+                                'icon' => 'fas fa-exchange-alt',
+                            ],
                             "edit" => [
                                 "link" => route('admin.bank.account.edit', $rs->id)
                             ],

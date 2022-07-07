@@ -68,6 +68,23 @@ class AccountBankEloquent extends EloquentAbstract implements AccountBankReposit
         );
     }
 
+    public function get(string|int $key): EntityAbstract
+    {
+        $obj = $this->getModel($key);
+        return AccountBankEntity::create(
+            name: $obj->name,
+            value: $obj->value,
+            tenant: $obj->tenant_id,
+            bankCode: $obj->bank_code,
+            agency: $obj->bank_agency,
+            agencyDigit: $obj->bank_agency_digit,
+            account: $obj->bank_account,
+            accountDigit: $obj->bank_account_digit,
+            id: $obj->id,
+            createdAt: $obj->created_at,
+        );
+    }
+
     public function paginate(?array $filter = null, ?int $page = 1, ?int $totalPage = 15): PaginationInterface
     {
         $result = $this->model
@@ -80,5 +97,12 @@ class AccountBankEloquent extends EloquentAbstract implements AccountBankReposit
             page: $page,
             perPage: $totalPage,
         ));
+    }
+
+    public function pluck(?array $filter = null): array
+    {
+        return $this->model
+            ->where(fn($q) => ($f = $filter['remove_id_account']) ? $q->whereNotIn('id', $f) : null)
+            ->pluck($this->getValuePluck(), 'id')->toArray();
     }
 }

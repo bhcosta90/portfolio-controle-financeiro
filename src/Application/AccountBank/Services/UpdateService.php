@@ -12,7 +12,7 @@ use Core\Application\Payment\Shared\Enums\PaymentTypeEnum;
 class UpdateService
 {
     public function __construct(
-        private Repo              $repository,
+        private Repo $repository,
         private PaymentRepository $payment
     )
     {
@@ -39,7 +39,7 @@ class UpdateService
                 name: null,
                 bank: $input->id,
                 value: abs($valueOld - $input->value),
-                status: ChargeStatusEnum::COMPLETED->value,
+                status: null,
                 type: $type->value,
                 date: null,
             );

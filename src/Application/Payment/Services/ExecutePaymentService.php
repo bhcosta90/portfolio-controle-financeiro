@@ -25,8 +25,7 @@ class ExecutePaymentService
         private CustomerRepository    $customer,
         private CompanyRepository     $company,
         private AccountBankRepository $account,
-    )
-    {
+    ) {
         //
     }
 
@@ -58,26 +57,31 @@ class ExecutePaymentService
 
     private function executePayment(PaymentEntity $objPayment)
     {
-        match ($objPayment->relationship->type) {
-            CustomerEntity::class => $objRelationship = $this->customer->find($objPayment->relationship->id),
-            CompanyEntity::class => $objRelationship = $this->company->find($objPayment->relationship->id),
-            default => throw new Exception('Relationship ' . $objPayment->relationship->type . ' do not passed'),
-        };
+        if ($objPayment->relationship) {
+            match ($objPayment->relationship->type) {
+                CustomerEntity::class => $objRelationship = $this->customer->get($objPayment->relationship->id),
+                CompanyEntity::class => $objRelationship = $this->company->get($objPayment->relationship->id),
+            };
+        }
 
         /** @var AccountBankEntity $objBank */
-        $objBank = $objPayment->bank ? $this->account->find($objPayment->bank) : null;
+        $objBank = $objPayment->bank ? $this->account->get($objPayment->bank) : null;
 
         if ($objPayment->type == PaymentTypeEnum::DEBIT) {
-            /** @var ValueInterface|EntityAbstract $objRelationship */
-            $objRelationship->addValue($objPayment->value->value, $objPayment->id());
+            if (!empty($objRelationship)) {
+                /** @var ValueInterface|EntityAbstract $objRelationship */
+                $objRelationship->addValue($objPayment->value->value, $objPayment->id());
+            }
 
             if ($objBank) {
                 $objPayment->bankValue($objBank->value);
                 $objBank->removeValue($objPayment->value->value, $objPayment->id());
             }
         } else {
-            /** @var ValueInterface|EntityAbstract $objRelationship */
-            $objRelationship->removeValue($objPayment->value->value, $objPayment->id());
+            if (!empty($objRelationship)) {
+                /** @var ValueInterface|EntityAbstract $objRelationship */
+                $objRelationship->removeValue($objPayment->value->value, $objPayment->id());
+            }
 
             if ($objBank) {
                 $objPayment->bankValue($objBank->value);
@@ -85,11 +89,12 @@ class ExecutePaymentService
             }
         }
 
-        match ($objPayment->relationship->type) {
-            CustomerEntity::class => $this->customer->update($objRelationship),
-            CompanyEntity::class => $this->company->update($objRelationship),
-            default => throw new Exception('Relationship ' . $objPayment->relationship->type . ' do not passed'),
-        };
+        if ($objPayment->relationship) {
+            match ($objPayment->relationship->type) {
+                CustomerEntity::class => $this->customer->update($objRelationship),
+                CompanyEntity::class => $this->company->update($objRelationship),
+            };
+        }
 
         if ($objBank) {
             $this->account->update($objBank);

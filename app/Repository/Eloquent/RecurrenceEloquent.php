@@ -54,6 +54,18 @@ class RecurrenceEloquent extends EloquentAbstract implements RecurrenceRepositor
         );
     }
 
+    public function get(string|int $key): EntityAbstract
+    {
+        $obj = $this->getModel($key);
+        return RecurrenceEntity::create(
+            tenant: $obj->tenant_id,
+            name: $obj->name,
+            days: $obj->days,
+            id: $obj->id,
+            createdAt: $obj->created_at,
+        );
+    }
+
     public function paginate(?array $filter = null, ?int $page = 1, ?int $totalPage = 15): PaginationInterface
     {
         $result = $this->model

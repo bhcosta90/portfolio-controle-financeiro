@@ -103,6 +103,25 @@ class ChargePaymentEloquent extends EloquentAbstract implements ChargePaymentRep
         );
     }
 
+    public function get(string|int $key): EntityAbstract
+    {
+        $obj = $this->getModel($key);
+        return PaymentEntity::create(
+            tenant: $obj->tenant_id,
+            title: $obj->title,
+            resume: $obj->resume,
+            company: $obj->relationship_id,
+            recurrence: $obj->recurrence_id,
+            value: $obj->value_charge,
+            pay: $obj->value_pay,
+            group: $obj->group_id,
+            date: $obj->date,
+            status: $obj->status,
+            id: $obj->id,
+            createdAt: $obj->created_at,
+        );
+    }
+
     public function paginate(?array $filter = null, ?int $page = 1, ?int $totalPage = 15): PaginationInterface
     {
         $result = $this->model

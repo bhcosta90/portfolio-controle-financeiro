@@ -55,6 +55,9 @@ Route::as('admin.')->prefix('admin')->middleware('auth')->group(function () {
     Route::as('bank.')->prefix('bank')->group(function () {
         Route::get('account/financial', [Web\AccountBankController::class, 'financial'])->name('account.financial');
         Route::resource('account', Web\AccountBankController::class);
+        Route::prefix('account/{account}')->as('account.')->group(function () {
+            Route::resource('transfer', Web\AccountBankTransferController::class)->only(['create', 'store']);
+        });
     });
 
     Route::as('report.')->prefix('report')->group(function () {

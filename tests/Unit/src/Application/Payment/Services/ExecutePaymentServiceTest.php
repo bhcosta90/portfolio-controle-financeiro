@@ -115,7 +115,7 @@ class ExecutePaymentServiceTest extends TestCase
             $entity
         ]);
 
-        $mockCustomer->shouldReceive('find')->andReturn($objRelationship);
+        $mockCustomer->shouldReceive('get')->andReturn($objRelationship);
         $mockCustomer->shouldReceive('update')->andReturn(true);
         $mockRepository->shouldReceive('updateStatus');
         $mockRepository->shouldReceive('update')->andReturn(true);
@@ -131,7 +131,7 @@ class ExecutePaymentServiceTest extends TestCase
         $mockRepository->shouldHaveReceived('updateStatus')->times(1);
         $mockRepository->shouldHaveReceived('getListStatus')->times(1);
         $mockRepository->shouldHaveReceived('update')->times(1);
-        $mockCustomer->shouldHaveReceived('find')->times(1);
+        $mockCustomer->shouldHaveReceived('get')->times(1);
         $mockCustomer->shouldHaveReceived('update')->times(1);
     }
 
@@ -167,7 +167,7 @@ class ExecutePaymentServiceTest extends TestCase
 
         $mockRepository->shouldReceive('updateStatus');
         $mockRepository->shouldReceive('update')->andReturn(true);
-        $mockCompany->shouldReceive('find')->andReturn($objRelationship);
+        $mockCompany->shouldReceive('get')->andReturn($objRelationship);
         $mockCompany->shouldReceive('update')->andReturn(true);
         $mockRepository->shouldReceive('entity')->andReturn($entity);
         $mockRepository->shouldReceive('getListStatus')->andReturn($mockResultInterface);
@@ -181,7 +181,7 @@ class ExecutePaymentServiceTest extends TestCase
         $mockRepository->shouldHaveReceived('updateStatus')->times(1);
         $mockRepository->shouldHaveReceived('getListStatus')->times(1);
         $mockRepository->shouldHaveReceived('update')->times(1);
-        $mockCompany->shouldHaveReceived('find')->times(1);
+        $mockCompany->shouldHaveReceived('get')->times(1);
         $mockCompany->shouldHaveReceived('update')->times(1);
     }
 
@@ -218,8 +218,8 @@ class ExecutePaymentServiceTest extends TestCase
 
         $mockRepository->shouldReceive('updateStatus');
         $mockRepository->shouldReceive('update')->andReturn(true);
-        $mockCompany->shouldReceive('find')->andReturn($objRelationship);
-        $mockAccountBank->shouldReceive('find')->andReturn($objAccount);
+        $mockCompany->shouldReceive('get')->andReturn($objRelationship);
+        $mockAccountBank->shouldReceive('get')->andReturn($objAccount);
         $mockCompany->shouldReceive('update')->andReturn(true);
         $mockAccountBank->shouldReceive('update')->andReturn(true);
         $mockRepository->shouldReceive('entity')->andReturn($entity);
@@ -234,9 +234,9 @@ class ExecutePaymentServiceTest extends TestCase
         $mockRepository->shouldHaveReceived('updateStatus')->times(1);
         $mockRepository->shouldHaveReceived('getListStatus')->times(1);
         $mockRepository->shouldHaveReceived('update')->times(1);
-        $mockCompany->shouldHaveReceived('find')->times(1);
+        $mockCompany->shouldHaveReceived('get')->times(1);
         $mockCompany->shouldHaveReceived('update')->times(1);
-        $mockAccountBank->shouldHaveReceived('find')->times(1);
+        $mockAccountBank->shouldHaveReceived('get')->times(1);
         $mockAccountBank->shouldHaveReceived('update')->times(1);
     }
 }

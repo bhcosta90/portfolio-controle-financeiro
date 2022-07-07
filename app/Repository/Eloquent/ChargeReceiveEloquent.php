@@ -103,6 +103,25 @@ class ChargeReceiveEloquent extends EloquentAbstract implements ChargeReceiveRep
         );
     }
 
+    public function get(string|int $key): EntityAbstract
+    {
+        $obj = $this->getModel($key);
+        return ReceiveEntity::create(
+            tenant: $obj->tenant_id,
+            title: $obj->title,
+            resume: $obj->resume,
+            customer: $obj->relationship_id,
+            recurrence: $obj->recurrence_id,
+            value: $obj->value_charge,
+            pay: $obj->value_pay,
+            group: $obj->group_id,
+            date: $obj->date,
+            status: $obj->status,
+            id: $obj->id,
+            createdAt: $obj->created_at,
+        );
+    }
+
     public function paginate(?array $filter = null, ?int $page = 1, ?int $totalPage = 15): PaginationInterface
     {
         $result = $this->model

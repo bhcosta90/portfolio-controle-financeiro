@@ -52,11 +52,19 @@ class PaymentEloquent extends EloquentAbstract implements PaymentRepository
         return $this->entity($obj);
     }
 
+    public function get(string|int $key): EntityAbstract
+    {
+        $obj = $this->getModel($key);
+        return $this->entity($obj);
+    }
+
     public function entity(object $input): PaymentEntity
     {
         return PaymentEntity::create(
             tenant: $input->tenant_id,
-            relationship: new EntityObject($input->relationship_id, $input->relationship_type),
+            relationship: $input->relationship_id 
+                ? new EntityObject($input->relationship_id, $input->relationship_type)
+                : null,
             charge: $input->charge_id ? new EntityObject($input->charge_id, $input->charge_type) : null,
             bank: $input->account_bank_id,
             value: $input->value,
