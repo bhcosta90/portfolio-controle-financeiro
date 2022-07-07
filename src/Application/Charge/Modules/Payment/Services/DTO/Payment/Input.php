@@ -6,9 +6,10 @@ class Input
 {
     public function __construct(
         public string  $id,
-        public float   $valuePayment,
+        public ?float  $valuePayment,
+        public bool    $newPayment,
+        public ?string $dateNewPayment,
         public ?string $idAccountBank,
-        public ?float  $valueCharge = null,
         public ?string $date = null,
     )
     {

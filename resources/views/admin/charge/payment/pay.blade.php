@@ -15,11 +15,7 @@
                 </div>
                 <div class="col-md-6">
                     <label class="control-label">Valor</label>
-                    <h4 style='text-decoration:underline;cursor:pointer'
-                        onclick="$(this).parents('.card-body').find('.value').val($(this).data('value'))"
-                        class='text-info' data-value="{{ $model->value - $model->pay }}">
-                        <small>R$ </small>{{str()->numberBr($model->value - $model->pay)}}
-                    </h4>
+                    <h4><small>R$ </small>{{str()->numberBr($model->value - $model->pay)}}</h4>
                 </div>
                 <div class="col-md-6">
                     <label class="control-label">Vencimento</label>
@@ -27,13 +23,64 @@
                 </div>
             </div>
             <hr/>
-            {!! form_start($form) !!}
-            <div class='row'>
-                <div class='col-md-4'>{!! form_row($form->value_charge) !!}</div>
-                <div class='col-md-4'>{!! form_row($form->value_pay) !!}</div>
-                <div class='col-md-4'>{!! form_row($form->bank_id) !!}</div>
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                       aria-controls="home" aria-selected="true">
+                        {!! __('Pagamento total') !!}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                       aria-controls="profile" aria-selected="false">
+                        {{ __('Pagamento Parcial') }}
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4><small>Você vai pagar o valor total de</small> R$ {{ str()->numberBr($model->value - $model->pay) }}</h4>
+                            <div class="mt-3">
+                                {!! form_start($formTotal) !!}
+                                <div class="row">
+                                    <div class='col-md-6'>{!! form_row($formTotal->bank_id) !!}</div>
+                                    <div class='col-md-6'>{!! form_row($formTotal->date_scheduled) !!}</div>
+                                </div>
+                                {!! form_end($formTotal) !!}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    <div class="card">
+                        <div class="card-body">
+                            {!! form_start($formPartial) !!}
+                            <div class='row'>
+                                <div class='col-md-6'>{!! form_row($formPartial->value_pay) !!}</div>
+                                <div class='col-md-6'>{!! form_row($formPartial->bank_id) !!}</div>
+                                <div class="col-md-6">
+                                    <label>Haverá novo pagamento?</label>
+                                    <div>
+                                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                            <label class="btn btn-outline-secondary active">
+                                                <input type="radio" value="1" name="new_payment" id="option1" autocomplete="off" checked> Sim
+                                            </label>
+                                            <label class="btn btn-outline-secondary">
+                                                <input type="radio" value="0" name="new_payment" id="option2" autocomplete="off"> Não
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='col-md-6'>{!! form_row($formPartial->date_next) !!}</div>
+                            </div>
+                            <hr />
+                            {!! form_end($formPartial) !!}
+                        </div>
+                    </div>
+                </div>
             </div>
-            {!! form_end($form) !!}
         </div>
     </div>
 @endsection

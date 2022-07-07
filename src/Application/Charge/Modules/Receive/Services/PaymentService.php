@@ -53,18 +53,16 @@ class PaymentService
             throw new Exception('Bank account not found');
         }
 
-        $objCharge->pay($input->valuePayment, $input->valueCharge);
+        $valuePayment = $input->newPayment ? $input->valuePayment : $objCharge->value->value;
+        $objCharge->pay($valuePayment);
 
         $objRelationship = $this->relationship->find($objCharge->customer->id);
 
         try {
             $this->repository->update($objCharge);
-            $rest = 0;
-            if ($input->valueCharge !== $objCharge->value->value) {
-                $rest = $objCharge->value->value - $objCharge->pay->value;
-            }
+            $rest = $objCharge->value->value - $objCharge->pay->value;
 
-            if ($rest > 0) {
+            if ($rest > 0 && $input->newPayment && !empty($input->dateNewPayment)) {
                 $objRecurrenceRest = $objRecurrence ?? RecurrenceEntity::create($objCharge->tenant, 'teste', 30);
                 $objChargeNew = Entity::create(
                     tenant: $objCharge->tenant,
@@ -104,7 +102,7 @@ class PaymentService
                 resume: $objCharge->resume->value,
                 name: $objRelationship->name->value,
                 bank: $input->idAccountBank,
-                value: $input->valuePayment,
+                value: $valuePayment,
                 status: null,
                 type: PaymentTypeEnum::CREDIT->value,
                 date: $input->date,

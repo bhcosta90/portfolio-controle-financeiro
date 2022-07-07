@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Forms;
+namespace App\Forms\Payment;
 
 use Core\Application\AccountBank\Repository\AccountBankRepository;
+use Core\Application\Charge\Modules\Recurrence\Domain\RecurrenceEntity;
 use Kris\LaravelFormBuilder\Form;
 
-class PaymentForm extends Form
+class PartialForm extends Form
 {
     public function __construct(
         private AccountBankRepository $bank,
@@ -16,12 +17,6 @@ class PaymentForm extends Form
 
     public function buildForm()
     {
-        $this->add('value_charge', 'number', [
-            'label' => __("Valor da Cobrança"),
-            'rules' => ['nullable', 'numeric', 'min:0.01', 'max:9999999999'],
-            'attr' => ['placeholder' => 'Valor da Cobrança', 'class' => 'form-control value']
-        ]);
-
         $this->add('value_pay', 'number', [
             'label' => __("Valor Pago"),
             'rules' => ['required', 'numeric', 'min:0.01', 'max:9999999999'],
@@ -29,9 +24,16 @@ class PaymentForm extends Form
         ]);
 
         $this->add('date_scheduled', 'date', [
-            'label' => __("Agendar pagamento"),
+            'label' => __("Agendar este pagamento"),
             'rules' => ['required'],
             'value' => date('Y-m-d'),
+        ]);
+
+        $date = RecurrenceEntity::create(str()->uuid(), 'teste', 30)->calculate();
+        $this->add('date_next', 'date', [
+            'label' => __("Data do próximo pagamento"),
+            'rules' => ['required'],
+            'value' => $date->format('Y-m-d'),
         ]);
 
         $this->add('bank_id', 'select', [

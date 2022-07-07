@@ -84,17 +84,16 @@ class ReceiveEntity extends EntityAbstract implements ChargePayInterface
         $this->recurrence = $recurrence ? new UuidObject($recurrence) : null;
     }
 
-    public function pay(float $value, float $valueCharge): self
+    /**
+     * @throws Exception
+     */
+    public function pay(float $value): self
     {
         if ($value + $this->pay->value > $this->value->value) {
-            throw new Exception('This payment is greater than the amount charged');
+            throw new Exception('The payment is greater than the amount of the account receivable');
         }
 
-        $this->status = ($this->pay->value + $value) == $valueCharge
-        || $valueCharge == $this->value->value
-        || !empty($this->recurrence)
-            ? ChargeStatusEnum::COMPLETED
-            : ChargeStatusEnum::PARTIAL;
+        $this->status = ChargeStatusEnum::COMPLETED;
         $this->pay = new FloatInputObject($value + $this->pay->value);
         $this->events[] = new AddPayEvent($this, new FloatInputObject($value));
         return $this;

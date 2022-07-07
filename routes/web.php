@@ -44,10 +44,12 @@ Route::as('admin.')->prefix('admin')->middleware('auth')->group(function () {
         Route::resource('payment', Web\Charge\ChargePaymentController::class);
 
         Route::get('receive/{id}/pay', [Web\Charge\ChargeReceiveController::class, 'payShow'])->name('receive.pay.show');
-        Route::post('receive/{id}/pay', [Web\Charge\ChargeReceiveController::class, 'payStore'])->name('receive.pay.store');
+        Route::post('receive/{id}/pay/total', [Web\Charge\ChargeReceiveController::class, 'payTotalStore'])->name('receive.pay.total.store');
+        Route::post('receive/{id}/pay/partial', [Web\Charge\ChargeReceiveController::class, 'payPartialStore'])->name('receive.pay.partial.store');
 
         Route::get('payment/{id}/pay', [Web\Charge\ChargePaymentController::class, 'payShow'])->name('payment.pay.show');
-        Route::post('payment/{id}/pay', [Web\Charge\ChargePaymentController::class, 'payStore'])->name('payment.pay.store');
+        Route::post('payment/{id}/pay/total', [Web\Charge\ChargePaymentController::class, 'payTotalStore'])->name('payment.pay.total.store');
+        Route::post('payment/{id}/pay/partial', [Web\Charge\ChargePaymentController::class, 'payPartialStore'])->name('payment.pay.partial.store');
     });
 
     Route::as('bank.')->prefix('bank')->group(function () {

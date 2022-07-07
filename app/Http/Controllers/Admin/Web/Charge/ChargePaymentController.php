@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Web\Charge;
 
 use App\Forms\Charge\PaymentForm as Form;
-use App\Forms\PaymentForm;
+use App\Forms\Payment\{PartialForm, TotalForm};
 use App\Http\Controllers\Admin\Presenters\PaginationPresenter;
 use App\Http\Controllers\Controller;
 use App\Support\FormSupport;
@@ -84,19 +84,45 @@ class ChargePaymentController extends Controller
     public function payShow(FormSupport $formSupport, string $id, Services\FindService $find)
     {
         $model = $find->handle(new FindInput($id));
-        $form = $formSupport->run(PaymentForm::class, route('admin.charge.payment.pay.store', $id));
-        return view('admin.charge.payment.pay', compact('form', 'model'));
+        $formPartial = $formSupport->run(PartialForm::class, route('admin.charge.payment.pay.partial.store', $id));
+        $formTotal = $formSupport->run(TotalForm::class, route('admin.charge.payment.pay.total.store', $id));
+        return view('admin.charge.payment.pay', compact('formPartial', 'formTotal', 'model'));
     }
 
-    public function payStore(FormSupport $formSupport, string $id, Services\PaymentService $paymentService)
+    public function payPartialStore(
+        FormSupport $formSupport,
+        string $id, Services\PaymentService $paymentService,
+        Request $request
+    )
     {
-        $data = $formSupport->data(PaymentForm::class);
-
+        $data = $formSupport->data(PartialForm::class) + $request->all();
         $ret = $paymentService->handle(new Services\DTO\Payment\Input(
             $id,
             $data['value_pay'],
+            (bool) $data['new_payment'],
+            $data['date_next'] ?? false,
             $data['bank_id'] != '-1' ? $data['bank_id'] : null,
-            $data['value_charge'],
+            $data['date_scheduled'] ?? null,
+        ));
+
+        return redirect()->route('admin.charge.payment.index')
+            ->with('success', __('Pagamento feito com sucesso, aguarde para ser processado'))
+            ->with('service', $ret);
+    }
+
+    public function payTotalStore(
+        FormSupport $formSupport,
+        string $id, Services\PaymentService $paymentService,
+        Request $request
+    )
+    {
+        $data = $formSupport->data(TotalForm::class) + $request->all();
+        $ret = $paymentService->handle(new Services\DTO\Payment\Input(
+            $id,
+            null,
+            false,
+            null,
+            $data['bank_id'] != '-1' ? $data['bank_id'] : null,
             $data['date_scheduled'] ?? null,
         ));
 

@@ -55,18 +55,14 @@ class PaymentService
 
         $objRelationship = $this->relationship->find($objCharge->company->id);
 
-        $objCharge->pay($input->valuePayment, $input->valueCharge);
+        $valuePayment = $input->newPayment ? $input->valuePayment : $objCharge->value->value;
+        $objCharge->pay($valuePayment);
 
         try {
             $this->repository->update($objCharge);
+            $rest = $objCharge->value->value - $objCharge->pay->value;
 
-            $rest = 0;
-            if ($input->valueCharge !== $objCharge->value->value) {
-                $rest = $objCharge->value->value - $objCharge->pay->value;
-            }
-
-            if ($rest > 0) {
-                $objRecurrenceRest = $objRecurrence ?? RecurrenceEntity::create($objCharge->tenant, 'teste', 30);
+            if ($rest > 0 && $input->newPayment && !empty($input->dateNewPayment)) {
                 $objChargeNew = Entity::create(
                     tenant: $objCharge->tenant,
                     title: $objCharge->title->value,
@@ -76,7 +72,7 @@ class PaymentService
                     value: $rest,
                     pay: null,
                     group: $objCharge->group,
-                    date: $objRecurrenceRest->calculate($objCharge->date->format('Y-m-d'))->format('Y-m-d'),
+                    date: $input->dateNewPayment,
                 );
                 $this->repository->insert($objChargeNew);
             }
@@ -96,6 +92,7 @@ class PaymentService
                 $this->repository->insert($objChargeNew);
                 $newCharge = $objChargeNew->id();
             }
+
             $objPayment = PaymentEntity::create(
                 tenant: $objCharge->tenant,
                 relationship: $objCharge->company,
@@ -104,7 +101,7 @@ class PaymentService
                 resume: $objCharge->resume->value,
                 name: $objRelationship->name->value,
                 bank: $input->idAccountBank,
-                value: $input->valuePayment,
+                value: $valuePayment,
                 status: null,
                 type: PaymentTypeEnum::DEBIT->value,
                 date: $input->date,
