@@ -17,8 +17,7 @@ class ChargeReceiveEloquent extends EloquentAbstract implements ChargeReceiveRep
 {
     public function __construct(
         protected Charge $model,
-    )
-    {
+    ) {
         //
     }
 
@@ -85,27 +84,16 @@ class ChargeReceiveEloquent extends EloquentAbstract implements ChargeReceiveRep
 
     public function find(string|int $key): EntityAbstract
     {
-        $obj = $this->model->find($key);
-
-        return ReceiveEntity::create(
-            tenant: $obj->tenant_id,
-            title: $obj->title,
-            resume: $obj->resume,
-            customer: $obj->relationship_id,
-            recurrence: $obj->recurrence_id,
-            value: $obj->value_charge,
-            pay: $obj->value_pay,
-            group: $obj->group_id,
-            date: $obj->date,
-            status: $obj->status,
-            id: $obj->id,
-            createdAt: $obj->created_at,
-        );
+        return $this->entity($this->findOrFail($key));
     }
 
     public function get(string|int $key): EntityAbstract
     {
-        $obj = $this->getModel($key);
+        return $this->entity($this->getModel($key));
+    }
+
+    private function entity(object $obj): EntityAbstract
+    {
         return ReceiveEntity::create(
             tenant: $obj->tenant_id,
             title: $obj->title,
@@ -133,10 +121,10 @@ class ChargeReceiveEloquent extends EloquentAbstract implements ChargeReceiveRep
             ->join('relationships', 'relationships.id', '=', 'charges.relationship_id')
             ->leftJoin('recurrences', 'recurrences.id', '=', 'charges.recurrence_id')
             ->where('charges.entity', ReceiveEntity::class)
-            ->where(fn($q) => ($f = $filter['name'] ?? null)
+            ->where(fn ($q) => ($f = $filter['name'] ?? null)
                 ? $q->where('relationships.name', 'like', "%{$f}%")
                 : null)
-            ->where(fn($q) => ($f = $filter['title'] ?? null)
+            ->where(fn ($q) => ($f = $filter['title'] ?? null)
                 ? $q->where('charges.title', 'like', "%{$f}%")
                 : null)
             ->whereIn('charges.status', [ChargeStatusEnum::PENDING])

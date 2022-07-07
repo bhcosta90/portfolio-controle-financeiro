@@ -48,14 +48,12 @@ class PaymentEloquent extends EloquentAbstract implements PaymentRepository
 
     public function find(string|int $key): EntityAbstract
     {
-        $obj = $this->findOrFail($key);
-        return $this->entity($obj);
+        return $this->entity($this->findOrFail($key));
     }
 
     public function get(string|int $key): EntityAbstract
     {
-        $obj = $this->getModel($key);
-        return $this->entity($obj);
+        return $this->entity($this->getModel($key));
     }
 
     public function entity(object $input): PaymentEntity

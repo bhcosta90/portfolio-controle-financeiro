@@ -42,20 +42,16 @@ class CompanyEloquent extends EloquentAbstract implements CompanyRepository
 
     public function find(string|int $key): EntityAbstract
     {
-        $obj = $this->model->find($key);
-
-        return CompanyEntity::create(
-            tenant: $obj->tenant_id,
-            name: $obj->name,
-            value: $obj->value,
-            id: $obj->id,
-            createdAt: $obj->created_at,
-        );
+        return $this->entity($this->findOrFail($key));
     }
 
     public function get(string|int $key): EntityAbstract
     {
-        $obj = $this->getModel($key);
+        return $this->entity($this->getModel($key));
+    }
+
+    public function entity(object $obj): EntityAbstract
+    {
         return CompanyEntity::create(
             tenant: $obj->tenant_id,
             name: $obj->name,

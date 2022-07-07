@@ -14,8 +14,7 @@ class RecurrenceEloquent extends EloquentAbstract implements RecurrenceRepositor
 {
     public function __construct(
         protected Recurrence $model,
-    )
-    {
+    ) {
         //
     }
 
@@ -43,20 +42,16 @@ class RecurrenceEloquent extends EloquentAbstract implements RecurrenceRepositor
 
     public function find(string|int $key): EntityAbstract
     {
-        $obj = $this->model->find($key);
-
-        return RecurrenceEntity::create(
-            tenant: $obj->tenant_id,
-            name: $obj->name,
-            days: $obj->days,
-            id: $obj->id,
-            createdAt: $obj->created_at,
-        );
+        return $this->entity($this->findOrFail($key));
     }
 
     public function get(string|int $key): EntityAbstract
     {
-        $obj = $this->getModel($key);
+        return $this->entity($this->getModel($key));
+    }
+
+    public function entity(object $obj): EntityAbstract
+    {
         return RecurrenceEntity::create(
             tenant: $obj->tenant_id,
             name: $obj->name,
@@ -69,7 +64,7 @@ class RecurrenceEloquent extends EloquentAbstract implements RecurrenceRepositor
     public function paginate(?array $filter = null, ?int $page = 1, ?int $totalPage = 15): PaginationInterface
     {
         $result = $this->model
-            ->where(fn($q) => ($f = $filter['name'] ?? null)
+            ->where(fn ($q) => ($f = $filter['name'] ?? null)
                 ? $q->where('recurrences.name', 'like', "%{$f}%")
                 : null)
             ->orderBy('recurrences.days')
