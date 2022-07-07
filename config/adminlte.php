@@ -244,7 +244,7 @@ return [
             'active' => ['admin/relationship/customer*']
         ],
         [
-            'text' => 'Fornecedor',
+            'text' => 'Empresa',
             'url' => 'admin/relationship/company',
             'icon' => 'fas fa-industry',
             'active' => ['admin/relationship/company*']

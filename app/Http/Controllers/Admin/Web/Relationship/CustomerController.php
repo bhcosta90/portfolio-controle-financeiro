@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\Presenters\PaginationPresenter;
 use App\Http\Controllers\Controller;
 use App\Support\FormSupport;
 use Core\Application\Relationship\Modules\Customer\Services;
+use Core\Shared\UseCases\Delete\DeleteInput;
 use Core\Shared\UseCases\Find\FindInput;
 use Core\Shared\UseCases\List\ListInput;
 use Illuminate\Http\Request;
@@ -51,6 +52,14 @@ class CustomerController extends Controller
         $ret = $createService->handle(new Services\DTO\Update\Input($id, $data['name']));
         return redirect()->route('admin.relationship.customer.index')
             ->with('success', __('Cliente editada com sucesso'))
+            ->with('service', $ret);
+    }
+
+    public function destroy(Services\DeleteService $deleteService, string $id)
+    {
+        $ret = $deleteService->handle(new DeleteInput($id));
+        return redirect()->back()
+            ->with('success', __('Cliente excluído com sucesso'))
             ->with('service', $ret);
     }
 }

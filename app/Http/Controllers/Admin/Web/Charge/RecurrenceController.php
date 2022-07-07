@@ -7,11 +7,10 @@ use App\Http\Controllers\Admin\Presenters\PaginationPresenter;
 use App\Http\Controllers\Controller;
 use App\Support\FormSupport;
 use Core\Application\Charge\Modules\Recurrence\Services;
+use Core\Shared\UseCases\Delete\DeleteInput;
 use Core\Shared\UseCases\Find\FindInput;
 use Core\Shared\UseCases\List\ListInput;
-use Illuminate\Http\Request;
-
-;
+use Illuminate\Http\Request;;
 
 class RecurrenceController extends Controller
 {
@@ -57,6 +56,14 @@ class RecurrenceController extends Controller
         $ret = $createService->handle(new Services\DTO\Update\Input($id, $data['name'], $data['days']));
         return redirect()->route('admin.charge.recurrence.index')
             ->with('success', __('Recorrência editada com sucesso'))
+            ->with('service', $ret);
+    }
+
+    public function destroy(Services\DeleteService $deleteService, string $id)
+    {
+        $ret = $deleteService->handle(new DeleteInput($id));
+        return redirect()->back()
+            ->with('success', __('Recorrência excluída com sucesso'))
             ->with('service', $ret);
     }
 }

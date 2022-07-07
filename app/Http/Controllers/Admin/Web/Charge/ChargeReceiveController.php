@@ -13,12 +13,11 @@ use Carbon\Carbon;
 use Core\Application\Charge\Modules\Receive\Domain\ReceiveEntity as Entity;
 use Core\Application\Charge\Modules\Receive\Services;
 use Core\Application\Charge\Shared\Enums\ChargeStatusEnum;
+use Core\Shared\UseCases\Delete\DeleteInput;
 use Core\Shared\UseCases\Find\FindInput;
 use Core\Shared\UseCases\List\ListInput;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-
-;
+use Illuminate\Support\Facades\DB;;
 
 class ChargeReceiveController extends Controller
 {
@@ -83,6 +82,14 @@ class ChargeReceiveController extends Controller
             ->with('service', $ret);
     }
 
+    public function destroy(Services\DeleteService $deleteService, string $id)
+    {
+        $ret = $deleteService->handle(new DeleteInput($id));
+        return redirect()->back()
+            ->with('success', __('Conta a receber excluída com sucesso'))
+            ->with('service', $ret);
+    }
+
     public function payShow(FormSupport $formSupport, string $id, Services\FindService $find)
     {
         $model = $find->handle(new FindInput($id));
@@ -93,10 +100,10 @@ class ChargeReceiveController extends Controller
 
     public function payPartialStore(
         FormSupport $formSupport,
-        string $id, Services\PaymentService $paymentService,
+        string $id,
+        Services\PaymentService $paymentService,
         Request $request
-    )
-    {
+    ) {
         $data = $formSupport->data(PartialForm::class) + $request->all();
         $ret = $paymentService->handle(new Services\DTO\Payment\Input(
             $id,
@@ -114,10 +121,10 @@ class ChargeReceiveController extends Controller
 
     public function payTotalStore(
         FormSupport $formSupport,
-        string $id, Services\PaymentService $paymentService,
+        string $id,
+        Services\PaymentService $paymentService,
         Request $request
-    )
-    {
+    ) {
         $data = $formSupport->data(TotalForm::class) + $request->all();
         $ret = $paymentService->handle(new Services\DTO\Payment\Input(
             $id,

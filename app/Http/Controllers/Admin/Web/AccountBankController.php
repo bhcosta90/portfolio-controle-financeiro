@@ -11,6 +11,7 @@ use Core\Application\AccountBank\Services;
 use Core\Application\Charge\Modules\Payment\Domain\PaymentEntity;
 use Core\Application\Charge\Modules\Receive\Domain\ReceiveEntity;
 use Core\Application\Charge\Shared\Enums\ChargeStatusEnum;
+use Core\Shared\UseCases\Delete\DeleteInput;
 use Core\Shared\UseCases\Find\FindInput;
 use Core\Shared\UseCases\List\ListInput;
 use Illuminate\Http\Request;
@@ -62,6 +63,14 @@ class AccountBankController extends Controller
         $ret = $createService->handle(new Services\DTO\Update\Input($id, $data['name'], $data['value']));
         return redirect()->route('admin.bank.account.index')
             ->with('success', __('Conta bancária editada com sucesso'))
+            ->with('service', $ret);
+    }
+
+    public function destroy(Services\DeleteService $deleteService, string $id)
+    {
+        $ret = $deleteService->handle(new DeleteInput($id));
+        return redirect()->back()
+            ->with('success', __('Conta bancária excluída com sucesso'))
             ->with('service', $ret);
     }
 
