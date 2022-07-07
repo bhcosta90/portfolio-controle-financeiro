@@ -27,6 +27,7 @@
                                 "link" => route('admin.bank.account.transfer.create', $rs->id),
                                 'btn' => 'btn-outline-secondary',
                                 'icon' => 'fas fa-exchange-alt',
+                                'hidden' => $data->total() == 1,
                             ],
                             "edit" => [
                                 "link" => route('admin.bank.account.edit', $rs->id)
