@@ -2,9 +2,9 @@
 
 namespace Core\Application\Charge\Modules\Receive\Domain;
 
+use Core\Application\Charge\Modules\Receive\Events\{AddPayEvent, RemovePayEvent};
 use Core\Application\Charge\Shared\Contracts\ChargePayInterface;
 use Core\Application\Charge\Shared\Enums\ChargeStatusEnum;
-use Core\Application\Charge\Modules\Receive\Events\{AddPayEvent, RemovePayEvent};
 use Core\Application\Relationship\Modules\Customer\Domain\CustomerEntity;
 use Core\Shared\Abstracts\EntityAbstract;
 use Core\Shared\ValueObjects\EntityObject;
@@ -19,36 +19,38 @@ class ReceiveEntity extends EntityAbstract implements ChargePayInterface
     protected array $events = [];
 
     protected function __construct(
-        protected UuidObject $tenant,
-        protected NameInputObject $title,
-        protected ?NameInputObject $resume,
-        protected EntityObject $customer,
-        protected ?UuidObject $recurrence,
-        protected FloatInputObject $value,
+        protected UuidObject        $tenant,
+        protected NameInputObject   $title,
+        protected ?NameInputObject  $resume,
+        protected EntityObject      $customer,
+        protected ?UuidObject       $recurrence,
+        protected FloatInputObject  $value,
         protected ?FloatInputObject $pay,
-        protected ChargeStatusEnum $status,
-        protected UuidObject $group,
-        protected DateTime $date,
-        protected ?UuidObject $id = null,
-        protected ?DateTime $createdAt = null,
-    ) {
+        protected ChargeStatusEnum  $status,
+        protected UuidObject        $group,
+        protected DateTime          $date,
+        protected ?UuidObject       $id = null,
+        protected ?DateTime         $createdAt = null,
+    )
+    {
         //
     }
 
     public static function create(
-        string $tenant,
-        string $title,
+        string  $tenant,
+        string  $title,
         ?string $resume,
-        string $customer,
+        string  $customer,
         ?string $recurrence,
-        float $value,
-        ?float $pay,
-        string $group,
-        string $date,
-        ?int $status = null,
+        float   $value,
+        ?float  $pay,
+        string  $group,
+        string  $date,
+        ?int    $status = null,
         ?string $id = null,
         ?string $createdAt = null,
-    ) {
+    )
+    {
         return new self(
             tenant: new UuidObject($tenant),
             title: new NameInputObject($title),
@@ -66,13 +68,14 @@ class ReceiveEntity extends EntityAbstract implements ChargePayInterface
     }
 
     public function update(
-        string $title,
+        string  $title,
         ?string $resume,
-        string $customer,
+        string  $customer,
         ?string $recurrence,
-        float $value,
-        string $date,
-    ) {
+        float   $value,
+        string  $date,
+    )
+    {
         $this->title = new NameInputObject($title);
         $this->resume = new NameInputObject($resume, true);
         $this->customer = new EntityObject($customer, CustomerEntity::class);
@@ -88,8 +91,8 @@ class ReceiveEntity extends EntityAbstract implements ChargePayInterface
         }
 
         $this->status = ($this->pay->value + $value) == $valueCharge
-            || $valueCharge == $this->value->value
-            || !empty($this->recurrence)
+        || $valueCharge == $this->value->value
+        || !empty($this->recurrence)
             ? ChargeStatusEnum::COMPLETED
             : ChargeStatusEnum::PARTIAL;
         $this->pay = new FloatInputObject($value + $this->pay->value);

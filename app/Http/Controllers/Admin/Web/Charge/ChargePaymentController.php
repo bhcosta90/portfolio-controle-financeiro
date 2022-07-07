@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers\Admin\Web\Charge;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Forms\Charge\PaymentForm as Form;
 use App\Forms\PaymentForm;
 use App\Http\Controllers\Admin\Presenters\PaginationPresenter;
+use App\Http\Controllers\Controller;
 use App\Support\FormSupport;
 use Carbon\Carbon;
 use Core\Application\Charge\Modules\Payment\Domain\PaymentEntity as Entity;
 use Core\Application\Charge\Modules\Payment\Services;
-use Core\Application\Charge\Shared\Enums\ChargeStatusEnum;;
-
+use Core\Application\Charge\Shared\Enums\ChargeStatusEnum;
 use Core\Shared\UseCases\Find\FindInput;
 use Core\Shared\UseCases\List\ListInput;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+
+;
 
 class ChargePaymentController extends Controller
 {
@@ -118,6 +119,12 @@ class ChargePaymentController extends Controller
         ]);
     }
 
+    private function getMonth(?string $month)
+    {
+        $date = new Carbon($month);
+        return [$date->firstOfMonth()->format('Y-m-d'), $date->lastOfMonth()->format('Y-m-d')];
+    }
+
     public function quantityToday(Request $request)
     {
         $ret = DB::table('charges')
@@ -161,7 +168,8 @@ class ChargePaymentController extends Controller
         ]);
     }
 
-    public function dueDate(Request $request){
+    public function dueDate(Request $request)
+    {
         $ret = DB::table('charges')
             ->where('tenant_id', $request->user()->tenant_id)
             ->where('entity', Entity::class)
@@ -172,11 +180,5 @@ class ChargePaymentController extends Controller
         return response()->json([
             'quantity' => $ret ?? 0,
         ]);
-    }
-
-    private function getMonth(?string $month)
-    {
-        $date = new Carbon($month);
-        return [$date->firstOfMonth()->format('Y-m-d'), $date->lastOfMonth()->format('Y-m-d')];
     }
 }

@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands\Payment;
 
-use Core\Application\Payment\Services\ExecutePaymentService;
 use Core\Application\Payment\Services\DTO\ExecutePayment\Input;
+use Core\Application\Payment\Services\ExecutePaymentService;
 use DateTime;
 use Illuminate\Console\Command;
 

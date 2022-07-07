@@ -3,13 +3,12 @@
 namespace Tests\Feature\src\Application\Payment\Services;
 
 use App\Models\AccountBank;
-use App\Models\Charge;
 use App\Models\Payment;
 use App\Models\Relationship;
 use Core\Application\AccountBank\Repository\AccountBankRepository;
 use Core\Application\Payment\Repository\PaymentRepository;
-use Core\Application\Payment\Services\ExecutePaymentService;
 use Core\Application\Payment\Services\DTO\ExecutePayment\Input;
+use Core\Application\Payment\Services\ExecutePaymentService;
 use Core\Application\Relationship\Modules\Company\Repository\CompanyRepository;
 use Core\Application\Relationship\Modules\Customer\Domain\CustomerEntity;
 use Core\Application\Relationship\Modules\Customer\Repository\CustomerRepository;
@@ -32,14 +31,14 @@ class ExecutePaymentServiceTest extends TestCase
             'value' => 50,
             'type' => 2,
         ];
-        
+
         $data = Payment::factory(3)->create([
-            'date' => (new DateTime())->modify('+10 minute')->format('Y-m-d H:i:s'),
-        ] + $basePayment);
+                'date' => (new DateTime())->modify('+10 minute')->format('Y-m-d H:i:s'),
+            ] + $basePayment);
 
         $dataPayment = Payment::factory(3)->create([
-            'date' => (new DateTime())->modify('-2 minute')->format('Y-m-d H:i:s'),
-        ] + $basePayment);
+                'date' => (new DateTime())->modify('-2 minute')->format('Y-m-d H:i:s'),
+            ] + $basePayment);
 
         $service = $this->getService();
         $service->handle(new Input(new DateTime()));
@@ -70,6 +69,17 @@ class ExecutePaymentServiceTest extends TestCase
         ]);
     }
 
+    private function getService()
+    {
+        return new ExecutePaymentService(
+            repository: app(PaymentRepository::class),
+            transaction: app(TransactionInterface::class),
+            customer: app(CustomerRepository::class),
+            company: app(CompanyRepository::class),
+            account: app(AccountBankRepository::class),
+        );
+    }
+
     public function testPaymentBank()
     {
         $objRelationship = Relationship::factory()->create(['entity' => CustomerEntity::class, 'value' => 0]);
@@ -82,14 +92,14 @@ class ExecutePaymentServiceTest extends TestCase
             'value' => 50,
             'type' => 2,
         ];
-        
+
         $data = Payment::factory(3)->create([
-            'date' => (new DateTime())->modify('+10 minute')->format('Y-m-d H:i:s'),
-        ] + $basePayment);
+                'date' => (new DateTime())->modify('+10 minute')->format('Y-m-d H:i:s'),
+            ] + $basePayment);
 
         $dataPayment = Payment::factory(3)->create([
-            'date' => (new DateTime())->modify('-2 minute')->format('Y-m-d H:i:s'),
-        ] + $basePayment);
+                'date' => (new DateTime())->modify('-2 minute')->format('Y-m-d H:i:s'),
+            ] + $basePayment);
 
         $service = $this->getService();
         $service->handle(new Input(new DateTime()));
@@ -140,14 +150,14 @@ class ExecutePaymentServiceTest extends TestCase
             'value' => 50,
             'type' => 1,
         ];
-        
+
         $data = Payment::factory(3)->create([
-            'date' => date('Y-m-d H:i:s', strtotime('+10 minute')),
-        ] + $basePayment);
+                'date' => date('Y-m-d H:i:s', strtotime('+10 minute')),
+            ] + $basePayment);
 
         $dataPayment = Payment::factory(3)->create([
-            'date' => date('Y-m-d H:i:s', strtotime('-10 seconds')),
-        ] + $basePayment);
+                'date' => date('Y-m-d H:i:s', strtotime('-10 seconds')),
+            ] + $basePayment);
 
         $service = $this->getService();
         $service->handle(new Input(new DateTime()));
@@ -190,14 +200,14 @@ class ExecutePaymentServiceTest extends TestCase
             'value' => 50,
             'type' => 1,
         ];
-        
+
         $data = Payment::factory(3)->create([
-            'date' => (new DateTime())->modify('+10 minute')->format('Y-m-d H:i:s'),
-        ] + $basePayment);
+                'date' => (new DateTime())->modify('+10 minute')->format('Y-m-d H:i:s'),
+            ] + $basePayment);
 
         $dataPayment = Payment::factory(3)->create([
-            'date' => (new DateTime())->modify('-2 minute')->format('Y-m-d H:i:s'),
-        ] + $basePayment);
+                'date' => (new DateTime())->modify('-2 minute')->format('Y-m-d H:i:s'),
+            ] + $basePayment);
 
         $service = $this->getService();
         $service->handle(new Input(new DateTime()));
@@ -236,16 +246,5 @@ class ExecutePaymentServiceTest extends TestCase
             'id' => $objAccount->id,
             'value' => 300,
         ]);
-    }
-
-    private function getService()
-    {
-        return new ExecutePaymentService(
-            repository: app(PaymentRepository::class),
-            transaction: app(TransactionInterface::class),
-            customer: app(CustomerRepository::class),
-            company: app(CompanyRepository::class),
-            account: app(AccountBankRepository::class),
-        );
     }
 }

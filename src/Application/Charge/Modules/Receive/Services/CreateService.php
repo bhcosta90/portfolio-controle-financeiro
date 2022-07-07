@@ -19,11 +19,12 @@ use Throwable;
 class CreateService
 {
     public function __construct(
-        private Repo $repository,
+        private Repo                   $repository,
         private RelationshipRepository $relationship,
-        private RecurrenceRepository $recurrence,
-        private TransactionInterface $transaction,
-    ) {
+        private RecurrenceRepository   $recurrence,
+        private TransactionInterface   $transaction,
+    )
+    {
         //
     }
 
@@ -63,11 +64,11 @@ class CreateService
                 $ret[] = new DTO\Create\Output(
                     title: $entity->title->value,
                     resume: $entity->resume?->value,
-                    customer: (string) $entity->customer->id,
-                    recurrence: (string) $entity->recurrence,
+                    customer: (string)$entity->customer->id,
+                    recurrence: (string)$entity->recurrence,
                     value: $entity->value->value,
                     date: $entity->date->format('Y-m-d'),
-                    group: (string) $entity->group,
+                    group: (string)$entity->group,
                     id: $entity->id(),
                     parcel: $parcel
                 );

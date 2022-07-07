@@ -3,8 +3,8 @@
 namespace Tests\Unit\src\Application\Relationship\Modules\Company\Services;
 
 use Core\Application\Relationship\Modules\Company\Repository\CompanyRepository;
-use Core\Application\Relationship\Modules\Company\Services\UpdateService;
 use Core\Application\Relationship\Modules\Company\Services\DTO\Update\{Input, Output};
+use Core\Application\Relationship\Modules\Company\Services\UpdateService;
 use Core\Application\Relationship\Modules\Customer\Domain\CustomerEntity;
 use Mockery;
 use PHPUnit\Framework\TestCase;
@@ -17,7 +17,7 @@ class UpdateServiceTest extends TestCase
         $uc = new UpdateService(
             repository: $mockRepository = $this->mockRepository()
         );
-        $objEntity = CustomerEntity::create(tenant: Uuid::uuid4(), name:  'test', id: $id = Uuid::uuid4());
+        $objEntity = CustomerEntity::create(tenant: Uuid::uuid4(), name: 'test', id: $id = Uuid::uuid4());
 
         $mockRepository->shouldReceive('find')->andReturn($objEntity);
         $mockRepository->shouldReceive('update')->andReturn(true);

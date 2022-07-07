@@ -6,8 +6,9 @@ class Input
 {
     public function __construct(
         public string $render,
-        public array $filter,
-    ) {
+        public array  $filter,
+    )
+    {
         //
     }
 }

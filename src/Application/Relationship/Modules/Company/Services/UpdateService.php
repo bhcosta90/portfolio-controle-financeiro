@@ -9,7 +9,8 @@ class UpdateService
 {
     public function __construct(
         private Repo $repository
-    ) {
+    )
+    {
         //
     }
 

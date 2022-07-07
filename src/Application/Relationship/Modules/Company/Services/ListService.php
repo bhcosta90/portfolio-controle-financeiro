@@ -9,7 +9,8 @@ class ListService
 {
     public function __construct(
         private Repo $repository
-    ) {
+    )
+    {
         //
     }
 

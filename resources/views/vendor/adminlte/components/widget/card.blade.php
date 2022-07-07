@@ -6,8 +6,12 @@
 
             {{-- Title --}}
             <h3 class="{{ $makeCardTitleClass() }}">
-                @isset($icon)<i class="{{ $icon }} mr-1"></i>@endisset
-                @isset($title){{ $title }}@endisset
+                @isset($icon)
+                    <i class="{{ $icon }} mr-1"></i>
+                @endisset
+                @isset($title)
+                    {{ $title }}
+                @endisset
             </h3>
 
             {{-- Tools --}}

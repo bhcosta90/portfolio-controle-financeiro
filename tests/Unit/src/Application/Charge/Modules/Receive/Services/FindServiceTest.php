@@ -2,10 +2,10 @@
 
 namespace Tests\Unit\src\Application\Charge\Modules\Receive\Services;
 
-use Core\Application\Charge\Modules\Receive\Repository\ChargeReceiveRepository as ChargeRepo;
-use Core\Application\Charge\Modules\Receive\Services\FindService;
-use Core\Application\Charge\Modules\Receive\Services\DTO\Find\Output;
 use Core\Application\Charge\Modules\Receive\Domain\ReceiveEntity as Entity;
+use Core\Application\Charge\Modules\Receive\Repository\ChargeReceiveRepository as ChargeRepo;
+use Core\Application\Charge\Modules\Receive\Services\DTO\Find\Output;
+use Core\Application\Charge\Modules\Receive\Services\FindService;
 use Core\Application\Relationship\Modules\Customer\Domain\CustomerEntity;
 use Core\Application\Relationship\Modules\Customer\Repository\CustomerRepository;
 use Core\Shared\UseCases\Find\FindInput;
@@ -21,7 +21,7 @@ class FindServiceTest extends TestCase
             repository: $mockRepository = $this->mockRepository(),
             relationship: $mockRelationship = $this->mockRelationship(),
         );
-        
+
         $objEntity = Entity::create(
             tenant: Uuid::uuid4(),
             title: 'teste',

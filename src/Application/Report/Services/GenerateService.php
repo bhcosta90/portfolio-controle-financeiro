@@ -10,7 +10,8 @@ class GenerateService
     public function __construct(
         private object $report,
         private string $letter,
-    ) {
+    )
+    {
         //
     }
 
@@ -22,7 +23,7 @@ class GenerateService
             'html' => new ReportType\Html(),
             default => throw new DomainException('Type do not implemented'),
         };
-        
+
         $this->report->$render($report);
 
         return $report;

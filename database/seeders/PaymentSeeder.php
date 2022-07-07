@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -19,7 +18,7 @@ class PaymentSeeder extends Seeder
         $objRelationship = DB::table('relationships')->select('id', 'name', 'tenant_id', 'entity')->find($relationship);
         $limit = $this->command->ask('Please enter the limit!!');
         \App\Models\Payment::factory($limit)->create([
-            'tenant_id' => $objRelationship->tenant_id, 
+            'tenant_id' => $objRelationship->tenant_id,
             'relationship_id' => $objRelationship->id,
             'relationship_name' => $objRelationship->name,
             'relationship_type' => $objRelationship->entity

@@ -6,9 +6,10 @@ class Output
 {
     public function __construct(
         public string $name,
-        public int $days,
+        public int    $days,
         public string $id,
-    ) {
+    )
+    {
         //
     }
 }

@@ -7,7 +7,8 @@ class Output
     public function __construct(
         public string $name,
         public string $id,
-    ) {
+    )
+    {
         //
     }
 }

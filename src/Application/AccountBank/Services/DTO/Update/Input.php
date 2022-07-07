@@ -7,8 +7,9 @@ class Input
     public function __construct(
         public string $id,
         public string $name,
-        public float $value,
-    ) {
+        public float  $value,
+    )
+    {
         //
     }
 }

@@ -8,7 +8,6 @@ use Core\Application\Charge\Modules\Payment\Domain\PaymentEntity as Entity;
 use Core\Application\Charge\Modules\Payment\Repository\ChargePaymentRepository as Repo;
 use Core\Application\Charge\Modules\Recurrence\Domain\RecurrenceEntity;
 use Core\Application\Charge\Modules\Recurrence\Repository\RecurrenceRepository;
-use Core\Application\Charge\Shared\Enums\ChargeStatusEnum;
 use Core\Application\Charge\Shared\Exceptions\ChargeException;
 use Core\Application\Payment\Domain\PaymentEntity;
 use Core\Application\Payment\Repository\PaymentRepository;
@@ -22,13 +21,14 @@ use Throwable;
 class PaymentService
 {
     public function __construct(
-        private Repo $repository,
-        private TransactionInterface $transaction,
+        private Repo                   $repository,
+        private TransactionInterface   $transaction,
         private RelationshipRepository $relationship,
-        private RecurrenceRepository $recurrence,
-        private AccountBankRepository $bank,
-        private PaymentRepository $payment,
-    ) {
+        private RecurrenceRepository   $recurrence,
+        private AccountBankRepository  $bank,
+        private PaymentRepository      $payment,
+    )
+    {
         //
     }
 

@@ -2,11 +2,11 @@
 
 namespace App\Providers;
 
+use App\Manager\EventManager;
+use Core\Shared\Interfaces\EventManagerInterface;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use App\Manager\EventManager;
-use Core\Shared\Interfaces\EventManagerInterface;
 
 class EventServiceProvider extends ServiceProvider
 {

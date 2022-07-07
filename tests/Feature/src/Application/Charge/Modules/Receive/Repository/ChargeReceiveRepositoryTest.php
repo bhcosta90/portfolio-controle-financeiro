@@ -6,8 +6,8 @@ use App\Models\Charge as Model;
 use App\Models\Recurrence;
 use App\Models\Relationship;
 use App\Repository\Eloquent\ChargeReceiveEloquent as Eloquent;
-use Core\Application\Charge\Modules\Receive\Repository\ChargeReceiveRepository as Repository;
 use Core\Application\Charge\Modules\Receive\Domain\ReceiveEntity as Entity;
+use Core\Application\Charge\Modules\Receive\Repository\ChargeReceiveRepository as Repository;
 use Core\Application\Relationship\Modules\Customer\Domain\CustomerEntity;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
@@ -38,6 +38,11 @@ class ChargeReceiveRepositoryTest extends TestCase
             'status' => 1,
             'date' => $date,
         ]);
+    }
+
+    private function getChargeRepository(): Eloquent
+    {
+        return app(Repository::class);
     }
 
     public function testFindAndUpdate()
@@ -95,10 +100,5 @@ class ChargeReceiveRepositoryTest extends TestCase
         Model::factory(5)->create(['entity' => Entity::class, 'relationship_id' => $relationship]);
         $data = $this->getChargeRepository()->paginate(filter: ['name' => 'test']);
         $this->assertCount(5, $data->items());
-    }
-
-    private function getChargeRepository(): Eloquent
-    {
-        return app(Repository::class);
     }
 }

@@ -3,23 +3,19 @@
 namespace Tests\Unit\src\Application\Charge\Modules\Receive\Services;
 
 use Core\Application\AccountBank\Domain\AccountBankEntity;
-use Core\Application\AccountBank\Events\AddValueEvent;
 use Core\Application\AccountBank\Repository\AccountBankRepository;
 use Core\Application\Charge\Modules\Receive\Domain\ReceiveEntity as Entity;
-use Core\Application\Charge\Modules\Receive\Events\AddPayEvent;
 use Core\Application\Charge\Modules\Receive\Repository\ChargeReceiveRepository as ChargeRepo;
+use Core\Application\Charge\Modules\Receive\Services\DTO\Payment\{Input};
 use Core\Application\Charge\Modules\Receive\Services\PaymentService;
-use Core\Application\Charge\Modules\Receive\Services\DTO\Payment\{Input, Output};
-use Core\Application\Charge\Modules\Recurrence\Repository\RecurrenceRepository;
 use Core\Application\Charge\Modules\Recurrence\Domain\RecurrenceEntity;
+use Core\Application\Charge\Modules\Recurrence\Repository\RecurrenceRepository;
 use Core\Application\Payment\Repository\PaymentRepository;
 use Core\Application\Relationship\Modules\Company\Domain\CompanyEntity;
 use Core\Application\Relationship\Modules\Customer\Repository\CustomerRepository as RepositoryRelationship;
-use Core\Application\Relationship\Modules\Company\Events\RemoveValueEvent;
-use Core\Shared\Interfaces\EventManagerInterface;
 use Core\Shared\Interfaces\TransactionInterface;
-use PHPUnit\Framework\TestCase;
 use Mockery;
+use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 
 class PaymentServiceTest extends TestCase
@@ -68,6 +64,40 @@ class PaymentServiceTest extends TestCase
         $mockRecurrence->shouldHaveReceived('find')->times(1);
     }
 
+    private function mockRepository(): string|ChargeRepo|Mockery\MockInterface
+    {
+        return Mockery::mock(ChargeRepo::class);
+    }
+
+    private function mockTransaction(): string|TransactionInterface|Mockery\MockInterface
+    {
+        /** @var Mockery\MockInterface */
+        $mock = Mockery::mock(TransactionInterface::class);
+        $mock->shouldReceive('commit');
+        $mock->shouldReceive('rollback');
+        return $mock;
+    }
+
+    private function mockRepositoryRelationship(): string|RepositoryRelationship|Mockery\MockInterface
+    {
+        return Mockery::mock(RepositoryRelationship::class);
+    }
+
+    private function mockAccountBankRepository(): string|AccountBankRepository|Mockery\MockInterface
+    {
+        return Mockery::mock(AccountBankRepository::class);
+    }
+
+    private function mockRecurrenceRepository(): string|RecurrenceRepository|Mockery\MockInterface
+    {
+        return Mockery::mock(RecurrenceRepository::class);
+    }
+
+    private function mockPayment(): string|PaymentRepository|Mockery\MockInterface
+    {
+        return Mockery::mock(PaymentRepository::class);
+    }
+
     public function testPaymentWithoutRecurrence()
     {
         $uc = new PaymentService(
@@ -108,39 +138,5 @@ class PaymentServiceTest extends TestCase
         $mockRepository->shouldNotHaveReceived('insert');
         $mockPayment->shouldHaveReceived('insert')->times(1);
         $mockRecurrence->shouldNotHaveReceived('find');
-    }
-
-    private function mockRepository(): string|ChargeRepo|Mockery\MockInterface
-    {
-        return Mockery::mock(ChargeRepo::class);
-    }
-
-    private function mockRepositoryRelationship(): string|RepositoryRelationship|Mockery\MockInterface
-    {
-        return Mockery::mock(RepositoryRelationship::class);
-    }
-
-    private function mockRecurrenceRepository(): string|RecurrenceRepository|Mockery\MockInterface
-    {
-        return Mockery::mock(RecurrenceRepository::class);
-    }
-
-    private function mockAccountBankRepository(): string|AccountBankRepository|Mockery\MockInterface
-    {
-        return Mockery::mock(AccountBankRepository::class);
-    }
-
-    private function mockPayment(): string|PaymentRepository|Mockery\MockInterface
-    {
-        return Mockery::mock(PaymentRepository::class);
-    }
-
-    private function mockTransaction(): string|TransactionInterface|Mockery\MockInterface
-    {
-        /** @var Mockery\MockInterface */
-        $mock = Mockery::mock(TransactionInterface::class);
-        $mock->shouldReceive('commit');
-        $mock->shouldReceive('rollback');
-        return $mock;
     }
 }

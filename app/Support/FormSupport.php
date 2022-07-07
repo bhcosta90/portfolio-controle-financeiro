@@ -5,7 +5,6 @@ namespace App\Support;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Kris\LaravelFormBuilder\FormBuilder;
-use stdClass;
 
 class FormSupport
 {
@@ -13,8 +12,9 @@ class FormSupport
 
     public function __construct(
         private FormBuilder $formBuilder,
-        private Request $request
-    ) {
+        private Request     $request
+    )
+    {
         //
     }
 
@@ -25,10 +25,11 @@ class FormSupport
     }
 
     public function run(
-        string $form,
-        string $action,
+        string  $form,
+        string  $action,
         ?object $model = null,
-    ) {
+    )
+    {
         $formRun = $this->formBuilder->create($form, [
             'method' => $model ? "PUT" : "POST",
             'url' => $action,

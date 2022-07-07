@@ -10,7 +10,8 @@ class FindService
 {
     public function __construct(
         private Repo $repository
-    ) {
+    )
+    {
         //
     }
 

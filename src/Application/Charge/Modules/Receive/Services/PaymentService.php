@@ -21,13 +21,14 @@ use Throwable;
 class PaymentService
 {
     public function __construct(
-        private Repo $repository,
-        private TransactionInterface $transaction,
+        private Repo                   $repository,
+        private TransactionInterface   $transaction,
         private RelationshipRepository $relationship,
-        private RecurrenceRepository $recurrence,
-        private AccountBankRepository $bank,
-        private PaymentRepository $payment,
-    ) {
+        private RecurrenceRepository   $recurrence,
+        private AccountBankRepository  $bank,
+        private PaymentRepository      $payment,
+    )
+    {
         //
     }
 

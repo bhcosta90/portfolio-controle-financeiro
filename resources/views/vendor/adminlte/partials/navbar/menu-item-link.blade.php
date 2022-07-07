@@ -2,7 +2,7 @@
 
     <a class="nav-link {{ $item['class'] }}" href="{{ $item['href'] }}"
        @isset($item['target']) target="{{ $item['target'] }}" @endisset
-       {!! $item['data-compiled'] ?? '' !!}>
+        {!! $item['data-compiled'] ?? '' !!}>
 
         {{-- Icon (optional) --}}
         @isset($item['icon'])

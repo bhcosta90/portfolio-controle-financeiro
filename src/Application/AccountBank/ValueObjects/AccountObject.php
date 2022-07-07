@@ -6,7 +6,8 @@ class AccountObject
 {
     public function __construct(
         public string $account,
-        public ?int $digit = null,
-    ) {
+        public ?int   $digit = null,
+    )
+    {
     }
 }

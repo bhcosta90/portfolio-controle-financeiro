@@ -2,10 +2,10 @@
 
 namespace Tests\Unit\src\Application\Charge\Modules\Recurrence\Services;
 
-use Core\Application\Charge\Modules\Recurrence\Repository\RecurrenceRepository;
-use Core\Application\Charge\Modules\Recurrence\Services\UpdateService;
-use Core\Application\Charge\Modules\Recurrence\Services\DTO\Update\{Input, Output};
 use Core\Application\Charge\Modules\Recurrence\Domain\RecurrenceEntity;
+use Core\Application\Charge\Modules\Recurrence\Repository\RecurrenceRepository;
+use Core\Application\Charge\Modules\Recurrence\Services\DTO\Update\{Input, Output};
+use Core\Application\Charge\Modules\Recurrence\Services\UpdateService;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;

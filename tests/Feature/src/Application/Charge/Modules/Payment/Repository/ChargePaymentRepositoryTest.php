@@ -6,8 +6,8 @@ use App\Models\Charge as Model;
 use App\Models\Recurrence;
 use App\Models\Relationship;
 use App\Repository\Eloquent\ChargePaymentEloquent as Eloquent;
-use Core\Application\Charge\Modules\Payment\Repository\ChargePaymentRepository as Repository;
 use Core\Application\Charge\Modules\Payment\Domain\PaymentEntity as Entity;
+use Core\Application\Charge\Modules\Payment\Repository\ChargePaymentRepository as Repository;
 use Core\Application\Relationship\Modules\Company\Domain\CompanyEntity;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
@@ -15,7 +15,7 @@ use Tests\TestCase;
 class ChargePaymentRepositoryTest extends TestCase
 {
     use DatabaseMigrations;
-    
+
     public function testInsert()
     {
         $idRelationship = ($objRelationship = Relationship::factory()->create())->id;
@@ -38,6 +38,11 @@ class ChargePaymentRepositoryTest extends TestCase
             'status' => 1,
             'date' => $date,
         ]);
+    }
+
+    private function getChargeRepository(): Eloquent
+    {
+        return app(Repository::class);
     }
 
     public function testFindAndUpdate()
@@ -66,7 +71,8 @@ class ChargePaymentRepositoryTest extends TestCase
         ]);
     }
 
-    public function testDelete(){
+    public function testDelete()
+    {
         $obj = $this->getChargeRepository()->find(Model::factory()->create()->id);
         $this->assertTrue($this->getChargeRepository()->delete($obj));
     }
@@ -94,10 +100,5 @@ class ChargePaymentRepositoryTest extends TestCase
         Model::factory(5)->create(['entity' => Entity::class, 'relationship_id' => $relationship]);
         $data = $this->getChargeRepository()->paginate(filter: ['name' => 'test']);
         $this->assertCount(5, $data->items());
-    }
-
-    private function getChargeRepository(): Eloquent
-    {
-        return app(Repository::class);
     }
 }

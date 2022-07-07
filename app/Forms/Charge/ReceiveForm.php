@@ -10,9 +10,10 @@ use Kris\LaravelFormBuilder\Form;
 class ReceiveForm extends Form
 {
     public function __construct(
-        private CustomerRepository $relationship,
+        private CustomerRepository   $relationship,
         private RecurrenceRepository $recurrence,
-    ) {
+    )
+    {
         //
     }
 

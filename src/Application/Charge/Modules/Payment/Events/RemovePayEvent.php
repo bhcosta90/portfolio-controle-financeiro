@@ -9,9 +9,10 @@ use Core\Shared\ValueObjects\Input\FloatInputObject;
 class RemovePayEvent extends EventAbstract
 {
     public function __construct(
-        private PaymentEntity $entity,
+        private PaymentEntity    $entity,
         private FloatInputObject $value,
-    ) {
+    )
+    {
         //
     }
 

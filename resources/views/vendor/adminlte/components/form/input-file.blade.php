@@ -10,7 +10,7 @@
 
         {{-- Custom file label --}}
         <label class="custom-file-label text-truncate" for="{{ $id }}"
-            @isset($legend) data-browse="{{ $legend }}" @endisset>
+               @isset($legend) data-browse="{{ $legend }}" @endisset>
             {{ $placeholder }}
         </label>
 
@@ -21,50 +21,56 @@
 {{-- Add the plugin initialization code --}}
 
 @once
-@push('js')
-<script>
+    @push('js')
+        <script>
 
-    $(() => {bsCustomFileInput.init();})
+            $(() => {
+                bsCustomFileInput.init();
+            })
 
-</script>
-@endpush
+        </script>
+    @endpush
 @endonce
 
 {{-- Setup the height and font size of the plugin when using sm/lg sizes --}}
 {{-- NOTE: this may change with newer plugin or Bootstrap versions --}}
 
 @once
-@push('css')
-<style type="text/css">
+    @push('css')
+        <style type="text/css">
 
-    {{-- SM size setup --}}
+            {{-- SM size setup --}}
     .input-group-sm .custom-file-label:after {
-        height: 1.8125rem;
-        line-height: 1.25;
-    }
-    .input-group-sm .custom-file-label {
-        height: calc(1.8125rem + 2px);
-        line-height: 1.25;
-    }
-    .input-group-sm .custom-file {
-        height: calc(1.8125rem + 2px);
-        font-size: .875rem;
-    }
+                height: 1.8125rem;
+                line-height: 1.25;
+            }
 
-    {{-- LG size setup --}}
+            .input-group-sm .custom-file-label {
+                height: calc(1.8125rem + 2px);
+                line-height: 1.25;
+            }
+
+            .input-group-sm .custom-file {
+                height: calc(1.8125rem + 2px);
+                font-size: .875rem;
+            }
+
+            {{-- LG size setup --}}
     .input-group-lg .custom-file-label:after {
-        height: 2.875rem;
-        line-height: 1.6;
-    }
-    .input-group-lg .custom-file-label {
-        height: calc(2.875rem + 2px);
-        line-height: 1.6;
-    }
-    .input-group-lg .custom-file {
-        height: calc(2.875rem + 2px);
-        font-size: 1.25rem;
-    }
+                height: 2.875rem;
+                line-height: 1.6;
+            }
 
-</style>
-@endpush
+            .input-group-lg .custom-file-label {
+                height: calc(2.875rem + 2px);
+                line-height: 1.6;
+            }
+
+            .input-group-lg .custom-file {
+                height: calc(2.875rem + 2px);
+                font-size: 1.25rem;
+            }
+
+        </style>
+    @endpush
 @endonce

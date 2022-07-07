@@ -9,7 +9,8 @@ class CreateService
 {
     public function __construct(
         private Repo $repository
-    ) {
+    )
+    {
         //
     }
 

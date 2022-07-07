@@ -3,8 +3,8 @@
 namespace Tests\Unit\src\Application\AccountBank\Services;
 
 use Core\Application\AccountBank\Repository\AccountBankRepository;
-use Core\Application\AccountBank\Services\UpdateService;
 use Core\Application\AccountBank\Services\DTO\Update\{Input, Output};
+use Core\Application\AccountBank\Services\UpdateService;
 use Core\Application\Payment\Repository\PaymentRepository;
 use Core\Application\Relationship\Modules\Customer\Domain\CustomerEntity;
 use Mockery;
@@ -19,7 +19,7 @@ class UpdateServiceTest extends TestCase
             repository: $mockRepository = $this->mockRepository(),
             payment: $mockPayment = $this->mockPaymentRepository(),
         );
-        $objEntity = CustomerEntity::create(tenant: Uuid::uuid4(), name:  'test', id: $id = Uuid::uuid4());
+        $objEntity = CustomerEntity::create(tenant: Uuid::uuid4(), name: 'test', id: $id = Uuid::uuid4());
 
         $mockRepository->shouldReceive('find')->andReturn($objEntity);
         $mockRepository->shouldReceive('update')->andReturn(true);

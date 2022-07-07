@@ -17,11 +17,12 @@ use Throwable;
 class DeleteService
 {
     public function __construct(
-        private Repo $repository,
+        private Repo                    $repository,
         private ChargeReceiveRepository $receive,
         private ChargePaymentRepository $payment,
-        private TransactionInterface $transaction
-    ) {
+        private TransactionInterface    $transaction
+    )
+    {
         //
     }
 

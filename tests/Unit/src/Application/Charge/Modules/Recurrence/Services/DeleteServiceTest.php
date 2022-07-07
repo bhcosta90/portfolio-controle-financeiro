@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\src\Application\Charge\Modules\Recurrence\Services;
 
+use Core\Application\Charge\Modules\Recurrence\Domain\RecurrenceEntity;
 use Core\Application\Charge\Modules\Recurrence\Repository\RecurrenceRepository;
 use Core\Application\Charge\Modules\Recurrence\Services\DeleteService;
-use Core\Application\Charge\Modules\Recurrence\Domain\RecurrenceEntity;
 use Core\Shared\UseCases\Delete\{DeleteInput, DeleteOutput};
 use Mockery;
 use PHPUnit\Framework\TestCase;

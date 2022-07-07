@@ -14,7 +14,8 @@ class RecurrenceEloquent extends EloquentAbstract implements RecurrenceRepositor
 {
     public function __construct(
         protected Recurrence $model,
-    ) {
+    )
+    {
         //
     }
 
@@ -27,7 +28,7 @@ class RecurrenceEloquent extends EloquentAbstract implements RecurrenceRepositor
             'days' => $entity->days->value,
         ]);
 
-        return (bool) $obj;
+        return (bool)$obj;
     }
 
     public function update(EntityAbstract $entity): bool
@@ -56,7 +57,7 @@ class RecurrenceEloquent extends EloquentAbstract implements RecurrenceRepositor
     public function paginate(?array $filter = null, ?int $page = 1, ?int $totalPage = 15): PaginationInterface
     {
         $result = $this->model
-            ->where(fn ($q) => ($f = $filter['name'] ?? null)
+            ->where(fn($q) => ($f = $filter['name'] ?? null)
                 ? $q->where('recurrences.name', 'like', "%{$f}%")
                 : null)
             ->orderBy('recurrences.days')

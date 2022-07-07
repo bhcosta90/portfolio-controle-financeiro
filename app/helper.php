@@ -8,7 +8,7 @@ if (!function_exists('links')) {
         $spanFinish = "</span>";
 
         foreach ($links as $key => $value) {
-            if(!empty($value['hidden']) && $value['hidden']) {
+            if (!empty($value['hidden']) && $value['hidden']) {
                 continue;
             }
             $str .= '<div class="action-column">';

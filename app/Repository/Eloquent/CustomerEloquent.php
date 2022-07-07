@@ -14,7 +14,8 @@ class CustomerEloquent extends EloquentAbstract implements CustomerRepository
 {
     public function __construct(
         protected Relationship $model,
-    ) {
+    )
+    {
         //
     }
 
@@ -27,7 +28,7 @@ class CustomerEloquent extends EloquentAbstract implements CustomerRepository
             'entity' => get_class($entity),
         ]);
 
-        return (bool) $obj;
+        return (bool)$obj;
     }
 
     public function update(EntityAbstract $entity): bool
@@ -56,7 +57,7 @@ class CustomerEloquent extends EloquentAbstract implements CustomerRepository
     {
         $result = $this->model
             ->where('relationships.entity', CustomerEntity::class)
-            ->where(fn ($q) => ($f = $filter['name'] ?? null)
+            ->where(fn($q) => ($f = $filter['name'] ?? null)
                 ? $q->where('relationships.name', 'like', "%{$f}%")
                 : null)
             ->orderBy('relationships.name');

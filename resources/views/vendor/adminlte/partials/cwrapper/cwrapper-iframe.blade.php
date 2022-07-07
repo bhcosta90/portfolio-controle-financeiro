@@ -37,7 +37,7 @@
         @elseif(config('adminlte.iframe.buttons.close', false))
 
             <a class="nav-link bg-danger" href="#" data-widget="iframe-close">
-                 {{ __('adminlte::iframe.btn_close') }}
+                {{ __('adminlte::iframe.btn_close') }}
             </a>
 
         @endif
@@ -89,13 +89,13 @@
 
         {{-- Loading Overlay --}}
         <div class="tab-loading">
-        <div>
-            <h2 class="display-4 text-center">
-                <i class="fa fa-sync fa-spin text-secondary"></i>
-                <br/>
-                {{ __('adminlte::iframe.tab_loading') }}
-            </h2>
-        </div>
+            <div>
+                <h2 class="display-4 text-center">
+                    <i class="fa fa-sync fa-spin text-secondary"></i>
+                    <br/>
+                    {{ __('adminlte::iframe.tab_loading') }}
+                </h2>
+            </div>
         </div>
 
         {{-- Default Tab Content --}}

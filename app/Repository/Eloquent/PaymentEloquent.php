@@ -7,20 +7,19 @@ use App\Repository\Abstracts\EloquentAbstract;
 use App\Repository\Presenters\LazyCollectionPresenter;
 use App\Repository\Presenters\PaginatorPresenter;
 use App\Repository\Presenters\ResultPresenter;
-use Core\Application\AccountBank\Domain\AccountBankEntity;
 use Core\Application\Payment\Domain\PaymentEntity;
 use Core\Application\Payment\Repository\PaymentRepository;
 use Core\Shared\Abstracts\EntityAbstract;
 use Core\Shared\Interfaces\PaginationInterface;
 use Core\Shared\Interfaces\ResultInterface;
 use Core\Shared\ValueObjects\EntityObject;
-use Exception;
 
 class PaymentEloquent extends EloquentAbstract implements PaymentRepository
 {
     public function __construct(
         protected Payment $model,
-    ) {
+    )
+    {
         //
     }
 
@@ -44,22 +43,32 @@ class PaymentEloquent extends EloquentAbstract implements PaymentRepository
             'relationship_name' => $entity->name ? $entity->name->value : null,
         ]);
 
-        return (bool) $obj;
-    }
-
-    public function update(EntityAbstract $entity): bool
-    {
-        $obj = $this->findOrFail($entity->id());
-        return $obj->update([
-            'status' => $entity->status->value,
-            'value_bank' => $entity->bankValue ?? null,
-        ]);
+        return (bool)$obj;
     }
 
     public function find(string|int $key): EntityAbstract
     {
         $obj = $this->findOrFail($key);
         return $this->entity($obj);
+    }
+
+    public function entity(object $input): PaymentEntity
+    {
+        return PaymentEntity::create(
+            tenant: $input->tenant_id,
+            relationship: new EntityObject($input->relationship_id, $input->relationship_type),
+            charge: $input->charge_id ? new EntityObject($input->charge_id, $input->charge_type) : null,
+            bank: $input->account_bank_id,
+            value: $input->value,
+            status: $input->status,
+            type: $input->type,
+            date: $input->date,
+            id: $input->id,
+            createdAt: $input->created_at,
+            title: $input->title,
+            resume: $input->resume,
+            name: $input->relationship_name,
+        );
     }
 
     public function paginate(?array $filter = null, ?int $page = 1, ?int $totalPage = 15): PaginationInterface
@@ -102,6 +111,15 @@ class PaymentEloquent extends EloquentAbstract implements PaymentRepository
             ->update(['status' => $status]);
     }
 
+    public function update(EntityAbstract $entity): bool
+    {
+        $obj = $this->findOrFail($entity->id());
+        return $obj->update([
+            'status' => $entity->status->value,
+            'value_bank' => $entity->bankValue ?? null,
+        ]);
+    }
+
     public function getListStatus(int $status, int $totalPage = 50): ResultInterface
     {
         return new ResultPresenter($this->model
@@ -109,24 +127,5 @@ class PaymentEloquent extends EloquentAbstract implements PaymentRepository
             ->limit($totalPage)
             ->orderBy('created_at')
             ->get());
-    }
-
-    public function entity(object $input): PaymentEntity
-    {
-        return PaymentEntity::create(
-            tenant: $input->tenant_id,
-            relationship: new EntityObject($input->relationship_id, $input->relationship_type),
-            charge: $input->charge_id ? new EntityObject($input->charge_id, $input->charge_type) : null,
-            bank: $input->account_bank_id,
-            value: $input->value,
-            status: $input->status,
-            type: $input->type,
-            date: $input->date,
-            id: $input->id,
-            createdAt: $input->created_at,
-            title: $input->title,
-            resume: $input->resume,
-            name: $input->relationship_name,
-        );
     }
 }

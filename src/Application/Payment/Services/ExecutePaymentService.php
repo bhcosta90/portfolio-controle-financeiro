@@ -20,12 +20,13 @@ use Exception;
 class ExecutePaymentService
 {
     public function __construct(
-        private PaymentRepository $repository,
-        private TransactionInterface $transaction,
-        private CustomerRepository $customer,
-        private CompanyRepository $company,
+        private PaymentRepository     $repository,
+        private TransactionInterface  $transaction,
+        private CustomerRepository    $customer,
+        private CompanyRepository     $company,
         private AccountBankRepository $account,
-    ) {
+    )
+    {
         //
     }
 

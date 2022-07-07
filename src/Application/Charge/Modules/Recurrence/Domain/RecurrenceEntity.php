@@ -11,22 +11,24 @@ use DateTime;
 class RecurrenceEntity extends EntityAbstract
 {
     protected function __construct(
-        protected UuidObject $tenant,
+        protected UuidObject      $tenant,
         protected NameInputObject $name,
-        protected IntInputObject $days,
-        protected ?UuidObject $id = null,
-        protected ?DateTime $createdAt = null,
-    ) {
+        protected IntInputObject  $days,
+        protected ?UuidObject     $id = null,
+        protected ?DateTime       $createdAt = null,
+    )
+    {
         //
     }
 
     public static function create(
-        string $tenant,
-        string $name,
-        int $days,
+        string  $tenant,
+        string  $name,
+        int     $days,
         ?string $id = null,
         ?string $createdAt = null,
-    ) {
+    )
+    {
         return new self(
             tenant: new UuidObject($tenant),
             name: new NameInputObject($name),
@@ -38,8 +40,9 @@ class RecurrenceEntity extends EntityAbstract
 
     public function update(
         string $name,
-        int $days,
-    ) {
+        int    $days,
+    )
+    {
         $this->name = new NameInputObject($name);
         $this->days = new IntInputObject($days);
     }

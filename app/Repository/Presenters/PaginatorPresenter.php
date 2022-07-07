@@ -17,6 +17,23 @@ class PaginatorPresenter implements PaginationInterface
         );
     }
 
+    protected function resolveItems(array $items)
+    {
+        $response = [];
+
+        foreach ($items as $item) {
+            $stdClass = new stdClass;
+
+            foreach ($item->toArray() as $k => $v) {
+                $stdClass->{$k} = $v;
+            }
+
+            array_push($response, $stdClass);
+        }
+
+        return $response;
+    }
+
     /**
      * @return stdClass[]
      */
@@ -63,22 +80,5 @@ class PaginatorPresenter implements PaginationInterface
     public function totalPage(): int
     {
         return count($this->data);
-    }
-
-    protected function resolveItems(array $items)
-    {
-        $response = [];
-
-        foreach ($items as $item) {
-            $stdClass = new stdClass;
-
-            foreach ($item->toArray() as $k => $v) {
-                $stdClass->{$k} = $v;
-            }
-
-            array_push($response, $stdClass);
-        }
-
-        return $response;
     }
 }

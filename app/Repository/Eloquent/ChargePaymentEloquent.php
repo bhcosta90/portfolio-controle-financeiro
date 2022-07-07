@@ -17,7 +17,8 @@ class ChargePaymentEloquent extends EloquentAbstract implements ChargePaymentRep
 {
     public function __construct(
         protected Charge $model,
-    ) {
+    )
+    {
         //
     }
 
@@ -41,7 +42,7 @@ class ChargePaymentEloquent extends EloquentAbstract implements ChargePaymentRep
             'parcel_total' => 1,
         ]);
 
-        return (bool) $obj;
+        return (bool)$obj;
     }
 
     public function insertParcel(PaymentEntity $entity, ParcelObject $parcel): bool
@@ -64,7 +65,7 @@ class ChargePaymentEloquent extends EloquentAbstract implements ChargePaymentRep
             'parcel_total' => $parcel->total,
         ]);
 
-        return (bool) $obj;
+        return (bool)$obj;
     }
 
     public function update(EntityAbstract $entity): bool
@@ -113,10 +114,10 @@ class ChargePaymentEloquent extends EloquentAbstract implements ChargePaymentRep
             ->join('relationships', 'relationships.id', '=', 'charges.relationship_id')
             ->leftJoin('recurrences', 'recurrences.id', '=', 'charges.recurrence_id')
             ->where('charges.entity', PaymentEntity::class)
-            ->where(fn ($q) => ($f = $filter['name'] ?? null)
+            ->where(fn($q) => ($f = $filter['name'] ?? null)
                 ? $q->where('relationships.name', 'like', "%{$f}%")
                 : null)
-            ->where(fn ($q) => ($f = $filter['title'] ?? null)
+            ->where(fn($q) => ($f = $filter['title'] ?? null)
                 ? $q->where('charges.title', 'like', "%{$f}%")
                 : null)
             ->whereIn('charges.status', [ChargeStatusEnum::PENDING, ChargeStatusEnum::PARTIAL])

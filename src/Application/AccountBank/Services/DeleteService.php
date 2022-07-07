@@ -11,7 +11,8 @@ class DeleteService
 {
     public function __construct(
         private Repo $repository
-    ) {
+    )
+    {
         //
     }
 

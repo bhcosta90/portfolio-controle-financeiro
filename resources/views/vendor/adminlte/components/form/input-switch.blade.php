@@ -11,58 +11,58 @@
 {{-- Add plugin initialization and configuration code --}}
 
 @push('js')
-<script>
+    <script>
 
-    $(() => {
-        $('#{{ $id }}').bootstrapSwitch( @json($config) );
+        $(() => {
+            $('#{{ $id }}').bootstrapSwitch( @json($config) );
 
-        // Add support to auto select the previous submitted value in case of
-        // validation errors.
+            // Add support to auto select the previous submitted value in case of
+            // validation errors.
 
-        @if($errors->any() && $enableOldSupport)
+            @if($errors->any() && $enableOldSupport)
             let oldState = @json((bool)$getOldValue($errorKey));
             $('#{{ $id }}').bootstrapSwitch('state', oldState);
-        @endif
-    })
+            @endif
+        })
 
-</script>
+    </script>
 @endpush
 
 {{-- Setup the height/font of the plugin when using sm/lg sizes --}}
 {{-- NOTE: this may change with newer plugin versions --}}
 
 @once
-@push('css')
-<style type="text/css">
+    @push('css')
+        <style type="text/css">
 
-    {{-- MD (default) size setup --}}
+            {{-- MD (default) size setup --}}
     .input-group .bootstrap-switch-handle-on,
-    .input-group .bootstrap-switch-handle-off {
-        height: 2.25rem !important;
-    }
+            .input-group .bootstrap-switch-handle-off {
+                height: 2.25rem !important;
+            }
 
-    {{-- LG size setup --}}
+            {{-- LG size setup --}}
     .input-group-lg .bootstrap-switch-handle-on,
-    .input-group-lg .bootstrap-switch-handle-off {
-        height: 2.875rem !important;
-        font-size: 1.25rem !important;
-    }
+            .input-group-lg .bootstrap-switch-handle-off {
+                height: 2.875rem !important;
+                font-size: 1.25rem !important;
+            }
 
-    {{-- SM size setup --}}
+            {{-- SM size setup --}}
     .input-group-sm .bootstrap-switch-handle-on,
-    .input-group-sm .bootstrap-switch-handle-off {
-        height: 1.8125rem !important;
-        font-size: .875rem !important;
-    }
+            .input-group-sm .bootstrap-switch-handle-off {
+                height: 1.8125rem !important;
+                font-size: .875rem !important;
+            }
 
-    {{-- Custom invalid style setup --}}
+            {{-- Custom invalid style setup --}}
 
     .adminlte-invalid-iswgroup > .bootstrap-switch-wrapper,
-    .adminlte-invalid-iswgroup > .input-group-prepend > *,
-    .adminlte-invalid-iswgroup > .input-group-append > * {
-        box-shadow: 0 .25rem 0.5rem rgba(255,0,0,.25);
-    }
+            .adminlte-invalid-iswgroup > .input-group-prepend > *,
+            .adminlte-invalid-iswgroup > .input-group-append > * {
+                box-shadow: 0 .25rem 0.5rem rgba(255, 0, 0, .25);
+            }
 
-</style>
-@endpush
+        </style>
+    @endpush
 @endonce

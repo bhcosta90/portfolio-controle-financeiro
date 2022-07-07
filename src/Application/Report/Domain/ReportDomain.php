@@ -2,28 +2,27 @@
 
 namespace Core\Application\Report\Domain;
 
-use Core\Application\Report\Type\Abstracts\ReportTypeAbstract;
-use Core\Application\Report\Type as ReportType;
 use Core\Shared\Abstracts\EntityAbstract;
 use Core\Shared\ValueObjects\UuidObject;
 use DateTime;
-use DomainException;
 
 class ReportDomain extends EntityAbstract
 {
     private function __construct(
-        protected string $title,
-        protected ?string $resume,
+        protected string      $title,
+        protected ?string     $resume,
         protected ?UuidObject $id = null,
-        protected ?DateTime $createdAt = null,
-    ) {
+        protected ?DateTime   $createdAt = null,
+    )
+    {
         parent::__construct();
     }
 
     public static function create(
-        string $title,
+        string  $title,
         ?string $resume,
-    ) {
+    )
+    {
         return new self($title, $resume);
     }
 }

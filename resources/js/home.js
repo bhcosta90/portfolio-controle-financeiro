@@ -21,8 +21,8 @@ $(function () {
                 const json = item.json
                 div.find('.quantity').html(json.quantity);
                 div.find('.total').html(json.total);
-                
-                div.find('.total_real').each(function(i, item){
+
+                div.find('.total_real').each(function (i, item) {
                     let prefix = $(item).data('prefix');
                     if (prefix !== undefined) {
                         prefix = `<small>${prefix}</small> `;
@@ -31,10 +31,10 @@ $(function () {
                     }
                     $(item).html(`${prefix}${json.total_real}`);
                 });
-                
-                if(json.total > 0) {
+
+                if (json.total > 0) {
                     div.find('.box').removeClass('bg-secondary').addClass(div.find('.box').data('success'));
-                } else if(json.total < 0) {
+                } else if (json.total < 0) {
                     div.find('.box').removeClass('bg-secondary').addClass(div.find('.box').data('danger'));
                 } else {
                     div.find('.box').removeClass('bg-secondary').addClass('bg-warning');

@@ -34,6 +34,12 @@ class ReportController extends Controller
         ]);
     }
 
+    private function getMonth(?string $month)
+    {
+        $date = new Carbon($month);
+        return [$date->firstOfMonth()->format('Y-m-d'), $date->lastOfMonth()->format('Y-m-d')];
+    }
+
     public function index(string $report, Request $request)
     {
         $letter = substr($report, -1);
@@ -49,11 +55,5 @@ class ReportController extends Controller
         $render = $ret->render();
 
         return view('admin.report.index', compact('render', 'title'));
-    }
-
-    private function getMonth(?string $month)
-    {
-        $date = new Carbon($month);
-        return [$date->firstOfMonth()->format('Y-m-d'), $date->lastOfMonth()->format('Y-m-d')];
     }
 }

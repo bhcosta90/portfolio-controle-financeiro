@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\src\Application\Relationship\Modules\Customer\Services;
 
+use Core\Application\Relationship\Modules\Customer\Domain\CustomerEntity;
 use Core\Application\Relationship\Modules\Customer\Repository\CustomerRepository;
 use Core\Application\Relationship\Modules\Customer\Services\DeleteService;
-use Core\Application\Relationship\Modules\Customer\Domain\CustomerEntity;
 use Core\Shared\UseCases\Delete\{DeleteInput, DeleteOutput};
 use Mockery;
 use PHPUnit\Framework\TestCase;

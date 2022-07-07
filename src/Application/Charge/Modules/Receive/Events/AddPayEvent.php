@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Application\Charge\Modules\Receive\Events; 
+namespace Core\Application\Charge\Modules\Receive\Events;
 
 use Core\Application\Charge\Modules\Receive\Domain\ReceiveEntity;
 use Core\Shared\Abstracts\EventAbstract;
@@ -9,9 +9,10 @@ use Core\Shared\ValueObjects\Input\FloatInputObject;
 class AddPayEvent extends EventAbstract
 {
     public function __construct(
-        private ReceiveEntity $entity,
+        private ReceiveEntity    $entity,
         private FloatInputObject $value,
-    ) {
+    )
+    {
         //
     }
 

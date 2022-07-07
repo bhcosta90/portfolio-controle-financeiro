@@ -45,8 +45,8 @@ class PaymentEntityTest extends TestCase
         );
 
         $this->assertEquals($id, $objCharge->id());
-        $this->assertEquals($customer, (string) $objCharge->company->id);
-        $this->assertEquals($recurrence, (string) $objCharge->recurrence);
+        $this->assertEquals($customer, (string)$objCharge->company->id);
+        $this->assertEquals($recurrence, (string)$objCharge->recurrence);
 
         $objCharge->update(
             title: 'teste2',
@@ -59,8 +59,8 @@ class PaymentEntityTest extends TestCase
 
         $this->assertEquals('teste2', $objCharge->title->value);
         $this->assertEquals('resume2', $objCharge->resume->value);
-        $this->assertEquals($customer, (string) $objCharge->company->id);
-        $this->assertEquals($recurrence, (string) $objCharge->recurrence);
+        $this->assertEquals($customer, (string)$objCharge->company->id);
+        $this->assertEquals($recurrence, (string)$objCharge->recurrence);
         $this->assertEquals('2022-01-02', $objCharge->date->format('Y-m-d'));
         $this->assertEquals(50, $objCharge->value->value);
     }
@@ -154,7 +154,8 @@ class PaymentEntityTest extends TestCase
         $this->assertEquals(3, $objCharge->status->value);
     }
 
-    public function testCancelException(){
+    public function testCancelException()
+    {
         $this->expectExceptionMessage('This payment cannot be canceled as it leaves the charge amount less than 0');
 
         $objCharge = Entity::create(
@@ -170,7 +171,7 @@ class PaymentEntityTest extends TestCase
             status: 1,
             id: Uuid::uuid4()
         );
-        
+
         $objCharge->cancel(50, 50);
     }
 

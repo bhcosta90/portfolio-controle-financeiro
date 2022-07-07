@@ -6,7 +6,8 @@ class Input
 {
     public function __construct(
         public string $id,
-    ) {
+    )
+    {
         //
     }
 }

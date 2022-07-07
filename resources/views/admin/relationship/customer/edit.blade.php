@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-<div class='card'>
-    <div class='card-header'>
-        <h1 class='float-left'>{{ __('Editar Cliente') }}</h1>
+    <div class='card'>
+        <div class='card-header'>
+            <h1 class='float-left'>{{ __('Editar Cliente') }}</h1>
+        </div>
+        <div class='card-body'>
+            {!! form($form) !!}
+        </div>
     </div>
-    <div class='card-body'>
-        {!! form($form) !!}
-    </div>
-</div>
 @endsection

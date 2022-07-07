@@ -5,16 +5,15 @@ namespace Tests\Feature\src\Application\Charge\Modules\Recurrence\Repository;
 use App\Models\Recurrence as Model;
 use App\Models\Tenant;
 use App\Repository\Eloquent\RecurrenceEloquent as Eloquent;
-use Core\Application\Charge\Modules\Recurrence\Repository\RecurrenceRepository as Repository;
 use Core\Application\Charge\Modules\Recurrence\Domain\RecurrenceEntity as Entity;
+use Core\Application\Charge\Modules\Recurrence\Repository\RecurrenceRepository as Repository;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Ramsey\Uuid\Uuid;
 use Tests\TestCase;
 
 class RecurrenceRepositoryTest extends TestCase
 {
     use DatabaseMigrations;
-    
+
     public function testInsert()
     {
         $tenant = Tenant::factory()->create();
@@ -25,6 +24,11 @@ class RecurrenceRepositoryTest extends TestCase
             'name' => 'teste',
             'days' => 50,
         ]);
+    }
+
+    private function getRecurrenceRepository(): Eloquent
+    {
+        return app(Repository::class);
     }
 
     public function testFindAndUpdate()
@@ -40,27 +44,25 @@ class RecurrenceRepositoryTest extends TestCase
         ]);
     }
 
-    public function testDelete(){
+    public function testDelete()
+    {
         $obj = $this->getRecurrenceRepository()->find(Model::factory()->create()->id);
         $this->assertTrue($this->getRecurrenceRepository()->delete($obj));
     }
 
-    public function testPaginate(){
+    public function testPaginate()
+    {
         Model::factory(35)->create();
         $data = $this->getRecurrenceRepository()->paginate();
         $this->assertCount(15, $data->items());
         $this->assertEquals(35, $data->total());
     }
 
-    public function testFilterName(){
+    public function testFilterName()
+    {
         Model::factory(5)->create(['name' => 'aaaaaaa']);
         Model::factory(5)->create(['name' => 'testing']);
         $data = $this->getRecurrenceRepository()->paginate(filter: ['name' => 'test']);
         $this->assertCount(5, $data->items());
-    }
-
-    private function getRecurrenceRepository(): Eloquent
-    {
-        return app(Repository::class);
     }
 }

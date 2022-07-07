@@ -12,7 +12,7 @@ class AccountBankEntityTest extends TestCase
 {
     public function testCreate()
     {
-        $objAccountBank = Entity::create(name: 'teste', value: 0, tenant: Uuid::uuid4(),bankCode: 341);
+        $objAccountBank = Entity::create(name: 'teste', value: 0, tenant: Uuid::uuid4(), bankCode: 341);
 
         $this->assertNotEmpty($objAccountBank->id());
         $this->assertNotEmpty($objAccountBank->createdAt());
@@ -22,9 +22,9 @@ class AccountBankEntityTest extends TestCase
     public function testCreateWithBank()
     {
         $objAccountBank = Entity::create(
-            name: 'teste', 
+            name: 'teste',
             value: 0,
-            tenant: Uuid::uuid4(), 
+            tenant: Uuid::uuid4(),
             bankCode: 341,
             agency: '66556',
             agencyDigit: '4',
@@ -111,7 +111,8 @@ class AccountBankEntityTest extends TestCase
         $this->assertEquals('2', $objAccountBank->bank->account->digit);
     }
 
-    public function testUpdateAccountWithBank(){
+    public function testUpdateAccountWithBank()
+    {
         $this->expectExceptionMessage('Bank details cannot be changed, please create a new bank account');
         $objAccountBank = Entity::create(
             name: 'teste',
@@ -139,7 +140,7 @@ class AccountBankEntityTest extends TestCase
         $this->assertEquals([
             'id' => $objAccountBank->id(),
             'value' => $objAccountBank->value,
-            'payment' => (string) $idPayment,
+            'payment' => (string)$idPayment,
         ], $objAccountBank->events[0]->payload());
     }
 
@@ -154,7 +155,7 @@ class AccountBankEntityTest extends TestCase
         $this->assertEquals([
             'id' => $objAccountBank->id(),
             'value' => 100,
-            'payment' => (string) $idPayment,
+            'payment' => (string)$idPayment,
         ], $objAccountBank->events[0]->payload());
     }
 }

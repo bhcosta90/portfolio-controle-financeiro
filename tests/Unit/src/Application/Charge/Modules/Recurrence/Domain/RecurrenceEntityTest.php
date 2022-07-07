@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\src\Application\Charge\Modules\Recurrence\Domain;
 
+use Core\Application\Charge\Modules\Recurrence\Domain\RecurrenceEntity as Entity;
 use DateTime;
 use PHPUnit\Framework\TestCase;
-use Core\Application\Charge\Modules\Recurrence\Domain\RecurrenceEntity as Entity;
 use Ramsey\Uuid\Uuid;
 
 class RecurrenceEntityTest extends TestCase
@@ -14,6 +14,22 @@ class RecurrenceEntityTest extends TestCase
         $obj = $this->getEntity();
         $this->assertNotEmpty($obj->id());
         $this->assertNotEmpty($obj->createdAt());
+    }
+
+    private function getEntity(
+        $name = 'bruno costa',
+        $days = 50,
+        $id = null,
+        $createdAt = null,
+    )
+    {
+        return Entity::create(
+            tenant: Uuid::uuid4(),
+            name: $name,
+            days: $days,
+            id: $id,
+            createdAt: $createdAt,
+        );
     }
 
     public function testEntity()
@@ -56,20 +72,5 @@ class RecurrenceEntityTest extends TestCase
         $objEntity = $this->getEntity(days: 365);
         $date = $objEntity->calculate("2022-05-31");
         $this->assertEquals('2023-05-31', $date->format('Y-m-d'));
-    }
-
-    private function getEntity(
-        $name = 'bruno costa',
-        $days = 50,
-        $id = null,
-        $createdAt = null,
-    ) {
-        return Entity::create(
-            tenant: Uuid::uuid4(),
-            name: $name,
-            days: $days,
-            id: $id,
-            createdAt: $createdAt,
-        );
     }
 }

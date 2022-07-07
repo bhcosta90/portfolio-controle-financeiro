@@ -40,74 +40,71 @@
 {{-- Register Javascript utility class for this component --}}
 
 @once
-@push('js')
-<script>
+    @push('js')
+        <script>
 
-    class _AdminLTE_SmallBox {
+            class _AdminLTE_SmallBox {
 
-        /**
-         * Constructor.
-         *
-         * target: The id of the target small box.
-         */
-        constructor(target)
-        {
-            this.target = target;
-        }
+                /**
+                 * Constructor.
+                 *
+                 * target: The id of the target small box.
+                 */
+                constructor(target) {
+                    this.target = target;
+                }
 
-        /**
-         * Update the small box.
-         *
-         * data: An object with the new data.
-         */
-        update(data)
-        {
-            // Check if target and data exists.
+                /**
+                 * Update the small box.
+                 *
+                 * data: An object with the new data.
+                 */
+                update(data) {
+                    // Check if target and data exists.
 
-            let t = $(`#${this.target}`);
+                    let t = $(`#${this.target}`);
 
-            if (t.length <= 0 || ! data) {
-                return;
+                    if (t.length <= 0 || !data) {
+                        return;
+                    }
+
+                    // Update available data.
+
+                    if (data.title) {
+                        t.find('.inner h3').html(data.title);
+                    }
+
+                    if (data.text) {
+                        t.find('.inner h5').html(data.text);
+                    }
+
+                    if (data.icon) {
+                        t.find('.icon i').attr('class', data.icon);
+                    }
+
+                    if (data.url) {
+                        t.find('.small-box-footer').attr('href', data.url);
+                    }
+                }
+
+                /**
+                 * Toggle the loading animation of the small box.
+                 */
+                toggleLoading() {
+                    // Check if target exists.
+
+                    let t = $(`#${this.target}`);
+
+                    if (t.length <= 0) {
+                        return;
+                    }
+
+                    // Toggle the loading overlay.
+
+                    t.find('.overlay').toggleClass('d-none');
+                }
             }
 
-            // Update available data.
-
-            if (data.title) {
-                t.find('.inner h3').html(data.title);
-            }
-
-            if (data.text) {
-                t.find('.inner h5').html(data.text);
-            }
-
-            if (data.icon) {
-                t.find('.icon i').attr('class', data.icon);
-            }
-
-            if (data.url) {
-                t.find('.small-box-footer').attr('href', data.url);
-            }
-        }
-
-        /**
-         * Toggle the loading animation of the small box.
-         */
-        toggleLoading()
-        {
-            // Check if target exists.
-
-            let t = $(`#${this.target}`);
-
-            if (t.length <= 0) {
-                return;
-            }
-
-            // Toggle the loading overlay.
-
-            t.find('.overlay').toggleClass('d-none');
-        }
-    }
-
-</script>
-@endpush
+        </script>
+    @endpush
 @endonce

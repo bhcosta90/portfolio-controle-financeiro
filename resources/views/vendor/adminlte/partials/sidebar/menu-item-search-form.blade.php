@@ -7,10 +7,10 @@
 
             {{-- Search input --}}
             <input class="form-control form-control-sidebar" type="search"
-                @isset($item['id']) id="{{ $item['id'] }}" @endisset
-                name="{{ $item['input_name'] }}"
-                placeholder="{{ $item['text'] }}"
-                aria-label="{{ $item['text'] }}">
+                   @isset($item['id']) id="{{ $item['id'] }}" @endisset
+                   name="{{ $item['input_name'] }}"
+                   placeholder="{{ $item['text'] }}"
+                   aria-label="{{ $item['text'] }}">
 
             {{-- Search button --}}
             <div class="input-group-append">

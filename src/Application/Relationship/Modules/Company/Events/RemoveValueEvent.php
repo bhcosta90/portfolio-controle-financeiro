@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Application\Relationship\Modules\Company\Events; 
+namespace Core\Application\Relationship\Modules\Company\Events;
 
 use Core\Application\Relationship\Modules\Company\Domain\CompanyEntity;
 use Core\Shared\Abstracts\EventAbstract;
@@ -10,10 +10,11 @@ use Core\Shared\ValueObjects\UuidObject;
 class RemoveValueEvent extends EventAbstract
 {
     public function __construct(
-        private CompanyEntity $entity,
+        private CompanyEntity    $entity,
         private FloatInputObject $value,
-        private UuidObject $idPayment,
-    ) {
+        private UuidObject       $idPayment,
+    )
+    {
         //
     }
 

@@ -12,7 +12,7 @@ use Tests\TestCase;
 class ExecutePaymentCommandTest extends TestCase
 {
     use DatabaseMigrations;
-    
+
     public function testExecuteCommand()
     {
         $objRelationship = Relationship::factory()->create(['entity' => CustomerEntity::class, 'value' => 0]);
@@ -23,14 +23,14 @@ class ExecutePaymentCommandTest extends TestCase
             'value' => 50,
             'type' => 2,
         ];
-        
+
         $data = Payment::factory(3)->create([
-            'date' => (new DateTime())->modify('+10 minute')->format('Y-m-d H:i:s'),
-        ] + $basePayment);
+                'date' => (new DateTime())->modify('+10 minute')->format('Y-m-d H:i:s'),
+            ] + $basePayment);
 
         $dataPayment = Payment::factory(3)->create([
-            'date' => (new DateTime())->modify('-2 minute')->format('Y-m-d H:i:s'),
-        ] + $basePayment);
+                'date' => (new DateTime())->modify('-2 minute')->format('Y-m-d H:i:s'),
+            ] + $basePayment);
 
         $this->artisan('payment:execute');
 

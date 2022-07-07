@@ -5,8 +5,8 @@ namespace Tests\Feature\src\Application\Relationship\Modules\Customer\Repository
 use App\Models\Relationship as Model;
 use App\Models\Tenant;
 use App\Repository\Eloquent\CustomerEloquent as Eloquent;
-use Core\Application\Relationship\Modules\Customer\Repository\CustomerRepository as Repository;
 use Core\Application\Relationship\Modules\Customer\Domain\CustomerEntity as Entity;
+use Core\Application\Relationship\Modules\Customer\Repository\CustomerRepository as Repository;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -27,6 +27,11 @@ class CustomerRepositoryTest extends TestCase
         ]);
     }
 
+    private function getCustomerRepository(): Eloquent
+    {
+        return app(Repository::class);
+    }
+
     public function testFindAndUpdate()
     {
         /** @var Entity */
@@ -40,27 +45,25 @@ class CustomerRepositoryTest extends TestCase
         ]);
     }
 
-    public function testDelete(){
+    public function testDelete()
+    {
         $obj = $this->getCustomerRepository()->find(Model::factory()->create()->id);
         $this->assertTrue($this->getCustomerRepository()->delete($obj));
     }
 
-    public function testPaginate(){
+    public function testPaginate()
+    {
         Model::factory(35)->create(['entity' => Entity::class]);
         $data = $this->getCustomerRepository()->paginate();
         $this->assertCount(15, $data->items());
         $this->assertEquals(35, $data->total());
     }
 
-    public function testFilterName(){
+    public function testFilterName()
+    {
         Model::factory(5)->create(['entity' => Entity::class, 'name' => 'aaaaaaa']);
         Model::factory(5)->create(['entity' => Entity::class, 'name' => 'testing']);
         $data = $this->getCustomerRepository()->paginate(filter: ['name' => 'test']);
         $this->assertCount(5, $data->items());
-    }
-
-    private function getCustomerRepository(): Eloquent
-    {
-        return app(Repository::class);
     }
 }

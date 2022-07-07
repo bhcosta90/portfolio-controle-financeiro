@@ -17,14 +17,6 @@ class ResultPresenter implements ResultInterface
         );
     }
 
-    /**
-     * @return stdClass[]
-     */
-    public function items(): array
-    {
-        return $this->data;
-    }
-
     protected function resolveItems($items)
     {
         $response = [];
@@ -40,5 +32,13 @@ class ResultPresenter implements ResultInterface
         }
 
         return $response;
+    }
+
+    /**
+     * @return stdClass[]
+     */
+    public function items(): array
+    {
+        return $this->data;
     }
 }

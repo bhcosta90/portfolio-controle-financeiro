@@ -6,9 +6,10 @@ class Output
 {
     public function __construct(
         public string $name,
-        public float $value,
+        public float  $value,
         public string $id,
-    ) {
+    )
+    {
         //
     }
 }

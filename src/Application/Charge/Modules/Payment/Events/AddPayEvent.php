@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Application\Charge\Modules\Payment\Events; 
+namespace Core\Application\Charge\Modules\Payment\Events;
 
 use Core\Application\Charge\Modules\Payment\Domain\PaymentEntity;
 use Core\Shared\Abstracts\EventAbstract;
@@ -9,9 +9,10 @@ use Core\Shared\ValueObjects\Input\FloatInputObject;
 class AddPayEvent extends EventAbstract
 {
     public function __construct(
-        private PaymentEntity $entity,
+        private PaymentEntity    $entity,
         private FloatInputObject $value,
-    ) {
+    )
+    {
         //
     }
 

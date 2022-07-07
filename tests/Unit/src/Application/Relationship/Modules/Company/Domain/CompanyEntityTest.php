@@ -41,7 +41,7 @@ class CompanyEntityTest extends TestCase
         $this->assertEquals([
             'id' => $objRelationship->id(),
             'value' => $objRelationship->value,
-            'payment' => (string) $idPayment,
+            'payment' => (string)$idPayment,
         ], $objRelationship->events[0]->payload());
     }
 
@@ -56,7 +56,7 @@ class CompanyEntityTest extends TestCase
         $this->assertEquals([
             'id' => $objRelationship->id(),
             'value' => 100,
-            'payment' => (string) $idPayment,
+            'payment' => (string)$idPayment,
         ], $objRelationship->events[0]->payload());
     }
 }

@@ -36,6 +36,11 @@ class Html extends Abstracts\ReportTypeAbstract
         $this->add($header);
     }
 
+    protected function add($html)
+    {
+        $this->resource .= $html;
+    }
+
     public function addColumn()
     {
         $varColumnText = $this->column_text;
@@ -169,18 +174,13 @@ class Html extends Abstracts\ReportTypeAbstract
         return $this->render();
     }
 
-    public function addPage()
-    {
-        new Exceptions\ReportTypeException('Método ainda não implantado adicionarPagina');
-    }
-
     public function render()
     {
         return '<div class="report">' . $this->resource . '</div>';
     }
 
-    protected function add($html)
+    public function addPage()
     {
-        $this->resource .= $html;
+        new Exceptions\ReportTypeException('Método ainda não implantado adicionarPagina');
     }
 }

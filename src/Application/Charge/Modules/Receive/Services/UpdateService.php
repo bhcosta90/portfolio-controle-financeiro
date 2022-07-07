@@ -12,10 +12,11 @@ use Exception;
 class UpdateService
 {
     public function __construct(
-        private Repo $repository,
+        private Repo                   $repository,
         private RelationshipRepository $relationship,
-        private RecurrenceRepository $recurrence,
-    ) {
+        private RecurrenceRepository   $recurrence,
+    )
+    {
         //
     }
 
@@ -24,13 +25,13 @@ class UpdateService
         /** @var Entity */
         $entity = $this->repository->find($input->id);
 
-        if ($input->customer != (string) $entity->customer->id && !$this->relationship->exist($input->customer)) {
+        if ($input->customer != (string)$entity->customer->id && !$this->relationship->exist($input->customer)) {
             throw new RelationshipException('Customer not found');
         }
 
         if (
             $input->recurrence
-            && $input->recurrence != (string) $entity->recurrence && !$this->recurrence->exist($input->recurrence)
+            && $input->recurrence != (string)$entity->recurrence && !$this->recurrence->exist($input->recurrence)
         ) {
             throw new Exception('Recurrence not found');
         }
@@ -49,11 +50,11 @@ class UpdateService
         return new DTO\Update\Output(
             title: $entity->title->value,
             resume: $entity->resume?->value,
-            customer: (string) $entity->customer->id,
-            recurrence: (string) $entity->recurrence,
+            customer: (string)$entity->customer->id,
+            recurrence: (string)$entity->recurrence,
             value: $entity->value->value,
             date: $entity->date->format('Y-m-d'),
-            group: (string) $entity->group,
+            group: (string)$entity->group,
             id: $entity->id(),
         );
     }

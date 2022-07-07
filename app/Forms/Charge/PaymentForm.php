@@ -10,9 +10,10 @@ use Kris\LaravelFormBuilder\Form;
 class PaymentForm extends Form
 {
     public function __construct(
-        private CompanyRepository $relationship,
+        private CompanyRepository    $relationship,
         private RecurrenceRepository $recurrence,
-    ) {
+    )
+    {
         //
     }
 

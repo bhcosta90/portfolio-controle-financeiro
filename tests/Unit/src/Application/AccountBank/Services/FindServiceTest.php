@@ -3,8 +3,8 @@
 namespace Tests\Unit\src\Application\AccountBank\Services;
 
 use Core\Application\AccountBank\Repository\AccountBankRepository;
-use Core\Application\AccountBank\Services\FindService;
 use Core\Application\AccountBank\Services\DTO\Find\Output;
+use Core\Application\AccountBank\Services\FindService;
 use Core\Application\Relationship\Modules\Customer\Domain\CustomerEntity;
 use Core\Shared\UseCases\Find\FindInput;
 use Mockery;
@@ -18,7 +18,7 @@ class FindServiceTest extends TestCase
         $uc = new FindService(
             repository: $mockRepository = $this->mockRepository()
         );
-        $objEntity = CustomerEntity::create(tenant: Uuid::uuid4(), name:  'test', id: $id = Uuid::uuid4());
+        $objEntity = CustomerEntity::create(tenant: Uuid::uuid4(), name: 'test', id: $id = Uuid::uuid4());
 
         $mockRepository->shouldReceive('find')->andReturn($objEntity);
         $mockRepository->shouldReceive('Find')->andReturn(true);

@@ -2,10 +2,10 @@
 
 namespace Tests\Unit\src\Application\Charge\Modules\Payment\Services;
 
-use Core\Application\Charge\Modules\Payment\Repository\ChargePaymentRepository as ChargeRepo;
-use Core\Application\Charge\Modules\Payment\Services\FindService;
-use Core\Application\Charge\Modules\Payment\Services\DTO\Find\Output;
 use Core\Application\Charge\Modules\Payment\Domain\PaymentEntity as Entity;
+use Core\Application\Charge\Modules\Payment\Repository\ChargePaymentRepository as ChargeRepo;
+use Core\Application\Charge\Modules\Payment\Services\DTO\Find\Output;
+use Core\Application\Charge\Modules\Payment\Services\FindService;
 use Core\Application\Relationship\Modules\Company\Domain\CompanyEntity;
 use Core\Application\Relationship\Modules\Company\Repository\CompanyRepository;
 use Core\Shared\UseCases\Find\FindInput;
@@ -21,7 +21,7 @@ class FindServiceTest extends TestCase
             repository: $mockRepository = $this->mockRepository(),
             relationship: $mockRelationship = $this->mockRelationship(),
         );
-        
+
         $objEntity = Entity::create(
             tenant: Uuid::uuid4(),
             title: 'teste',

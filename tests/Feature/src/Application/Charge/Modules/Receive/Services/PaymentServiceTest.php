@@ -7,12 +7,11 @@ use App\Models\Charge;
 use App\Models\Recurrence;
 use Core\Application\AccountBank\Repository\AccountBankRepository;
 use Core\Application\Charge\Modules\Receive\Repository\ChargeReceiveRepository;
-use Core\Application\Charge\Modules\Receive\Services\PaymentService;
 use Core\Application\Charge\Modules\Receive\Services\DTO\Payment\{Input, Output};
+use Core\Application\Charge\Modules\Receive\Services\PaymentService;
 use Core\Application\Charge\Modules\Recurrence\Repository\RecurrenceRepository;
 use Core\Application\Payment\Repository\PaymentRepository;
 use Core\Application\Relationship\Modules\Customer\Repository\CustomerRepository;
-use Core\Shared\Interfaces\EventManagerInterface;
 use Core\Shared\Interfaces\TransactionInterface;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
@@ -20,7 +19,7 @@ use Tests\TestCase;
 class PaymentServiceTest extends TestCase
 {
     use DatabaseMigrations;
-    
+
     public function testHandle()
     {
         $uc = new PaymentService(
@@ -34,7 +33,7 @@ class PaymentServiceTest extends TestCase
 
         $objCharge = Charge::factory()->create(['value_charge' => 500]);
         $objBank = AccountBank::factory()->create();
-        
+
         $ret = $uc->handle(new Input($objCharge->id, 50, $objBank->id, 50));
         $this->assertInstanceOf(Output::class, $ret);
 
@@ -52,7 +51,7 @@ class PaymentServiceTest extends TestCase
             'status' => 1,
         ]);
     }
-    
+
     public function testHandleComplete()
     {
         $uc = new PaymentService(
@@ -66,7 +65,7 @@ class PaymentServiceTest extends TestCase
 
         $objCharge = Charge::factory()->create(['value_charge' => 500]);
         $objBank = AccountBank::factory()->create();
-        
+
         $uc->handle(new Input($objCharge->id, 500, $objBank->id, 500));
 
         $this->assertDatabaseHas('charges', [
@@ -74,7 +73,7 @@ class PaymentServiceTest extends TestCase
             'status' => 3,
         ]);
     }
-    
+
     public function testHandleRecurrence()
     {
         $uc = new PaymentService(
@@ -88,12 +87,12 @@ class PaymentServiceTest extends TestCase
 
         $objRecurrence = Recurrence::factory()->create(['days' => 30]);
         $objCharge = Charge::factory()->create([
-            'value_charge' => 500, 
+            'value_charge' => 500,
             'recurrence_id' => $objRecurrence->id,
             'date' => '2022-01-01'
         ]);
         $objBank = AccountBank::factory()->create();
-        
+
         $ret = $uc->handle(new Input($objCharge->id, 500, $objBank->id, 500));
         $this->assertDatabaseHas('charges', [
             'id' => $ret->idCharge,

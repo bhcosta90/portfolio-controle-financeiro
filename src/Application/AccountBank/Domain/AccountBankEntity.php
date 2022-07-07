@@ -19,19 +19,20 @@ class AccountBankEntity extends EntityAbstract implements ValueInterface
 
     private function __construct(
         protected NameInputObject $name,
-        protected float $value,
-        protected ?UuidObject $tenant,
-        protected ?BankObject $bank = null,
-        protected ?UuidObject $id = null,
-        protected ?DateTime $createdAt = null,
-    ) {
+        protected float           $value,
+        protected ?UuidObject     $tenant,
+        protected ?BankObject     $bank = null,
+        protected ?UuidObject     $id = null,
+        protected ?DateTime       $createdAt = null,
+    )
+    {
         parent::__construct();
     }
 
     public static function create(
-        string $tenant,
-        string $name,
-        float $value,
+        string  $tenant,
+        string  $name,
+        float   $value,
         ?string $bankCode = null,
         ?string $agency = null,
         ?string $agencyDigit = null,
@@ -39,7 +40,8 @@ class AccountBankEntity extends EntityAbstract implements ValueInterface
         ?string $accountDigit = null,
         ?string $id = null,
         ?string $createdAt = null,
-    ): self {
+    ): self
+    {
         if ($bankCode && $agency && $account) {
             $bank = new BankObject(
                 $bankCode,
@@ -58,14 +60,15 @@ class AccountBankEntity extends EntityAbstract implements ValueInterface
     }
 
     public function update(
-        string $name,
-        float $value,
+        string  $name,
+        float   $value,
         ?string $bankCode = null,
         ?string $agency = null,
         ?string $agencyDigit = null,
         ?string $account = null,
         ?string $accountDigit = null,
-    ) {
+    )
+    {
         if ($bankCode && $agency && $account) {
             if (!empty($this->bank)) {
                 throw new Exception('Bank details cannot be changed, please create a new bank account');

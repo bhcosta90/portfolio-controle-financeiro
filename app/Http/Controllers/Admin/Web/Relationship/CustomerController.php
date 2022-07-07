@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Admin\Web\Relationship;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Forms\Relationship\CustomerForm as Form;
 use App\Http\Controllers\Admin\Presenters\PaginationPresenter;
+use App\Http\Controllers\Controller;
 use App\Support\FormSupport;
 use Core\Application\Relationship\Modules\Customer\Services;
 use Core\Shared\UseCases\Find\FindInput;
 use Core\Shared\UseCases\List\ListInput;
+use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {

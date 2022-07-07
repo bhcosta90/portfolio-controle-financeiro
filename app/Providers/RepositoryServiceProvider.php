@@ -2,15 +2,13 @@
 
 namespace App\Providers;
 
-use App\Repository\Eloquent\{
-    AccountBankEloquent,
+use App\Repository\Eloquent\{AccountBankEloquent,
     ChargePaymentEloquent,
     ChargeReceiveEloquent,
     CompanyEloquent,
     CustomerEloquent,
     PaymentEloquent,
-    RecurrenceEloquent
-};
+    RecurrenceEloquent};
 use App\Repository\Transactions\DatabaseTransaction;
 use Core\Application\AccountBank\Repository\AccountBankRepository;
 use Core\Application\Charge\Modules\Payment\Repository\ChargePaymentRepository;

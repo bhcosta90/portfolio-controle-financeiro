@@ -10,9 +10,10 @@ use Core\Shared\UseCases\Find\FindInput;
 class FindService
 {
     public function __construct(
-        private Repo $repository,
+        private Repo              $repository,
         private CompanyRepository $relationship,
-    ) {
+    )
+    {
         //
     }
 
@@ -25,13 +26,13 @@ class FindService
         return new DTO\Find\Output(
             title: $entity->title->value,
             resume: $entity->resume?->value,
-            company: (string) $entity->company->id,
-            companyName: (string) $relationship->name->value,
-            recurrence: (string) $entity->recurrence,
+            company: (string)$entity->company->id,
+            companyName: (string)$relationship->name->value,
+            recurrence: (string)$entity->recurrence,
             value: $entity->value->value,
             pay: $entity->pay->value,
             date: $entity->date->format('Y-m-d'),
-            group: (string) $entity->group,
+            group: (string)$entity->group,
             id: $entity->id(),
         );
     }

@@ -6,10 +6,10 @@ use App\Forms\Relationship\CompanyForm as Form;
 use App\Http\Controllers\Admin\Presenters\PaginationPresenter;
 use App\Http\Controllers\Controller;
 use App\Support\FormSupport;
-use Illuminate\Http\Request;
 use Core\Application\Relationship\Modules\Company\Services;
 use Core\Shared\UseCases\Find\FindInput;
 use Core\Shared\UseCases\List\ListInput;
+use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {

@@ -16,14 +16,14 @@ abstract class EloquentAbstract
         return $this->findOrFail($entity->id())->delete();
     }
 
-    public function pluck(?array $filter = null): array
-    {
-        return $this->model->pluck($this->getValuePluck(), 'id')->toArray();
-    }
-
     protected function findOrFail(int|string $id)
     {
         return $this->model->where('id', $id)->firstOrFail();
+    }
+
+    public function pluck(?array $filter = null): array
+    {
+        return $this->model->pluck($this->getValuePluck(), 'id')->toArray();
     }
 
     protected function getValuePluck()

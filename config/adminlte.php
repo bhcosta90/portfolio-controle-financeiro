@@ -226,12 +226,12 @@ return [
 
     'menu' => [
         [
-            'type'         => 'navbar-search',
-            'text'         => 'search',
+            'type' => 'navbar-search',
+            'text' => 'search',
             'topnav_right' => false,
         ],
         [
-            'type'         => 'fullscreen-widget',
+            'type' => 'fullscreen-widget',
             'topnav_right' => false,
         ],
 
@@ -239,46 +239,46 @@ return [
         ['header' => 'Relação Comercial'],
         [
             'text' => 'Cliente',
-            'url'  => 'admin/relationship/customer',
+            'url' => 'admin/relationship/customer',
             'icon' => 'fas fa-user-tie',
             'active' => ['admin/relationship/customer*']
         ],
         [
             'text' => 'Fornecedor',
-            'url'  => 'admin/relationship/company',
+            'url' => 'admin/relationship/company',
             'icon' => 'fas fa-industry',
             'active' => ['admin/relationship/company*']
         ],
         ['header' => 'Cadastros'],
         [
             'text' => 'Conta Bancária',
-            'url'  => 'admin/bank/account',
+            'url' => 'admin/bank/account',
             'icon' => 'fas fa-university',
             'active' => ['admin/bank/account*']
         ],
         [
             'text' => 'Recorrências',
-            'url'  => 'admin/charge/recurrence',
+            'url' => 'admin/charge/recurrence',
             'icon' => 'fas fa-undo',
             'active' => ['admin/charge/recurrence*']
         ],
         ['header' => 'Movimentações'],
         [
             'text' => 'Conta a Receber',
-            'url'  => 'admin/charge/receive',
+            'url' => 'admin/charge/receive',
             'icon' => 'fas fa-money-bill-alt',
             'active' => ['admin/charge/receive*']
         ],
         [
             'text' => 'Conta a Pagar',
-            'url'  => 'admin/charge/payment',
+            'url' => 'admin/charge/payment',
             'icon' => 'fas fa-cash-register',
             'active' => ['admin/charge/payment*']
         ],
         ['header' => 'Relatório'],
         [
             'text' => 'Pagamento',
-            'url'  => 'admin/payment',
+            'url' => 'admin/payment',
             'icon' => 'fas fa-money-bill-alt',
             'active' => ['admin/payment*']
         ],
@@ -287,12 +287,12 @@ return [
     'menu2' => [
         // Navbar items:
         [
-            'type'         => 'navbar-search',
-            'text'         => 'search',
+            'type' => 'navbar-search',
+            'text' => 'search',
             'topnav_right' => true,
         ],
         [
-            'type'         => 'fullscreen-widget',
+            'type' => 'fullscreen-widget',
             'topnav_right' => true,
         ],
 
@@ -303,54 +303,54 @@ return [
         ],
         [
             'text' => 'blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
+            'url' => 'admin/blog',
+            'can' => 'manage-blog',
         ],
         [
-            'text'        => 'pages',
-            'url'         => 'admin/pages',
-            'icon'        => 'far fa-fw fa-file',
-            'label'       => 4,
+            'text' => 'pages',
+            'url' => 'admin/pages',
+            'icon' => 'far fa-fw fa-file',
+            'label' => 4,
             'label_color' => 'success',
         ],
         ['header' => 'account_settings'],
         [
             'text' => 'profile',
-            'url'  => 'admin/settings',
+            'url' => 'admin/settings',
             'icon' => 'fas fa-fw fa-user',
         ],
         [
             'text' => 'change_password',
-            'url'  => 'admin/settings',
+            'url' => 'admin/settings',
             'icon' => 'fas fa-fw fa-lock',
         ],
         [
-            'text'    => 'multilevel',
-            'icon'    => 'fas fa-fw fa-share',
+            'text' => 'multilevel',
+            'icon' => 'fas fa-fw fa-share',
             'submenu' => [
                 [
                     'text' => 'level_one',
-                    'url'  => '#',
+                    'url' => '#',
                 ],
                 [
-                    'text'    => 'level_one',
-                    'url'     => '#',
+                    'text' => 'level_one',
+                    'url' => '#',
                     'submenu' => [
                         [
                             'text' => 'level_two',
-                            'url'  => '#',
+                            'url' => '#',
                         ],
                         [
-                            'text'    => 'level_two',
-                            'url'     => '#',
+                            'text' => 'level_two',
+                            'url' => '#',
                             'submenu' => [
                                 [
                                     'text' => 'level_three',
-                                    'url'  => '#',
+                                    'url' => '#',
                                 ],
                                 [
                                     'text' => 'level_three',
-                                    'url'  => '#',
+                                    'url' => '#',
                                 ],
                             ],
                         ],
@@ -358,29 +358,29 @@ return [
                 ],
                 [
                     'text' => 'level_one',
-                    'url'  => '#',
+                    'url' => '#',
                 ],
             ],
         ],
         ['header' => 'labels'],
         [
-            'text'       => 'important',
+            'text' => 'important',
             'icon_color' => 'red',
-            'url'        => '#',
+            'url' => '#',
         ],
         [
-            'text'       => 'warning',
+            'text' => 'warning',
             'icon_color' => 'yellow',
-            'url'        => '#',
+            'url' => '#',
         ],
         [
-            'text'       => 'information',
+            'text' => 'information',
             'icon_color' => 'cyan',
-            'url'        => '#',
+            'url' => '#',
         ],
     ],
 
-    
+
     /*
     |--------------------------------------------------------------------------
     | Menu Filters

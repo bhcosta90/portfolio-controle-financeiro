@@ -13,7 +13,7 @@ trait TenantTrait
         static::addGlobalScope('tenant_id', function ($builder) {
             if (!app()->runningInConsole() && ($id = self::getTenantId())) {
                 $table = with(new static)->getTable();
-                $builder->whereIn($table . '.tenant_id', (array) $id);
+                $builder->whereIn($table . '.tenant_id', (array)$id);
             }
         });
     }
@@ -24,15 +24,10 @@ trait TenantTrait
             if (empty($tenant = Tenant::first())) {
                 $tenant = Tenant::factory()->create();
             }
-            return $tenant->id; 
+            return $tenant->id;
         }
-        
-        return self::getUser()->tenant_id;
-    }
 
-    private static function getTenantAll()
-    {
-        return self::getUser()->tenants()->pluck('id')->toArray();
+        return self::getUser()->tenant_id;
     }
 
     private static function getUser()
@@ -49,5 +44,10 @@ trait TenantTrait
         }
 
         throw new Exception('User not logging');
+    }
+
+    private static function getTenantAll()
+    {
+        return self::getUser()->tenants()->pluck('id')->toArray();
     }
 }

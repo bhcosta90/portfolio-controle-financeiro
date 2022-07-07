@@ -11,8 +11,9 @@ class R00001
 {
     public function __construct(
         private PaymentRepository $repository,
-        private PriceInterface $price,
-    ) {
+        private PriceInterface    $price,
+    )
+    {
         //
     }
 

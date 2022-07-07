@@ -48,6 +48,30 @@ class CreateServiceTest extends TestCase
         $mockRepository->shouldHaveReceived('insertParcel')->times(1);
     }
 
+    private function mockRepository(): string|ChargeRepo|Mockery\MockInterface
+    {
+        return Mockery::mock(ChargeRepo::class);
+    }
+
+    private function mockRepositoryRelationship(): string|RepositoryRelationship|Mockery\MockInterface
+    {
+        return Mockery::mock(RepositoryRelationship::class);
+    }
+
+    private function mockRecurrenceRepository(): string|RecurrenceRepository|Mockery\MockInterface
+    {
+        return Mockery::mock(RecurrenceRepository::class);
+    }
+
+    private function mockTransaction(): string|TransactionInterface|Mockery\MockInterface
+    {
+        /** @var Mockery\MockInterface */
+        $mock = Mockery::mock(TransactionInterface::class);
+        $mock->shouldReceive('commit');
+        $mock->shouldReceive('rollback');
+        return $mock;
+    }
+
     public function testHandleRelationshipNotFound()
     {
         $this->expectException(RelationshipException::class);
@@ -103,29 +127,5 @@ class CreateServiceTest extends TestCase
         ]);
 
         $uc->handle($mockInput);
-    }
-
-    private function mockRepository(): string|ChargeRepo|Mockery\MockInterface
-    {
-        return Mockery::mock(ChargeRepo::class);
-    }
-
-    private function mockRepositoryRelationship(): string|RepositoryRelationship|Mockery\MockInterface
-    {
-        return Mockery::mock(RepositoryRelationship::class);
-    }
-
-    private function mockRecurrenceRepository(): string|RecurrenceRepository|Mockery\MockInterface
-    {
-        return Mockery::mock(RecurrenceRepository::class);
-    }
-
-    private function mockTransaction(): string|TransactionInterface|Mockery\MockInterface
-    {
-        /** @var Mockery\MockInterface */
-        $mock = Mockery::mock(TransactionInterface::class);
-        $mock->shouldReceive('commit');
-        $mock->shouldReceive('rollback');
-        return $mock;
     }
 }

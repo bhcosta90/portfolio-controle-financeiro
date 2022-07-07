@@ -13,20 +13,19 @@
 {{-- Support to auto select the old submitted values --}}
 
 @if($errors->any() && $enableOldSupport)
-@push('js')
-<script>
+    @push('js')
+        <script>
 
-    $(() => {
+            $(() => {
 
-        let oldOptions = @json(collect($getOldValue($errorKey)));
+                let oldOptions = @json(collect($getOldValue($errorKey)));
 
-        $('#{{ $id }} option').each(function()
-        {
-            let value = $(this).val() || $(this).text();
-            $(this).prop('selected', oldOptions.includes(value));
-        });
-    });
+                $('#{{ $id }} option').each(function () {
+                    let value = $(this).val() || $(this).text();
+                    $(this).prop('selected', oldOptions.includes(value));
+                });
+            });
 
-</script>
-@endpush
+        </script>
+    @endpush
 @endif

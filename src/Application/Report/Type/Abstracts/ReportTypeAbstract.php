@@ -4,13 +4,26 @@ namespace Core\Application\Report\Type\Abstracts;
 
 abstract class ReportTypeAbstract
 {
-    protected array $columns = [];
-
     public array $report = [];
-
+    protected array $columns = [];
     protected array $column = [];
 
     protected array $line = [];
+
+    public function __get($name)
+    {
+        $name = mb_strtolower($name);
+
+        if (strpos($name, 'column_') === 0) {
+            return $this->column[substr($name, 7)];
+        }
+
+        if (strpos($name, 'line_') === 0) {
+            return $this->line[substr($name, 5)];
+        }
+
+        return $this->getLineColumn($name);
+    }
 
     public function __set($name, $value)
     {
@@ -33,21 +46,6 @@ abstract class ReportTypeAbstract
         }
     }
 
-    public function __get($name)
-    {
-        $name = mb_strtolower($name);
-
-        if (strpos($name, 'column_') === 0) {
-            return $this->column[substr($name, 7)];
-        }
-
-        if (strpos($name, 'line_') === 0) {
-            return $this->line[substr($name, 5)];
-        }
-
-        return $this->getLineColumn($name);
-    }
-
     private function getLineColumn($name)
     {
         if ($name == 'column') {
@@ -60,6 +58,18 @@ abstract class ReportTypeAbstract
 
         return null;
     }
+
+    abstract public function addReport();
+
+    abstract public function addColumn();
+
+    abstract public function addLine();
+
+    abstract public function addPage();
+
+    abstract public function render();
+
+    abstract public function __toString();
 
     protected function sizeFixe($indexColumn, $arColumn, $scapeTotalAvailable = 100, $scapeLine = 0)
     {
@@ -74,16 +84,4 @@ abstract class ReportTypeAbstract
         $sizeFixe = ($sizeAllColumns > 0) ? ($sizeColumn * $scapeTotalAvailable) / $sizeAllColumns : $sizeColumn * $scapeTotalAvailable;
         return round($sizeFixe, 2);
     }
-
-    abstract public function addReport();
-
-    abstract public function addColumn();
-
-    abstract public function addLine();
-
-    abstract public function addPage();
-
-    abstract public function render();
-
-    abstract public function __toString();
 }

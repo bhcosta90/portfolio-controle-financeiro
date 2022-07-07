@@ -8,7 +8,6 @@ use App\Repository\Eloquent\AccountBankEloquent as Eloquent;
 use Core\Application\AccountBank\Domain\AccountBankEntity as Entity;
 use Core\Application\AccountBank\Repository\AccountBankRepository as Repository;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Ramsey\Uuid\Uuid;
 use Tests\TestCase;
 
 class AccountBankRepositoryTest extends TestCase
@@ -33,6 +32,11 @@ class AccountBankRepositoryTest extends TestCase
         ]);
     }
 
+    private function getAccountBankRepository(): Eloquent
+    {
+        return app(Repository::class);
+    }
+
     public function testFindAndUpdate()
     {
         /** @var Entity */
@@ -51,19 +55,22 @@ class AccountBankRepositoryTest extends TestCase
         ]);
     }
 
-    public function testDelete(){
+    public function testDelete()
+    {
         $obj = $this->getAccountBankRepository()->find(Model::factory()->create()->id);
         $this->assertTrue($this->getAccountBankRepository()->delete($obj));
     }
 
-    public function testPaginate(){
+    public function testPaginate()
+    {
         Model::factory(35)->create();
         $data = $this->getAccountBankRepository()->paginate();
         $this->assertCount(15, $data->items());
         $this->assertEquals(35, $data->total());
     }
 
-    public function testFilterName(){
+    public function testFilterName()
+    {
         Model::factory(5)->create(['name' => 'aaaaaaa']);
         Model::factory(5)->create(['name' => 'testing']);
         $data = $this->getAccountBankRepository()->paginate(filter: ['name' => 'test']);
@@ -103,10 +110,5 @@ class AccountBankRepositoryTest extends TestCase
             'bank_account' => '600',
             'bank_account_digit' => 2,
         ]);
-    }
-
-    private function getAccountBankRepository(): Eloquent
-    {
-        return app(Repository::class);
     }
 }

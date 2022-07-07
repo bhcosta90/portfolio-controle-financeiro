@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Application\AccountBank\Events; 
+namespace Core\Application\AccountBank\Events;
 
 use Core\Application\AccountBank\Domain\AccountBankEntity;
 use Core\Shared\Abstracts\EventAbstract;
@@ -11,9 +11,10 @@ class AddValueEvent extends EventAbstract
 {
     public function __construct(
         private AccountBankEntity $entity,
-        private FloatInputObject $value,
-        private UuidObject $idPayment,
-    ) {
+        private FloatInputObject  $value,
+        private UuidObject        $idPayment,
+    )
+    {
         //
     }
 

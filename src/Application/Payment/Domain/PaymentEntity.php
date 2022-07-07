@@ -18,38 +18,40 @@ class PaymentEntity extends EntityAbstract
     protected float $bankValue = 0;
 
     private function __construct(
-        protected UuidObject $tenant,
-        protected ?EntityObject $relationship,
-        protected NameInputObject $title,
-        protected ?NameInputObject $resume,
-        protected ?NameInputObject $name,
-        protected ?EntityObject $charge,
-        protected ?UuidObject $bank,
-        protected FloatInputObject $value,
+        protected UuidObject        $tenant,
+        protected ?EntityObject     $relationship,
+        protected NameInputObject   $title,
+        protected ?NameInputObject  $resume,
+        protected ?NameInputObject  $name,
+        protected ?EntityObject     $charge,
+        protected ?UuidObject       $bank,
+        protected FloatInputObject  $value,
         protected PaymentStatusEnum $status,
-        protected PaymentTypeEnum $type,
-        protected DateTime $date,
-        protected ?UuidObject $id = null,
-        protected ?DateTime $createdAt = null,
-    ) {
+        protected PaymentTypeEnum   $type,
+        protected DateTime          $date,
+        protected ?UuidObject       $id = null,
+        protected ?DateTime         $createdAt = null,
+    )
+    {
         parent::__construct();
     }
 
     public static function create(
-        string $tenant,
+        string        $tenant,
         ?EntityObject $relationship,
         ?EntityObject $charge,
-        string $title,
-        ?string $resume,
-        ?string $name,
-        ?string $bank,
-        float $value,
-        ?int $status,
-        int $type,
-        string $date = null,
-        ?string $id = null,
-        ?string $createdAt = null,
-    ) {
+        string        $title,
+        ?string       $resume,
+        ?string       $name,
+        ?string       $bank,
+        float         $value,
+        ?int          $status,
+        int           $type,
+        string        $date = null,
+        ?string       $id = null,
+        ?string       $createdAt = null,
+    )
+    {
         $objDate = new DateTime($date);
         if (empty($date) || $objDate->format('Y-m-d') == (new DateTime)->format('Y-m-d')) {
             $objDate = (new DateTime())->modify('+1 minute');

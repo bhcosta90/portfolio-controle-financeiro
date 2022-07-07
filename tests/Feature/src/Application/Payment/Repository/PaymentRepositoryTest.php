@@ -4,8 +4,8 @@ namespace Tests\Feature\src\Application\Payment\Repository;
 
 use App\Models\AccountBank;
 use App\Models\Charge;
-use App\Models\Payment as Model;
 use App\Models\Payment;
+use App\Models\Payment as Model;
 use App\Models\Relationship;
 use App\Repository\Eloquent\PaymentEloquent as Eloquent;
 use Core\Application\Payment\Domain\PaymentEntity as Entity;
@@ -45,6 +45,11 @@ class PaymentRepositoryTest extends TestCase
             'status' => 1,
             'account_bank_id' => null,
         ]);
+    }
+
+    private function getPaymentRepository(): Eloquent
+    {
+        return app(Repository::class);
     }
 
     public function testInsertWithBank()
@@ -138,10 +143,5 @@ class PaymentRepositoryTest extends TestCase
 
         $list = $this->getPaymentRepository()->getListStatus(2);
         $this->assertCount(5, $list->items());
-    }
-
-    private function getPaymentRepository(): Eloquent
-    {
-        return app(Repository::class);
     }
 }

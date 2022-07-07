@@ -6,7 +6,8 @@ class Output
 {
     public function __construct(
         public array $id,
-    ) {
+    )
+    {
         //
     }
 }

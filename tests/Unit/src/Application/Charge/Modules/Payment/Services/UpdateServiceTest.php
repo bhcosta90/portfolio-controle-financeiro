@@ -2,10 +2,10 @@
 
 namespace Tests\Unit\src\Application\Charge\Modules\Payment\Services;
 
-use Core\Application\Charge\Modules\Payment\Repository\ChargePaymentRepository as ChargeRepo;
-use Core\Application\Charge\Modules\Payment\Services\UpdateService;
-use Core\Application\Charge\Modules\Payment\Services\DTO\Update\{Input, Output};
 use Core\Application\Charge\Modules\Payment\Domain\PaymentEntity as Entity;
+use Core\Application\Charge\Modules\Payment\Repository\ChargePaymentRepository as ChargeRepo;
+use Core\Application\Charge\Modules\Payment\Services\DTO\Update\{Input, Output};
+use Core\Application\Charge\Modules\Payment\Services\UpdateService;
 use Core\Application\Charge\Modules\Recurrence\Repository\RecurrenceRepository;
 use Core\Application\Relationship\Modules\Company\Repository\CompanyRepository as RepositoryRelationship;
 use Core\Application\Relationship\Shared\Exceptions\RelationshipException;
@@ -60,6 +60,21 @@ class UpdateServiceTest extends TestCase
         $mockRelationship->shouldHaveReceived('exist')->times(1);
         $mockRepository->shouldHaveReceived('find')->times(1);
         $mockRepository->shouldHaveReceived('update')->times(1);
+    }
+
+    private function mockRepository(): string|ChargeRepo|Mockery\MockInterface
+    {
+        return Mockery::mock(ChargeRepo::class);
+    }
+
+    private function mockRepositoryRelationship(): string|RepositoryRelationship|Mockery\MockInterface
+    {
+        return Mockery::mock(RepositoryRelationship::class);
+    }
+
+    private function mockRecurrenceRepository(): string|RecurrenceRepository|Mockery\MockInterface
+    {
+        return Mockery::mock(RecurrenceRepository::class);
     }
 
     public function testHandleCompanyEqual()
@@ -251,20 +266,5 @@ class UpdateServiceTest extends TestCase
 
         $mockRepository->shouldHaveReceived('find')->times(1);
         $mockRepository->shouldHaveReceived('update')->times(1);
-    }
-
-    private function mockRepository(): string|ChargeRepo|Mockery\MockInterface
-    {
-        return Mockery::mock(ChargeRepo::class);
-    }
-
-    private function mockRepositoryRelationship(): string|RepositoryRelationship|Mockery\MockInterface
-    {
-        return Mockery::mock(RepositoryRelationship::class);
-    }
-
-    private function mockRecurrenceRepository(): string|RecurrenceRepository|Mockery\MockInterface
-    {
-        return Mockery::mock(RecurrenceRepository::class);
     }
 }

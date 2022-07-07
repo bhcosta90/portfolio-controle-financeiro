@@ -11,9 +11,10 @@ use Core\Shared\UseCases\Delete\{DeleteInput, DeleteOutput};
 class DeleteService
 {
     public function __construct(
-        private Repo $repository,
+        private Repo                 $repository,
         private RecurrenceRepository $recurrence,
-    ) {
+    )
+    {
         //
     }
 

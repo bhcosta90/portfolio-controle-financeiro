@@ -2,10 +2,10 @@
 
 namespace Tests\Unit\src\Application\Payment\Domain;
 
-use PHPUnit\Framework\TestCase;
 use Core\Application\Payment;
 use Core\Shared\ValueObjects\EntityObject;
 use DateTime;
+use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 
 class PaymentEntityTest extends TestCase

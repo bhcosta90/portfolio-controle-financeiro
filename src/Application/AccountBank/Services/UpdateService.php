@@ -12,9 +12,10 @@ use Core\Application\Payment\Shared\Enums\PaymentTypeEnum;
 class UpdateService
 {
     public function __construct(
-        private Repo $repository,
+        private Repo              $repository,
         private PaymentRepository $payment
-    ) {
+    )
+    {
         //
     }
 
@@ -28,7 +29,7 @@ class UpdateService
         $entity->update($input->name, $input->value);
         $this->repository->update($entity);
 
-        if($valueOld !== $input->value) {
+        if ($valueOld !== $input->value) {
             $objPayment = PaymentEntity::create(
                 tenant: $entity->tenant,
                 relationship: null,

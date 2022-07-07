@@ -9,7 +9,8 @@ class PaymentForm extends Form
 {
     public function __construct(
         private AccountBankRepository $bank,
-    ) {
+    )
+    {
         //
     }
 

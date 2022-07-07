@@ -14,7 +14,8 @@ class AccountBankEloquent extends EloquentAbstract implements AccountBankReposit
 {
     public function __construct(
         protected AccountBank $model,
-    ) {
+    )
+    {
         //
     }
 
@@ -32,7 +33,7 @@ class AccountBankEloquent extends EloquentAbstract implements AccountBankReposit
             'bank_account_digit' => $entity->bank?->account?->digit,
         ]);
 
-        return (bool) $obj;
+        return (bool)$obj;
     }
 
     public function update(EntityAbstract $entity): bool
@@ -70,7 +71,7 @@ class AccountBankEloquent extends EloquentAbstract implements AccountBankReposit
     public function paginate(?array $filter = null, ?int $page = 1, ?int $totalPage = 15): PaginationInterface
     {
         $result = $this->model
-            ->where(fn ($q) => ($f = $filter['name'] ?? null)
+            ->where(fn($q) => ($f = $filter['name'] ?? null)
                 ? $q->where('account_banks.name', 'like', "%{$f}%")
                 : null)
             ->orderBy('account_banks.name');

@@ -2,13 +2,12 @@
 
 namespace Tests\Unit\src\Application\Payment\Services;
 
-use App\Models\Payment;
 use Core\Application\AccountBank\Domain\AccountBankEntity;
 use Core\Application\AccountBank\Repository\AccountBankRepository;
 use Core\Application\Payment\Domain\PaymentEntity;
 use Core\Application\Payment\Repository\PaymentRepository;
-use Core\Application\Payment\Services\ExecutePaymentService;
 use Core\Application\Payment\Services\DTO\ExecutePayment\{Input, Output};
+use Core\Application\Payment\Services\ExecutePaymentService;
 use Core\Application\Relationship\Modules\Company\Domain\CompanyEntity;
 use Core\Application\Relationship\Modules\Company\Repository\CompanyRepository;
 use Core\Application\Relationship\Modules\Customer\Domain\CustomerEntity;
@@ -47,6 +46,43 @@ class ExecutePaymentServiceTest extends TestCase
         $mockRepository->shouldHaveReceived('updateStatus')->times(1);
         $mockRepository->shouldHaveReceived('getListStatus')->times(1);
         $mockRepository->shouldNotHaveReceived('update');
+    }
+
+    private function mockPaymentRepository(): string|PaymentRepository|Mockery\MockInterface
+    {
+        return Mockery::mock(PaymentRepository::class);
+    }
+
+    private function mockCustomerRepository(): string|CustomerRepository|Mockery\MockInterface
+    {
+        return Mockery::mock(CustomerRepository::class);
+    }
+
+    private function mockCompanyRepository(): string|CompanyRepository|Mockery\MockInterface
+    {
+        return Mockery::mock(CompanyRepository::class);
+    }
+
+    private function mockAccountBankRepository(): string|AccountBankRepository|Mockery\MockInterface
+    {
+        return Mockery::mock(AccountBankRepository::class);
+    }
+
+    private function mockTransactionInterface(): string|TransactionInterface|Mockery\MockInterface
+    {
+        /** @var Mockery\MockInterface */
+        $mock = Mockery::mock(TransactionInterface::class);
+        $mock->shouldReceive('commit');
+        $mock->shouldReceive('rollback');
+        return $mock;
+    }
+
+    private function mockResultInterface($entity = []): string|ResultInterface|Mockery\MockInterface
+    {
+        /** @var Mockery\MockInterface */
+        $mock = Mockery::mock(ResultInterface::class);
+        $mock->shouldReceive('items')->andReturn($entity);
+        return $mock;
     }
 
     public function testExecuteOnlyPaymentCustomer()
@@ -202,42 +238,5 @@ class ExecutePaymentServiceTest extends TestCase
         $mockCompany->shouldHaveReceived('update')->times(1);
         $mockAccountBank->shouldHaveReceived('find')->times(1);
         $mockAccountBank->shouldHaveReceived('update')->times(1);
-    }
-
-    private function mockAccountBankRepository(): string|AccountBankRepository|Mockery\MockInterface
-    {
-        return Mockery::mock(AccountBankRepository::class);
-    }
-
-    private function mockPaymentRepository(): string|PaymentRepository|Mockery\MockInterface
-    {
-        return Mockery::mock(PaymentRepository::class);
-    }
-
-    private function mockCompanyRepository(): string|CompanyRepository|Mockery\MockInterface
-    {
-        return Mockery::mock(CompanyRepository::class);
-    }
-
-    private function mockCustomerRepository(): string|CustomerRepository|Mockery\MockInterface
-    {
-        return Mockery::mock(CustomerRepository::class);
-    }
-
-    private function mockTransactionInterface(): string|TransactionInterface|Mockery\MockInterface
-    {
-        /** @var Mockery\MockInterface */
-        $mock = Mockery::mock(TransactionInterface::class);
-        $mock->shouldReceive('commit');
-        $mock->shouldReceive('rollback');
-        return $mock;
-    }
-
-    private function mockResultInterface($entity = []): string|ResultInterface|Mockery\MockInterface
-    {
-        /** @var Mockery\MockInterface */
-        $mock = Mockery::mock(ResultInterface::class);
-        $mock->shouldReceive('items')->andReturn($entity);
-        return $mock;
     }
 }
