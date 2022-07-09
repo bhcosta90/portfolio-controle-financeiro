@@ -7,6 +7,7 @@ use Core\Application\AccountBank\Repository\AccountBankRepository as Repo;
 use Core\Application\Charge\Shared\Enums\ChargeStatusEnum;
 use Core\Application\Payment\Domain\PaymentEntity;
 use Core\Application\Payment\Repository\PaymentRepository;
+use Core\Application\Payment\Shared\Enums\PaymentStatusEnum;
 use Core\Application\Payment\Shared\Enums\PaymentTypeEnum;
 
 class UpdateService
@@ -39,7 +40,7 @@ class UpdateService
                 name: null,
                 bank: $input->id,
                 value: abs($valueOld - $input->value),
-                status: null,
+                status: PaymentStatusEnum::PROCESSED->value,
                 type: $type->value,
                 date: null,
             );
