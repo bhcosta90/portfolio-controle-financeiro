@@ -26,7 +26,7 @@ class UpdateService
         $entity = $this->repository->find($input->id);
         $valueOld = $entity->value;
 
-        $type = $valueOld > $input->value ? PaymentTypeEnum::CREDIT : PaymentTypeEnum::DEBIT;
+        $type = $input->value > $valueOld ? PaymentTypeEnum::CREDIT : PaymentTypeEnum::DEBIT;
         $entity->update($input->name, $input->value);
         $this->repository->update($entity);
 

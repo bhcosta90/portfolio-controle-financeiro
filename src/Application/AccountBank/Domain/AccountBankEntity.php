@@ -60,8 +60,8 @@ class AccountBankEntity extends EntityAbstract implements ValueInterface
     }
 
     public function update(
-        string  $name,
-        float   $value,
+        string $name,
+        float $value,
         ?string $bankCode = null,
         ?string $agency = null,
         ?string $agencyDigit = null,
