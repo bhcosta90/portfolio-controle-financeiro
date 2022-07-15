@@ -88,7 +88,7 @@ class AccountBankController extends Controller
             ->where('tenant_id', $request->user()->tenant_id)
             ->where('status', [ChargeStatusEnum::PENDING])
             ->where('entity', ReceiveEntity::class)
-            ->whereBetween('charges.date', [$dateStart, $dateFinish])
+            ->where('charges.date', '>', $dateStart)
             ->whereNull('deleted_at')
             ->sum(DB::raw('value_charge - value_pay'));
 
@@ -96,7 +96,7 @@ class AccountBankController extends Controller
             ->where('tenant_id', $request->user()->tenant_id)
             ->where('status', [ChargeStatusEnum::PENDING])
             ->where('entity', PaymentEntity::class)
-            ->whereBetween('charges.date', [$dateStart, $dateFinish])
+            ->where('charges.date', '>', $dateStart)
             ->whereNull('deleted_at')
             ->sum(DB::raw('value_charge - value_pay'));
 
