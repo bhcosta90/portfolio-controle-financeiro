@@ -145,6 +145,7 @@ class ChargePaymentController extends Controller
             ->where('entity', Entity::class)
             ->whereIn('status', [ChargeStatusEnum::PENDING])
             ->whereBetween('date', $this->getMonth($request->month))
+            ->whereNull('deleted_at')
             ->count();
 
         return response()->json([
@@ -165,6 +166,7 @@ class ChargePaymentController extends Controller
             ->where('entity', Entity::class)
             ->whereIn('status', [ChargeStatusEnum::PENDING])
             ->where('date', (new Carbon())->format('Y-m-d'))
+            ->whereNull('deleted_at')
             ->count();
 
         return response()->json([
@@ -179,6 +181,7 @@ class ChargePaymentController extends Controller
             ->where('entity', Entity::class)
             ->whereIn('status', [ChargeStatusEnum::PENDING])
             ->whereBetween('date', $this->getMonth($request->month))
+            ->whereNull('deleted_at')
             ->sum(DB::raw('value_charge', 'value_pay'));
 
         return response()->json([
@@ -193,6 +196,7 @@ class ChargePaymentController extends Controller
             ->where('tenant_id', $request->user()->tenant_id)
             ->where('entity', Entity::class)
             ->whereIn('status', [ChargeStatusEnum::PENDING])
+            ->whereNull('deleted_at')
             ->sum(DB::raw('value_charge', 'value_pay'));
 
         return response()->json([
@@ -208,6 +212,7 @@ class ChargePaymentController extends Controller
             ->where('entity', Entity::class)
             ->whereIn('status', [ChargeStatusEnum::PENDING])
             ->where('date', '<', $this->getMonth($request->month)[0])
+            ->whereNull('deleted_at')
             ->count();
 
         return response()->json([

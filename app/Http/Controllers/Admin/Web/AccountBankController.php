@@ -81,6 +81,7 @@ class AccountBankController extends Controller
 
         $value = DB::table('account_banks')
             ->where('tenant_id', $request->user()->tenant_id)
+            ->whereNull('deleted_at')
             ->sum('value');
 
         $value += DB::table('charges')
@@ -88,6 +89,7 @@ class AccountBankController extends Controller
             ->where('status', [ChargeStatusEnum::PENDING])
             ->where('entity', ReceiveEntity::class)
             ->whereBetween('charges.date', [$dateStart, $dateFinish])
+            ->whereNull('deleted_at')
             ->sum(DB::raw('value_charge - value_pay'));
 
         $value -= DB::table('charges')
@@ -95,6 +97,7 @@ class AccountBankController extends Controller
             ->where('status', [ChargeStatusEnum::PENDING])
             ->where('entity', PaymentEntity::class)
             ->whereBetween('charges.date', [$dateStart, $dateFinish])
+            ->whereNull('deleted_at')
             ->sum(DB::raw('value_charge - value_pay'));
 
         return response()->json([
