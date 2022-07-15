@@ -103,6 +103,8 @@ class AccountBankController extends Controller
         return response()->json([
             'total' => $value ?? 0,
             'total_real' => str()->numberBr($value ?? 0),
+            'date_start' => $dateStart,
+            'date_finish' => $dateFinish,
         ]);
     }
 }
