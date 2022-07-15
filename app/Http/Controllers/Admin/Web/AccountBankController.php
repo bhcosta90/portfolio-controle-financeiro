@@ -76,8 +76,8 @@ class AccountBankController extends Controller
 
     public function financial(Request $request)
     {
-        $dateStart = (new Carbon($request->month))->firstOfMonth()->format('Y-m-d');
-        $dateFinish = (new Carbon($request->month))->addMonth()->lastOfMonth()->format('Y-m-d');
+        $dateStart = (new Carbon())->firstOfMonth()->format('Y-m-d');
+        $dateFinish = (new Carbon($request->month))->lastOfMonth()->format('Y-m-d');
 
         $value = DB::table('account_banks')
             ->where('tenant_id', $request->user()->tenant_id)
