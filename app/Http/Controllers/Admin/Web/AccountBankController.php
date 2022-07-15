@@ -77,7 +77,7 @@ class AccountBankController extends Controller
     public function financial(Request $request)
     {
         $dateStart = (new Carbon($request->month))->firstOfMonth()->format('Y-m-d');
-        $dateFinish = (new Carbon($request->month))->lastOfMonth()->format('Y-m-d');
+        $dateFinish = (new Carbon($request->month))->addMonth()->lastOfMonth()->format('Y-m-d');
 
         $value = DB::table('account_banks')
             ->where('tenant_id', $request->user()->tenant_id)
@@ -88,7 +88,7 @@ class AccountBankController extends Controller
             ->where('tenant_id', $request->user()->tenant_id)
             ->where('status', [ChargeStatusEnum::PENDING])
             ->where('entity', ReceiveEntity::class)
-            ->where('charges.date', '>', $dateStart)
+            ->whereBetween('charges.date', [$dateStart, $dateFinish])
             ->whereNull('deleted_at')
             ->sum(DB::raw('value_charge - value_pay'));
 
@@ -96,7 +96,7 @@ class AccountBankController extends Controller
             ->where('tenant_id', $request->user()->tenant_id)
             ->where('status', [ChargeStatusEnum::PENDING])
             ->where('entity', PaymentEntity::class)
-            ->where('charges.date', '>', $dateStart)
+            ->whereBetween('charges.date', [$dateStart, $dateFinish])
             ->whereNull('deleted_at')
             ->sum(DB::raw('value_charge - value_pay'));
 
