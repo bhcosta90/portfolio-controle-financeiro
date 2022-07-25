@@ -1,0 +1,13 @@
+<?php
+
+namespace {{ namespace }};
+
+use Tests\UnitCase as TestCase;
+
+class {{ class }} extends TestCase
+{
+    public function testCreate()
+    {
+        $this->assertTrue(true);
+    }
+}
