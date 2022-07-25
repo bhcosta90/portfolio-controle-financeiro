@@ -136,5 +136,7 @@
     "Charge Receive": "Conta a Receber",
     "Account Bank": "Conta Bancária",
     "Recurrence": "Recorrência",
-    "Transaction": "Transação"
+    "Transaction": "Transação",
+    "Deposit": "Depósito",
+    "Withdrawal": "Saque"
 }

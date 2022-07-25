@@ -40,7 +40,7 @@
                                 @if($rs->relationship_name)
                                     {{ $rs->relationship_name }}
                                 @endif
-                                <div>{{ $rs->title }}</div>
+                                <div>{{ __($rs->title) }}</div>
                             </div>
                         </div>    
                     </td>
