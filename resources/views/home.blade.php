@@ -65,7 +65,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-6 request" data-route="{{ route('api.account.bank.financial', ['tenant' => auth()->user()->tenant_id, 'token' => $token]) }}">
+            <div class="col-6 request" data-route="{{ route('api.account.bank.financial', ['month' => request('month'), 'tenant' => auth()->user()->tenant_id, 'token' => $token]) }}">
                 <div class="small-box box bg-secondary" data-success="bg-success" data-danger="bg-danger">
                     <div class="inner">
                         <h3 class='total_real' data-prefix='R$'>...</h3>

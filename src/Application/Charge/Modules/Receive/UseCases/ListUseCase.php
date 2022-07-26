@@ -50,6 +50,7 @@ class ListUseCase
             from: $result->from(),
             current_page: $result->currentPage(),
             filter: $this->filter->handle(),
+            value: $this->repository->total(filter: $input->filter),
         );
     }
 }

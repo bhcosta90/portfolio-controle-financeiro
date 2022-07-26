@@ -14,6 +14,7 @@ class Output
         public int $from,
         public int $current_page,
         public array $filter,
+        public float $value,
     ) {
         //
     }

@@ -18,7 +18,7 @@ class BankController extends Controller
     {
         $tenant = $tenantSupport->validate($request);
 
-        $dateStart = (new Carbon($request->month))->firstOfMonth()->format('Y-m-d');
+        $dateStart = (new Carbon())->firstOfMonth()->format('Y-m-d');
         $dateFinish = (new Carbon($request->month))->lastOfMonth()->format('Y-m-d');
 
         $valueBank = DB::table('accounts')

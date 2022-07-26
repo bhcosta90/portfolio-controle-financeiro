@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Manager\EventManager;
 use Core\Shared\Interfaces\EventManagerInterface;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,7 +21,11 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment('local')) {
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
+            if (env('APP_DEBUG')) {
+                $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+            }
         }    
+        Paginator::useBootstrap();
     }
 
     /**

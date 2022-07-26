@@ -14,4 +14,6 @@ interface PaymentRepository extends RepositoryInterface
     public function filterByDate(DateTime $start, DateTime $end, int $type);
 
     public function filterByCompanyName(string $name);
+
+    public function total(array $filter): float;
 }

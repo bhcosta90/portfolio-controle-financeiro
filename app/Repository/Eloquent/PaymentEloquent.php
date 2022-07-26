@@ -13,6 +13,7 @@ use Core\Shared\Abstracts\EntityAbstract;
 use Core\Shared\Interfaces\PaginationInterface;
 use Core\Shared\ValueObjects\ParcelObject;
 use DateTime;
+use Illuminate\Support\Facades\DB;
 
 class PaymentEloquent extends EloquentAbstract implements PaymentRepository
 {
@@ -110,7 +111,7 @@ class PaymentEloquent extends EloquentAbstract implements PaymentRepository
                 $start->format('Y-m-d H:i:s'),
                 $end->format('Y-m-d H:i:s')
             ])
-            ->orWhere('charges.date', '<', $dayFirst->format('Y-m-d')))
+                ->orWhere('charges.date', '<', $dayFirst->format('Y-m-d')))
         };
     }
 
@@ -121,7 +122,7 @@ class PaymentEloquent extends EloquentAbstract implements PaymentRepository
 
     public function paginate(?array $filter = null, ?int $page = 1, ?int $totalPage = 15): PaginationInterface
     {
-        $result = $this->model
+        $result = $this->select($filter)
             ->select(
                 'charges.*',
                 'relationships.name as relationship_name',
@@ -129,11 +130,6 @@ class PaymentEloquent extends EloquentAbstract implements PaymentRepository
             )
             ->join('relationships', 'relationships.id', '=', 'charges.relationship_id')
             ->leftJoin('recurrences', 'recurrences.id', '=', 'charges.recurrence_id')
-            ->where('charges.entity', PaymentEntity::class)
-            ->where(fn ($q) => ($f = $filter['title'] ?? null)
-                ? $q->where('charges.title', 'like', "%{$f}%")
-                : null)
-            ->whereIn('charges.status', [ChargeStatusEnum::PENDING])
             ->orderBy('charges.date')
             ->orderBy('relationships.name')
             ->orderBy('recurrences.name');
@@ -142,5 +138,20 @@ class PaymentEloquent extends EloquentAbstract implements PaymentRepository
             page: $page,
             perPage: $totalPage,
         ));
+    }
+
+    public function total(array $filter): float
+    {
+        return $this->select($filter)->sum(DB::raw('value_charge - value_pay'));
+    }
+
+    private function select(array $filter)
+    {
+        return $this->model()
+            ->where('charges.entity', PaymentEntity::class)
+            ->where(fn ($q) => ($f = $filter['title'] ?? null)
+                ? $q->where('charges.title', 'like', "%{$f}%")
+                : null)
+            ->whereIn('charges.status', [ChargeStatusEnum::PENDING]);
     }
 }

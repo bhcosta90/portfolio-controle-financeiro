@@ -14,4 +14,6 @@ interface ReceiveRepository extends RepositoryInterface
     public function filterByDate(DateTime $start, DateTime $end, int $type);
 
     public function filterByCustomerName(string $name);
+
+    public function total(array $filter): float;
 }

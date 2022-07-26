@@ -1,2 +1,3 @@
 *.sqlite*
 seeders/CostaSeeder.php
+seeders/MayaraSeeder.php

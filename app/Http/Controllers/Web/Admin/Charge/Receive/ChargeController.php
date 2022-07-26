@@ -35,6 +35,7 @@ class ChargeController extends Controller
         return [
             'data' => $data,
             'filter' => $ret->filter ?? null,
+            'total' => $ret->value,
         ];
     }
 

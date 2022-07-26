@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
             'name' => "Mensal"
         ]);
 
-        \App\Models\Relationship::factory(rand(7, 15))->create([
+        \App\Models\Relationship::factory(rand(15, 45))->create([
             'tenant_id' => $tenant->id,
         ])->each(function ($obj) use ($recurrence) {
             \App\Models\Charge::factory(rand(8, 15))->create([
