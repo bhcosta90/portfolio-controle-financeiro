@@ -41,6 +41,7 @@ class ListUseCase
         }
 
         $result = $result->paginate(filter: $input->filter, page: $input->page, totalPage: $input->total);
+        
         return new DTO\List\Output(
             items: $result->items(),
             total: $result->total(),

@@ -38,6 +38,8 @@ class ListUseCase
         if (!empty($input->filter['customer_name'])) {
             $result->filterByCustomerName($input->filter['customer_name']);
         }
+
+        $total = $this->repository->total(filter: $input->filter);
         $result = $result->paginate(filter: $input->filter, page: $input->page, totalPage: $input->total);
 
         return new DTO\List\Output(
@@ -50,7 +52,7 @@ class ListUseCase
             from: $result->from(),
             current_page: $result->currentPage(),
             filter: $this->filter->handle(),
-            value: $this->repository->total(filter: $input->filter),
+            value: $total,
         );
     }
 }
