@@ -147,7 +147,7 @@ class PaymentEloquent extends EloquentAbstract implements PaymentRepository
 
     private function where(array $filter)
     {
-        return $this->model()
+        return $this->model
             ->where('charges.entity', PaymentEntity::class)
             ->where(fn ($q) => ($f = $filter['title'] ?? null)
                 ? $q->where('charges.title', 'like', "%{$f}%")
