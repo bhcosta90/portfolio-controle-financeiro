@@ -18,30 +18,13 @@ class ListUseCase
 
     public function handle(ListInput $input): DTO\List\Output
     {
-        $dateStart = new DateTime($input->filter['date'][0] ?? null);
-        $dateFinish = new DateTime($input->filter['date'][1] ?? null);
-
-        if (empty($input->filter['date'][0])) {
-            $dateStart->modify('first day of this month');
-        }
-
-        if (empty($input->filter['date'][1])) {
-            $dateFinish->modify('last day of this month');
-        }
-
-        $result = $this->repository;
-        $result->filterByDate(
-            $dateStart->setTime(0, 0, 0),
-            $dateFinish->setTime(23, 59, 59),
-            $input->filter['type'] ?? 1
+        $total = $this->getQuery($input)->total(filter: $input->filter);
+        $result = $this->getQuery($input)->paginate(
+            filter: $input->filter,
+            page: $input->page,
+            totalPage: $input->total
         );
-        if (!empty($input->filter['customer_name'])) {
-            $result->filterByCustomerName($input->filter['customer_name']);
-        }
-
-        $total = $this->repository->total(filter: $input->filter);
-        $result = $result->paginate(filter: $input->filter, page: $input->page, totalPage: $input->total);
-
+        
         return new DTO\List\Output(
             items: $result->items(),
             total: $result->total(),
@@ -54,5 +37,31 @@ class ListUseCase
             filter: $this->filter->handle(),
             value: $total,
         );
+    }
+
+    private function getQuery(ListInput $input){
+        $dateStart = new DateTime($input->filter['date'][0] ?? null);
+        $dateFinish = new DateTime($input->filter['date'][1] ?? null);
+
+        if (empty($input->filter['date'][0])) {
+            $dateStart->modify('first day of this month');
+        }
+
+        if (empty($input->filter['date'][1])) {
+            $dateFinish->modify('last day of this month');
+        }
+
+        $result = clone $this->repository;
+        
+        $result->filterByDate(
+            $dateStart->setTime(0, 0, 0),
+            $dateFinish->setTime(23, 59, 59),
+            $input->filter['type'] ?? 1
+        );
+        if (!empty($input->filter['customer_name'])) {
+            $result->filterByCustomerName($input->filter['customer_name']);
+        }
+
+        return $result;
     }
 }

@@ -128,8 +128,6 @@ class ReceiveEloquent extends EloquentAbstract implements ReceiveRepository
                 'relationships.name as relationship_name',
                 'recurrences.name as recurrence_name',
             )
-            ->join('relationships', 'relationships.id', '=', 'charges.relationship_id')
-            ->leftJoin('recurrences', 'recurrences.id', '=', 'charges.recurrence_id')
             ->orderBy('charges.date')
             ->orderBy('relationships.name')
             ->orderBy('recurrences.name');
@@ -148,7 +146,9 @@ class ReceiveEloquent extends EloquentAbstract implements ReceiveRepository
     private function where(array $filter)
     {
         return $this->model
-            ->where('charges.entity', PaymentEntity::class)
+            ->join('relationships', 'relationships.id', '=', 'charges.relationship_id')
+            ->leftJoin('recurrences', 'recurrences.id', '=', 'charges.recurrence_id')
+            ->where('charges.entity', ReceiveEntity::class)
             ->where(fn ($q) => ($f = $filter['title'] ?? null)
                 ? $q->where('charges.title', 'like', "%{$f}%")
                 : null)
