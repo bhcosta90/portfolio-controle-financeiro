@@ -122,7 +122,7 @@ class PaymentEloquent extends EloquentAbstract implements PaymentRepository
 
     public function paginate(?array $filter = null, ?int $page = 1, ?int $totalPage = 15): PaginationInterface
     {
-        $result = $this->model->where($filter)
+        $result = $this->where($filter)
             ->select(
                 'charges.*',
                 'relationships.name as relationship_name',
@@ -142,12 +142,12 @@ class PaymentEloquent extends EloquentAbstract implements PaymentRepository
 
     public function total(array $filter): float
     {
-        return $this->model->where($filter)->sum(DB::raw('value_charge - value_pay'));
+        return $this->where($filter)->sum(DB::raw('value_charge - value_pay'));
     }
 
     private function where(array $filter)
     {
-        return $this->model
+        return $this->model()
             ->where('charges.entity', PaymentEntity::class)
             ->where(fn ($q) => ($f = $filter['title'] ?? null)
                 ? $q->where('charges.title', 'like', "%{$f}%")

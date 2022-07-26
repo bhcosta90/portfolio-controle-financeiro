@@ -122,7 +122,7 @@ class ReceiveEloquent extends EloquentAbstract implements ReceiveRepository
 
     public function paginate(?array $filter = null, ?int $page = 1, ?int $totalPage = 15): PaginationInterface
     {
-        $result = $this->select($filter)
+        $result = $this->where($filter)
             ->select(
                 'charges.*',
                 'relationships.name as relationship_name',
@@ -142,13 +142,13 @@ class ReceiveEloquent extends EloquentAbstract implements ReceiveRepository
 
     public function total(array $filter): float
     {
-        return $this->select($filter)->sum(DB::raw('value_charge - value_pay'));
+        return $this->where($filter)->sum(DB::raw('value_charge - value_pay'));
     }
 
-    public function select(array $filter)
+    private function where(array $filter)
     {
         return $this->model()
-            ->where('charges.entity', ReceiveEntity::class)
+            ->where('charges.entity', PaymentEntity::class)
             ->where(fn ($q) => ($f = $filter['title'] ?? null)
                 ? $q->where('charges.title', 'like', "%{$f}%")
                 : null)
