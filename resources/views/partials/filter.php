@@ -10,7 +10,10 @@ foreach ($filter as $k => $rs) {
 
         switch ($rs['type']) {
             case 'date_between':
-                $checked = str()->date($_GET[$rs['name']][0]) . ' até ' . str()->date($_GET[$rs['name']][1]);
+                $checked = "";
+                if (($_GET[$rs['name']][0] ?? "") != ($rs['value'][0] ?? "") || ($_GET[$rs['name']][1] ?? "") != ($rs['value'][1] ?? "")) {
+                    $checked = str()->date($_GET[$rs['name']][0]) . ' até ' . str()->date($_GET[$rs['name']][1]);
+                }
                 break;
             case 'checkbox':
                 $actual = $_GET[$rs['name']];
