@@ -2,20 +2,20 @@
 
 namespace App\Listeners\Transaction;
 
-use App\Jobs\Transaction\ExecutePaymentJob;
-use Carbon\Carbon;
 use Core\Application\Transaction\Events\ExecutePaymentEvent;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Core\Application\Transaction\UseCases\ExecuteUseCase;
+use Core\Application\Transaction\UseCases\DTO\Execute\Input;
 
-class ExecutePaymentListener implements ShouldQueue
+class ExecutePaymentListener
 {
-    public function __construct()
+    public function __construct(private ExecuteUseCase $executeUseCase)
     {
         //
     }
 
     public function handle(ExecutePaymentEvent $event)
     {
-        dispatch(new ExecutePaymentJob($event))->delay(Carbon::now()->addMinute());
+        $data = $event->payload();
+        $this->executeUseCase->handle(new Input($data['tenant'], $data['id']));
     }
 }
