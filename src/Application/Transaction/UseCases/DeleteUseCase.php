@@ -42,17 +42,22 @@ class DeleteUseCase
         }
 
         try {
-            /** @var ChargePayInterface|EntityAbstract */
-            $objCharge = match ($entity->entity->type) {
-                ReceiveEntity::class => $this->receiveRepository->find($entity->entity->id),
-                PaymentEntity::class => $this->paymentRepository->find($entity->entity->id),
-                default => throw new Exception('Error'),
-            };
-            $objCharge->cancel($entity->value->value);
             
             match ($entity->entity->type) {
-                ReceiveEntity::class => $this->receiveRepository->update($objCharge),
-                PaymentEntity::class => $this->paymentRepository->update($objCharge),
+                ReceiveEntity::class => call_user_func(function() use($entity){
+                    /** @var ChargePayInterface|EntityAbstract */
+                    $obj = $this->receiveRepository->find($entity->entity->id);
+                    $obj->cancel($entity->value->value);
+                    $this->receiveRepository->update($obj);
+                    return $obj;
+                }),
+                PaymentEntity::class => call_user_func(function() use($entity){
+                    /** @var ChargePayInterface|EntityAbstract */
+                    $obj = $this->receiveRepository->find($entity->entity->id);
+                    $obj->cancel($entity->value->value);
+                    $this->receiveRepository->update($obj);
+                    return $obj;
+                }),
                 default => throw new Exception('Error'),
             };
 
