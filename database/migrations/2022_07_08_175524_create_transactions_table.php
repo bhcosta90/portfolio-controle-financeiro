@@ -27,7 +27,7 @@ return new class extends Migration
             $table->unsignedDouble('value');
             $table->unsignedTinyInteger('status');
             $table->unsignedTinyInteger('type');
-            $table->date('date');
+            $table->dateTime('date');
             $table->timestamps();
             $table->softDeletes();
 
