@@ -17,8 +17,13 @@ class WebMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $response = $next($request);
         try {
+            $response = $next($request);
+            
+            if ($response instanceof \Illuminate\Http\Response) {
+                return $response;
+            }
+
             list($firstNameRoute) = explode('.', $request->route()->getName());
             
             if ($firstNameRoute === 'admin') {

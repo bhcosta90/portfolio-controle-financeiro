@@ -51,7 +51,7 @@ class ChargeController extends Controller
             $data['recurrence_id'],
             $data['value'],
             $data['date'],
-            $data['parcel'],
+            $data['parcel'] ?? 1,
         ));
         return [
             'redirect' => route($this->route . '.index'),
