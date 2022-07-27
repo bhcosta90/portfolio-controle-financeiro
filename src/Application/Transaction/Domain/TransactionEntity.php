@@ -65,7 +65,7 @@ class TransactionEntity extends EntityAbstract
             new FloatInputObject($value),
             TransactionTypeEnum::from($type),
             $status ? TransactionStatusEnum::from($status) : TransactionStatusEnum::PENDING,
-            new DateTime($date_execute ?: null),
+            $date_execute ? new DateTime($date_execute) : (new DateTime())->modify('+2 minutes'),
             $id ? new UuidObject($id) : null,
             $createdAt ? new DateTime($createdAt) : null,
         );
