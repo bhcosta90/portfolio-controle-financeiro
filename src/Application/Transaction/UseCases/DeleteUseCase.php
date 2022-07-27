@@ -8,16 +8,13 @@ use Core\Application\Charge\Modules\Receive\Domain\ReceiveEntity;
 use Core\Application\Charge\Modules\Receive\Repository\ReceiveRepository;
 use Core\Application\Charge\Shared\Contracts\ChargePayInterface;
 use Core\Application\Transaction\Domain\TransactionEntity as Entity;
-use Core\Application\Transaction\Domain\TransactionEntity;
 use Core\Application\Transaction\Exceptions\TransactionException;
 use Core\Application\Transaction\Repository\TransactionRepository as Repo;
 use Core\Application\Transaction\Shared\Enums\TransactionStatusEnum;
-use Core\Application\Transaction\Shared\Enums\TransactionTypeEnum;
 use Core\Shared\Abstracts\EntityAbstract;
 use Core\Shared\Interfaces\EventManagerInterface;
 use Core\Shared\Interfaces\TransactionInterface;
 use Core\Shared\UseCases\Delete\{DeleteInput, DeleteOutput};
-use Core\Shared\ValueObjects\UuidObject;
 use Exception;
 use Throwable;
 
