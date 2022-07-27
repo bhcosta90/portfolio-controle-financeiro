@@ -15,7 +15,6 @@ use Core\Shared\Abstracts\EntityAbstract;
 use Core\Shared\Interfaces\EventManagerInterface;
 use Core\Shared\Interfaces\TransactionInterface;
 use Core\Shared\UseCases\Delete\{DeleteInput, DeleteOutput};
-use Exception;
 use Throwable;
 
 class DeleteUseCase
@@ -55,7 +54,7 @@ class DeleteUseCase
                     $this->receiveRepository->update($obj);
                     return $obj;
                 }),
-                default => throw new Exception('Error'),
+                default => throw new TransactionException('Error'),
             };
 
             $ret = new DeleteOutput($this->repository->delete($entity));
