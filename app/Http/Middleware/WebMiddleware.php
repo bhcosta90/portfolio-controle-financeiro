@@ -18,21 +18,24 @@ class WebMiddleware
     public function handle(Request $request, Closure $next)
     {
         $response = $next($request);
-        if (!empty($_GET['r'])) {
+        try {
+            list($firstNameRoute) = explode('.', $request->route()->getName());
+            
+            if ($firstNameRoute === 'admin') {
+                return match (strtoupper($request->getMethod())) {
+                    'GET' => response(view($request->route()->getName(), $response->original)),
+                    'POST' => $this->methodPost($response),
+                    'PUT' => $this->methodPost($response),
+                    'DELETE' => $this->methodPost($response),
+                    default => $response,
+                };
+            }
+            
             return $response;
+            
+        } catch(Throwable $e) {
+            throw $e;
         }
-        list($admin) = explode('.', $request->route()->getName());
-
-        if ($admin === 'admin') {
-            return match (strtoupper($request->getMethod())) {
-                'GET' => response(view($request->route()->getName(), $response->original)),
-                'POST' => $this->methodPost($response),
-                'PUT' => $this->methodPost($response),
-                'DELETE' => $this->methodPost($response),
-                default => $response,
-            };
-        }
-        return $response;
     }
 
     private function methodPost($response)

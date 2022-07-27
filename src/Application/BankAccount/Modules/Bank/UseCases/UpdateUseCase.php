@@ -51,7 +51,7 @@ class UpdateUseCase
             $objTransaction = TransactionEntity::create(
                 $objEntity->tenant,
                 UuidObject::random(),
-                $ret > 0 ? 'Withdrawal' : "Deposit",
+                $ret > 0 ? 'Deposit' : "Withdrawal",
                 $objEntity->accountEntity->id,
                 $objTenant->account->id(),
                 $objEntity->id(),
