@@ -71,9 +71,12 @@ class CustomerEloquent extends EloquentAbstract implements CustomerRepository
     public function paginate(?array $filter = null, ?int $page = 1, ?int $totalPage = 15): PaginationInterface
     {
         $result = $this->model
-            ->select('relationships.*')
+            ->select('relationships.*', 'accounts.value')
             ->where('relationships.entity', CustomerEntity::class)
+            ->join('accounts', fn ($q) => $q->on('accounts.entity_id', '=', 'relationships.id')
+            ->where('accounts.entity_type', CustomerEntity::class))
             ->orderBy('relationships.name');
+        
 
         return new PaginatorPresenter($result->paginate(
             page: $page,

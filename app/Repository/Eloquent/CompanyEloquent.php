@@ -71,8 +71,10 @@ class CompanyEloquent extends EloquentAbstract implements CompanyRepository
     public function paginate(?array $filter = null, ?int $page = 1, ?int $totalPage = 15): PaginationInterface
     {
         $result = $this->model
-            ->select('relationships.*')
+            ->select('relationships.*', 'accounts.value')
             ->where('relationships.entity', CompanyEntity::class)
+            ->join('accounts', fn ($q) => $q->on('accounts.entity_id', '=', 'relationships.id')
+            ->where('accounts.entity_type', CompanyEntity::class))
             ->orderBy('relationships.name');
 
         return new PaginatorPresenter($result->paginate(

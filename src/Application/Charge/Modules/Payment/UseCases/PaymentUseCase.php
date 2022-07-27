@@ -57,7 +57,7 @@ class PaymentUseCase
                 $objRelationship->name->value,
                 $input->value,
                 TransactionTypeEnum::CREDIT->value,
-                $input->chargeDateNext,
+                $input->date,
                 null,
             );
 

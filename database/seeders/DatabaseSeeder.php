@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Core\Application\BankAccount\Modules\Bank\Domain\BankEntity;
 use Core\Application\Charge\Modules\Payment\Domain\PaymentEntity;
 use Core\Application\Charge\Modules\Receive\Domain\ReceiveEntity;
+use Core\Application\Charge\Shared\Enums\ChargeTypeEnum;
 use Core\Application\Relationship\Modules\Company\Domain\CompanyEntity;
 use Core\Application\Relationship\Modules\Customer\Domain\CustomerEntity;
 use Exception;
@@ -38,11 +39,16 @@ class DatabaseSeeder extends Seeder
         \App\Models\Relationship::factory(rand(15, 45))->create([
             'tenant_id' => $tenant->id,
         ])->each(function ($obj) use ($recurrence) {
-            \App\Models\Charge::factory(rand(8, 15))->create([
+            \App\Models\Charge::factory(rand(10, 20))->create([
                 'tenant_id' => $obj->tenant_id,
                 'entity' => match($obj->entity) {
                     CustomerEntity::class => ReceiveEntity::class,
                     CompanyEntity::class => PaymentEntity::class,
+                    default => throw new Exception('Error - ' . $obj->entity)
+                },
+                'type' => match($obj->entity) {
+                    CustomerEntity::class => ChargeTypeEnum::CREDIT,
+                    CompanyEntity::class => ChargeTypeEnum::DEBIT,
                     default => throw new Exception('Error - ' . $obj->entity)
                 },
                 'relationship_type' => $obj->entity,
