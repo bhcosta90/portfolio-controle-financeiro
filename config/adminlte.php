@@ -267,13 +267,13 @@ return [
             'text' => 'Conta a Receber',
             'url' => 'admin/charge/receive/charge',
             'icon' => 'fas fa-money-bill-alt',
-            'active' => ['admin/charge/receive/charge*']
+            'active' => ['admin/charge/receive*']
         ],
         [
             'text' => 'Conta a Pagar',
             'url' => 'admin/charge/payment/charge',
             'icon' => 'fas fa-cash-register',
-            'active' => ['admin/charge/payment/charge*']
+            'active' => ['admin/charge/payment*']
         ],
         ['header' => 'Relatório'],
         [
