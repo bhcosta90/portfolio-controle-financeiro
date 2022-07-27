@@ -35,29 +35,28 @@ class DeleteUseCase
 
     public function handle(DeleteInput $input): DeleteOutput
     {
+        /** @var Entity */
+        $entity = $this->repository->find($input->id);
+        if ($entity->status == TransactionStatusEnum::COMPLETE) {
+            throw new TransactionException('This transaction cannot be canceled');
+        }
+
         try {
-            /** @var Entity */
-            $entity = $this->repository->find($input->id);
-            if ($entity->status == TransactionStatusEnum::PENDING) {
-                /** @var ChargePayInterface|EntityAbstract */
-                $objCharge = match ($entity->entity->type) {
-                    ReceiveEntity::class => $this->receiveRepository->find($entity->entity->id),
-                    PaymentEntity::class => $this->paymentRepository->find($entity->entity->id),
-                    default => throw new Exception('Error'),
-                };
+            /** @var ChargePayInterface|EntityAbstract */
+            $objCharge = match ($entity->entity->type) {
+                ReceiveEntity::class => $this->receiveRepository->find($entity->entity->id),
+                PaymentEntity::class => $this->paymentRepository->find($entity->entity->id),
+                default => throw new Exception('Error'),
+            };
+            $objCharge->cancel($entity->value->value);
+            
+            match ($entity->entity->type) {
+                ReceiveEntity::class => $this->receiveRepository->update($objCharge),
+                PaymentEntity::class => $this->paymentRepository->update($objCharge),
+                default => throw new Exception('Error'),
+            };
 
-                $objCharge->cancel($entity->value->value);
-
-                match ($entity->entity->type) {
-                    ReceiveEntity::class => $this->receiveRepository->update($objCharge),
-                    PaymentEntity::class => $this->paymentRepository->update($objCharge),
-                    default => throw new Exception('Error'),
-                };
-
-                $ret = new DeleteOutput($this->repository->delete($entity));
-            } else {
-                throw new TransactionException('This transaction cannot be canceled');
-            }
+            $ret = new DeleteOutput($this->repository->delete($entity));
 
             $this->transactionInterface->commit();
             return $ret ?? new DeleteOutput(false);
