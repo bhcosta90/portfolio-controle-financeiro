@@ -3,6 +3,11 @@
 namespace Database\Seeders;
 
 use Core\Application\BankAccount\Modules\Bank\Domain\BankEntity;
+use Core\Application\Charge\Modules\Payment\Domain\PaymentEntity;
+use Core\Application\Charge\Modules\Receive\Domain\ReceiveEntity;
+use Core\Application\Relationship\Modules\Company\Domain\CompanyEntity;
+use Core\Application\Relationship\Modules\Customer\Domain\CustomerEntity;
+use Exception;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -35,6 +40,11 @@ class DatabaseSeeder extends Seeder
         ])->each(function ($obj) use ($recurrence) {
             \App\Models\Charge::factory(rand(8, 15))->create([
                 'tenant_id' => $obj->tenant_id,
+                'entity' => match($obj->entity) {
+                    CustomerEntity::class => ReceiveEntity::class,
+                    CompanyEntity::class => PaymentEntity::class,
+                    default => throw new Exception('Error - ' . $obj->entity)
+                },
                 'relationship_type' => $obj->entity,
                 'relationship_id' => $obj->id,
                 'recurrence_id' => rand(0, 100) > 70 ? $recurrence->id : null,
