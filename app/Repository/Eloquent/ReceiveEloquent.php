@@ -135,6 +135,10 @@ class ReceiveEloquent extends EloquentAbstract implements ReceiveRepository
                             ->format('Y-m-d H:i:s')
                     ]);
                 }
+                
+                if(count($type) == 1){
+                    $query->where(DB::raw('1 != 2'));
+                }
             });
         }
     }

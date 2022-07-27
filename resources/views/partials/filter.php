@@ -1,28 +1,37 @@
 <?php
 
 $str = "";
-foreach ($filter as $rs) {
+foreach ($filter as $k => $rs) {
+    $filter[$k]['open'] = false;
+
     if (!empty($_GET[$rs['name']])) {
-        $str .= __($rs['label']) . ': ';
+        $label = __($rs['label']) . ': ';
+        $checked = "";
 
         switch ($rs['type']) {
             case 'date_between':
-                $str .= str()->date($_GET[$rs['name']][0]) . ' até ' . str()->date($_GET[$rs['name']][1]);
+                $checked = str()->date($_GET[$rs['name']][0]) . ' até ' . str()->date($_GET[$rs['name']][1]);
                 break;
             case 'checkbox':
+                $actual = $_GET[$rs['name']];
+                unset($actual[array_search("not-selected", $actual ?? [])]);
                 foreach ($rs['options'] as $k => $option) {
-                    if ((empty($_GET[$rs['name']]) && in_array($k, $rs['values'] ?? []))
+                    if (((empty($_GET[$rs['name']]) && in_array($k, $rs['values'] ?? []))
                         || (!empty($_GET[$rs['name']]) && in_array($k, $_GET[$rs['name']]))
-                    ) {
-                        $str .= __($option) . ', ';
+                        && implode('', $actual) != implode('', $rs['values'] ?? [])
+                    )) {
+                        $checked .= __($option) . ', ';
                     } 
                 }
-                $str = substr($str, 0, -2);
+                $checked = substr($checked, 0, -2);
                 break;
-            default: $str .= $_GET[$rs['name']];
+            default: $checked = $_GET[$rs['name']];
         }
 
-        $str .= '; ';
+        if(!empty($checked)){
+            $str .= $label . $checked . '; ';
+            $filter[$k]['open'] = true;
+        }
     }
 }
 
@@ -52,7 +61,7 @@ $idFilter = rand(1000, 9999);
                 foreach ($filter as $rs) {
                     echo '<div class="card mt-3">';
                     echo '<div class="card-header" onclick="$(this).parent().find(\'.card-body\').toggleClass(\'d-none\')">'.__($rs['label']).'</div>';
-                    echo '<div class="card-body ' . (empty($_GET[$rs['name']]) ? 'd-none' : '') . '">';
+                    echo '<div class="card-body ' . ($rs['open'] ? '' : 'd-none') . '">';
                     switch ($rs['type']) {
                         case 'text':
                             echo '<input type="text" ';
@@ -61,7 +70,7 @@ $idFilter = rand(1000, 9999);
                             echo 'class="form-control" name="' . $rs['name'] . '">';
                             break;
                         case 'checkbox':
-                            foreach ($rs['options'] as $k => $option) {
+                            foreach ($rs['options'] ?? [] as $k => $option) {
                                 $checked = "";
                                 if ((empty($_GET[$rs['name']]) && in_array($k, $rs['values'] ?? []))
                                     || (!empty($_GET[$rs['name']]) && in_array($k, $_GET[$rs['name']]))
@@ -73,10 +82,14 @@ $idFilter = rand(1000, 9999);
                                 echo $option;
                                 echo "</label></div>";
                             }
-                            break;
+                            echo "<div style='display:none'><label>";
+                            echo "<input type='checkbox' value='not-selected' name='{$rs['name']}[]' checked /> ";
+                            echo 'not selected';
+                            echo "</label></div>";
+                        break;
                         case 'selected':
                             echo "<select>";
-                            foreach ($rs['options'] as $k => $option) {
+                            foreach ($rs['options'] ?? [] as $k => $option) {
                                 $checked = "";
                                 if ((empty($_GET[$rs['name']]) && in_array($k, $rs['values'] ?? []))
                                     || (!empty($_GET[$rs['name']]) && in_array($k, $_GET[$rs['name']]))
