@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('payment:execute')->everyTenMinutes();
+        $schedule->command('payment:execute')->daily('10:00:00');
     }
 
     /**
