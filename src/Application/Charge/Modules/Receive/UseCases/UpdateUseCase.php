@@ -4,10 +4,10 @@ namespace Core\Application\Charge\Modules\Receive\UseCases;
 
 use Core\Application\Charge\Modules\Receive\Domain\ReceiveEntity as Entity;
 use Core\Application\Charge\Modules\Receive\Repository\ReceiveRepository as Repo;
+use Core\Application\Charge\Modules\Recurrence\Exceptions\RecurrenceException;
 use Core\Application\Charge\Modules\Recurrence\Repository\RecurrenceRepository;
 use Core\Application\Relationship\Modules\Customer\Repository\CustomerRepository as RelationshipRepository;
 use Core\Application\Relationship\Shared\Exceptions\RelationshipException;
-use Exception;
 
 class UpdateUseCase
 {
@@ -32,7 +32,7 @@ class UpdateUseCase
             $input->recurrence
             && $input->recurrence != (string)$entity->recurrence && !$this->recurrence->exist($input->recurrence)
         ) {
-            throw new Exception('Recurrence not found');
+            throw new RecurrenceException('Recurrence not found');
         }
 
         $entity->update(
