@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\src\Application\Transaction\UseCase;
 
+use Core\Application\BankAccount\Modules\Account\Domain\AccountEntity;
 use Core\Application\Transaction\Domain\TransactionEntity;
 use Core\Application\Transaction\UseCases\ExecuteUseCase;
 use Core\Application\Transaction\UseCases\DTO\Execute\{Input, Output};
@@ -46,6 +47,12 @@ class ExecuteUseCaseTest extends TestCase
                 'mock' => $mockAccountRepository,
                 'action' => 'addValue',
                 'return' => true,
+                'times' => 1,
+            ],
+            [
+                'mock' => $mockAccountRepository,
+                'action' => 'get',
+                'return' => AccountEntity::create($tenant, $this->id(), "test", 0),
                 'times' => 1,
             ],
             [
@@ -94,6 +101,12 @@ class ExecuteUseCaseTest extends TestCase
                 'mock' => $mockAccountRepository,
                 'action' => 'subValue',
                 'return' => true,
+                'times' => 1,
+            ],
+            [
+                'mock' => $mockAccountRepository,
+                'action' => 'get',
+                'return' => AccountEntity::create($tenant, $this->id(), "test", 0),
                 'times' => 1,
             ],
             [

@@ -21,6 +21,7 @@ class TransactionFactory extends Factory
             'id' => str()->uuid(),
             'group_id' => str()->uuid(),
             'status' => 1,
+            'previous_value' => 0,
             'title' => $this->faker->sentence(6),
             'date' => date('Y-m-d'),
         ];

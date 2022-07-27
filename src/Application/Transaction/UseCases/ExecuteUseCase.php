@@ -7,7 +7,6 @@ use Core\Application\Transaction\Domain\TransactionEntity;
 use Core\Application\Transaction\Repository\TransactionRepository;
 use Core\Application\Transaction\Shared\Enums\TransactionTypeEnum;
 use Core\Shared\Interfaces\TransactionInterface;
-use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class ExecuteUseCase
@@ -26,7 +25,6 @@ class ExecuteUseCase
             /** @var TransactionEntity */
             $objTransaction = $this->repository->find($input->id);
             $objAccount = $this->account->get($objTransaction->accountTo);
-            Log::info([$objAccount, $objAccount->value]);
             $objTransaction->setValuePrevious($objAccount->value);
             if ($objTransaction->type == TransactionTypeEnum::CREDIT) {
                 $this->account->addValue((string) $objTransaction->accountTo, $objTransaction->value->value);
