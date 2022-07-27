@@ -64,6 +64,8 @@ class ChargeController extends Controller
     {
         $model = $findUseCase->handle(new FindInput($id));
         $model->relationship_id = $model->company;
+        $model->recurrence_id = $model->recurrence;
+        
         return [
             'form' => $formSupport->run(Form::class, route($this->route . '.update', $id), $model),
         ];
