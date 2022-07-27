@@ -109,7 +109,7 @@ class PaymentUseCaseTest extends TestCase
 
         $this->assertDatabaseHas('accounts', [
             'entity_id' => $idCustomer,
-            'value' => 100,
+            'value' => 130,
         ]);
 
         $this->assertDatabaseHas('accounts', [
