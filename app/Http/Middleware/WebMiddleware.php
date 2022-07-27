@@ -19,9 +19,9 @@ class WebMiddleware
     {
         $response = $next($request);
         try {
-            list($admin) = explode('.', $request->route()->getName());
+            list($firstNameRoute) = explode('.', $request->route()->getName());
             
-            if ($admin === 'admin') {
+            if ($firstNameRoute === 'admin') {
                 return match (strtoupper($request->getMethod())) {
                     'GET' => response(view($request->route()->getName(), $response->original)),
                     'POST' => $this->methodPost($response),
