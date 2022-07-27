@@ -138,5 +138,6 @@
     "Recurrence": "Recorrência",
     "Transaction": "Transação",
     "Deposit": "Depósito",
-    "Withdrawal": "Saque"
+    "Withdrawal": "Saque",
+    "This transaction cannot be canceled": "Esta transação não pode ser cancelada"
 }

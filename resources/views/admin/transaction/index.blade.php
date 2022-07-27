@@ -51,6 +51,7 @@
                         {!! links([
                         "delete" => [
                             "link" => route('admin.transaction.destroy', $rs->id),
+                            "hidden" => $rs->status > 1
                         ]
                         ]) !!}
                     </td>
