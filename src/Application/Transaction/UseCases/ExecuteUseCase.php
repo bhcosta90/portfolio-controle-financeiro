@@ -21,9 +21,11 @@ class ExecuteUseCase
 
     public function handle(DTO\Execute\Input $input): DTO\Execute\Output
     {
-        /** @var TransactionEntity */
-        $objTransaction = $this->repository->find($input->id);
         try {
+            /** @var TransactionEntity */
+            $objTransaction = $this->repository->find($input->id);
+            $objAccount = $this->account->get($objTransaction->accountTo);
+            $objTransaction->setValuePrevious($objAccount->value);
             if ($objTransaction->type == TransactionTypeEnum::CREDIT) {
                 $this->account->addValue((string) $objTransaction->accountTo, $objTransaction->value->value);
             } else {

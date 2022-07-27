@@ -10,6 +10,8 @@ interface AccountRepository
 
     public function find(string|int $entityId, string $entityType): AccountEntity;
 
+    public function get(string|int $id): AccountEntity;
+
     public function addValue(string|int $id, float $value): bool;
 
     public function subValue(string|int $id, float $value): bool;

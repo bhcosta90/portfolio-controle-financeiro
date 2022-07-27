@@ -47,6 +47,23 @@ class AccountEloquent implements AccountRepository
         );
     }
 
+    public function get(string|int $id): AccountEntity
+    {
+        $obj = DB::table($this->table)
+            ->select()
+            ->where('id', $id)
+            ->first();
+
+        return AccountEntity::create(
+            $obj->tenant_id,
+            $obj->entity_id,
+            $obj->entity_type,
+            $obj->value,
+            $obj->id,
+            $obj->created_at
+        );
+    }
+
     public function addValue(string|int $id, float $value): bool
     {
         return DB::table($this->table)->where('id', $id)->increment('value', $value);

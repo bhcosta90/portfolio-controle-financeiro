@@ -15,6 +15,7 @@ use DateTime;
 class TransactionEntity extends EntityAbstract
 {
     protected array $events = [];
+    protected float $previousValue = 0;
 
     private function __construct(
         protected UuidObject $tenant,
@@ -81,5 +82,10 @@ class TransactionEntity extends EntityAbstract
     public function completed()
     {
         $this->status = TransactionStatusEnum::COMPLETE;
+    }
+
+    public function setValuePrevious($value)
+    {
+        $this->previousValue = $value;
     }
 }

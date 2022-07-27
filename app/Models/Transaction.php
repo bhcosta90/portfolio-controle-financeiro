@@ -24,6 +24,7 @@ class Transaction extends Model
         'title',
         'status',
         'value',
+        'previous_value',
         'type',
         'date',
     ];

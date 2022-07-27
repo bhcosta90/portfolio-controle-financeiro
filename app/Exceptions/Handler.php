@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 use Throwable;
 
@@ -50,7 +51,11 @@ class Handler extends ExceptionHandler
 
         $this->renderable(function (Throwable $e, $request) {
             list($firstNameRoute) = explode('.', $request->route()->getName() ?? "");
-            if ($firstNameRoute == 'admin' && in_array('web', Route::current()->gatherMiddleware())) {
+            if (
+                $firstNameRoute == 'admin'
+                && in_array('web', Route::current()->gatherMiddleware())
+                && $e->getCode() == Response::HTTP_BAD_REQUEST
+            ) {
                 return redirect()
                     ->back()
                     ->withInput()

@@ -6,5 +6,5 @@ use Exception;
 
 class TransactionException extends Exception
 {
-    public $code = 402;
+    public $code = 400;
 }

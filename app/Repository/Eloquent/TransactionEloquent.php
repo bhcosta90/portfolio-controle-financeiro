@@ -38,6 +38,7 @@ class TransactionEloquent implements TransactionRepository
             'relationship_name' => $entity->relationship?->value,
             'title' => $entity->title,
             'value' => $entity->value->value,
+            'previous_value' => $entity->previousValue,
             'type' => $entity->type->value,
             'status' => $entity->status->value,
             'date' => $entity->dateExecute->format('Y-m-d'),
@@ -75,6 +76,7 @@ class TransactionEloquent implements TransactionRepository
     public function update(TransactionEntity $entity): bool
     {
         return $this->model->where('id', $entity->id())->update([
+            'previous_value' => $entity->previousValue,
             'status' => $entity->status->value,
         ]);
     }

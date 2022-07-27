@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('title');
             $table->uuidMorphs('entity');
             $table->unsignedDouble('value');
+            $table->double('previous_value');
             $table->unsignedTinyInteger('status');
             $table->unsignedTinyInteger('type');
             $table->dateTime('date');
