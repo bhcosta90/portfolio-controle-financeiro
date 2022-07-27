@@ -39,6 +39,7 @@ Route::middleware('auth')->prefix('admin')->as('admin.')->group(function () {
     });
 
     Route::get('/transaction', [TransactionController::class, 'index'])->name('transaction.index');
+    Route::delete('/transaction/{uuid}', [TransactionController::class, 'destroy'])->name('transaction.destroy');
     Route::as('account.')->prefix('account')->group(function () {
         Route::resource('bank', Admin\Account\BankController::class);
     });

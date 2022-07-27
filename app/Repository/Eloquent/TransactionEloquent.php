@@ -115,4 +115,10 @@ class TransactionEloquent implements TransactionRepository
 
         return new ResultPresenter($result->get());
     }
+
+    public function delete(TransactionEntity $entity): bool
+    {
+        $obj = $this->model->find($entity->id());
+        return $this->model->where('group_id', $obj->group_id)->delete();
+    }
 }

@@ -31,7 +31,7 @@ class WebMiddleware
                     'GET' => response(view($request->route()->getName(), $response->original)),
                     'POST' => $this->methodPost($response),
                     'PUT' => $this->methodPost($response),
-                    'DELETE' => $this->methodPost($response),
+                    'DELETE' => redirect()->back()->with('success', $response->original['message'] ?? null),
                     default => $response,
                 };
             }

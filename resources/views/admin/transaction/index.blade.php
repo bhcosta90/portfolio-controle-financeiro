@@ -15,6 +15,7 @@
                     <th>{{ __('Name') }}</th>
                     <th>{{ __('Banco') }}</th>
                     <th style='width:1px'>{{ __('Valor') }}</th>
+                    <th style='width:1px'>{{ __('Ações') }}</th>
                 </tr>
             </thead>
 
@@ -46,6 +47,13 @@
                     </td>
                     <td>{{ $rs->bank_name ?: '-' }}</td>
                     <td>R$&nbsp;{{ $rs->type == 2 ? '-' : '' }}{{ str()->numberBr($rs->value) }}</td>
+                    <td>
+                        {!! links([
+                        "delete" => [
+                            "link" => route('admin.transaction.destroy', $rs->id),
+                        ]
+                        ]) !!}
+                    </td>
                 </tr>
                 @endforeach
             </tbody>

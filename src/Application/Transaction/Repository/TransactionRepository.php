@@ -23,6 +23,8 @@ interface TransactionRepository
 
     public function toEntity(object $object): TransactionEntity;
 
+    public function delete(TransactionEntity $entity): bool;
+
     public function paginate(
         ?array $filter = null,
         ?int $page = 1,
