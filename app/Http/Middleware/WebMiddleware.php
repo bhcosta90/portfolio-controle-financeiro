@@ -24,7 +24,7 @@ class WebMiddleware
                 return $response;
             }
 
-            list($firstNameRoute) = explode('.', $request->route()->getName());
+            list($firstNameRoute) = explode('.', $request->route()->getName() ?? "");
             
             if ($firstNameRoute === 'admin') {
                 return match (strtoupper($request->getMethod())) {

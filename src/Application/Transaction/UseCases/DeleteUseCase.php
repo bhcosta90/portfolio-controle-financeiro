@@ -9,6 +9,7 @@ use Core\Application\Charge\Modules\Receive\Repository\ReceiveRepository;
 use Core\Application\Charge\Shared\Contracts\ChargePayInterface;
 use Core\Application\Transaction\Domain\TransactionEntity as Entity;
 use Core\Application\Transaction\Domain\TransactionEntity;
+use Core\Application\Transaction\Exceptions\TransactionException;
 use Core\Application\Transaction\Repository\TransactionRepository as Repo;
 use Core\Application\Transaction\Shared\Enums\TransactionStatusEnum;
 use Core\Application\Transaction\Shared\Enums\TransactionTypeEnum;
@@ -55,23 +56,11 @@ class DeleteUseCase
 
                 $ret = new DeleteOutput($this->repository->delete($entity));
             } else {
-                $newTransactions = match ($entity->entity->type) {
-                    ReceiveEntity::class => $this->reverseReceive($entity),
-                    PaymentEntity::class => $this->reversePayment($entity),
-                    default => throw new Exception('Error'),
-                };
-
-                $events = [];
-                foreach ($newTransactions as $rs) {
-                    $events = array_merge($events, $rs->events);
-                }
-
-                $this->eventManagerInterface->dispatch($events);
-                $ret = new DeleteOutput((bool) count($events));
+                throw new TransactionException('This transaction cannot be canceled');
             }
 
             $this->transactionInterface->commit();
-            return $ret;
+            return $ret ?? new DeleteOutput(false);
         } catch (Throwable $e) {
             $this->transactionInterface->rollback();
             throw $e;

@@ -46,5 +46,12 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+
+        $this->renderable(function (Throwable $e, $request) {
+            list($firstNameRoute) = explode('.', $request->route()->getName() ?? "");
+            if ($firstNameRoute == 'admin') {
+                return response();
+            }
+        });
     }
 }
