@@ -24,6 +24,17 @@ class PaymentFilter extends FilterAbstract
                     (new DateTime())->modify('first day of this month')->format('Y-m-d'),
                     (new DateTime())->modify('last day of this month')->format('Y-m-d'),
                 ],
+            ],
+            [
+                'type' => 'checkbox',
+                'label' => 'Types',
+                'name' => 'type',
+                'options' => [
+                    0 => 'Vencidos',
+                    1 => 'Desse mês',
+                    2 => 'Próximo mês'
+                ],
+                'values' => [0, 1],
             ]
         ];
     }

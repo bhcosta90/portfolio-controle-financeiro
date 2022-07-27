@@ -40,8 +40,8 @@ class ListUseCase
     }
 
     private function getQuery(ListInput $input){
-        $dateStart = new DateTime($input->filter['date'][0] ?? null);
-        $dateFinish = new DateTime($input->filter['date'][1] ?? null);
+        $dateStart = new DateTime($input->filter['date'][0] ?? '');
+        $dateFinish = new DateTime($input->filter['date'][1] ?? '');
 
         if (empty($input->filter['date'][0])) {
             $dateStart->modify('first day of this month');
@@ -56,7 +56,7 @@ class ListUseCase
         $result->filterByDate(
             $dateStart->setTime(0, 0, 0),
             $dateFinish->setTime(23, 59, 59),
-            $input->filter['type'] ?? 1
+            $input->filter['type'] ?? []
         );
         if (!empty($input->filter['customer_name'])) {
             $result->filterByCustomerName($input->filter['customer_name']);

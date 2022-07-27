@@ -11,7 +11,7 @@ interface PaymentRepository extends RepositoryInterface
 {
     public function insertParcel(PaymentEntity $entity, ParcelObject $parcel): bool;
 
-    public function filterByDate(DateTime $start, DateTime $end, int $type);
+    public function filterByDate(DateTime $start, DateTime $end, array $type);
 
     public function filterByCompanyName(string $name);
 

@@ -9,6 +9,16 @@ foreach ($filter as $rs) {
             case 'date_between':
                 $str .= str()->date($_GET[$rs['name']][0]) . ' até ' . str()->date($_GET[$rs['name']][1]);
                 break;
+            case 'checkbox':
+                foreach ($rs['options'] as $k => $option) {
+                    if ((empty($_GET[$rs['name']]) && in_array($k, $rs['values'] ?? []))
+                        || (!empty($_GET[$rs['name']]) && in_array($k, $_GET[$rs['name']]))
+                    ) {
+                        $str .= __($option) . ', ';
+                    } 
+                }
+                $str = substr($str, 0, -2);
+                break;
             default: $str .= $_GET[$rs['name']];
         }
 
@@ -50,6 +60,36 @@ $idFilter = rand(1000, 9999);
                             echo 'value="' . (!empty($_GET[$rs['name']]) ? $_GET[$rs['name']] : null) . '" ';
                             echo 'class="form-control" name="' . $rs['name'] . '">';
                             break;
+                        case 'checkbox':
+                            foreach ($rs['options'] as $k => $option) {
+                                $checked = "";
+                                if ((empty($_GET[$rs['name']]) && in_array($k, $rs['values'] ?? []))
+                                    || (!empty($_GET[$rs['name']]) && in_array($k, $_GET[$rs['name']]))
+                                ) {
+                                    $checked = "checked";
+                                } 
+                                echo "<div><label>";
+                                echo "<input type='checkbox' value='{$k}' name='{$rs['name']}[]' {$checked} /> ";
+                                echo $option;
+                                echo "</label></div>";
+                            }
+                            break;
+                        case 'selected':
+                            echo "<select>";
+                            foreach ($rs['options'] as $k => $option) {
+                                $checked = "";
+                                if ((empty($_GET[$rs['name']]) && in_array($k, $rs['values'] ?? []))
+                                    || (!empty($_GET[$rs['name']]) && in_array($k, $_GET[$rs['name']]))
+                                ) {
+                                    $checked = "selected";
+                                } 
+                                echo "<option value='{$k}' {$checked}> ";
+                                echo $option;
+                                echo "</option>";
+                            }
+                            echo "</select>";
+                            break;
+
                         case 'date_between':
                             echo '<div class="row">';
                             echo '<div class="col-6">';

@@ -139,5 +139,6 @@
     "Transaction": "Transação",
     "Deposit": "Depósito",
     "Withdrawal": "Saque",
-    "This transaction cannot be canceled": "Esta transação não pode ser cancelada"
+    "This transaction cannot be canceled": "Esta transação não pode ser cancelada",
+    "Types": "Tipos"
 }

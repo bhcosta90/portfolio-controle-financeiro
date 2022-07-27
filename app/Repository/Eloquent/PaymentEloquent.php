@@ -101,18 +101,45 @@ class PaymentEloquent extends EloquentAbstract implements PaymentRepository
         );
     }
 
-    public function filterByDate(DateTime $start, DateTime $end, int $type)
+    public function filterByDate(DateTime $start, DateTime $end, array $type)
     {
         $dayFirst = clone $start;
         $dayFirst->modify('first day of this month');
 
-        $this->model = match ($type) {
-            default => $this->model->where(fn ($q) => $q->whereBetween('charges.date', [
+        $dayFirst = clone $start;
+        $dayFirst->modify('first day of this month');
+
+        if (!count($type)) {
+            $this->model = $this->model->where(fn ($q) => $q->whereBetween('charges.date', [
                 $start->format('Y-m-d H:i:s'),
                 $end->format('Y-m-d H:i:s')
             ])
-                ->orWhere('charges.date', '<', $dayFirst->format('Y-m-d')))
-        };
+                ->orWhere('charges.date', '<', $dayFirst->format('Y-m-d')));
+        } else {
+            $this->model = $this->model->where(function ($query) use ($start, $end, $type, $dayFirst) {
+                if (in_array(0, $type)) {
+                    $query->orWhere('charges.date', '<', $dayFirst->format('Y-m-d'));
+                }
+
+                if (in_array(1, $type)) {
+                    $query->orWhereBetween('charges.date', [
+                        $start->format('Y-m-d H:i:s'),
+                        $end->format('Y-m-d H:i:s')
+                    ]);
+                }
+
+                if (in_array(2, $type)) {
+                    $endType2 = clone $end;
+                    $query->orWhereBetween('charges.date', [
+                        $start->format('Y-m-d H:i:s'),
+                        $endType2->modify('first day of this month')
+                            ->modify('1 month')
+                            ->modify('last day of this month')
+                            ->format('Y-m-d H:i:s')
+                    ]);
+                }
+            });
+        }
     }
 
     public function filterByCompanyName(string $name)

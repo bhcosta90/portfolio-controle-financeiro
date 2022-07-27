@@ -56,7 +56,7 @@ class ListUseCase
         $result->filterByDate(
             $dateStart->setTime(0, 0, 0),
             $dateFinish->setTime(23, 59, 59),
-            $input->filter['type'] ?? 1
+            $input->filter['type'] ?? []
         );
         if (!empty($input->filter['company_name'])) {
             $result->filterByCompanyName($input->filter['company_name']);

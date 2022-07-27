@@ -11,7 +11,7 @@ interface ReceiveRepository extends RepositoryInterface
 {
     public function insertParcel(ReceiveEntity $entity, ParcelObject $parcel): bool;
 
-    public function filterByDate(DateTime $start, DateTime $end, int $type);
+    public function filterByDate(DateTime $start, DateTime $end, array $type);
 
     public function filterByCustomerName(string $name);
 
