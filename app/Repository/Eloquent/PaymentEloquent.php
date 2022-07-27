@@ -138,6 +138,10 @@ class PaymentEloquent extends EloquentAbstract implements PaymentRepository
                             ->format('Y-m-d H:i:s')
                     ]);
                 }
+
+                if (count($type) == 1) {
+                    $query->where(DB::raw('1'), '=', 2);
+                }
             });
         }
     }
