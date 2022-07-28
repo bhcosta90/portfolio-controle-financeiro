@@ -5,6 +5,7 @@ namespace Core\Report\Reports;
 use Core\Application\Transaction\Repository\TransactionRepository;
 use Core\Application\Transaction\Shared\Enums\TransactionTypeEnum;
 use Core\Report\Contracts\PriceInterface;
+use Core\Report\Helper\StringHelper;
 use Core\Report\Type\Abstracts\ReportTypeAbstract;
 use DateTime;
 
@@ -13,8 +14,7 @@ class R00001
     public function __construct(
         private TransactionRepository $repository,
         private PriceInterface $price,
-    )
-    {
+    ) {
         //
     }
 
@@ -42,7 +42,7 @@ class R00001
                 $dateStart->setTime(0, 0, 0),
                 $dateFinish->setTime(23, 59, 59)
             );
-            
+
             if (!empty($_GET['name'])) {
                 $repository->filterByName($_GET['name']);
             }
@@ -81,18 +81,18 @@ class R00001
     private function executeForeachRenderA($report, $result, $column01, $column02, $column03, $column04)
     {
         foreach ($result as $rs) {
-            $report->column_text = $rs->relationship_name ?: '-';
+            $report->column_text = StringHelper::cut($rs->relationship_name, 30) ?: '-';
             $report->column_alignment = 'left';
             $report->column_size = $column01;
             $report->addColumn();
 
-            $report->column_text = $rs->title;
+            $report->column_text = StringHelper::cut($rs->title, 40);
             $report->column_alignment = 'left';
             $report->column_size = $column02;
             $report->addColumn();
 
             $bank = $rs->bank_name;
-            $report->column_text = $bank ?: "-";
+            $report->column_text = StringHelper::cut($bank, 10) ?: "-";
             $report->column_alignment = 'left';
             $report->column_size = $column03;
             $report->addColumn();

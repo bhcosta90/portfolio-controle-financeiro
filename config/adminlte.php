@@ -280,7 +280,10 @@ return [
             'text' => 'Pagamento',
             'url' => 'admin/transaction',
             'icon' => 'fas fa-money-bill-alt',
-            'active' => ['admin/transaction*']
+            'active' => [
+                'admin/transaction*',
+                'admin/report/00001A*'
+            ]
         ],
     ],
 

@@ -7,6 +7,9 @@
             <h1>{{ __('Relatório de Contas Bancária') }}</h1>
             @include('partials.filter', compact('filter'))
         </div>
+        <div class='pull-right float-right float-end'>{!! printOut(route('admin.report.index', [
+            'report' => '00001A',
+        ] + request()->except('token')), __('Imprimir')) !!}</div>
     </div>
     <div class="table-responsive-md">
         <table class='table table-report table-striped table-hover table-responsive-md mb-0'>
