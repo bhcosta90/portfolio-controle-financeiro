@@ -36,7 +36,7 @@
             </li>
         </ul>
         <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade {{ $route != 'admin.charge.receive.pay.partial.store' ? "show active" : ""}}" role="tabpanel" id="home-tab" role="tabpanel" aria-labelledby="home-tab">
+            <div class="tab-pane fade {{ $route != 'admin.charge.receive.pay.partial.store' ? "show active" : ""}}" id="home-tab" role="tabpanel" aria-labelledby="home-tab">
                 <div class="card">
                     <div class="card-body">
                         <h4><small>Você vai pagar o valor total de</small> R$ {{ str()->numberBr($model->value - $model->pay) }}</h4>
@@ -51,7 +51,7 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade {{ $route == 'admin.charge.receive.pay.partial.store' ? "show active" : ""}}" role="tabpanel" id="profile-tab" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="tab-pane fade {{ $route == 'admin.charge.receive.pay.partial.store' ? "show active" : ""}}" id="profile-tab" role="tabpanel" aria-labelledby="profile-tab">
                 <div class="card">
                     <div class="card-body">
                         {!! form_start($formPartial) !!}
