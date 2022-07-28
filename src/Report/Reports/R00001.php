@@ -2,16 +2,18 @@
 
 namespace Core\Report\Reports;
 
-use Core\Application\Payment\Repository\PaymentRepository;
 use Core\Application\Payment\Shared\Enums\PaymentTypeEnum;
-use Core\Application\Report\Contracts\PriceInterface;
-use Core\Application\Report\Type\Abstracts\ReportTypeAbstract;
+use Core\Application\Transaction\Repository\TransactionRepository;
+use Core\Application\Transaction\Shared\Enums\TransactionTypeEnum;
+use Core\Report\Contracts\PriceInterface;
+use Core\Report\Type\Abstracts\ReportTypeAbstract;
+use DateTime;
 
 class R00001
 {
     public function __construct(
-        private PaymentRepository $repository,
-        private PriceInterface    $price,
+        private TransactionRepository $repository,
+        private PriceInterface $price,
     )
     {
         //
@@ -23,8 +25,30 @@ class R00001
         $page = 1;
         $report->title = 'Relatório de Pagamento';
 
+        $dateStart = new DateTime($_GET['date'][0] ?? '');
+        $dateFinish = new DateTime($_GET['date'][1] ?? '');
+
+        if (empty($_GET['date'][0])) {
+            $dateStart->modify('first day of this month');
+        }
+
+        if (empty($_GET['date'][1])) {
+            $dateFinish->modify('last day of this month');
+        }
+
         do {
-            $result = $this->repository->report([], $page, $limit)->items();
+            $repository = clone $this->repository;
+
+            $repository->filterByDate(
+                $dateStart->setTime(0, 0, 0),
+                $dateFinish->setTime(23, 59, 59)
+            );
+            
+            if (!empty($_GET['customer_name'])) {
+                $repository->filterByName($_GET['customer_name']);
+            }
+
+            $result = $this->repository->report($page, $limit)->items();
 
             $report->column_text = 'Cliente / Fornecedor';
             $report->column_alignment = 'left';
@@ -81,7 +105,7 @@ class R00001
                 $bankValue .= ' <small>(' . $prefix . $this->price->convert($rs->value_bank) . ')</small>';
             }
 
-            $minus = $rs->type == PaymentTypeEnum::DEBIT->value ? '-' : '';
+            $minus = $rs->type == TransactionTypeEnum::DEBIT->value ? '-' : '';
             $report->column_text = $minus . $prefix . $this->price->convert($rs->value) . $bankValue;
             $report->column_alignment = 'left';
             $report->column_size = $column04;

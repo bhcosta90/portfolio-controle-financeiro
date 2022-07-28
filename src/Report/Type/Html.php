@@ -28,7 +28,7 @@ class Html extends Abstracts\ReportTypeAbstract
         $this->width = $this->horizontal ? '1200' : '100%';
         $header = '
                 <div class="header" width="' . $this->width . '">
-                    <div class="abovetitle">' . $this->abovetitle . '</div>
+                    <div class="above_title">' . $this->above_title . '</div>
                     <h1>' . $this->title . '</h1>
                     <div class="subtitle">' . $this->subtitle . '</div>
                 </div>';
@@ -153,16 +153,16 @@ class Html extends Abstracts\ReportTypeAbstract
     {
         $lineStyle = $this->linha_style;
         if (
-            $this->notold
+            $this->notOld
             || ($lineStyle == 'header')
-            || ($lineStyle == 'headerfixe')
+            || ($lineStyle == 'header_fixe')
             || ($lineStyle == 'footer')
             || ($lineStyle == 'title')
             || ($lineStyle == 'large')
             || ($lineStyle == 'medium')
             || ($lineStyle == 'rtf')
             || ($lineStyle == 'text')
-            || ($this->notold)
+            || ($this->notOld)
         ) {
             return '';
         }

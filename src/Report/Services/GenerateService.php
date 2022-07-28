@@ -2,7 +2,7 @@
 
 namespace Core\Report\Services;
 
-use Core\Application\Report\Type as ReportType;
+use Core\Report\Type as ReportType;
 use DomainException;
 
 class GenerateService

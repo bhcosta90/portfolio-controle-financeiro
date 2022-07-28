@@ -25,6 +25,8 @@ interface TransactionRepository
 
     public function delete(TransactionEntity $entity): bool;
 
+    public function report(int $limit, int $page): ResultInterface;
+
     public function paginate(
         ?array $filter = null,
         ?int $page = 1,

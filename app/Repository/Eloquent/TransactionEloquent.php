@@ -108,6 +108,11 @@ class TransactionEloquent implements TransactionRepository
         ));
     }
 
+    public function report(int $limit, int $page): ResultInterface
+    {
+        return new ResultPresenter($this->model->get());
+    }
+
     public function getTransactionInDate(DateTime $date, int $limit, int $page): ResultInterface
     {
         $result = $this->model->where('transactions.date', '<=', $date->format('Y-m-d'))
