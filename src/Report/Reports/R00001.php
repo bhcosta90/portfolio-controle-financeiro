@@ -43,11 +43,11 @@ class R00001
                 $dateFinish->setTime(23, 59, 59)
             );
             
-            if (!empty($_GET['customer_name'])) {
-                $repository->filterByName($_GET['customer_name']);
+            if (!empty($_GET['name'])) {
+                $repository->filterByName($_GET['name']);
             }
 
-            $result = $this->repository->report($limit, $page)->items();
+            $result = $repository->report($limit, $page)->items();
 
             $report->column_text = 'Cliente / Fornecedor';
             $report->column_alignment = 'left';
