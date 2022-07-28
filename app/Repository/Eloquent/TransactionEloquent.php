@@ -110,7 +110,12 @@ class TransactionEloquent implements TransactionRepository
 
     public function report(int $limit, int $page): ResultInterface
     {
-        return new ResultPresenter($this->model->get());
+        return new ResultPresenter($this->model->select('transactions.*', 'banks.name as bank_name')
+            ->join('accounts', 'accounts.id', '=', 'transactions.account_to_id')
+            ->leftJoin('banks', 'banks.id', '=', 'accounts.entity_id')
+            ->whereNotIn('accounts.entity_type', [CustomerEntity::class, CompanyEntity::class])
+            ->orderBy('transactions.created_at', 'desc')
+            ->get());
     }
 
     public function getTransactionInDate(DateTime $date, int $limit, int $page): ResultInterface

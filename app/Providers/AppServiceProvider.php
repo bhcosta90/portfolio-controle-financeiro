@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Helpers\PriceHelper;
 use App\Manager\EventManager;
+use Core\Report\Contracts\PriceInterface;
 use Core\Shared\Interfaces\EventManagerInterface;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
@@ -22,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
         }    
+        $this->app->singleton(PriceInterface::class, PriceHelper::class);
         Paginator::useBootstrap();
     }
 

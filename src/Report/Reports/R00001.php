@@ -100,9 +100,7 @@ class R00001
             $bankValue = "";
             $prefix = ($prefix = $this->price->prefix()) ? "{$prefix} " : "";
 
-            if ($bank && $rs->value_bank) {
-                $bankValue .= ' <small>(' . $prefix . $this->price->convert($rs->value_bank) . ')</small>';
-            }
+            $bankValue .= ' <small>(' . $prefix . $this->price->convert($rs->previous_value) . ')</small>';
 
             $minus = $rs->type == TransactionTypeEnum::DEBIT->value ? '-' : '';
             $report->column_text = $minus . $prefix . $this->price->convert($rs->value) . $bankValue;
