@@ -23,23 +23,21 @@
             </div>
         </div>
         <hr />
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item">
-                <a class="nav-item nav-link {{ ($route = session('route')) != 'admin.charge.receive.pay.partial.store' ? "active" : ""}}" id="home" data-bs-toggle="tab" data-bs-target="#home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
-                    {!! __('Pagamento total') !!}
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-item nav-link {{ $route == 'admin.charge.receive.pay.partial.store' ? "active" : ""}}" id="profile" data-bs-toggle="tab" data-bs-target="#profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
-                    {{ __('Pagamento Parcial') }}
-                </a>
-            </li>
-        </ul>
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link {{ $route = session('route') != 'admin.charge.receive.pay.partial.store' ? 'active' : ''}}" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
+                    aria-controls="nav-home" aria-selected="true">Home</a>
+                <a class="nav-item nav-link {{ $route == 'admin.charge.receive.pay.partial.store' ? 'active' : ''}}"" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
+                    aria-controls="nav-profile" aria-selected="false">Profile</a>
+            </div>
+        </nav>
         <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade {{ $route != 'admin.charge.receive.pay.partial.store' ? "show active" : ""}}" id="home-tab" role="tabpanel" aria-labelledby="home-tab">
+            <div class="tab-pane fade {{ $route != 'admin.charge.receive.pay.partial.store' ? " show active" : "" }}"
+                id="home-tab" role="tabpanel" aria-labelledby="home-tab">
                 <div class="card">
                     <div class="card-body">
-                        <h4><small>Você vai pagar o valor total de</small> R$ {{ str()->numberBr($model->value - $model->pay) }}</h4>
+                        <h4><small>Você vai pagar o valor total de</small> R$ {{ str()->numberBr($model->value -
+                            $model->pay) }}</h4>
                         <div class="mt-3">
                             {!! form_start($formTotal) !!}
                             <div class="row">
@@ -51,7 +49,8 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade {{ $route == 'admin.charge.receive.pay.partial.store' ? "show active" : ""}}" id="profile-tab" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="tab-pane fade {{ $route == 'admin.charge.receive.pay.partial.store' ? " show active" : "" }}"
+                id="profile-tab" role="tabpanel" aria-labelledby="profile-tab">
                 <div class="card">
                     <div class="card-body">
                         {!! form_start($formPartial) !!}
@@ -63,10 +62,12 @@
                                 <div>
                                     <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                         <label class="btn btn-outline-secondary active">
-                                            <input type="radio" value="1" name="new_payment" id="option1" autocomplete="off" checked> Sim
+                                            <input type="radio" value="1" name="new_payment" id="option1"
+                                                autocomplete="off" checked> Sim
                                         </label>
                                         <label class="btn btn-outline-secondary">
-                                            <input type="radio" value="0" name="new_payment" id="option2" autocomplete="off"> Não
+                                            <input type="radio" value="0" name="new_payment" id="option2"
+                                                autocomplete="off"> Não
                                         </label>
                                     </div>
                                 </div>
