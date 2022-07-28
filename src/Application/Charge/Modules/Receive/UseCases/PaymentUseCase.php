@@ -86,7 +86,7 @@ class PaymentUseCase
                     resume: $objReceive->resume->value,
                     customer: $objReceive->customer->id,
                     recurrence: $objReceive->recurrence,
-                    value: $objReceive->value->value,
+                    value: $objReceive->value->value - $input->value,
                     pay: null,
                     group: $objReceive->group,
                     date: $input->chargeDateNext,
