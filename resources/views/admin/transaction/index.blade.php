@@ -4,7 +4,7 @@
 <div class='card'>
     <div class='card-header'>
         <div class='pull-left float-left float-start'>
-            <h1>{{ __('Relatório de Contas Bancária') }}</h1>
+            <h1>{{ __('Relatório de Pagamento') }}</h1>
             @include('partials.filter', compact('filter'))
         </div>
         <div class='pull-right float-right float-end'>{!! printOut(route('admin.report.index', [
