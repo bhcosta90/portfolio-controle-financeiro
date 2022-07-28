@@ -25,12 +25,12 @@
         <hr />
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link {{ ($route = session('route')) != 'admin.charge.receive.pay.partial.store' ? "active" : ""}}" id="home" data-bs-toggle="tab" data-bs-target="#home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
+                <a class="nav-item nav-link {{ ($route = session('route')) != 'admin.charge.receive.pay.partial.store' ? "active" : ""}}" id="home" data-bs-toggle="tab" data-bs-target="#home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
                     {!! __('Pagamento total') !!}
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ $route == 'admin.charge.receive.pay.partial.store' ? "active" : ""}}" id="profile" data-bs-toggle="tab" data-bs-target="#profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
+                <a class="nav-item nav-link {{ $route == 'admin.charge.receive.pay.partial.store' ? "active" : ""}}" id="profile" data-bs-toggle="tab" data-bs-target="#profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
                     {{ __('Pagamento Parcial') }}
                 </a>
             </li>
