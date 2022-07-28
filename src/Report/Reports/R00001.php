@@ -2,7 +2,6 @@
 
 namespace Core\Report\Reports;
 
-use Core\Application\Payment\Shared\Enums\PaymentTypeEnum;
 use Core\Application\Transaction\Repository\TransactionRepository;
 use Core\Application\Transaction\Shared\Enums\TransactionTypeEnum;
 use Core\Report\Contracts\PriceInterface;

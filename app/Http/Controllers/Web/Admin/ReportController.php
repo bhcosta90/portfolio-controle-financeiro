@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Web;
+namespace App\Http\Controllers\Web\Admin;
 
 use App\Http\Controllers\Controller;
 use Core\Report\Services;
@@ -12,7 +12,7 @@ class ReportController extends Controller
     {
         $letter = substr($report, -1);
         $report = substr($report, 0, -1);
-        $reportClass = app('Core\\Application\\Report\\Reports\\R' . $report);
+        $reportClass = app('Core\\Report\\Reports\\R' . $report);
 
         $objService = new Services\GenerateService($reportClass, $letter);
         $ret = $objService->handle(new Services\DTO\Generate\Input(

@@ -43,6 +43,10 @@ Route::middleware('auth')->prefix('admin')->as('admin.')->group(function () {
     Route::as('account.')->prefix('account')->group(function () {
         Route::resource('bank', Admin\Account\BankController::class);
     });
+
+    Route::as('report.')->prefix('report')->group(function () {
+        Route::get('/{report}', [Admin\ReportController::class, 'index'])->name('index');
+    });
 });
 
 Auth::routes();
