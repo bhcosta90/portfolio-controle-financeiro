@@ -4,7 +4,7 @@ namespace Core\Report\Helper;
 
 class StringHelper
 {
-    public static function cut(string|null $string, $max, $break = false): string
+    public static function cut(string|null $string, $max, $break = false): string|null
     {
         $tamanho = strlen($string);
 
