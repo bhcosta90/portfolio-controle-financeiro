@@ -31,6 +31,7 @@ class PayController extends Controller
             'model' => $model,
             'formPartial' => $formPartial,
             'formTotal' => $formTotal,
+            'route' => old('type'),
         ];
     }
 

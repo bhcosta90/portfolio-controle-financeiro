@@ -42,5 +42,7 @@ class PartialForm extends Form
             'rules' => ['required', 'in:' . implode(',', array_keys($data))],
             'empty_value' => __('Selecione')
         ]);
+        
+        $this->add('type', 'hidden', ['value' => 'partial']);
     }
 }

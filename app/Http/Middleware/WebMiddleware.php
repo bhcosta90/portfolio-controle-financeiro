@@ -18,7 +18,7 @@ class WebMiddleware
     public function handle(Request $request, Closure $next)
     {
         $response = $next($request);
-        if ($response instanceof \Illuminate\Http\Response) {
+        if ($response instanceof \Illuminate\Http\Response || $response instanceof \Illuminate\Http\RedirectResponse) {
             return $response;
         }
 

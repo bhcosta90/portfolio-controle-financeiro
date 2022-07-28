@@ -28,5 +28,7 @@ class TotalForm extends Form
             'rules' => ['required'],
             'value' => date('Y-m-d'),
         ]);
+
+        $this->add('type', 'hidden', ['value' => 'total']);
     }
 }

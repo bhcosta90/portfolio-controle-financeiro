@@ -140,5 +140,7 @@
     "Deposit": "Depósito",
     "Withdrawal": "Saque",
     "This transaction cannot be canceled": "Esta transação não pode ser cancelada",
-    "Types": "Tipos"
+    "Types": "Tipos",
+    "The payment is greater than the amount of the account payable": "O pagamento é maior que o valor da conta a pagar",
+    "The receive is greater than the amount of the account payable": "O recebimento é maior que o valor da conta a pagar"
 }
