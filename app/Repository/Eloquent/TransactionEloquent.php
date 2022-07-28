@@ -100,6 +100,7 @@ class TransactionEloquent implements TransactionRepository
             ->join('accounts', 'accounts.id', '=', 'transactions.account_to_id')
             ->leftJoin('banks', 'banks.id', '=', 'accounts.entity_id')
             ->whereNotIn('accounts.entity_type', [CustomerEntity::class, CompanyEntity::class])
+            ->whereIsNotNull('transactions.relation_name')
             ->orderBy('transactions.created_at', 'desc');
 
         return new PaginatorPresenter($result->paginate(
@@ -114,6 +115,7 @@ class TransactionEloquent implements TransactionRepository
             ->join('accounts', 'accounts.id', '=', 'transactions.account_to_id')
             ->leftJoin('banks', 'banks.id', '=', 'accounts.entity_id')
             ->whereNotIn('accounts.entity_type', [CustomerEntity::class, CompanyEntity::class])
+            ->whereIsNotNull('transactions.relation_name')
             ->orderBy('transactions.created_at', 'desc')
             ->skip(($page - 1) * $limit)
             ->take($limit)
