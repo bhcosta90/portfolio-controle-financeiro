@@ -4,13 +4,14 @@ namespace App\Repository\Presenters;
 
 use Core\Shared\Interfaces\ResultInterface;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\LazyCollection;
 use stdClass;
 
 class ResultPresenter implements ResultInterface
 {
     protected array $data;
 
-    public function __construct(private Collection $dataItems)
+    public function __construct(private Collection|LazyCollection $dataItems)
     {
         $this->data = $this->resolveItems(
             items: $dataItems,

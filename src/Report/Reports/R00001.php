@@ -47,7 +47,7 @@ class R00001
                 $repository->filterByName($_GET['customer_name']);
             }
 
-            $result = $this->repository->report($page, $limit)->items();
+            $result = $this->repository->report($limit, $page)->items();
 
             $report->column_text = 'Cliente / Fornecedor';
             $report->column_alignment = 'left';

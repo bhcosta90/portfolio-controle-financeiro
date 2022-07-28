@@ -84,7 +84,7 @@ class TransactionEloquent implements TransactionRepository
     public function filterByDate(DateTime $start, DateTime $end)
     {
         $this->model = $this->model->whereBetween('transactions.created_at', [
-            $start->format('Y-m-d H:i:s'), 
+            $start->format('Y-m-d H:i:s'),
             $end->format('Y-m-d H:i:s')
         ]);
     }
@@ -115,7 +115,9 @@ class TransactionEloquent implements TransactionRepository
             ->leftJoin('banks', 'banks.id', '=', 'accounts.entity_id')
             ->whereNotIn('accounts.entity_type', [CustomerEntity::class, CompanyEntity::class])
             ->orderBy('transactions.created_at', 'desc')
-            ->get());
+            ->skip(($page - 1) * $limit)
+            ->take($limit)
+            ->cursor());
     }
 
     public function getTransactionInDate(DateTime $date, int $limit, int $page): ResultInterface
