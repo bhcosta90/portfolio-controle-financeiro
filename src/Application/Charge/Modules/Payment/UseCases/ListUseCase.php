@@ -40,8 +40,8 @@ class ListUseCase
     }
 
     private function getQuery(ListInput $input){
-        $dateStart = new DateTime($input->filter['date'][0] ?? null);
-        $dateFinish = new DateTime($input->filter['date'][1] ?? null);
+        $dateStart = new DateTime($input->filter['date'][0] ?? '');
+        $dateFinish = new DateTime($input->filter['date'][1] ?? '');
 
         if (empty($input->filter['date'][0])) {
             $dateStart->modify('first day of this month');
