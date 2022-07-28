@@ -23,23 +23,18 @@
             </div>
         </div>
         <hr />
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link {{ ($route = session('route')) != 'admin.charge.payment.pay.partial.store' ? "active" : ""}}" id="home" data-bs-toggle="tab" data-bs-target="#home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
-                    {!! __('Pagamento total') !!}
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {{ $route == 'admin.charge.payment.pay.partial.store' ? "active" : ""}}" id="profile" data-bs-toggle="tab" data-bs-target="#profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
-                    {{ __('Pagamento Parcial') }}
-                </a>
-            </li>
-        </ul>
-        <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade {{ $route != 'admin.charge.payment.pay.partial.store' ? "show active" : ""}}" role="tabpanel" id="home-tab" role="tabpanel" aria-labelledby="home-tab">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link {{$route = session('route') != 'admin.charge.payment.pay.partial.store' ? 'active' : ''}}" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Total</a>
+                <a class="nav-item nav-link {{$route = session('route') == 'admin.charge.payment.pay.partial.store' ? 'active' : ''}}" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Parcial</a>
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade {{$route = session('route') != 'admin.charge.payment.pay.partial.store' ? 'show active' : ''}}" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                 <div class="card">
                     <div class="card-body">
-                        <h4><small>Você vai pagar o valor total de</small> R$ {{ str()->numberBr($model->value - $model->pay) }}</h4>
+                        <h4><small>Você vai pagar o valor total de</small> R$ {{ str()->numberBr($model->value -
+                            $model->pay) }}</h4>
                         <div class="mt-3">
                             {!! form_start($formTotal) !!}
                             <div class="row">
@@ -51,7 +46,7 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade {{ $route == 'admin.charge.payment.pay.partial.store' ? "show active" : ""}}" role="tabpanel" id="profile-tab" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="tab-pane fade {{$route = session('route') == 'admin.charge.payment.pay.partial.store' ? 'show active' : ''}}" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                 <div class="card">
                     <div class="card-body">
                         {!! form_start($formPartial) !!}
