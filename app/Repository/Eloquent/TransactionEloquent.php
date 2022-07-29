@@ -127,6 +127,7 @@ class TransactionEloquent implements TransactionRepository
     {
         $result = $this->model->where('transactions.date', '<=', $date->format('Y-m-d'))
             ->where('transactions.status', TransactionStatusEnum::PENDING)
+            ->orderBy('transactions.created_at', 'asc')
             ->take($limit)
             ->skip($limit * $page);
 
