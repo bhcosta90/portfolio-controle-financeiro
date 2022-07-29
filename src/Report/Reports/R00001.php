@@ -105,7 +105,7 @@ class R00001
                 $valueCalculate = $rs->previous_value - $rs->value;
             }
             
-            if ($valueCalculate != $rs->value) {
+            if (number_format($valueCalculate) != number_format($rs->value)) {
                 $bankValue .= ' <small>(' . $prefix . $this->price->convert($valueCalculate) . ')</small>';
             }
 
