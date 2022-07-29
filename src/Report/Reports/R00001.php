@@ -69,16 +69,21 @@ class R00001
             $report->column_size = $column04 = 7;
             $report->addColumn();
 
+            $report->column_text = 'Saldo';
+            $report->column_alignment = 'left';
+            $report->column_size = $column05 = 7;
+            $report->addColumn();
+
             $report->line_style = 'header';
             $report->addLine();
             $report->line_style = '';
-            $report = $this->executeForeachRenderA($report, $result, $column01, $column02, $column03, $column04);
+            $report = $this->executeForeachRenderA($report, $result, $column01, $column02, $column03, $column04, $column05);
             $report->addPage();
             $page++;
         } while (count($result) === $limit);
     }
 
-    private function executeForeachRenderA($report, $result, $column01, $column02, $column03, $column04)
+    private function executeForeachRenderA($report, $result, $column01, $column02, $column03, $column04, $column05)
     {
         foreach ($result as $rs) {
             $report->column_text = StringHelper::cut($rs->relationship_name, 30) ?: '-';
@@ -105,12 +110,15 @@ class R00001
                 $valueCalculate = $rs->previous_value - $rs->value;
             }
             
-            $bankValue .= ' <small>(' . $prefix . $this->price->convert($rs->previous_value ? $valueCalculate : 0) . ')</small>';
-
             $minus = $rs->type == TransactionTypeEnum::DEBIT->value ? '-' : '';
             $report->column_text = $minus . $prefix . $this->price->convert($rs->value) . $bankValue;
             $report->column_alignment = 'left';
             $report->column_size = $column04;
+            $report->addColumn();
+            
+            $report->column_text = $prefix . $this->price->convert($valueCalculate);
+            $report->column_alignment = 'left';
+            $report->column_size = $column05;
             $report->addColumn();
 
             $report->line_style = '';
