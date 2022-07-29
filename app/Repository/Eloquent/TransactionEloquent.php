@@ -118,6 +118,7 @@ class TransactionEloquent implements TransactionRepository
             ->whereNotNull('transactions.relationship_name')
             ->where('transactions.status', TransactionStatusEnum::COMPLETE)
             ->orderBy('transactions.updated_at', 'desc')
+            ->orderBy('transactions.created_at', 'asc')
             ->skip(($page - 1) * $limit)
             ->take($limit)
             ->cursor());
