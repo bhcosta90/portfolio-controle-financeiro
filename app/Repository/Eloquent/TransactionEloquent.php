@@ -116,7 +116,7 @@ class TransactionEloquent implements TransactionRepository
             ->leftJoin('banks', 'banks.id', '=', 'accounts.entity_id')
             ->whereNotIn('accounts.entity_type', [CustomerEntity::class, CompanyEntity::class])
             ->whereNotNull('transactions.relationship_name')
-            ->orderBy('transactions.created_at', 'desc')
+            ->orderBy('transactions.updated_at', 'desc')
             ->skip(($page - 1) * $limit)
             ->take($limit)
             ->cursor());
