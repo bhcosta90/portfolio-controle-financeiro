@@ -105,7 +105,9 @@ class R00001
                 $valueCalculate = $rs->previous_value - $rs->value;
             }
             
-            $bankValue .= ' <small>(' . $prefix . $this->price->convert($valueCalculate) . ')</small>';
+            if ($valueCalculate != $rs->value) {
+                $bankValue .= ' <small>(' . $prefix . $this->price->convert($valueCalculate) . ')</small>';
+            }
 
             $minus = $rs->type == TransactionTypeEnum::DEBIT->value ? '-' : '';
             $report->column_text = $minus . $prefix . $this->price->convert($rs->value) . $bankValue;
