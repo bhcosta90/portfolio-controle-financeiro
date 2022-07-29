@@ -100,7 +100,12 @@ class R00001
             $bankValue = "";
             $prefix = ($prefix = $this->price->prefix()) ? "{$prefix} " : "";
 
-            $bankValue .= ' <small>(' . $prefix . $this->price->convert($rs->previous_value) . ')</small>';
+            $valueCalculate = $rs->previous_value + $rs->value;
+            if ($rs->type == TransactionTypeEnum::DEBIT->value) {
+                $valueCalculate = $rs->previous_value - $rs->value;
+            }
+            
+            $bankValue .= ' <small>(' . $prefix . $this->price->convert($valueCalculate) . ')</small>';
 
             $minus = $rs->type == TransactionTypeEnum::DEBIT->value ? '-' : '';
             $report->column_text = $minus . $prefix . $this->price->convert($rs->value) . $bankValue;
