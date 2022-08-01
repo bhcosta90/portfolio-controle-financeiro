@@ -86,6 +86,8 @@ class CustomerEloquent extends EloquentAbstract implements CustomerRepository
 
     public function pluck(?array $filter = null): array
     {
-        return $this->model->where('entity', $filter['entity'])->pluck($this->getValuePluck(), 'id')->toArray();
+        return $this->model->where('entity', $filter['entity'])->pluck($this->getValuePluck(), 'id')
+                ->orderBy('relationships.name')
+                ->toArray();
     }
 }
