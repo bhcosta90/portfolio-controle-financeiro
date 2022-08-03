@@ -73,7 +73,7 @@ class PaymentForm extends Form
             $ret[$i] = str_pad($i, 2, '0', STR_PAD_LEFT) . 'x';
         }
 
-        while ($i <= 48) {
+        while ($i <= 60) {
             $ret[$i] = str_pad($i, 2, '0', STR_PAD_LEFT) . 'x';
             $i += 6;
         }
