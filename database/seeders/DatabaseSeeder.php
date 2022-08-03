@@ -21,14 +21,23 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $tenant = \App\Models\Tenant::factory()->create(['id' => '60e34bf6-9e29-4e08-81f2-ab3848203e10']);
+        if (\App\Models\User::where('email', config('user.email'))->count() == 0) {
+            $tenant = \App\Models\Tenant::factory()->create(['id' => '60e34bf6-9e29-4e08-81f2-ab3848203e10']);
+            \App\Models\User::factory()->create([
+                'id' => 'dacaad78-b292-4f98-adf8-d8cd1a010003',
+                'tenant_id' => $tenant->id,
+                'email' => config('user.email'),
+                'password' => config('user.password'),
+            ]);
+        } else {
+            $tenant = \App\Models\Tenant::factory()->create();
+            $user = \App\Models\User::factory()->create([
+                'tenant_id' => $tenant->id,
+                'password' => config('user.password'),
+            ]);
 
-        \App\Models\User::factory(1)->create([
-            'id' => 'dacaad78-b292-4f98-adf8-d8cd1a010003',
-            'tenant_id' => $tenant->id,
-            'email' => config('user.email'),
-            'password' => config('user.password'),
-        ]);
+            $this->command->line($user->email);
+        }
 
         $recurrence = \App\Models\Recurrence::factory()->create([
             'tenant_id' => $tenant->id,
@@ -36,10 +45,12 @@ class DatabaseSeeder extends Seeder
             'name' => "Mensal"
         ]);
 
+        $quantity = $this->command->ask('Enter quantity charges');
+
         \App\Models\Relationship::factory(rand(15, 45))->create([
             'tenant_id' => $tenant->id,
-        ])->each(function ($obj) use ($recurrence) {
-            \App\Models\Charge::factory(rand(10, 20))->create([
+        ])->each(function ($obj) use ($recurrence, $quantity) {
+            \App\Models\Charge::factory($quantity)->create([
                 'tenant_id' => $obj->tenant_id,
                 'entity' => match($obj->entity) {
                     CustomerEntity::class => ReceiveEntity::class,
