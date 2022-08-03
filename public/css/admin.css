@@ -1,3 +1,60 @@
-.table-report td .action,.table-report td .action-column,.table-report td.action,.table-report td.action-column,.table-report th .action,.table-report th .action-column,.table-report th.action,.table-report th.action-column{display:inherit;white-space:nowrap}.table-report td .action .btn,.table-report td .action-column .btn,.table-report td.action .btn,.table-report td.action-column .btn,.table-report th .action .btn,.table-report th .action-column .btn,.table-report th.action .btn,.table-report th.action-column .btn{margin-left:3px}.table-report td.min,.table-report th.min{max-width:1px;width:1px}.table-report tr.due-date .due-date{color:red}.report table tr.odd{background-color:rgba(0,0,0,.05)}.report table thead td,.report table thead th{font-weight:700}.report table td{border-top:1px solid #dee2e6;padding:.75rem;vertical-align:top}.card-header h1,.card-header h2,.card-header h3,.card-header h4,.card-header h5,.card-header h6{font-size:1.6em;line-height:normal;margin:0;padding:0}.card-footer .pagination{margin:0}#home .small-box .icon>i{font-size:65px}
+.table-report td.action-column, .table-report td.action,
+.table-report td .action-column,
+.table-report td .action,
+.table-report th.action-column,
+.table-report th.action,
+.table-report th .action-column,
+.table-report th .action {
+  white-space: nowrap;
+  display: inherit;
+}
+.table-report td.action-column .btn, .table-report td.action .btn,
+.table-report td .action-column .btn,
+.table-report td .action .btn,
+.table-report th.action-column .btn,
+.table-report th.action .btn,
+.table-report th .action-column .btn,
+.table-report th .action .btn {
+  margin-left: 3px;
+}
+.table-report td.min,
+.table-report th.min {
+  width: 1px;
+  max-width: 1px;
+}
+.table-report tr.due-date .due-date {
+  color: red;
+}
 
-/*# sourceMappingURL=admin.css.map*/
+.report table tr.odd {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.report table thead th,
+.report table thead td {
+  font-weight: bold;
+}
+.report table td {
+  padding: 0.75rem;
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
+}
+
+.card-header h1,
+.card-header h2,
+.card-header h3,
+.card-header h4,
+.card-header h5,
+.card-header h6 {
+  font-size: 1.6em;
+  margin: 0;
+  padding: 0;
+  line-height: normal;
+}
+
+.card-footer .pagination {
+  margin: 0;
+}
+
+#home .small-box .icon > i {
+  font-size: 65px;
+}

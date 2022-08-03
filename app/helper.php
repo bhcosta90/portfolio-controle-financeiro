@@ -13,7 +13,7 @@ if (!function_exists('links')) {
             }
             $str .= '<div class="action-column">';
             if ($key === 'edit') {
-                $str .= "<a class='btn btn-outline-info btn-xs btn-sm' href='{$value['link']}'>";
+                $str .= "<a class='btn btn-outline-info btn-link-edit btn-xs btn-sm' href='{$value['link']}'>";
                 $str .= $spanStart;
                 $str .= '<i class="fas fa-pencil-alt"></i>';
                 $str .= $spanFinish;
@@ -70,9 +70,22 @@ if (!function_exists('links')) {
     }
 }
 
+if (!function_exists('layout')) {
+    function layout(): string
+    {
+        if (request('iframe')) {
+            return 'layouts.iframe';
+        }
+        return 'layouts.app';
+    }
+}
 if (!function_exists('register')) {
     function register($link, $title): string
     {
+        if (request('iframe')) {
+            return '';
+        }
+
         $str = "";
         $str .= "<a class='btn btn-outline-success btn-sm' href='{$link}'>";
         $str .= "<span>";
@@ -84,9 +97,13 @@ if (!function_exists('register')) {
     }
 }
 
-if (!function_exists('urlBank')) {
-    function urlBank($link, $title = 'Back'): string
+if (!function_exists('urlBack')) {
+    function urlBack($link, $title = 'Back'): string
     {
+        if (request('iframe')) {
+            return '';
+        }
+        
         $str = "";
         $str .= "<a class='btn btn-outline-info btn-sm' href='{$link}'>";
         $str .= "<span>";
