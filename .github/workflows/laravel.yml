@@ -35,18 +35,18 @@ jobs:
   #   steps:
   #     - uses: actions/checkout@v3
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: tests
-    steps:
-      - name: Deploy App
-        uses: appleboy/ssh-action@v0.1.3
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.SSHKEY }}
-          script: |
-            mkdir tests
-            cd tests
-            echo 'Deployment' 
+  # deploy:
+  #   runs-on: ubuntu-latest
+  #   needs: tests
+  #   steps:
+  #     - name: Deploy App
+  #       uses: appleboy/ssh-action@v0.1.3
+  #       with:
+  #         host: ${{ secrets.HOST }}
+  #         username: ${{ secrets.USERNAME }}
+  #         key: ${{ secrets.SSHKEY }}
+  #         script: |
+  #           mkdir tests
+  #           cd tests
+  #           echo 'Deployment' 
       
