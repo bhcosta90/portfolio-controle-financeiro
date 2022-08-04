@@ -32,7 +32,7 @@ jobs:
           host: ${{secrets.SSH_HOST}}
           key: ${{secrets.SSH_KEY}}
           username: ${{ secrets.SSH_USERNAME }}
-          scripts: |
+          script: |
             mkdir tests
             cd tests
             echo 'Deployment'
