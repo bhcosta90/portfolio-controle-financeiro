@@ -40,11 +40,11 @@ jobs:
       - name: Load private SSH key
         uses: webfactory/ssh-agent@v0.5.3
         with:
-          ssh-private-key: ${{ secrets. secrets.KEY }}
+          ssh-private-key: ${{ secrets.KEY }}
 
       - name: Atomic Deploy
         run: |
-          ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} << EOF
+          ssh ${{ secrets.USERNAME }}@${{ secrets.SSH_HOST }} << EOF
             echo "Result: $FOO"
           EOF
       
