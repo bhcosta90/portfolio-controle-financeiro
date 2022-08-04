@@ -29,6 +29,7 @@ class TransactionEntity extends EntityAbstract
         protected TransactionTypeEnum $type,
         protected TransactionStatusEnum $status,
         protected DateTime $dateExecute,
+        protected string $order,
         protected ?UuidObject $id = null,
         protected ?DateTime $createdAt = null,
     ) {
@@ -67,6 +68,7 @@ class TransactionEntity extends EntityAbstract
             TransactionTypeEnum::from($type),
             $status ? TransactionStatusEnum::from($status) : TransactionStatusEnum::PENDING,
             $date_execute ? new DateTime($date_execute) : (new DateTime())->modify('+2 minutes'),
+            microtime(true) * 10000,
             $id ? new UuidObject($id) : null,
             $createdAt ? new DateTime($createdAt) : null,
         );

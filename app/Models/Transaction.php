@@ -12,6 +12,7 @@ class Transaction extends Model
 
     public $fillable = [
         'id',
+        'order',
         'group_id',
         'tenant_id',
         'account_to_id',
