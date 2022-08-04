@@ -28,7 +28,7 @@ jobs:
       #   run: vendor/bin/phpunit
       - name: Deploy Laravel App
         uses: appleboy/ssh-action@v0.1.4
-        with: 
+        with:
           host: ${{secrets.SSH_HOST}}
           key: ${{secrets.SSH_KEY}}
           username: ${{ secrets.SSH_USERNAME }}
