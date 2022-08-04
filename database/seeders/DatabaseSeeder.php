@@ -33,7 +33,6 @@ class DatabaseSeeder extends Seeder
             $tenant = \App\Models\Tenant::factory()->create();
             $user = \App\Models\User::factory()->create([
                 'tenant_id' => $tenant->id,
-                'password' => config('user.password'),
             ]);
 
             $this->command->line($user->email);
