@@ -30,7 +30,6 @@ class ExecuteSchedulePaymentUseCase
                 $updated = $this->transaction->update($obj);
                 $this->event->dispatch($obj->events);
                 $ret[] = new DTO\ExecuteSchedulePayment\Output($updated);
-                sleep(1);
             }
             $page++;
         } while (count($results->items()) == $limit);
