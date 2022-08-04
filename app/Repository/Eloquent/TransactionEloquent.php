@@ -41,6 +41,7 @@ class TransactionEloquent implements TransactionRepository
             'previous_value' => $entity->previousValue,
             'type' => $entity->type->value,
             'status' => $entity->status->value,
+            'order' => $entity->order,
             'date' => $entity->dateExecute->format('Y-m-d'),
         ]);
     }
@@ -78,6 +79,7 @@ class TransactionEloquent implements TransactionRepository
         return $this->model->where('id', $entity->id())->update([
             'previous_value' => $entity->previousValue,
             'status' => $entity->status->value,
+            'order' => $entity->order,
         ]);
     }
 
@@ -101,6 +103,7 @@ class TransactionEloquent implements TransactionRepository
             ->leftJoin('banks', 'banks.id', '=', 'accounts.entity_id')
             ->whereNotIn('accounts.entity_type', [CustomerEntity::class, CompanyEntity::class])
             ->whereNotNull('transactions.relationship_name')
+            ->orderBy('transactions.order', 'desc')
             ->orderBy('transactions.created_at', 'desc');
 
         return new PaginatorPresenter($result->paginate(
@@ -117,6 +120,7 @@ class TransactionEloquent implements TransactionRepository
             ->whereNotIn('accounts.entity_type', [CustomerEntity::class, CompanyEntity::class])
             ->whereNotNull('transactions.relationship_name')
             ->where('transactions.status', TransactionStatusEnum::COMPLETE)
+            ->orderBy('transactions.order', 'desc')
             ->orderBy('transactions.updated_at', 'desc')
             ->orderBy('transactions.created_at', 'asc')
             ->skip(($page - 1) * $limit)
@@ -128,6 +132,7 @@ class TransactionEloquent implements TransactionRepository
     {
         $result = $this->model->where('transactions.date', '<=', $date->format('Y-m-d'))
             ->where('transactions.status', TransactionStatusEnum::PENDING)
+            ->orderBy('transactions.order', 'asc')
             ->orderBy('transactions.created_at', 'asc')
             ->take($limit)
             ->skip($limit * $page);
