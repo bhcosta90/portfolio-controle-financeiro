@@ -1,4 +1,5 @@
 #https://faun.pub/full-ci-cd-with-docker-github-actions-digitalocean-droplets-container-registry-db2938db8246
+#https://medium.com/swlh/how-to-deploy-your-application-to-digital-ocean-using-github-actions-and-save-up-on-ci-cd-costs-74b7315facc2
 
 name: Laravel
 on:
@@ -28,15 +29,15 @@ jobs:
           DB_CONNECTION: sqlite
         run: vendor/bin/phpunit
 
-  build:
-    runs-on: ubuntu-latest
-    needs: tests
-    steps:
-      - uses: actions/checkout@v3
+  # build:
+  #   runs-on: ubuntu-latest
+  #   needs: tests
+  #   steps:
+  #     - uses: actions/checkout@v3
 
   deploy:
     runs-on: ubuntu-latest
-    needs: build
+    needs: tests
     steps:
       - name: Deploy App
         uses: appleboy/ssh-action@v0.1.3
