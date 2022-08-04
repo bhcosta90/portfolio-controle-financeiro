@@ -9,6 +9,7 @@
         </div>
         <div class='pull-right float-right float-end'>{!! printOut(route('admin.report.index', [
             'report' => '00001A',
+            'render' => 'html'
         ] + request()->except('token')), __('Imprimir')) !!}</div>
     </div>
     <div class="table-responsive-md">
