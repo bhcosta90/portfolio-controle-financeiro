@@ -41,9 +41,9 @@ jobs:
       - name: Deploy App
         uses: appleboy/ssh-action@v0.1.3
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSHKEY }}
           script: |
             mkdir tests
             cd tests
