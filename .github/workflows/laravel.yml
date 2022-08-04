@@ -36,5 +36,5 @@ jobs:
           script: |
             mkdir tests
             cd tests
-            echo 'Deployment'
+            echo 'Deployment 1' 
       
