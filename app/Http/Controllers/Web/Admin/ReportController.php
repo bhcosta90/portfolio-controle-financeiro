@@ -17,7 +17,7 @@ class ReportController extends Controller
         $objService = new Services\GenerateService($reportClass, $letter);
         $ret = $objService->handle(new Services\DTO\Generate\Input(
             $request->render ?? "html",
-            $request->all()
+            $request->except('_token')
         ));
         $title = $ret->report['title'] ?: "";
         $render = $ret->render();
