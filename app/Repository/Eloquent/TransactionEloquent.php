@@ -79,6 +79,7 @@ class TransactionEloquent implements TransactionRepository
         return $this->model->where('id', $entity->id())->update([
             'previous_value' => $entity->previousValue,
             'status' => $entity->status->value,
+            'order' => $entity->order,
         ]);
     }
 
