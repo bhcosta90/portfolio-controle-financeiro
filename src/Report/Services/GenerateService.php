@@ -24,7 +24,7 @@ class GenerateService
             default => throw new DomainException('Type do not implemented'),
         };
 
-        $this->report->$render($report);
+        $this->report->$render($report, $input->filter);
 
         return $report;
     }

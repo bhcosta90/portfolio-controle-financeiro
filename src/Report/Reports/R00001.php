@@ -18,20 +18,20 @@ class R00001
         //
     }
 
-    public function render_a(ReportTypeAbstract $report)
+    public function render_a(ReportTypeAbstract $report, array $params)
     {
         $limit = 30;
         $page = 1;
         $report->title = 'Relatório de Pagamento';
 
-        $dateStart = new DateTime($_GET['date'][0] ?? '');
-        $dateFinish = new DateTime($_GET['date'][1] ?? '');
+        $dateStart = new DateTime($params['date'][0] ?? '');
+        $dateFinish = new DateTime($params['date'][1] ?? '');
 
-        if (empty($_GET['date'][0])) {
+        if (empty($params['date'][0])) {
             $dateStart->modify('first day of this month');
         }
 
-        if (empty($_GET['date'][1])) {
+        if (empty($params['date'][1])) {
             $dateFinish->modify('last day of this month');
         }
 
@@ -43,8 +43,8 @@ class R00001
                 $dateFinish->setTime(23, 59, 59)
             );
 
-            if (!empty($_GET['name'])) {
-                $repository->filterByName($_GET['name']);
+            if (!empty($params['name'])) {
+                $repository->filterByName($params['name']);
             }
 
             $result = $repository->report($limit, $page)->items();
