@@ -1,5 +1,7 @@
-name: Laravel
+#https://faun.pub/full-ci-cd-with-docker-github-actions-digitalocean-droplets-container-registry-db2938db8246
+#https://medium.com/swlh/how-to-deploy-your-application-to-digital-ocean-using-github-actions-and-save-up-on-ci-cd-costs-74b7315facc2
 
+name: Laravel
 on:
   push:
     branches: [ master ]
@@ -7,7 +9,7 @@ on:
     branches: [ master ]
 
 jobs:
-  laravel-tests:
+  tests:
     runs-on: ubuntu-latest
     steps:
       - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
@@ -26,14 +28,25 @@ jobs:
         env:
           DB_CONNECTION: sqlite
         run: vendor/bin/phpunit
-      # - name: Deploy Laravel App
-      #   uses: appleboy/ssh-action@v0.1.3
-      #   with:
-      #     host: ${{ secrets.SSH_HOST }}
-      #     username: ${{ secrets.SSH_USERNAME }}
-      #     key: ${{ secrets.SSH_KEY }}
-      #     script: |
-      #       mkdir tests
-      #       cd tests
-      #       echo 'Deployment' 
+
+  # build:
+  #   runs-on: ubuntu-latest
+  #   needs: tests
+  #   steps:
+  #     - uses: actions/checkout@v3
+
+  # deploy:
+  #   runs-on: ubuntu-latest
+  #   needs: tests
+  #   steps:
+  #     - name: Deploy App
+  #       uses: appleboy/ssh-action@v0.1.3
+  #       with:
+  #         host: ${{ secrets.HOST }}
+  #         username: ${{ secrets.USERNAME }}
+  #         key: ${{ secrets.SSHKEY }}
+  #         script: |
+  #           mkdir tests
+  #           cd tests
+  #           echo 'Deployment' 
       
