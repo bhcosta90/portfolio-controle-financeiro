@@ -26,14 +26,25 @@ jobs:
       #   env:
       #     DB_CONNECTION: sqlite
       #   run: vendor/bin/phpunit
-      - name: Deploy Laravel App
-        uses: appleboy/ssh-action@v0.1.4
-        with: 
-          host: ${{secrets.SSH_HOST}}
-          key: ${{secrets.SSH_KEY}}
-          username: ${{ secrets.SSH_USERNAME }}
-          port: ${{ secrets.SSH_PORT }}
-          script: |
-            mkdir tests
-            cd tests
-            echo 'Deployment'
+      # - name: Deploy Laravel App
+      #   uses: appleboy/ssh-action@v0.1.4
+      #   with: 
+      #     host: ${{secrets.SSH_HOST}}
+      #     key: ${{secrets.SSH_KEY}}
+      #     username: ${{ secrets.SSH_USERNAME }}
+      #     port: ${{ secrets.SSH_PORT }}
+      #     script: |
+      #       mkdir tests
+      #       cd tests
+      #       echo 'Deployment'
+      - name: Load private SSH key
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets. secrets.KEY }}
+
+      - name: Atomic Deploy
+        run: |
+          ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} << EOF
+            echo "Result: $FOO"
+          EOF
+      
