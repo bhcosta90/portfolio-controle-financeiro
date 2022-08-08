@@ -65,7 +65,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return DB::transaction(function() {
+        return DB::transaction(function() use($data) {
             $tenant = Tenant::create(['id' => str()->uuid()]);
             
             User::create([
