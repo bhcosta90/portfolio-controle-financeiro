@@ -28,9 +28,10 @@ class FormSupport
         string  $form,
         string  $action,
         ?object $model = null,
+        ?string $method = null,
     ) {
         $formRun = $this->formBuilder->create($form, [
-            'method' => $model ? "PUT" : "POST",
+            'method' => $method ? $method : ($model ? "PUT" : "POST"),
             'url' => $action,
             'model' => $model,
         ], $this->data);
