@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $tenant->domains()->create([
-            'domain' => 'demo'
+            'domain' => 'costa'
         ]);
 
         tenancy()->initialize($tenant);
@@ -38,6 +38,10 @@ class DatabaseSeeder extends Seeder
             'tenancy_db_name' => env('DB_DATABASE'),
             'tenancy_db_host' => env('DB_HOST'),
             'tenancy_db_username' => env('DB_USERNAME'),
+        ]);
+
+        $tenant->domains()->create([
+            'domain' => 'demo'
         ]);
 
         tenancy()->initialize($tenant);
