@@ -33,5 +33,14 @@ class DatabaseSeeder extends Seeder
             'email' => 'bhcosta90@gmail.com',
             'password' => '$2y$10$hoTymm/4dqKbYRCNWx7TKuAMOHmh/Som9xZvhpLuVMQmzcbHsg9OC'
         ]);
+
+        $tenant = Tenant::create([
+            'tenancy_db_name' => env('DB_DATABASE'),
+            'tenancy_db_host' => env('DB_HOST'),
+            'tenancy_db_username' => env('DB_USERNAME'),
+        ]);
+
+        tenancy()->initialize($tenant);
+        User::factory(10)->create();
     }
 }
