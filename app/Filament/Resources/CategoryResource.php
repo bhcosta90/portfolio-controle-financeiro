@@ -33,7 +33,11 @@ class CategoryResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->label(__('Nome'))
-                    ->rules(['min:3', 'max:100', "unique:categories,name,{$id},id,tenant_id,{$tenant},deleted_at,NULL"])
+                    ->rules([
+                        'min:3',
+                        'max:100',
+                        "unique:categories,name,{$id},id,tenant_id,{$tenant},deleted_at,NULL"
+                    ])
                     ->columnSpanFull()
             ]);
     }
