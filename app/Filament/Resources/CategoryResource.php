@@ -66,7 +66,7 @@ class CategoryResource extends Resource
             ])
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make(),
-            ]);
+            ])->defaultSort('name')->persistSortInSession();
     }
 
     public static function getRelations(): array

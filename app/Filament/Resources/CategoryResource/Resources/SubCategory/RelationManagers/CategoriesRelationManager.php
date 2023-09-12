@@ -69,6 +69,6 @@ class CategoriesRelationManager extends RelationManager
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make(),
                 Tables\Actions\AssociateAction::make(),
-            ]);
+            ])->defaultSort('name')->persistSortInSession();
     }
 }
