@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::create('charges', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->uuid('group_id')->index();
             $table->foreignUuid('tenant_id')->on('tenants');
             $table->foreignUuid('account_id')->nullable()->on('accounts');
             $table->uuidMorphs('charge');
