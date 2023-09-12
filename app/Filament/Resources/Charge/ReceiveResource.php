@@ -19,6 +19,16 @@ class ReceiveResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Cobranças');
+    }
+
+    public static function getLabel(): ?string
+    {
+        return __('pagamento');
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -50,14 +60,14 @@ class ReceiveResource extends Resource
                 Tables\Actions\CreateAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -65,8 +75,8 @@ class ReceiveResource extends Resource
             'create' => Pages\CreateReceive::route('/create'),
             'edit' => Pages\EditReceive::route('/{record}/edit'),
         ];
-    }    
-    
+    }
+
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()

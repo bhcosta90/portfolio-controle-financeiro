@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->foreignUuid('account_from_id')->on('accounts');
             $table->foreignUuid('account_to_id')->on('accounts');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

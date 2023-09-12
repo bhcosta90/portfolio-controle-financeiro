@@ -20,6 +20,12 @@ class AccountResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Cadastros');
+    }
+
+
     public static function getLabel(): ?string
     {
         return __('conta');

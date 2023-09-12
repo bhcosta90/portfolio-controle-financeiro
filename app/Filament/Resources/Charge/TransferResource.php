@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources\Charge;
 
-use App\Filament\Resources\Charge\PaymentResource\Pages;
-use App\Filament\Resources\Charge\PaymentResource\RelationManagers;
-use App\Models\Charge\Payment;
+use App\Filament\Resources\Charge\TransferResource\Pages;
+use App\Filament\Resources\Charge\TransferResource\RelationManagers;
+use App\Models\Charge\Transfer;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,22 +13,21 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class PaymentResource extends Resource
+class TransferResource extends Resource
 {
-    protected static ?string $model = Payment::class;
+    protected static ?string $model = Transfer::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
-    public static function getLabel(): ?string
-    {
-        return __('receita');
-    }
 
     public static function getNavigationGroup(): ?string
     {
         return __('Cobranças');
     }
 
+    public static function getLabel(): ?string
+    {
+        return __('transferência');
+    }
 
     public static function form(Form $form): Form
     {
@@ -72,9 +71,9 @@ class PaymentResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPayments::route('/'),
-            'create' => Pages\CreatePayment::route('/create'),
-            'edit' => Pages\EditPayment::route('/{record}/edit'),
+            'index' => Pages\ListTransfers::route('/'),
+            'create' => Pages\CreateTransfer::route('/create'),
+            'edit' => Pages\EditTransfer::route('/{record}/edit'),
         ];
     }
 
