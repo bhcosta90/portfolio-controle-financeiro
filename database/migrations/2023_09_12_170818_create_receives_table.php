@@ -11,14 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('accounts', function (Blueprint $table) {
+        Schema::create('receives', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('tenant_id')->on('tenants');
-            $table->string('name');
-            $table->double('balance');
-            $table->unsignedDouble('overdraft');
-            $table->unsignedTinyInteger('type')->nullable();
-            $table->text('note')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -29,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('accounts');
+        Schema::dropIfExists('receives');
     }
 };
