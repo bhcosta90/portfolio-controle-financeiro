@@ -15,10 +15,9 @@ if ($envContent && str_contains($envContent, 'APP_ENV=production')) {
 require $autoload;
 
 use GuzzleHttp\Client;
+use Symfony\Component\Process\Process;
 
 use function Laravel\Prompts\{info, multiselect, select, spin};
-
-use Symfony\Component\Process\Process;
 
 /** Default Zone */
 $actions = [
