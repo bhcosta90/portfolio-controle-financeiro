@@ -21,7 +21,7 @@ class PaymentResource extends Resource
 
     public static function getLabel(): ?string
     {
-        return __('receita');
+        return __('despesa');
     }
 
     public static function getNavigationGroup(): ?string

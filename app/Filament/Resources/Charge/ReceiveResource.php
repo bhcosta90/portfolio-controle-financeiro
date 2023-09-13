@@ -26,7 +26,7 @@ class ReceiveResource extends Resource
 
     public static function getLabel(): ?string
     {
-        return __('pagamento');
+        return __('receita');
     }
 
     public static function form(Form $form): Form
