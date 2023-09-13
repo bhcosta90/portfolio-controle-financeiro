@@ -44,7 +44,7 @@ class CategoryResource extends Resource
                     ->rules([
                         'min:3',
                         'max:100',
-                        "unique:categories,name,{$id},id,tenant_id,{$tenant},deleted_at,NULL"
+                        "unique:categories,name,{$id},id,tenant_id,{$tenant},category_id,NULL,deleted_at,NULL"
                     ])
                     ->columnSpanFull()
             ]);

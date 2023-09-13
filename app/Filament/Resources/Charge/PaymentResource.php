@@ -4,8 +4,8 @@ namespace App\Filament\Resources\Charge;
 
 use App\Filament\Resources\Charge\PaymentResource\Pages;
 use App\Filament\Resources\Charge\PaymentResource\RelationManagers;
+use App\Filament\Resources\Charge\Traits\ChargeTrait;
 use App\Models\Charge\Payment;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PaymentResource extends Resource
 {
+    use ChargeTrait;
+
     protected static ?string $model = Payment::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
@@ -33,9 +35,7 @@ class PaymentResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                //
-            ]);
+            ->schema(self::generateForm());
     }
 
     public static function table(Table $table): Table

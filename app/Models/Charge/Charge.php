@@ -11,4 +11,23 @@ use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 class Charge extends Model
 {
     use HasFactory, HasUuids, SoftDeletes, BelongsToTenant;
+
+    protected $fillable = [
+        'group_id',
+        'tenant_id',
+        'account_id',
+        'description',
+        'value',
+        'charge',
+        'category_id',
+        'sub_category_id',
+        'type',
+        'due_date',
+        'note',
+    ];
+
+    public function charge()
+    {
+        return $this->morphTo();
+    }
 }

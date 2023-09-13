@@ -47,9 +47,9 @@ class AccountResource extends Resource
                     ->placeholder(__('Outros'))
                     ->searchable()
                     ->options([
-                        CategoryEnum::MY_WALLET->value => __('Carteira'),
-                        CategoryEnum::CURRENT_ACCOUNT->value => __('Conta corrente'),
-                        CategoryEnum::SAVINGS_ACCOUNT->value => __('Poupança'),
+                        CategoryEnum::MY_WALLET->value => CategoryEnum::MY_WALLET->getName(),
+                        CategoryEnum::CURRENT_ACCOUNT->value => CategoryEnum::CURRENT_ACCOUNT->getName(),
+                        CategoryEnum::SAVINGS_ACCOUNT->value => CategoryEnum::SAVINGS_ACCOUNT->getName(),
                     ]),
                 Forms\Components\Fieldset::make('values')
                     ->hiddenLabel()
@@ -68,7 +68,7 @@ class AccountResource extends Resource
                     ->rows(5)
                     ->label(__('Dados adicionais'))
                     ->maxLength(500)
-                    ->columnSpanFull()
+                    ->columnSpanFull(),
             ]);
     }
 

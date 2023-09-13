@@ -19,4 +19,9 @@ class Account extends Model
         'type',
         'note',
     ];
+
+    public static function pluck(): array
+    {
+        return self::query()->pluck('name', 'id')->toArray();
+    }
 }

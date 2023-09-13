@@ -15,11 +15,14 @@ return new class extends Migration {
             $table->uuid('group_id')->index();
             $table->foreignUuid('tenant_id')->on('tenants');
             $table->foreignUuid('account_id')->nullable()->on('accounts');
+            $table->string('description')->nullable();
+            $table->unsignedDouble('value');
             $table->uuidMorphs('charge');
             $table->foreignUuid('category_id')->nullable();
             $table->foreignUuid('sub_category_id')->nullable();
             $table->unsignedTinyInteger('type');
             $table->date('due_date');
+            $table->text('note')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

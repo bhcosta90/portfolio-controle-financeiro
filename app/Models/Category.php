@@ -25,4 +25,15 @@ class Category extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public static function pluck(?string $id = null): array
+    {
+        $query = self::query();
+        if ($id) {
+            $query->where('category_id', $id);
+        } else {
+            $query->whereNull('category_id');
+        }
+        return $query->pluck('name', 'id')->toArray();
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Charge;
 
 use App\Filament\Resources\Charge\ReceiveResource\Pages;
 use App\Filament\Resources\Charge\ReceiveResource\RelationManagers;
+use App\Filament\Resources\Charge\Traits\ChargeTrait;
 use App\Models\Charge\Receive;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -15,6 +16,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ReceiveResource extends Resource
 {
+    use ChargeTrait;
+
     protected static ?string $model = Receive::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
@@ -32,9 +35,7 @@ class ReceiveResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                //
-            ]);
+            ->schema(self::generateForm());
     }
 
     public static function table(Table $table): Table

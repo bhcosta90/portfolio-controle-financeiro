@@ -11,4 +11,8 @@ use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 class Payment extends Model
 {
     use HasFactory, HasUuids, SoftDeletes, BelongsToTenant;
+
+    public function charge(){
+        return $this->morphOne(Charge::class, 'charge');
+    }
 }
