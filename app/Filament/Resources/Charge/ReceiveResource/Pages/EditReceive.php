@@ -3,13 +3,13 @@
 namespace App\Filament\Resources\Charge\ReceiveResource\Pages;
 
 use App\Filament\Resources\Charge\ReceiveResource;
-use App\Filament\Resources\Charge\Traits\ChargeTrait;
+use App\Filament\Resources\Charge\Traits\ResourceTrait;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
 class EditReceive extends EditRecord
 {
-    use ChargeTrait;
+    use ResourceTrait;
 
     protected static string $resource = ReceiveResource::class;
 

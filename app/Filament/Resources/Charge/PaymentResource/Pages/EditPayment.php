@@ -3,13 +3,13 @@
 namespace App\Filament\Resources\Charge\PaymentResource\Pages;
 
 use App\Filament\Resources\Charge\PaymentResource;
-use App\Filament\Resources\Charge\Traits\ChargeTrait;
+use App\Filament\Resources\Charge\Traits\ResourceTrait;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
 class EditPayment extends EditRecord
 {
-    use ChargeTrait;
+    use ResourceTrait;
 
     protected static string $resource = PaymentResource::class;
 

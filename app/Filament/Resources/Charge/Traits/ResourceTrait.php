@@ -6,11 +6,14 @@ use App\Models\Account;
 use App\Models\Category;
 use App\Models\Enum\Charge\TypeEnum;
 use Filament\Forms;
+use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Filament\Tables;
 
-trait ChargeTrait
+trait ResourceTrait
 {
+
     public static function resolveRecordRouteBinding(int|string $key): ?Model
     {
         return app(static::getModel())
@@ -63,6 +66,20 @@ trait ChargeTrait
                 ->rows(7)
                 ->label(__('Observação'))
                 ->columnSpanFull(),
+        ];
+    }
+
+    protected static function generateColumns(): array {
+        return [
+            Tables\Columns\TextColumn::make('charge.value')
+                ->label(__('Valor')),
+
+            Tables\Columns\TextColumn::make('charge.due_date')
+                ->dateTime('d/m/Y')
+                ->label(__('Valor')),
+
+            Tables\Columns\TextColumn::make('charge.account.name')
+                ->label(__('Conta')),
         ];
     }
 

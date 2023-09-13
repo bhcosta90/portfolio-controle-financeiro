@@ -4,7 +4,8 @@ namespace App\Filament\Resources\Charge;
 
 use App\Filament\Resources\Charge\ReceiveResource\Pages;
 use App\Filament\Resources\Charge\ReceiveResource\RelationManagers;
-use App\Filament\Resources\Charge\Traits\ChargeTrait;
+use App\Filament\Resources\Charge\Traits\ListTrait;
+use App\Filament\Resources\Charge\Traits\ResourceTrait;
 use App\Models\Charge\Receive;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -16,7 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ReceiveResource extends Resource
 {
-    use ChargeTrait;
+    use ResourceTrait;
 
     protected static ?string $model = Receive::class;
 
@@ -41,9 +42,7 @@ class ReceiveResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([
-                //
-            ])
+            ->columns(self::generateColumns())
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
             ])

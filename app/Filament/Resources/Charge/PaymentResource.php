@@ -4,7 +4,7 @@ namespace App\Filament\Resources\Charge;
 
 use App\Filament\Resources\Charge\PaymentResource\Pages;
 use App\Filament\Resources\Charge\PaymentResource\RelationManagers;
-use App\Filament\Resources\Charge\Traits\ChargeTrait;
+use App\Filament\Resources\Charge\Traits\ResourceTrait;
 use App\Models\Charge\Payment;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PaymentResource extends Resource
 {
-    use ChargeTrait;
+    use ResourceTrait;
 
     protected static ?string $model = Payment::class;
 
@@ -41,9 +41,7 @@ class PaymentResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([
-                //
-            ])
+            ->columns(self::generateColumns())
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
             ])
