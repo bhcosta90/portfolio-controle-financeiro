@@ -67,19 +67,32 @@ trait ListTrait
         static::getResource()::getEloquentQuery()->with(['charge'])->whereHas(
             'charge',
             function ($query) use ($datePrevious) {
-                $query->whereBetween('due_date', [$datePrevious->format('Y-m-01'), $datePrevious->format('Y-m-t')])
+                $query->where(function ($query) use ($datePrevious) {
+                    $query->where(function ($query) use ($datePrevious) {
+                        $query->whereNull('deleted_at');
+                    })
+                        ->orWhere(function ($query) use ($datePrevious) {
+                            $query->whereNotNull('deleted_at')
+                                ->whereIsDeleted(true);
+                        });
+                })->withTrashed()
+                    ->whereBetween(
+                        'due_date',
+                        [$datePrevious->format('Y-m-01'), $datePrevious->format('Y-m-t')]
+                    )
                     ->whereType(TypeEnum::MONTHLY->value);
             }
-        )->chunk(100, function ($data) use ($dateActual, $model) {
+        )->withTrashed()->chunk(100, function ($data) use ($dateActual, $model) {
             DB::transaction(function () use ($data, $dateActual, $model) {
                 foreach ($data as $rs) {
-                    $charge = $rs->charge;
+                    $charge = $rs->charge()->withTrashed()->firstOrFail();
 
                     $total = Charge::whereBetween(
                         'due_date',
                         [$dateActual->format('Y-m-01'), $dateActual->format('Y-m-t')]
                     )
                         ->whereGroupId($charge->group_id)
+                        ->withTrashed()
                         ->count();
 
                     if ($total === 0) {
@@ -89,10 +102,12 @@ trait ListTrait
                         }
 
                         $chargeCreate = $model->create();
-                        $chargeCreate->charge()->create([
-                            'due_date' => $dateNewCharge->format('Y-m-d'),
-                            'day_charge' => $charge->day_charge,
-                        ] + $charge->toArray());
+                        $chargeCreate->charge()->create(
+                            [
+                                'due_date' => $dateNewCharge->format('Y-m-d'),
+                                'day_charge' => $charge->day_charge,
+                            ] + $charge->toArray()
+                        );
                     }
                 }
             });

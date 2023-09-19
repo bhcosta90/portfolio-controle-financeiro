@@ -45,4 +45,21 @@ class Charge extends Model
     {
         return $this->belongsTo(Account::class);
     }
+
+    public function deleteAll()
+    {
+        return self::query()->where('group_id', $this->group_id)->delete();
+    }
+
+    public function deleteThisAndNext()
+    {
+        return self::query()->where('group_id', $this->group_id)->where('due_date', '>=', $this->due_date)->delete();
+    }
+
+    public function deleteOnlyThis(): bool
+    {
+        $this->is_deleted = true;
+        $this->save();
+        return $this->delete();
+    }
 }

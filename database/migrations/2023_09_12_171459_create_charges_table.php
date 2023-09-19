@@ -24,6 +24,7 @@ return new class extends Migration {
             $table->date('due_date');
             $table->string('day_charge');
             $table->text('note')->nullable();
+            $table->boolean('is_deleted')->nullable()->default(null);
             $table->timestamps();
             $table->softDeletes();
         });
