@@ -20,7 +20,6 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.9",
         "beyondcode/laravel-dump-server": "^1.9",
-        "beyondcode/laravel-query-detector": "^1.7",
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.18",

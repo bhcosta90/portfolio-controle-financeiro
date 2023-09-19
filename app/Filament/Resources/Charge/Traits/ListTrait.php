@@ -2,9 +2,12 @@
 
 namespace App\Filament\Resources\Charge\Traits;
 
+use App\Models\Charge\Charge;
+use App\Models\Enum\Charge\TypeEnum;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 trait ListTrait
 {
@@ -18,13 +21,13 @@ trait ListTrait
             $this->activeTab = $this->getDefaultActiveTab();
         }
 
-        $this->day = now()->firstOfMonth();
+        $this->day = Carbon::now()->firstOfMonth();
     }
 
     /**
      * @throws Exception
      */
-    public function changeMonth($action)
+    public function changeMonth($action): void
     {
         $this->day = match ($action) {
             'addMonth' => $this->day->addMonth(),
@@ -35,7 +38,9 @@ trait ListTrait
 
     protected function getTableQuery(): Builder
     {
-        $query = static::getResource()::getEloquentQuery();
+        $this->generateCharges();
+
+        $query = static::getResource()::getEloquentQuery()->with(['charge']);
 
         $tabs = $this->getCachedTabs();
 
@@ -47,7 +52,50 @@ trait ListTrait
         }
 
         return $query->whereHas('charge', function ($query) {
-            $query->whereBetween('due_date', [$this->day->format('Y-m-d'), $this->day->format('Y-m-t')]);
+            $query->whereBetween('due_date', [$this->day->format('Y-m-01'), $this->day->format('Y-m-t')]);
+        });
+    }
+
+    protected function generateCharges(): void
+    {
+        $datePrevious = clone $this->day;
+        $datePrevious->firstOfMonth()->subMonth();
+
+        $dateActual = clone $this->day;
+        $model = app($this->getModel());
+
+        static::getResource()::getEloquentQuery()->with(['charge'])->whereHas(
+            'charge',
+            function ($query) use ($datePrevious) {
+                $query->whereBetween('due_date', [$datePrevious->format('Y-m-01'), $datePrevious->format('Y-m-t')])
+                    ->whereType(TypeEnum::MONTHLY->value);
+            }
+        )->chunk(100, function ($data) use ($dateActual, $model) {
+            DB::transaction(function () use ($data, $dateActual, $model) {
+                foreach ($data as $rs) {
+                    $charge = $rs->charge;
+
+                    $total = Charge::whereBetween(
+                        'due_date',
+                        [$dateActual->format('Y-m-01'), $dateActual->format('Y-m-t')]
+                    )
+                        ->whereGroupId($charge->group_id)
+                        ->count();
+
+                    if ($total === 0) {
+                        $dateNewCharge = $dateActual->setDay($charge->day_charge);
+                        if ($dateNewCharge->format('m') != $dateActual->format('m')) {
+                            $dateNewCharge->subMonth()->lastOfMonth();
+                        }
+
+                        $chargeCreate = $model->create();
+                        $chargeCreate->charge()->create([
+                            'due_date' => $dateNewCharge->format('Y-m-d'),
+                            'day_charge' => $charge->day_charge,
+                        ] + $charge->toArray());
+                    }
+                }
+            });
         });
     }
 }

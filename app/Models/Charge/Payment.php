@@ -12,6 +12,8 @@ class Payment extends Model
 {
     use HasFactory, HasUuids, SoftDeletes, BelongsToTenant;
 
+    protected $with = ['charge'];
+
     public function charge(){
         return $this->morphOne(Charge::class, 'charge');
     }

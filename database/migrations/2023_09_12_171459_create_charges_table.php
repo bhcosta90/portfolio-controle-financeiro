@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->foreignUuid('sub_category_id')->nullable();
             $table->unsignedTinyInteger('type');
             $table->date('due_date');
+            $table->string('day_charge');
             $table->text('note')->nullable();
             $table->timestamps();
             $table->softDeletes();

@@ -14,7 +14,15 @@ class Charge extends Model
 {
     use HasFactory, HasUuids, SoftDeletes, BelongsToTenant;
 
+    protected static function booted()
+    {
+        parent::booted();
+
+        static::saving(fn($obj) => $obj->day_charge = $obj->day_charge ?: now()->parse($obj->due_date)->format('d'));
+    }
+
     protected $fillable = [
+        'day_charge',
         'group_id',
         'tenant_id',
         'account_id',
