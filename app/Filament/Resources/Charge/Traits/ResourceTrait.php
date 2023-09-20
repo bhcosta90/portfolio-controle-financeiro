@@ -69,10 +69,10 @@ trait ResourceTrait
                     ->live()
                     ->rules(['min:1'])
                     ->default(1)
+                    ->minValue(1)
                     ->extraInputAttributes([
-                        'min' => 1,
-                        'step' => 1,
-                    ], true)
+                        'step' => 1
+                    ])
                     ->label(__('Quantidade de parcela')),
                 Forms\Components\Placeholder::make('parcel')
                     ->view('filament.forms.component.charge.parcel')
@@ -130,7 +130,11 @@ trait ResourceTrait
         $value = $this->data['value'] ?: 0;
 
         if ($this->data['parcel_type'] == ParcelEnum::TOTAL->value) {
-            $value = $value / $this->data['parcel_quantity'];
+            $quantity = (int) $this->data['parcel_quantity'];
+            if ($quantity <= 0) {
+                $quantity = 1;
+            }
+            $value = $value / $quantity;
         }
 
         return $value;
