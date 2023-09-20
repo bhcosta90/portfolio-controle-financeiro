@@ -37,26 +37,6 @@ trait ResourceTrait
                     TypeEnum::PARCEL->value => TypeEnum::PARCEL->getName(),
                     TypeEnum::MONTHLY->value => TypeEnum::MONTHLY->getName(),
                 ])->default(TypeEnum::UNIQUE->value),
-            Forms\Components\Select::make('parcel_type')
-                ->options([
-                    ParcelEnum::TOTAL->value => ParcelEnum::TOTAL->getName(),
-                    ParcelEnum::MONTH->value => ParcelEnum::MONTH->getName(),
-                ])
-                ->hidden(fn(Forms\Get $get): bool => $get('type') != TypeEnum::PARCEL->value)
-                ->label(__('Tipo da parcela'))
-                ->columnSpan(1)
-                ->default(ParcelEnum::TOTAL->value)
-                ->selectablePlaceholder(false),
-            Forms\Components\TextInput::make('parcel_quantity')
-                ->hidden(fn(Forms\Get $get): bool => $get('type') != TypeEnum::PARCEL->value)
-                ->numeric()
-                ->rules(['min:1'])
-                ->default(1)
-                ->label(__('Quantidade de parcela')),
-            Forms\Components\Placeholder::make('parcel')
-                ->view('filament.forms.component.charge.parcel')
-                ->hidden(fn(Forms\Get $get): bool => $get('type') != TypeEnum::PARCEL->value)
-                ->columnSpanFull(),
             Forms\Components\Group::make([
                 Forms\Components\TextInput::make('value')
                     ->label(__('Valor'))
@@ -72,6 +52,28 @@ trait ResourceTrait
                     ->searchable()
                     ->options(Account::pluck()),
             ])->columns(3)
+                ->columnSpanFull(),
+            Forms\Components\Select::make('parcel_type')
+                ->live()
+                ->options([
+                    ParcelEnum::TOTAL->value => ParcelEnum::TOTAL->getName(),
+                    ParcelEnum::MONTH->value => ParcelEnum::MONTH->getName(),
+                ])
+                ->hidden(fn(Forms\Get $get): bool => $get('type') != TypeEnum::PARCEL->value)
+                ->label(__('Tipo da parcela'))
+                ->columnSpan(1)
+                ->default(ParcelEnum::TOTAL->value)
+                ->selectablePlaceholder(false),
+            Forms\Components\TextInput::make('parcel_quantity')
+                ->hidden(fn(Forms\Get $get): bool => $get('type') != TypeEnum::PARCEL->value)
+                ->numeric()
+                ->live()
+                ->rules(['min:1'])
+                ->default(1)
+                ->label(__('Quantidade de parcela')),
+            Forms\Components\Placeholder::make('parcel')
+                ->view('filament.forms.component.charge.parcel')
+                ->hidden(fn(Forms\Get $get): bool => $get('type') != TypeEnum::PARCEL->value)
                 ->columnSpanFull(),
             Forms\Components\Select::make('category_id')
                 ->label(__('Categoria'))
@@ -122,8 +124,13 @@ trait ResourceTrait
         });
     }
 
-    public function value(): float {
+    public function value(): float
+    {
         $value = $this->data['value'] ?: 0;
+
+        if ($this->data['parcel_type'] == ParcelEnum::TOTAL->value) {
+            $value = $value / $this->data['parcel_quantity'];
+        }
 
         return $value;
     }
