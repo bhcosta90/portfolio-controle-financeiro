@@ -9,7 +9,9 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
+use Filament\Support\Assets\Js;
 use Filament\Support\Colors\Color;
+use Filament\Support\Facades\FilamentAsset;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -28,6 +30,7 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->passwordReset()
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ->id('admin')
             ->path('admin')
             ->login(Login::class)
@@ -60,5 +63,14 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ]);
+    }
+
+    public function register(): void
+    {
+        parent::register();
+
+        FilamentAsset::register([
+            Js::make('admin-script', __DIR__ . '/../../../resources/js/admin.js')->loadedOnRequest(),
+        ]);
     }
 }
