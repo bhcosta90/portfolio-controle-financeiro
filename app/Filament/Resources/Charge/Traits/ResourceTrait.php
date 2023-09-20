@@ -69,6 +69,10 @@ trait ResourceTrait
                     ->live()
                     ->rules(['min:1'])
                     ->default(1)
+                    ->extraInputAttributes([
+                        'min' => 1,
+                        'step' => 1,
+                    ], true)
                     ->label(__('Quantidade de parcela')),
                 Forms\Components\Placeholder::make('parcel')
                     ->view('filament.forms.component.charge.parcel')
