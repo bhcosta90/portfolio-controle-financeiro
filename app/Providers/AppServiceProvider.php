@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -11,7 +12,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        //return intval($valor * ($p = pow(10, $precisao))) / $p;
+
+        Str::macro('truncate', fn(mixed $value, $precision = 2) => intval($value * ($p = pow(10, $precision))) / $p);
     }
 
     /**

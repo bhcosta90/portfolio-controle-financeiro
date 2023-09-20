@@ -53,28 +53,27 @@ trait ResourceTrait
                     ->options(Account::pluck()),
             ])->columns(3)
                 ->columnSpanFull(),
-            Forms\Components\Select::make('parcel_type')
-                ->live()
-                ->options([
-                    ParcelEnum::TOTAL->value => ParcelEnum::TOTAL->getName(),
-                    ParcelEnum::MONTH->value => ParcelEnum::MONTH->getName(),
-                ])
-                ->hidden(fn(Forms\Get $get): bool => $get('type') != TypeEnum::PARCEL->value)
-                ->label(__('Tipo da parcela'))
-                ->columnSpan(1)
-                ->default(ParcelEnum::TOTAL->value)
-                ->selectablePlaceholder(false),
-            Forms\Components\TextInput::make('parcel_quantity')
-                ->hidden(fn(Forms\Get $get): bool => $get('type') != TypeEnum::PARCEL->value)
-                ->numeric()
-                ->live()
-                ->rules(['min:1'])
-                ->default(1)
-                ->label(__('Quantidade de parcela')),
-            Forms\Components\Placeholder::make('parcel')
-                ->view('filament.forms.component.charge.parcel')
-                ->hidden(fn(Forms\Get $get): bool => $get('type') != TypeEnum::PARCEL->value)
-                ->columnSpanFull(),
+            Forms\Components\Fieldset::make()->schema([
+                Forms\Components\Select::make('parcel_type')
+                    ->live()
+                    ->options([
+                        ParcelEnum::TOTAL->value => ParcelEnum::TOTAL->getName(),
+                        ParcelEnum::MONTH->value => ParcelEnum::MONTH->getName(),
+                    ])
+                    ->label(__('Tipo da parcela'))
+                    ->columnSpan(1)
+                    ->default(ParcelEnum::TOTAL->value)
+                    ->selectablePlaceholder(false),
+                Forms\Components\TextInput::make('parcel_quantity')
+                    ->numeric()
+                    ->live()
+                    ->rules(['min:1'])
+                    ->default(1)
+                    ->label(__('Quantidade de parcela')),
+                Forms\Components\Placeholder::make('parcel')
+                    ->view('filament.forms.component.charge.parcel')
+                    ->columnSpanFull(),
+            ])->hidden(fn(Forms\Get $get): bool => $get('type') != TypeEnum::PARCEL->value),
             Forms\Components\Select::make('category_id')
                 ->label(__('Categoria'))
                 ->placeholder(__('Outros'))

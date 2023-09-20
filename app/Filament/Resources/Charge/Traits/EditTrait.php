@@ -8,6 +8,8 @@ use Filament\Support\Enums\Alignment;
 
 trait EditTrait
 {
+    use SaveTrait;
+
     protected function deleteOnModal(): Actions\Action
     {
         $title = self::getResource()::getLabel();
