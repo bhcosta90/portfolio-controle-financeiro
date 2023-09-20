@@ -4,12 +4,12 @@ namespace App\Filament\Resources\Charge\Traits;
 
 use App\Models\Account;
 use App\Models\Category;
+use App\Models\Enum\Charge\ParcelEnum;
 use App\Models\Enum\Charge\TypeEnum;
 use Filament\Forms;
-use Filament\Resources\Pages\ListRecords;
+use Filament\Tables;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use Filament\Tables;
 
 trait ResourceTrait
 {
@@ -28,6 +28,7 @@ trait ResourceTrait
                 ->hiddenLabel()
                 ->placeholder(__('Descrição')),
             Forms\Components\Select::make('type')
+                ->live()
                 ->hiddenLabel()
                 ->searchable()
                 ->required()
@@ -36,10 +37,31 @@ trait ResourceTrait
                     TypeEnum::PARCEL->value => TypeEnum::PARCEL->getName(),
                     TypeEnum::MONTHLY->value => TypeEnum::MONTHLY->getName(),
                 ])->default(TypeEnum::UNIQUE->value),
+            Forms\Components\Select::make('parcel_type')
+                ->options([
+                    ParcelEnum::TOTAL->value => ParcelEnum::TOTAL->getName(),
+                    ParcelEnum::MONTH->value => ParcelEnum::MONTH->getName(),
+                ])
+                ->hidden(fn(Forms\Get $get): bool => $get('type') != TypeEnum::PARCEL->value)
+                ->label(__('Tipo da parcela'))
+                ->columnSpan(1)
+                ->default(ParcelEnum::TOTAL->value)
+                ->selectablePlaceholder(false),
+            Forms\Components\TextInput::make('parcel_quantity')
+                ->hidden(fn(Forms\Get $get): bool => $get('type') != TypeEnum::PARCEL->value)
+                ->numeric()
+                ->rules(['min:1'])
+                ->default(1)
+                ->label(__('Quantidade de parcela')),
+            Forms\Components\Placeholder::make('parcel')
+                ->view('filament.forms.component.charge.parcel')
+                ->hidden(fn(Forms\Get $get): bool => $get('type') != TypeEnum::PARCEL->value)
+                ->columnSpanFull(),
             Forms\Components\Group::make([
                 Forms\Components\TextInput::make('value')
                     ->label(__('Valor'))
                     ->required()
+                    ->live()
                     ->placeholder(__('Valor')),
                 Forms\Components\DatePicker::make('due_date')
                     ->label(__('Data de vencimento'))
@@ -69,7 +91,8 @@ trait ResourceTrait
         ];
     }
 
-    protected static function generateColumns(): array {
+    protected static function generateColumns(): array
+    {
         return [
             Tables\Columns\TextColumn::make('charge.value')
                 ->label(__('Valor')),
@@ -97,5 +120,11 @@ trait ResourceTrait
 
             return $model;
         });
+    }
+
+    public function value(): float {
+        $value = $this->data['value'] ?: 0;
+
+        return $value;
     }
 }
