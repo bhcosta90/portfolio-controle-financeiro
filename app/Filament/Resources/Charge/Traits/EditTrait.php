@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Charge\Traits;
 
+use App\Models\Enum\Charge\ParcelEnum;
 use App\Models\Enum\Charge\TypeEnum;
 use Filament\Actions;
 use Filament\Support\Enums\Alignment;
@@ -9,6 +10,13 @@ use Filament\Support\Enums\Alignment;
 trait EditTrait
 {
     use SaveTrait;
+    protected function mutateFormDataBeforeFill(array $data): array
+    {
+        return [
+            'parcel_quantity' => 1,
+            'parcel_type' => ParcelEnum::TOTAL->value,
+        ] + $data;
+    }
 
     protected function deleteOnModal(): Actions\Action
     {

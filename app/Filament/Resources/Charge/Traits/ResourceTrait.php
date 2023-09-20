@@ -95,12 +95,16 @@ trait ResourceTrait
     protected static function generateColumns(): array
     {
         return [
+            Tables\Columns\TextColumn::make('charge.description')
+                ->label(__('Descrição')),
+
             Tables\Columns\TextColumn::make('charge.value')
-                ->label(__('Valor')),
+                ->label(__('Valor'))
+                ->money(config('money.defaults.currency')),
 
             Tables\Columns\TextColumn::make('charge.due_date')
                 ->dateTime('d/m/Y')
-                ->label(__('Valor')),
+                ->label(__('Vencimento')),
 
             Tables\Columns\TextColumn::make('charge.account.name')
                 ->label(__('Conta')),
@@ -112,13 +116,7 @@ trait ResourceTrait
         return DB::transaction(function () use ($data) {
             $modelClass = app($this->getModel());
             $model = $modelClass->create([]);
-
-            $model->charge()->create(
-                $data + [
-                    'group_id' => str()->uuid(),
-                ]
-            );
-
+            $model->charge()->create($data);
             return $model;
         });
     }

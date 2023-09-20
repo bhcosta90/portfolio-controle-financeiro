@@ -21,47 +21,23 @@ class CreatePayment extends CreateRecord
 
         $data['description'] = $data['description'] ?? __('Outros');
 
+        $groupId = str()->uuid();
         if ($data['type'] == TypeEnum::PARCEL->value) {
-            $calculate = $data['value'];
-            if ($data['parcel_type'] == ParcelEnum::TOTAL->value) {
-                $calculate = $calculate / $data['parcel_quantity'];
-            }
-
-            $charges = [];
-            $rest = 0;
-            $dateStart = now()->parse($data['due_date']);
-            $dayStart = $dateStart->format('d');
-
-            for ($i = 0; $i < $data['parcel_quantity']; $i++) {
-                $response = [
-                    'type' => TypeEnum::UNIQUE,
-                    'value' => str()->truncate($calculate),
-                    'description' => $data['description'] . " " . ($i + 1) . '/' . $data['parcel_quantity'],
-                ];
-
-                $rest += str()->truncate($calculate);
-
-                $month = clone $dateStart;
-                $dateCharge = clone $dateStart;
-
-                $month->firstOfMonth()->addMonth($i);
-                $dateCharge->firstOfMonth()->addMonth($i)->setDay($dayStart);
-
-                if ($dateCharge->format('Ym') != $month->format('Ym')) {
-                    $dateCharge->subMonth()->lastOfMonth();
-                }
-
-                $response['date'] = $dateCharge->format('Y-m-d');
-
-                $charges[] = $response;
-            }
-
-            $rest = str()->truncate(str()->truncate($data['value']) - str()->truncate($rest));
-            $charges[count($charges) - 1]['value'] = $charges[count($charges) - 1]['value'] + $rest;
+            $charges = $this->generateParcel(
+                value: $data['value'],
+                type: ParcelEnum::from($data['parcel_type']),
+                quantityParcel: $data['parcel_quantity'],
+                date: now()->parse($data['due_date']),
+                description: $data['description']
+            );
 
             $firstRecord = null;
             foreach ($charges as $charge) {
-                $this->record = $this->handleRecordCreation($charge + $data);
+                $this->record = $this->handleRecordCreation(
+                    $charge + $data + [
+                        'group_id' => $groupId
+                    ]
+                );
                 $this->form->model($this->getRecord())->saveRelationships();
 
                 if ($firstRecord === null) {
@@ -71,7 +47,11 @@ class CreatePayment extends CreateRecord
 
             $this->record = $firstRecord;
         } else {
-            $this->record = $this->handleRecordCreation($data);
+            $this->record = $this->handleRecordCreation(
+                $data + [
+                    'group_id' => $groupId
+                ]
+            );
             $this->form->model($this->getRecord())->saveRelationships();
         }
 

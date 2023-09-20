@@ -10,6 +10,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 
+/**
+ * @property string $group_id
+ */
 class Charge extends Model
 {
     use HasFactory, HasUuids, SoftDeletes, BelongsToTenant;
