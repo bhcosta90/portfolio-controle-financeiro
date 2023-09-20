@@ -27,6 +27,7 @@ class Charge extends Model
     protected $fillable = [
         'day_charge',
         'group_id',
+        'is_parcel',
         'tenant_id',
         'account_id',
         'description',
