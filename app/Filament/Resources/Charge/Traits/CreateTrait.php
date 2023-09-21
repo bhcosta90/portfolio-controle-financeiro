@@ -21,7 +21,7 @@ trait CreateTrait
             $charges = $this->generateParcel(
                 value: $data['value'],
                 type: ParcelEnum::from($data['parcel_type']),
-                quantityParcel: $data['parcel_quantity'],
+                quantity: $data['parcel_quantity'],
                 date: now()->parse($data['due_date']),
                 description: $data['description']
             );

@@ -11,7 +11,7 @@ trait ParcelTrait
     public function generateParcel(
         float $value,
         ParcelEnum $type,
-        int $quantityParcel,
+        int $quantity,
         Carbon $date,
         ?string $description
     ): array {
@@ -19,9 +19,25 @@ trait ParcelTrait
         $description = $description ?: __("Outros");
 
         if ($type == ParcelEnum::TOTAL) {
-            $calculate = $calculate / $quantityParcel;
+            $calculate = $calculate / $quantity;
         }
 
+        list($charges, $rest) = $this->extracted($date, $quantity, $calculate, $description);
+
+        do {
+            $charges[count($charges) - 1]['value'] = str()->truncate($charges[count($charges) - 1]['value'] + 0.01);
+            $rest += 0.01;
+        } while ($rest < $value);
+
+        return $charges;
+    }
+
+    protected function extracted(
+        Carbon $date,
+        int $quantityParcel,
+        float $calculate,
+        string|null $description
+    ): array {
         $charges = [];
         $rest = 0;
         $dateStart = $date;
@@ -52,11 +68,6 @@ trait ParcelTrait
             $charges[] = $response;
         }
 
-        do {
-            $charges[count($charges) - 1]['value'] = str()->truncate($charges[count($charges) - 1]['value'] + 0.01);
-            $rest += 0.01;
-        } while ($rest < $value);
-
-        return $charges;
+        return [$charges, $rest];
     }
 }

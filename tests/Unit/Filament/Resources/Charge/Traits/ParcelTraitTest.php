@@ -24,7 +24,7 @@ class ParcelTraitTest extends TestCase
         $resp = $this->classAnonymous->generateParcel(
             value: 1000,
             type: ParcelEnum::TOTAL,
-            quantityParcel: 3,
+            quantity: 3,
             date: new Carbon,
             description: 'test',
         );
@@ -36,7 +36,7 @@ class ParcelTraitTest extends TestCase
         $resp = $this->classAnonymous->generateParcel(
             value: 333.34,
             type: ParcelEnum::TOTAL,
-            quantityParcel: 5,
+            quantity: 5,
             date: new Carbon,
             description: 'test',
         );
