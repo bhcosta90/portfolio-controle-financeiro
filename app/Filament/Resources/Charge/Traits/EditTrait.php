@@ -6,12 +6,20 @@ use App\Models\Charge\Charge;
 use App\Models\Enum\Charge\ParcelEnum;
 use App\Models\Enum\Charge\TypeEnum;
 use Filament\Actions;
+use Filament\Actions\Action;
 use Filament\Support\Enums\Alignment;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 trait EditTrait
 {
-    use SaveTrait;
+    use CreateTrait;
+
+    public function saveNext(): void
+    {
+        $this->handleRecordUpdate($this->getRecord(), $this->data + ['__type' => 'save_next']);
+        $this->sendSavedNotificationAndRedirect();
+    }
 
     protected function mutateFormDataBeforeFill(array $data): array
     {
@@ -24,7 +32,7 @@ trait EditTrait
     protected function getHeaderActions(): array
     {
         return [
-            $this->record->type == TypeEnum::UNIQUE->value && empty($this->record->is_parcel)
+            $this->verifyModal()
                 ? Actions\DeleteAction::make()
                 : $this->deleteOnModal(),
             Actions\ForceDeleteAction::make(),
@@ -83,34 +91,87 @@ trait EditTrait
 
     protected function handleRecordUpdate(Model $record, array $data): Model
     {
-        if ($data['type'] == TypeEnum::PARCEL->value) {
-            $charges = $this->generateParcel(
-                value: $data['value'],
-                type: ParcelEnum::from($data['parcel_type']),
-                quantityParcel: $data['parcel_quantity'],
-                date: now()->parse($data['due_date']),
-                description: $data['description']
-            );
-            $record->update($charges[0] + $data);
-            unset($charges[0]);
-
-            /**
-             * @var Charge $firstRecord
-             */
-            $firstRecord = $this->record;
-            foreach ($charges as $charge) {
-                $this->record = $this->handleRecordCreation(
-                    $charge + $data + [
-                        'group_id' => $firstRecord->group_id,
-                    ]
+        return DB::transaction(function () use ($record, $data) {
+            if ($data['type'] == TypeEnum::PARCEL->value) {
+                $charges = $this->generateParcel(
+                    value: $data['value'],
+                    type: ParcelEnum::from($data['parcel_type']),
+                    quantityParcel: $data['parcel_quantity'],
+                    date: now()->parse($data['due_date']),
+                    description: $data['description']
                 );
-                $this->form->model($this->getRecord())->saveRelationships();
+                $record->update($charges[0] + $data);
+                unset($charges[0]);
+
+                /**
+                 * @var Charge $firstRecord
+                 */
+                $firstRecord = $this->record;
+                foreach ($charges as $charge) {
+                    $this->record = $this->handleRecordCreation(
+                        $charge + $data + [
+                            'group_id' => $firstRecord->group_id,
+                        ]
+                    );
+                    $this->form->model($this->getRecord())->saveRelationships();
+                }
+                $this->record = $firstRecord;
+            } else {
+                $record->update($data);
+                $this->record = $record;
             }
-            $this->record = $firstRecord;
-        } else {
-            $record->update($data);
+
+            if (!empty($data['__type']) && $data['__type'] == 'save_next') {
+                $dateActual = now()->parse($data['due_date']);
+                $dayActual = $dateActual->format('d');
+                $updateData = $this->data;
+                unset($updateData['description']);
+
+                Charge::where('group_id', $this->record->group_id)
+                    ->where('due_date', '>', $this->record->due_date)
+                    ->whereNull('is_payed')
+                    ->chunk(100, function ($charges) use ($dayActual, $updateData) {
+                        foreach ($charges as $charge) {
+                            $date = now()->parse($charge->due_date)->setDay($dayActual);
+                            if ($date->format('d') != $dayActual) {
+                                $date->subMonth()->lastOfMonth();
+                            }
+
+                            $updateData['due_date'] = $date->format('Y-m-d');
+                            $charge->update($updateData);
+                        }
+                    });
+            }
+
+            return $this->record;
+        });
+    }
+
+    protected function getFormActions(): array
+    {
+        $data = [
+            $this->getSaveFormAction()
+        ];
+
+        if (!$this->verifyModal()) {
+            $data[] = $this->getSaveAndNextFormAction();
         }
 
-        return $record;
+        return array_merge($data, [
+            $this->getCancelFormAction(),
+        ]);
     }
+
+    protected function getSaveAndNextFormAction(): Action
+    {
+        return Action::make('save_next')
+            ->label(__('Salvar essa e as próximas'))
+            ->action('saveNext');
+    }
+
+    protected function verifyModal(): bool
+    {
+        return $this->record->type == TypeEnum::UNIQUE->value && empty($this->record->is_parcel);
+    }
+
 }
