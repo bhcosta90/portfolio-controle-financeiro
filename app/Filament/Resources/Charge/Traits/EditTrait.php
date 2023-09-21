@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 
 trait EditTrait
 {
-    use CreateTrait;
+    use ParcelTrait;
 
     public function saveNext(): void
     {
@@ -89,9 +89,31 @@ trait EditTrait
         return $this->getResource()::getUrl('edit', ['record' => $this->record->charge->id]);
     }
 
-    protected function handleRecordUpdate(Model $record, array $data): Model
+    protected function handleRecordUpdateOld(Model $record, array $data): Model
     {
         return DB::transaction(function () use ($record, $data) {
+            if (!empty($data['__type']) && $data['__type'] == 'save_next') {
+                $dateActual = now()->parse($data['due_date']);
+                $dayActual = $dateActual->format('d');
+                $updateData = $this->data;
+                unset($updateData['description']);
+
+                Charge::where('group_id', $this->record->group_id)
+                    ->where('due_date', '>', $this->record->due_date)
+                    ->whereNull('is_payed')
+                    ->chunk(100, function ($charges) use ($dayActual, $updateData) {
+                        foreach ($charges as $charge) {
+                            $date = now()->parse($charge->due_date)->setDay($dayActual);
+                            if ($date->format('d') != $dayActual) {
+                                $date->subMonth()->lastOfMonth();
+                            }
+
+                            $updateData['due_date'] = $date->format('Y-m-d');
+                            $charge->update($updateData);
+                        }
+                    });
+            }
+
             if ($data['type'] == TypeEnum::PARCEL->value) {
                 $charges = $this->generateParcel(
                     value: $data['value'],
@@ -119,28 +141,6 @@ trait EditTrait
             } else {
                 $record->update($data);
                 $this->record = $record;
-            }
-
-            if (!empty($data['__type']) && $data['__type'] == 'save_next') {
-                $dateActual = now()->parse($data['due_date']);
-                $dayActual = $dateActual->format('d');
-                $updateData = $this->data;
-                unset($updateData['description']);
-
-                Charge::where('group_id', $this->record->group_id)
-                    ->where('due_date', '>', $this->record->due_date)
-                    ->whereNull('is_payed')
-                    ->chunk(100, function ($charges) use ($dayActual, $updateData) {
-                        foreach ($charges as $charge) {
-                            $date = now()->parse($charge->due_date)->setDay($dayActual);
-                            if ($date->format('d') != $dayActual) {
-                                $date->subMonth()->lastOfMonth();
-                            }
-
-                            $updateData['due_date'] = $date->format('Y-m-d');
-                            $charge->update($updateData);
-                        }
-                    });
             }
 
             return $this->record;
