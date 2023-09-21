@@ -8,7 +8,7 @@ use Carbon\Carbon;
 
 trait ParcelTrait
 {
-    protected function generateParcel(
+    public function generateParcel(
         float $value,
         ParcelEnum $type,
         int $quantityParcel,
@@ -53,7 +53,7 @@ trait ParcelTrait
         }
 
         do {
-            $charges[count($charges) - 1]['value'] = $charges[count($charges) - 1]['value'] + 0.01;
+            $charges[count($charges) - 1]['value'] = str()->truncate($charges[count($charges) - 1]['value'] + 0.01);
             $rest += 0.01;
         } while ($rest < $value);
 
