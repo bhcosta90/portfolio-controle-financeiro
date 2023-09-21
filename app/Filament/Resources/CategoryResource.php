@@ -42,7 +42,6 @@ class CategoryResource extends Resource
                     ->label(__('Nome'))
                     ->required()
                     ->rules([
-                        'min:3',
                         'max:100',
                         "unique:categories,name,{$id},id,tenant_id,{$tenant},category_id,NULL,deleted_at,NULL"
                     ])

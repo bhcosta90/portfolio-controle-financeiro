@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Account;
+use App\Models\Category;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -18,5 +19,11 @@ class TenantSeeded extends Seeder
             'balance' => 0,
             'overdraft' => 0,
         ]);
+
+        Category::factory(3)->create()->each(function($category) {
+            Category::factory(rand(1,5))->create([
+                'category_id' => $category->id,
+            ]);
+        });
     }
 }
