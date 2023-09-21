@@ -18,9 +18,9 @@
                     class="fi-tabs-item group flex items-center gap-x-2 rounded-lg px-3 py-2 text-sm font-medium outline-none transition duration-75 fi-active fi-tabs-item-active bg-gray-50 dark:bg-white/5"
                     aria-selected="aria-selected" role="tab">
                 <span class="fi-tabs-item-label transition duration-75 text-primary-600 dark:text-primary-400">
-        {{ __($this->day->format('F')) }}
-                    @if($this->day->format('Y') != date('Y'))
-                        / {{$this->day->format('Y')}}
+        {{ __($this->date->format('F')) }}
+                    @if($this->date->format('Y') != date('Y'))
+                        / {{$this->date->format('Y')}}
                     @endif
     </span>
             </button>
