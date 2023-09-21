@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Filament\OldWidgets;
+namespace App\Filament\Widgets;
 
-use App\Filament\Resources\Charge\ReceiveResource;
-use App\Models\Charge\Receive;
+use App\Filament\Resources\Charge\PaymentResource;
+use App\Models\Charge\Payment;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
 use Illuminate\Contracts\Support\Htmlable;
 
-class LastReceive extends BaseWidget
+class LastPayment extends BaseWidget
 {
     protected int|string|array $columnSpan = 'full';
 
@@ -17,16 +17,16 @@ class LastReceive extends BaseWidget
 
     protected function getTableHeading(): string|Htmlable|null
     {
-        return __('Receita do mês');
+        return __('Despesas do mês');
     }
 
     public function table(Table $table): Table
     {
-        $tableModel = ReceiveResource::getEloquentQuery()->getModel()->getTable();
+        $tableModel = PaymentResource::getEloquentQuery()->getModel()->getTable();
 
         return $table
             ->query(
-                ReceiveResource::getEloquentQuery()
+                PaymentResource::getEloquentQuery()
                     ->select("{$tableModel}.*")
                     ->whereBetween('charges.due_date', [
                         now()->firstOfMonth()->format('Y-m-d'),
@@ -50,7 +50,7 @@ class LastReceive extends BaseWidget
             ->actions([
                 Tables\Actions\Action::make('open')
                     ->label(__('filament-actions::edit.single.label'))
-                    ->url(fn (Receive $record): string => ReceiveResource::getUrl('edit', ['record' => $record])),
+                    ->url(fn (Payment $record): string => PaymentResource::getUrl('edit', ['record' => $record])),
             ]);
     }
 }
