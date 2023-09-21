@@ -89,62 +89,28 @@ trait EditTrait
         return $this->getResource()::getUrl('edit', ['record' => $this->record->charge->id]);
     }
 
-    protected function handleRecordUpdateOld(Model $record, array $data): Model
+    /**
+     * @param Charge $record
+     * @param array $data
+     * @return Charge
+     */
+    protected function handleRecordUpdate(Model $record, array $data): Model
     {
-        return DB::transaction(function () use ($record, $data) {
-            if (!empty($data['__type']) && $data['__type'] == 'save_next') {
-                $dateActual = now()->parse($data['due_date']);
-                $dayActual = $dateActual->format('d');
-                $updateData = $this->data;
-                unset($updateData['description']);
-
-                Charge::where('group_id', $this->record->group_id)
-                    ->where('due_date', '>', $this->record->due_date)
-                    ->whereNull('is_payed')
-                    ->chunk(100, function ($charges) use ($dayActual, $updateData) {
-                        foreach ($charges as $charge) {
-                            $date = now()->parse($charge->due_date)->setDay($dayActual);
-                            if ($date->format('d') != $dayActual) {
-                                $date->subMonth()->lastOfMonth();
-                            }
-
-                            $updateData['due_date'] = $date->format('Y-m-d');
-                            $charge->update($updateData);
-                        }
-                    });
-            }
-
+        DB::transaction(function () use ($record, $data) {
             if ($data['type'] == TypeEnum::PARCEL->value) {
-                $charges = $this->generateParcel(
-                    value: $data['value'],
-                    type: ParcelEnum::from($data['parcel_type']),
-                    quantityParcel: $data['parcel_quantity'],
-                    date: now()->parse($data['due_date']),
-                    description: $data['description']
-                );
-                $record->update($charges[0] + $data);
-                unset($charges[0]);
-
-                /**
-                 * @var Charge $firstRecord
-                 */
-                $firstRecord = $this->record;
-                foreach ($charges as $charge) {
-                    $this->record = $this->handleRecordCreation(
-                        $charge + $data + [
-                            'group_id' => $firstRecord->group_id,
-                        ]
-                    );
-                    $this->form->model($this->getRecord())->saveRelationships();
-                }
+                $firstRecord = $this->createChargeWithParcel($data, $record);
                 $this->record = $firstRecord;
             } else {
                 $record->update($data);
                 $this->record = $record;
             }
-
-            return $this->record;
         });
+
+        if (!empty($data['__type']) && $data['__type'] == 'save_next') {
+            $this->updateThisAndNextCharge($data['due_date'], $record);
+        }
+
+        return $this->record;
     }
 
     protected function getFormActions(): array
@@ -172,6 +138,67 @@ trait EditTrait
     protected function verifyModal(): bool
     {
         return $this->record->type == TypeEnum::UNIQUE->value && empty($this->record->is_parcel);
+    }
+
+    /**
+     * @param array $data
+     * @param Model|Charge $record
+     * @return Charge
+     */
+    protected function createChargeWithParcel(array $data, Model|Charge $record): Charge
+    {
+        $charges = $this->generateParcel(
+            value: $data['value'],
+            type: ParcelEnum::from($data['parcel_type']),
+            quantityParcel: $data['parcel_quantity'],
+            date: now()->parse($data['due_date']),
+            description: $data['description']
+        );
+
+        $record->update(['group_id' => $groupId = str()->uuid()] + $charges[0] + $data);
+        unset($charges[0]);
+
+        /**
+         * @var Charge $firstRecord
+         */
+        $firstRecord = $this->record;
+        foreach ($charges as $charge) {
+            $this->record = $this->handleRecordCreation(
+                $charge + $data + [
+                    'group_id' => $groupId,
+                ]
+            );
+            $this->form->model($this->getRecord())->saveRelationships();
+        }
+        return $firstRecord;
+    }
+
+    /**
+     * @param $due_date
+     * @param Model|Charge $record
+     * @return void
+     */
+    protected function updateThisAndNextCharge($due_date, Model|Charge $record): void
+    {
+        $dateActual = now()->parse($due_date);
+        $dayActual = $dateActual->format('d');
+        $updateData = $this->data;
+        unset($updateData['description']);
+
+        Charge::where('group_id', $record->group_id)
+            ->where('due_date', '>', $record->due_date)
+            ->whereNull('is_payed')
+            ->chunk(100, function ($charges) use ($dayActual, $updateData) {
+                foreach ($charges as $charge) {
+                    $date = now()->parse($charge->due_date)->setDay($dayActual);
+                    if ($date->format('d') != $dayActual) {
+                        $date->subMonth()->lastOfMonth();
+                    }
+
+                    $updateData['due_date'] = $date->format('Y-m-d');
+                    $charge->update($updateData);
+                }
+            });
     }
 
 }
