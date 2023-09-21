@@ -110,8 +110,13 @@ trait ResourceTrait
     protected static function generateColumns(): array
     {
         return [
-            Tables\Columns\ToggleColumn::make('charge.is_payed')
-                ->label(__('Pago')),
+            Tables\Columns\IconColumn::make('charge.is_payed')
+                ->label(__('Pago'))
+                ->action(fn($record) => $record->charge->payed(!$record->charge->is_payed))
+                ->boolean()
+            ->extraCellAttributes([
+                'class' => 'w-0'
+            ]),
             Tables\Columns\TextColumn::make('charge.description')
                 ->label(__('Descrição')),
 
