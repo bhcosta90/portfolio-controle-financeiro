@@ -28,12 +28,7 @@ class DatabaseSeeder extends Seeder
             'domain' => 'costa'
         ]);
 
-        Account::create([
-            'name' => 'Minha conta corrente',
-            'balance' => 0,
-            'overdraft' => 0,
-        ]);
-
+        $this->call(TenantSeeded::class);
         User::factory()->create([
             'id' => '220ffc42-aa07-4f00-822c-f1cf8a2c0dd3',
             'name' => 'Bruno Henrique da Costa',
@@ -53,5 +48,6 @@ class DatabaseSeeder extends Seeder
 
         tenancy()->initialize($tenant);
         User::factory(10)->create();
+        $this->call(TenantSeeded::class);
     }
 }
