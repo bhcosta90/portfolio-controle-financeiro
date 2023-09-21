@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Account;
 use App\Models\Tenant;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -21,11 +22,17 @@ class DatabaseSeeder extends Seeder
             'tenancy_db_username' => env('DB_USERNAME'),
         ]);
 
+        tenancy()->initialize($tenant);
+
         $tenant->domains()->create([
             'domain' => 'costa'
         ]);
 
-        tenancy()->initialize($tenant);
+        Account::create([
+            'name' => 'Minha conta corrente',
+            'balance' => 0,
+            'overdraft' => 0,
+        ]);
 
         User::factory()->create([
             'id' => '220ffc42-aa07-4f00-822c-f1cf8a2c0dd3',

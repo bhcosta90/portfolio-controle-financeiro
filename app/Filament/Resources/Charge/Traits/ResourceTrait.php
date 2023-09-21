@@ -49,6 +49,7 @@ trait ResourceTrait
                     ->required()
                     ->default(now()),
                 Forms\Components\Select::make('account_id')
+                    ->required()
                     ->label(__('Conta'))
                     ->searchable()
                     ->options(Account::pluck()),
