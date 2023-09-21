@@ -2,6 +2,7 @@
 
 namespace App\Filament\Widgets\Charge\Traits;
 
+use App\Services\ChargeService;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -23,6 +24,8 @@ trait ChargeTrait
     protected function query(Resource $resource): Builder
     {
         $tableModel = $resource::getEloquentQuery()->getModel()->getTable();
+
+        (new ChargeService(get_class($resource::getEloquentQuery()->getModel())))->generate(date: now());
 
         return $resource::getEloquentQuery()
             ->select("{$tableModel}.*")
