@@ -26,7 +26,7 @@ class Category extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public static function pluck(?string $id = null): array
+    public static function pluck(mixed $id = null): array
     {
         $query = self::query();
         if ($id) {

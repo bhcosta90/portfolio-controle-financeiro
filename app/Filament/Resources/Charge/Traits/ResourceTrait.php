@@ -83,6 +83,16 @@ trait ResourceTrait
                 ->placeholder(__('Outros'))
                 ->live()
                 ->options(Category::pluck())
+                /*->createOptionForm([
+                    Forms\Components\TextInput::make('name')
+                        ->label(__('Nome'))
+                        ->required()
+                        ->rules(['min:3', 'max:100']),
+                ])
+                ->createOptionUsing(function($data){
+                    $category = Category::create($data);
+                    return $category->id;
+                })*/
                 ->columnSpan(fn(Forms\Get $get): int => $get('category_id') ? 1 : 2),
             Forms\Components\Select::make('sub_category_id')
                 ->label(__('Sub categoria'))
@@ -131,7 +141,7 @@ trait ResourceTrait
         $value = $this->data['value'] ?: 0;
 
         if ($this->data['parcel_type'] == ParcelEnum::TOTAL->value) {
-            $quantity = (int) $this->data['parcel_quantity'];
+            $quantity = (int)$this->data['parcel_quantity'];
             if ($quantity <= 0) {
                 $quantity = 1;
             }

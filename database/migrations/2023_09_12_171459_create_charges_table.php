@@ -26,6 +26,7 @@ return new class extends Migration {
             $table->text('note')->nullable();
             $table->boolean('is_deleted')->nullable()->default(null);
             $table->boolean('is_parcel')->nullable()->default(null);
+            $table->boolean('is_payed')->nullable()->default(null);
             $table->timestamps();
             $table->softDeletes();
         });
