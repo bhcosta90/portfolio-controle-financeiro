@@ -3,6 +3,7 @@
 namespace App\Filament\Widgets;
 
 use App\Filament\Resources\Charge\Modules\PaymentResource;
+use App\Filament\Widgets\Traits\ChargeTrait;
 use App\Models\Charge\Payment;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -11,6 +12,8 @@ use Illuminate\Contracts\Support\Htmlable;
 
 class LastPayment extends BaseWidget
 {
+    use ChargeTrait;
+
     protected int|string|array $columnSpan = 'full';
 
     protected static ?int $sort = 2;
@@ -22,35 +25,6 @@ class LastPayment extends BaseWidget
 
     public function table(Table $table): Table
     {
-        $tableModel = PaymentResource::getEloquentQuery()->getModel()->getTable();
-
-        return $table
-            ->query(
-                PaymentResource::getEloquentQuery()
-                    ->select("{$tableModel}.*")
-                    ->whereBetween('charges.due_date', [
-                        now()->firstOfMonth()->format('Y-m-d'),
-                        now()->lastOfMonth()->format('Y-m-d')
-                    ])
-                    ->join('charges', 'charges.charge_id', '=', "{$tableModel}.id")
-            )
-            ->defaultPaginationPageOption(5)
-            ->defaultSort('due_date', 'desc')
-            ->columns([
-                Tables\Columns\TextColumn::make('charge.description')
-                    ->label(__('Descrição')),
-                Tables\Columns\TextColumn::make('charge.value')
-                    ->label(__('Valor'))
-                    ->money(config('money.defaults.currency')),
-                Tables\Columns\TextColumn::make('charge.due_date')
-                    ->label(__('Vencimento'))
-                    ->date('d/m/Y')
-                    ->sortable(),
-            ])
-            ->actions([
-                Tables\Actions\Action::make('open')
-                    ->label(__('filament-actions::edit.single.label'))
-                    ->url(fn (Payment $record): string => PaymentResource::getUrl('edit', ['record' => $record])),
-            ]);
+        return $this->last($table, app(PaymentResource::class));
     }
 }
