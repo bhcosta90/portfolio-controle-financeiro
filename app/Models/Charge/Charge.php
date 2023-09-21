@@ -4,6 +4,7 @@ namespace App\Models\Charge;
 
 use App\Models\Account;
 use App\Models\Category;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -55,6 +56,15 @@ class Charge extends Model
     public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class);
+    }
+
+    public function payed(bool $payed): void{
+        $this->is_payed = $payed;
+        $this->save();
+    }
+
+    public function isPayed(): Attribute {
+        return Attribute::make(get: fn($value) => (bool) $value);
     }
 
     public function deleteAll()
