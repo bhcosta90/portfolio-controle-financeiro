@@ -26,6 +26,7 @@ trait ResourceTrait
         return [
             Forms\Components\TextInput::make('description')
                 ->hiddenLabel()
+                ->required(fn(string $context) => $context === 'edit')
                 ->placeholder(__('Descrição')),
             Forms\Components\Select::make('type')
                 ->live()
