@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Charge;
 
+use App\Filament\Resources\Charge\ChargeResource\Widgets\LastWidget;
 use App\Filament\Resources\Charge\PaymentResource\Pages;
 use App\Filament\Resources\Charge\PaymentResource\RelationManagers;
 use App\Filament\Resources\Charge\Traits\ResourceTrait;
@@ -31,6 +32,13 @@ class PaymentResource extends Resource
     public static function getNavigationGroup(): ?string
     {
         return __('Cobranças');
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            LastWidget::class,
+        ];
     }
 
 
