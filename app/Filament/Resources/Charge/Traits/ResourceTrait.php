@@ -126,16 +126,6 @@ trait ResourceTrait
         ];
     }
 
-    protected function handleRecordCreation(array $data): Model
-    {
-        return DB::transaction(function () use ($data) {
-            $modelClass = app($this->getModel());
-            $model = $modelClass->create([]);
-            $model->charge()->create($data);
-            return $model;
-        });
-    }
-
     public function value(): float
     {
         $value = $this->data['value'] ?: 0;
@@ -149,5 +139,15 @@ trait ResourceTrait
         }
 
         return $value;
+    }
+
+    protected function handleRecordCreation(array $data): Model
+    {
+        return DB::transaction(function () use ($data) {
+            $modelClass = app($this->getModel());
+            $model = $modelClass->create([]);
+            $model->charge()->create($data);
+            return $model;
+        });
     }
 }

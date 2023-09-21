@@ -21,6 +21,17 @@ trait EditTrait
             ] + $data;
     }
 
+    protected function getHeaderActions(): array
+    {
+        return [
+            $this->record->type == TypeEnum::UNIQUE->value && empty($this->record->is_parcel)
+                ? Actions\DeleteAction::make()
+                : $this->deleteOnModal(),
+            Actions\ForceDeleteAction::make(),
+            Actions\RestoreAction::make(),
+        ];
+    }
+
     protected function deleteOnModal(): Actions\Action
     {
         $title = self::getResource()::getLabel();
@@ -63,17 +74,6 @@ trait EditTrait
                         $this->redirect($this->getResource()::getUrl('index'));
                     }),
             ]);
-    }
-
-    protected function getHeaderActions(): array
-    {
-        return [
-            $this->record->type == TypeEnum::UNIQUE->value && empty($this->record->is_parcel)
-                ? Actions\DeleteAction::make()
-                : $this->deleteOnModal(),
-            Actions\ForceDeleteAction::make(),
-            Actions\RestoreAction::make(),
-        ];
     }
 
     protected function getRedirectUrl(): ?string

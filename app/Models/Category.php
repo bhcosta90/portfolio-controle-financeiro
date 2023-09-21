@@ -16,16 +16,6 @@ class Category extends Model
 
     protected $fillable = ['name'];
 
-    public function categories(): HasMany
-    {
-        return $this->hasMany(Category::class);
-    }
-
-    public function category(): BelongsTo
-    {
-        return $this->belongsTo(Category::class);
-    }
-
     public static function pluck(mixed $id = null): array
     {
         $query = self::query();
@@ -35,5 +25,15 @@ class Category extends Model
             $query->whereNull('category_id');
         }
         return $query->pluck('name', 'id')->toArray();
+    }
+
+    public function categories(): HasMany
+    {
+        return $this->hasMany(Category::class);
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
     }
 }

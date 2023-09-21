@@ -13,7 +13,6 @@ class EditPayment extends EditRecord
 {
     use ResourceTrait, EditTrait;
 
-    public Charge|Model|int|string|null $record;
-
     protected static string $resource = PaymentResource::class;
+    public Charge|Model|int|string|null $record;
 }

@@ -12,17 +12,16 @@ class LastPayment extends BaseWidget
 {
     use ChargeTrait;
 
-    protected int|string|array $columnSpan = 'full';
-
     protected static ?int $sort = 2;
-
-    protected function getTableHeading(): string|Htmlable|null
-    {
-        return __('Despesas do mês');
-    }
+    protected int|string|array $columnSpan = 'full';
 
     public function table(Table $table): Table
     {
         return $this->last($table, app(PaymentResource::class));
+    }
+
+    protected function getTableHeading(): string|Htmlable|null
+    {
+        return __('Despesas do mês');
     }
 }

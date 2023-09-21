@@ -13,7 +13,6 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Facades\Log;
 
 class AccountResource extends Resource
 {
@@ -79,7 +78,7 @@ class AccountResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->sortable()
-                ->label(__('Nome')),
+                    ->label(__('Nome')),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

@@ -12,17 +12,16 @@ class LastReceive extends BaseWidget
 {
     use ChargeTrait;
 
-    protected int|string|array $columnSpan = 'full';
-
     protected static ?int $sort = 2;
-
-    protected function getTableHeading(): string|Htmlable|null
-    {
-        return __('Receita do mês');
-    }
+    protected int|string|array $columnSpan = 'full';
 
     public function table(Table $table): Table
     {
         return $this->last($table, app(ReceiveResource::class));
+    }
+
+    protected function getTableHeading(): string|Htmlable|null
+    {
+        return __('Receita do mês');
     }
 }
