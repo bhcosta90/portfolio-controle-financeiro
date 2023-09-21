@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Widgets;
+namespace App\Filament\Widgets\Charge;
 
-use App\Filament\Resources\Charge\Modules\ReceiveResource;
-use App\Filament\Widgets\Traits\ChargeTrait;
+use App\Filament\Resources\Charge\Modules\PaymentResource;
+use App\Filament\Widgets\Charge\Traits\ChargeTrait;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
 use Illuminate\Contracts\Support\Htmlable;
 
-class LastReceive extends BaseWidget
+class LastPayment extends BaseWidget
 {
     use ChargeTrait;
 
@@ -18,11 +18,11 @@ class LastReceive extends BaseWidget
 
     protected function getTableHeading(): string|Htmlable|null
     {
-        return __('Receita do mês');
+        return __('Despesas do mês');
     }
 
     public function table(Table $table): Table
     {
-        return $this->last($table, app(ReceiveResource::class));
+        return $this->last($table, app(PaymentResource::class));
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Widgets\Traits;
+namespace App\Filament\Widgets\Charge\Traits;
 
 use Filament\Resources\Resource;
 use Filament\Tables;
