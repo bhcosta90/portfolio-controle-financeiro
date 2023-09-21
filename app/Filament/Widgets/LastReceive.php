@@ -2,7 +2,7 @@
 
 namespace App\Filament\Widgets;
 
-use App\Filament\Resources\Charge\ReceiveResource;
+use App\Filament\Resources\Charge\Modules\ReceiveResource;
 use App\Models\Charge\Receive;
 use Filament\Tables;
 use Filament\Tables\Table;

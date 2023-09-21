@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\Charge\ReceiveResource\Pages;
+namespace App\Filament\Resources\Charge\Modules\ReceiveResource\Pages;
 
-use App\Filament\Resources\Charge\ReceiveResource;
+use App\Filament\Resources\Charge\Modules\ReceiveResource;
 use App\Filament\Resources\Charge\Traits\EditTrait;
 use App\Filament\Resources\Charge\Traits\ResourceTrait;
 use App\Models\Charge\Charge;

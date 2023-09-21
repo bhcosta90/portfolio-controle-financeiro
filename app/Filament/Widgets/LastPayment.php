@@ -2,7 +2,7 @@
 
 namespace App\Filament\Widgets;
 
-use App\Filament\Resources\Charge\PaymentResource;
+use App\Filament\Resources\Charge\Modules\PaymentResource;
 use App\Models\Charge\Payment;
 use Filament\Tables;
 use Filament\Tables\Table;

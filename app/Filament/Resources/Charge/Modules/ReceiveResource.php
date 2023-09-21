@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Filament\Resources\Charge;
+namespace App\Filament\Resources\Charge\Modules;
 
+use App\Filament\Resources\Charge\Modules;
 use App\Filament\Resources\Charge\ReceiveResource\Pages;
 use App\Filament\Resources\Charge\ReceiveResource\RelationManagers;
-use App\Filament\Resources\Charge\Traits\ListTrait;
 use App\Filament\Resources\Charge\Traits\ResourceTrait;
 use App\Models\Charge\Receive;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -22,6 +21,8 @@ class ReceiveResource extends Resource
     protected static ?string $model = Receive::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    protected static ?string $slug = '/charges/receive';
 
     protected static ?int $navigationSort = 2;
 
@@ -73,9 +74,9 @@ class ReceiveResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListReceives::route('/'),
-            'create' => Pages\CreateReceive::route('/create'),
-            'edit' => Pages\EditReceive::route('/{record}/edit'),
+            'index' => Modules\ReceiveResource\Pages\ListReceives::route('/'),
+            'create' => Modules\ReceiveResource\Pages\CreateReceive::route('/create'),
+            'edit' => Modules\ReceiveResource\Pages\EditReceive::route('/{record}/edit'),
         ];
     }
 

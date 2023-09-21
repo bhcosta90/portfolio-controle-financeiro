@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Filament\Resources\Charge\PaymentResource\Pages;
+namespace App\Filament\Resources\Charge\Modules\PaymentResource\Pages;
 
-use App\Filament\Resources\Charge\PaymentResource;
+use App\Filament\Resources\Charge\Modules\PaymentResource;
 use App\Filament\Resources\Charge\Traits\ListTrait;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
-use Illuminate\Database\Eloquent\Builder;
 
 class ListPayments extends ListRecords
 {

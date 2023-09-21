@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\Charge\PaymentResource\Pages;
+namespace App\Filament\Resources\Charge\Modules\PaymentResource\Pages;
 
-use App\Filament\Resources\Charge\PaymentResource;
+use App\Filament\Resources\Charge\Modules\PaymentResource;
 use App\Filament\Resources\Charge\Traits\EditTrait;
 use App\Filament\Resources\Charge\Traits\ResourceTrait;
 use App\Models\Charge\Charge;

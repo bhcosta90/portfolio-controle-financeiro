@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\Charge;
+namespace App\Filament\Resources\Charge\Modules;
 
+use App\Filament\Resources\Charge\Modules;
 use App\Filament\Resources\Charge\PaymentResource\Pages;
 use App\Filament\Resources\Charge\PaymentResource\RelationManagers;
 use App\Filament\Resources\Charge\Traits\ResourceTrait;
@@ -22,6 +23,8 @@ class PaymentResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?int $navigationSort = 2;
+
+    protected static ?string $slug = '/charges/payment';
 
     public static function getLabel(): ?string
     {
@@ -72,9 +75,9 @@ class PaymentResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPayments::route('/'),
-            'create' => Pages\CreatePayment::route('/create'),
-            'edit' => Pages\EditPayment::route('/{record}/edit'),
+            'index' => Modules\PaymentResource\Pages\ListPayments::route('/'),
+            'create' => Modules\PaymentResource\Pages\CreatePayment::route('/create'),
+            'edit' => Modules\PaymentResource\Pages\EditPayment::route('/{record}/edit'),
         ];
     }
 
