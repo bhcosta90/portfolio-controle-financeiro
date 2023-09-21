@@ -34,7 +34,7 @@ trait ChargeTrait
             ])->paginated(false);
     }
 
-    public function query(Resource $resource): Builder
+    protected function query(Resource $resource): Builder
     {
         $tableModel = $resource::getEloquentQuery()->getModel()->getTable();
 
