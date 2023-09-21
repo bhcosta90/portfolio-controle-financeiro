@@ -21,6 +21,8 @@ class PaymentResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?int $navigationSort = 2;
+
     public static function getLabel(): ?string
     {
         return __('despesa');
@@ -57,7 +59,7 @@ class PaymentResource extends Resource
             ])
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make(),
-            ]);
+            ])->defaultSort('charge.due_date');
     }
 
     public static function getRelations(): array

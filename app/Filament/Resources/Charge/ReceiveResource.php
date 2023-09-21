@@ -23,6 +23,8 @@ class ReceiveResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?int $navigationSort = 2;
+
     public static function getNavigationGroup(): ?string
     {
         return __('Cobranças');
@@ -58,7 +60,7 @@ class ReceiveResource extends Resource
             ])
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make(),
-            ]);
+            ])->defaultSort('charge.due_date');
     }
 
     public static function getRelations(): array

@@ -108,6 +108,7 @@ trait ResourceTrait
 
             Tables\Columns\TextColumn::make('charge.due_date')
                 ->dateTime('d/m/Y')
+                ->sortable()
                 ->label(__('Vencimento')),
 
             Tables\Columns\TextColumn::make('charge.account.name')
