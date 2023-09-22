@@ -79,6 +79,12 @@ class AccountResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->sortable()
                     ->label(__('Nome')),
+                Tables\Columns\TextColumn::make('balance')
+                    ->label(__('Valor'))
+                    ->extraCellAttributes([
+                        'class' => 'w-0'
+                    ])
+                    ->money(config('money.defaults.currency')),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

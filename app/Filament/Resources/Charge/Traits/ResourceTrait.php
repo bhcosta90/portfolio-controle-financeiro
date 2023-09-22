@@ -115,9 +115,9 @@ trait ResourceTrait
                 ->label(__('Pago'))
                 ->action(fn($record) => $record->charge->payed(!$record->charge->is_payed))
                 ->boolean()
-            ->extraCellAttributes([
-                'class' => 'w-0'
-            ]),
+                ->extraCellAttributes([
+                    'class' => 'w-0'
+                ]),
             Tables\Columns\TextColumn::make('charge.description')
                 ->label(__('Descrição')),
 
