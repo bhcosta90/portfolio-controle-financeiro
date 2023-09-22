@@ -41,7 +41,7 @@ trait ListTrait
 
     protected function getTableQuery(): Builder
     {
-        (new ChargeService($this->getModel()))->generate(date: $this->date);
+        (new ChargeService(app($this->getModel())))->generate(date: $this->date);
 
         $query = static::getResource()::getEloquentQuery()->with(['charge']);
 

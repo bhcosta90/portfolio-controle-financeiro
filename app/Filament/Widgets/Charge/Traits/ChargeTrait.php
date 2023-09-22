@@ -25,7 +25,7 @@ trait ChargeTrait
     {
         $tableModel = $resource::getEloquentQuery()->getModel()->getTable();
 
-        (new ChargeService(get_class($resource::getEloquentQuery()->getModel())))->generate(date: now());
+        (new ChargeService(app(get_class($resource::getEloquentQuery()->getModel()))))->generate(date: now());
 
         return $resource::getEloquentQuery()
             ->select("{$tableModel}.*")

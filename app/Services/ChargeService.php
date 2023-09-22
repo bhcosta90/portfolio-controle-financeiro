@@ -7,11 +7,12 @@ use App\Models\Charge\Payment;
 use App\Models\Charge\Receive;
 use App\Models\Enum\Charge\TypeEnum;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 class ChargeService
 {
-    public function __construct(protected string $model)
+    public function __construct(protected Model $model)
     {
         //
     }
@@ -36,7 +37,7 @@ class ChargeService
 
         $datePrevious->firstOfMonth()->subMonth();
 
-        $model = app($this->model);
+        $model = $this->model;
 
         $query = $model->with(['charge'])->whereHas(
             'charge',
