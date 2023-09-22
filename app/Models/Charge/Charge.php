@@ -4,6 +4,8 @@ namespace App\Models\Charge;
 
 use App\Models\Account;
 use App\Models\Category;
+use App\Models\Enum\Charge\TypeEnum;
+use App\Services\ChargeService;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,6 +21,10 @@ use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 class Charge extends Model
 {
     use HasFactory, HasUuids, SoftDeletes, BelongsToTenant;
+
+    protected $casts = [
+        'type' => TypeEnum::class,
+    ];
 
     protected $fillable = [
         'day_charge',
@@ -40,7 +46,7 @@ class Charge extends Model
     {
         parent::booted();
 
-        static::saving(fn($obj) => $obj->day_charge = $obj->day_charge ?: now()->parse($obj->due_date)->format('d'));
+        static::saving(fn ($obj) => $obj->day_charge = $obj->day_charge ?: now()->parse($obj->due_date)->format('d'));
     }
 
     public function charge(): MorphTo
@@ -58,13 +64,18 @@ class Charge extends Model
         return $this->belongsTo(Account::class);
     }
 
-    public function payed(bool $payed): void{
+    public function payed(bool $payed): void
+    {
         $this->is_payed = $payed;
         $this->save();
+
+        $service = new ChargeService($this->charge);
+        $service->payed($this);
     }
 
-    public function isPayed(): Attribute {
-        return Attribute::make(get: fn($value) => (bool) $value);
+    public function isPayed(): Attribute
+    {
+        return Attribute::make(get: fn ($value) => (bool) $value);
     }
 
     public function deleteAll()

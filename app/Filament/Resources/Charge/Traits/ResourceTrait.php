@@ -115,7 +115,7 @@ trait ResourceTrait
         return [
             Tables\Columns\IconColumn::make('charge.is_payed')
                 ->label(__('Pago'))
-                ->action(fn($record) => $record->charge->payed(!$record->charge->is_payed))
+                ->action(fn($record) => DB::transaction(fn() => $record->charge->payed(!$record->charge->is_payed)))
                 ->boolean()
                 ->extraCellAttributes([
                     'class' => 'w-0'

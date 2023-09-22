@@ -30,6 +30,10 @@ class ChargeService
         });
     }
 
+    public function payed(Charge $charge){
+        dump($charge);
+    }
+
     protected function queryByGenerate(Carbon $date): array
     {
         $dateActual = clone $date;
