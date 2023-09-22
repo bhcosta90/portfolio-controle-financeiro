@@ -51,8 +51,10 @@ trait ResourceTrait
                 Forms\Components\Select::make('account_id')
                     ->required()
                     ->label(__('Conta'))
+                    ->selectablePlaceholder(false)
                     ->searchable()
-                    ->options(Account::pluck()),
+                    ->options($accounts = Account::pluck())
+                    ->default(array_keys($accounts)[0]),
             ])->columns(3)
                 ->columnSpanFull(),
             Forms\Components\Fieldset::make()->schema([

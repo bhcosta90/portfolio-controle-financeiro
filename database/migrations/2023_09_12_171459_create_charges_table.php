@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->uuid('id')->primary();
             $table->uuid('group_id')->index();
             $table->foreignUuid('tenant_id')->on('tenants');
-            $table->foreignUuid('account_id')->nullable()->on('accounts');
+            $table->foreignUuid('account_id')->on('accounts');
             $table->string('description')->nullable();
             $table->unsignedDouble('value');
             $table->uuidMorphs('charge');
