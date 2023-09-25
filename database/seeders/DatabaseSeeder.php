@@ -36,6 +36,11 @@ class DatabaseSeeder extends Seeder
             'password' => '$2y$10$hoTymm/4dqKbYRCNWx7TKuAMOHmh/Som9xZvhpLuVMQmzcbHsg9OC'
         ]);
 
+        $this->createTenant('demo');
+    }
+
+    protected function createTenant(string $domain, $quantityUsers = 10)
+    {
         $tenant = Tenant::create([
             'tenancy_db_name' => env('DB_DATABASE'),
             'tenancy_db_host' => env('DB_HOST'),
@@ -43,11 +48,11 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $tenant->domains()->create([
-            'domain' => 'demo'
+            'domain' => $domain
         ]);
 
         tenancy()->initialize($tenant);
-        User::factory(10)->create();
+        User::factory($quantityUsers)->create();
         $this->call(TenantSeeded::class);
     }
 }
