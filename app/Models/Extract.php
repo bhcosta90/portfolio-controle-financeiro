@@ -49,6 +49,8 @@ class Extract extends Model
                 };
                 $obj->account->balance = $obj->account->balance + $value;
                 $obj->account->save();
+            } else {
+                throw new AccountException();
             }
         });
     }
