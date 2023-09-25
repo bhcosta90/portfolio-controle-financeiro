@@ -26,6 +26,6 @@ class TenantSeeded extends Seeder
             ]);
         });
 
-        Charge::factory(100)->create(['account_id' => $account->id]);
+        Charge::factory(50)->create(['account_id' => $account->id]);
     }
 }

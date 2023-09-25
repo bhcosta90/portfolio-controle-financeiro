@@ -30,7 +30,7 @@ class ChargeFactory extends Factory
             'charge_type' => get_class($chargeType),
             'charge_id' => $chargeType->id,
             'type' => TypeEnum::UNIQUE,
-            'due_date' => $this->faker->dateTimeBetween('0 month', '1 month')->format('Y-m-d'),
+            'due_date' => $this->faker->dateTimeBetween('-5 days', '5 days')->format('Y-m-d'),
         ];
     }
 }
