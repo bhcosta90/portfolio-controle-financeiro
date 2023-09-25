@@ -4,13 +4,10 @@ namespace App\Filament\Resources\Charge\Traits;
 
 use App\Jobs\Charge\GenerateChargeNextMonthJob;
 use App\Jobs\Charge\Test;
-use App\Models\Charge\Charge;
-use App\Models\Enum\Charge\TypeEnum;
 use App\Services\ChargeService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\DB;
 
 trait ListTrait
 {

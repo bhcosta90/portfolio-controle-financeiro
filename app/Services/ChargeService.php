@@ -30,28 +30,6 @@ class ChargeService
         });
     }
 
-    public function payed(Charge $charge)
-    {
-        $charge->account->updateVersion();
-
-        if ($charge->is_payed) {
-            
-            $charge->extract()->create([
-                'value' => $charge->value,
-                'charge_type' => get_class($charge->charge),
-                'account_id' => $charge->account_id,
-                'account_version' => $charge->account->version
-            ]);
-            
-        } else if ($charge->extract) {
-            $charge->extract->update([
-                'account_version' => $charge->account->version
-            ]);
-            
-            $charge->extract->delete();
-        }
-    }
-
     protected function queryByGenerate(Carbon $date): array
     {
         $dateActual = clone $date;
@@ -108,6 +86,28 @@ class ChargeService
                     'day_charge' => $charge->day_charge,
                 ] + $charge->toArray()
             );
+        }
+    }
+
+    public function payed(Charge $charge)
+    {
+        $charge->account->updateVersion();
+
+        if ($charge->is_payed) {
+            $charge->extract()->create([
+                'value' => $charge->value,
+                'charge_type' => get_class($charge->charge),
+                'account_id' => $charge->account_id,
+                'account_version' => $charge->account->version
+            ]);
+        } else {
+            if ($charge->extract) {
+                $charge->extract->update([
+                    'account_version' => $charge->account->version
+                ]);
+
+                $charge->extract->delete();
+            }
         }
     }
 }

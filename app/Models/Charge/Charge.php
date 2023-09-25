@@ -47,7 +47,7 @@ class Charge extends Model
     {
         parent::booted();
 
-        static::saving(fn ($obj) => $obj->day_charge = $obj->day_charge ?: now()->parse($obj->due_date)->format('d'));
+        static::saving(fn($obj) => $obj->day_charge = $obj->day_charge ?: now()->parse($obj->due_date)->format('d'));
     }
 
     public function charge(): MorphTo
@@ -81,7 +81,7 @@ class Charge extends Model
 
     public function isPayed(): Attribute
     {
-        return Attribute::make(get: fn ($value) => (bool) $value);
+        return Attribute::make(get: fn($value) => (bool)$value);
     }
 
     public function deleteAll()

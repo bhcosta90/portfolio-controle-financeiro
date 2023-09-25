@@ -35,17 +35,16 @@ class Extract extends Model
 
                 $obj->account->balance = $obj->account->balance + $value;
                 $obj->account->save();
-
             } else {
                 throw new AccountException();
             }
         });
 
-        static::deleting(function($obj){
+        static::deleting(function ($obj) {
             if ($obj->account->version == $obj->account_version) {
                 $value = match ($obj->charge_type) {
                     Payment::class => $obj->value,
-                    default => $obj-> value * -1,
+                    default => $obj->value * -1,
                 };
                 $obj->account->balance = $obj->account->balance + $value;
                 $obj->account->save();
