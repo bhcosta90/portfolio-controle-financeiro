@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::create('accounts', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->string('version')->nullable();
             $table->foreignUuid('tenant_id')->on('tenants');
             $table->string('name');
             $table->double('balance');

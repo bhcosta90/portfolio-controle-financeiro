@@ -15,6 +15,7 @@ return new class extends Migration
             $table->uuid('id');
             $table->foreignUuid('user_id')->on('users');
             $table->foreignUuid('account_id')->on('accounts');
+            $table->string('account_version');
             $table->uuidMorphs('model');
             $table->string('charge_type');
             $table->unsignedDouble('value');
