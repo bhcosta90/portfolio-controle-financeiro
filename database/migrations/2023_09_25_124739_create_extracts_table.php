@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('extracts', function (Blueprint $table) {
             $table->uuid('id');
             $table->foreignUuid('user_id')->on('users');
-            $table->uuidMorphs('charge');
+            $table->foreignUuid('account_id')->on('accounts');
+            $table->uuidMorphs('model');
+            $table->string('charge_type');
             $table->unsignedDouble('value');
             $table->timestamps();
         });

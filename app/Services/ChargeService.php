@@ -30,8 +30,17 @@ class ChargeService
         });
     }
 
-    public function payed(Charge $charge){
-        dump($charge);
+    public function payed(Charge $charge)
+    {
+        if ($charge->is_payed) {
+            $charge->extract()->create([
+                'value' => $charge->value,
+                'charge_type' => get_class($charge->charge),
+                'account_id' => $charge->account_id,
+            ]);
+        } else if ($charge->extract) {
+            $charge->extract->delete();
+        }
     }
 
     protected function queryByGenerate(Carbon $date): array
