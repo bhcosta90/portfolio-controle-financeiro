@@ -5,6 +5,7 @@ namespace App\Models\Charge;
 use App\Models\Account;
 use App\Models\Category;
 use App\Models\Enum\Charge\TypeEnum;
+use App\Models\Extract;
 use App\Services\ChargeService;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -71,6 +72,11 @@ class Charge extends Model
 
         $service = new ChargeService($this->charge);
         $service->payed($this);
+    }
+
+    public function extract()
+    {
+        return $this->morphOne(Extract::class, 'model');
     }
 
     public function isPayed(): Attribute

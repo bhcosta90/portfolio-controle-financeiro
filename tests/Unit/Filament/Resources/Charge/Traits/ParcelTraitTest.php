@@ -10,7 +10,8 @@ use Tests\TestCase;
 class ParcelTraitTest extends TestCase
 {
     protected $classAnonymous;
-    protected function setUp(): void
+    
+    public function setUp(): void
     {
         parent::setUp();
 
