@@ -42,6 +42,7 @@ class ChargeService
                 'account_id' => $charge->account_id,
                 'account_version' => $charge->account->version
             ]);
+            
         } else if ($charge->extract) {
             $charge->extract->update([
                 'account_version' => $charge->account->version
