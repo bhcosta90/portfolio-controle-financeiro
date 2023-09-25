@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Account;
 use App\Models\Category;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Charge\Charge;
 use Illuminate\Database\Seeder;
 
 class TenantSeeded extends Seeder
@@ -14,7 +14,7 @@ class TenantSeeded extends Seeder
      */
     public function run(): void
     {
-        Account::create([
+        $account = Account::create([
             'name' => 'Minha conta corrente',
             'balance' => 0,
             'overdraft' => 0,
@@ -25,5 +25,7 @@ class TenantSeeded extends Seeder
                 'category_id' => $category->id,
             ]);
         });
+
+        Charge::factory(100)->create(['account_id' => $account->id]);
     }
 }
