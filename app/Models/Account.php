@@ -25,7 +25,7 @@ class Account extends Model
         return self::query()->pluck('name', 'id')->toArray();
     }
 
-    public function updateVersion()
+    public function updateVersion(): void
     {
         $this->version = sha1(microtime());
         $this->save();

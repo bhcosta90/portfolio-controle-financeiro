@@ -8,6 +8,8 @@ use App\Models\Charge\Payment;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Extract extends Model
 {
@@ -54,12 +56,12 @@ class Extract extends Model
         });
     }
 
-    public function model()
+    public function model(): MorphOne
     {
         return $this->morphOne(Charge::class, 'model');
     }
 
-    public function account()
+    public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class);
     }
